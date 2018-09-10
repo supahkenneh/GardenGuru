@@ -4,17 +4,19 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+//components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Header/header.component';
 import { SidebarComponent } from './Sidebar/sidebar.component';
-import {LoginComponent} from './Login/login.component';
+import { LoginComponent } from './Login/login.component';
 import { RegisterComponent } from './Register/register.component';
-import {LogoutComponent} from './Logout/logout.component'
-//services
+import { LogoutComponent } from './Logout/logout.component';
 
-import { BackendService} from '../services/backend.service'
+//services
+import { BackendService } from '../services/backend.service';
 import { AuthService } from '../services/auth.service';
-import {SessionService} from '../services/session.service';
+import { SessionService } from '../services/session.service';
+
 @NgModule({
   declarations: [
     AppComponent,
