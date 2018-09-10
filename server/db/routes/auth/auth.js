@@ -111,9 +111,6 @@ router.post('/login', (req, res, next) => {
         let userProfile = {
           id: user.id,
           username: user.username,
-          email: user.email,
-          city: user.city,
-          state: user.state
         };
         return res.json(userProfile);
       }
