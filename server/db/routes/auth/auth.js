@@ -3,11 +3,15 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-
+const app = express()
 const User = require('../../models/User');
 const saltRounds = 12;
 
 // ===== PASSPORT METHODS ===== //
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 passport.serializeUser((user, done) => {
   return done(null, {
     id: user.id,
@@ -62,7 +66,7 @@ passport.use(
 
 // ===== REGISTRATION ===== //
 router.post('/register', (req, res) => {
-  let { username, email } = req.body;
+  let { username, email, city, state } = req.body;
   bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) {
       return res.status(500);
@@ -75,7 +79,8 @@ router.post('/register', (req, res) => {
         username: username.toLowerCase(),
         password: hashedPassword,
         email: email,
-        status_id: 2
+        city: city,
+        state: state
       })
         .save()
         .then(result => {
@@ -106,7 +111,9 @@ router.post('/login', (req, res, next) => {
         let userProfile = {
           id: user.id,
           username: user.username,
-          email: user.email
+          email: user.email,
+          city: user.city,
+          state: user.state
         };
         return res.json(userProfile);
       }

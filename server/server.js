@@ -1,15 +1,36 @@
+require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
+const bodyparser = require('body-parser');
+const session = require('express-session');
+const Redis = require('connect-redis')(session);
+const passport = require('passport');
+
 const PORT = process.env.PORT || 8008;
-const app = express();
+const server = express();
+const routes = require('./db/routes');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// server.use(express.static('public/'))
+server.use(bodyparser.json());
+server.use(bodyparser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send('smoke test');
+server.use(
+  session({
+    store: new Redis(),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+  })
+);
+
+server.use(passport.initialize());
+server.use(passport.session());
+
+server.use('/api', routes);
+
+server.get('*', (req, res) => {
+  res.sendFile('index.html');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`)
-})
+server.listen(PORT, () => {
+  console.log(`Connected to port ${PORT}\n`);
+});
