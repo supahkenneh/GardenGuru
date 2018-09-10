@@ -11,4 +11,9 @@ export class SidebarComponent {
 
   }
 
+  toggleSideBar(){
+    document.getElementById('sidebar').classList.toggle('active')
+    console.log('hi')
+  }
+
 }

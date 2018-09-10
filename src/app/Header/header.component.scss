@@ -1,56 +1,45 @@
-#header {
+.header {
   display: flex;
   flex-wrap: wrap;
 }
 
-#overlay {
-  flex: 1;
-}
-
-#overlay img {
-  display: block;
-  height: 100%;
-  margin-left: 3%;
-  opacity: 0.5;
-}
-
-#title {
+.title {
   flex: 10;
   font-family: "Helvetica Neue", sans-serif;
   font-weight: 600;
   text-align: center;
   letter-spacing: -3px;
-
   background: -webkit-linear-gradient(skyblue, lightgreen);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-#search {
+.search {
   flex: 1;
 }
 
-#search img {
+.search img {
   display: block;
   height: 80%;
   margin-left: auto;
   position: relative;
   top: 10%;
   right: 5%;
+  padding-right: 10px;
   opacity: 0.5;
 }
 
 /* // Extra Small devices (smartphones, 0px and up) */
 @media (min-width: 0px) {
-  #header {
+  .header {
     margin-top: 5px;
   }
 
-  #overlay, #title, #search {
+  .overlay, .title, .search {
     height: 40px;
   }
 
-  #title {
+  .title {
     font-size: 2.5em;
     line-height: 40px;
   }
@@ -58,15 +47,15 @@
 
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  #header {
+  .header {
     margin-top: 0px;
   }
 
-  #overlay, #title, #search {
+  .overlay, .title, .search {
     height: 70px;
   }
 
-  #title {
+  .title {
     font-size: 3em;
     line-height: 70px;
   }

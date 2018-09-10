@@ -1,0 +1,33 @@
+#sidebar{
+  position:fixed;
+  width:200px;
+  height:100%;
+  background:lightgreen;
+  left:-200px;
+  transition: all 200ms linear;
+  .ul{
+    .li{
+      color:black;
+      list-style: none;
+      padding:15px 10px;
+      border-bottom: 1px solid green;
+    }
+  }
+}
+
+#sidebar.active{
+  left:0px;
+}
+
+.overlay {
+  flex:1;
+}
+
+.overlay img {
+  display: block;
+  opacity: 0.5;
+  position: absolute;
+  left: 210px;
+  height: 35px;
+  width: 35px;
+}
