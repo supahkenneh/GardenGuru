@@ -10,5 +10,10 @@ export class HeaderComponent {
   constructor() {
 
   }
+
+  toggleSideBar() {
+    document.getElementById('sidebar').classList.toggle('active')
+    console.log('hi')
+  }
   
 }
