@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html, body{
+  margin:0;
+  padding:0;
+  background-color:#eeeeee;
+  height: 100%;
+  width:100%;
+}
+
+.btn{
+  border:0;
+  padding:15px;
+  font-size:16px;
+  border-radius:10px;
+
+  &.blue{
+    background-color:blue;
+  }
+  &:hover{
+    background-color: lighten(blue, 10%);
+    cursor:pointer;
+  }
+}
