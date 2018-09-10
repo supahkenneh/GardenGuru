@@ -1,0 +1,22 @@
+.content-container {
+  padding: 20px;
+  height: 100%;
+  .secondary-header {
+    text-align: center;
+    font-size: 28px;
+  }
+  .feature-description {
+    margin-top: 15px;
+    text-align: center;
+    div {
+      font-size: 18px;
+    }
+    ul {
+      width: 100%;
+      padding: 0;
+      li {
+        list-style-type: none;
+      }
+    }
+  }
+}

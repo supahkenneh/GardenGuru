@@ -6,22 +6,32 @@ import { HttpClientModule } from '@angular/common/http';
 
 //components
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './Header/header.component';
-import { SidebarComponent } from './Sidebar/sidebar.component';
+import { HeaderComponent } from './Components/Header/header.component';
+import { SidebarComponent } from './Components/Sidebar/sidebar.component';
+import { FooterComponent } from './Components/Footer/footer.component';
 import { LoginComponent } from './Login/login.component';
 import { RegisterComponent } from './Register/register.component';
 import { LogoutComponent } from './Logout/logout.component';
+import { GardenComponent } from './Pages/Garden/garden.component';
+import { MarketplaceComponent } from './Pages/Marketplace/marketplace.component';
+import { StandComponent } from './Pages/Stand/stand.component';
+import { ProfileComponent } from './Pages/Profile/profile.component';
 
 //services
-import { BackendService } from '../services/backend.service';
-import { AuthService } from '../services/auth.service';
-import { SessionService } from '../services/session.service';
+import { BackendService } from './Services/backend.service';
+import { AuthService } from './Services/auth.service';
+import { SessionService } from './Services/session.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     SidebarComponent,
+    FooterComponent,
+    GardenComponent,
+    MarketplaceComponent,
+    StandComponent,
+    ProfileComponent,
     LoginComponent,
     RegisterComponent,
     LogoutComponent
@@ -33,7 +43,11 @@ import { SessionService } from '../services/session.service';
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'logout', component: LogoutComponent }
+      { path: 'logout', component: LogoutComponent },
+      { path: 'garden', component: GardenComponent },
+      { path: 'marketplace', component: MarketplaceComponent },
+      { path: 'stand', component: StandComponent },
+      { path: 'profile', component: ProfileComponent }
     ])
   ],
   providers: [BackendService, SessionService, AuthService],
