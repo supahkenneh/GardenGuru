@@ -13,6 +13,8 @@ import { GardenComponent } from './Pages/Garden/garden.component';
 import { MarketplaceComponent } from './Pages/Marketplace/marketplace.component';
 import { StandComponent } from './Pages/Stand/stand.component';
 import { ProfileComponent } from './Pages/Profile/profile.component';
+import { HttpClientModule } from '@angular/common/http';
+import { BackendService } from './Services/backend.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +28,7 @@ import { ProfileComponent } from './Pages/Profile/profile.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot([
       { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
@@ -33,7 +36,7 @@ import { ProfileComponent } from './Pages/Profile/profile.component';
       { path: 'profile', component: ProfileComponent }
     ])
   ],
-  providers: [],
+  providers: [BackendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
