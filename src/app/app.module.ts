@@ -9,7 +9,7 @@ import { HeaderComponent } from './Header/header.component';
 import { SidebarComponent } from './Sidebar/sidebar.component';
 import {LoginComponent} from './Login/login.component';
 import { RegisterComponent } from './Register/register.component';
-
+import {LogoutComponent} from './Logout/logout.component'
 //services
 
 import { BackendService} from '../services/backend.service'
@@ -21,7 +21,8 @@ import {SessionService} from '../services/session.service';
     HeaderComponent,
     SidebarComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -29,14 +30,11 @@ import {SessionService} from '../services/session.service';
     HttpClientModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: 'register', component: RegisterComponent },
+      { path: 'logout', component: LogoutComponent }
     ])
   ],
-  providers: [
-    BackendService,
-    SessionService,
-    AuthService
-  ],
+  providers: [BackendService, SessionService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
