@@ -6,13 +6,14 @@ import { BackendService } from '../../Services/backend.service';
   styleUrls: ['./garden.component.scss']
 })
 export class GardenComponent implements OnInit {
+  userId: string;
+  loggedIn: boolean = false;
 
   constructor(
     private backend: BackendService
   ) { }
 
   ngOnInit() {
-    console.log('showing garden');
     return this.backend.getGarden()
       .then(result => {
         console.log(result);
