@@ -1,13 +1,34 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('messages').del()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+      return knex('messages').insert([
+        {
+          to: 2,
+          from: 1,
+          seller_id: 2,
+          crop_id: 5,
+          content: 'Hello, I would like to buy some of your strawberries. Where is a good place to meet up? I\'m free everyday after 4pm.',
+          read: false
+        },
+        {
+          to: 1,
+          from: 3,
+          seller_id: 1,
+          crop_id: 3,
+          content: 'Hey I saw that you have some cherries up. What kind of cherries are they?',
+          read: false
+        },
+        {
+          to: 1,
+          from: 2,
+          seller_id: 1,
+          crop_id: 3,
+          content: 'How many cherries do you have left? I\'m looking to buy a lot. Are you willing to haggle for them?',
+          read: false
+        }
       ]);
     });
 };
