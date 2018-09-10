@@ -1,7 +1,17 @@
 <div id="sidebar">
   <ul>
-    <li>home</li>
-    <li>login</li>
-    <li>profile</li>
+    <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()">
+      <a routerLink="login">Login</a>
+    </li>
+    <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()" >
+      <a routerLink="register">Register</a>
+    </li>
+    <li (click)="toggleSideBar()">
+      <a routerLink="about">About</a>
+    </li>
+    <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
+      <button class="logout-button" (click)="logout()">Logout</button>
+    </li>
+
   </ul>
 </div>
