@@ -1,0 +1,15 @@
+.footer-container {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background: #6BA368;
+  height: 6%;
+  padding: 15px;
+  .nav {
+    display: flex;
+    justify-content: space-evenly;
+    div {
+      color: white;
+    }
+  }
+}
