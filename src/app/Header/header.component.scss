@@ -28,6 +28,18 @@
   padding-right: 10px;
   opacity: 0.5;
 }
+.overlay {
+  flex:1;
+}
+
+.overlay img {
+  display: block;
+  opacity: 0.5;
+  left:10px;
+  position: absolute;
+  height: 35px;
+  width: 35px;
+}
 
 /* // Extra Small devices (smartphones, 0px and up) */
 @media (min-width: 0px) {
