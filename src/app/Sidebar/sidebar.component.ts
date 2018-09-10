@@ -17,5 +17,21 @@ export class SidebarComponent {
   isLoggedIn(){
     return this.session.isLoggedIn()
   }
+  
+  toggleSideBar() {
+    document.getElementById('sidebar').classList.toggle('active')
+  }
+
+
+  logout() {
+    return this.auth
+      .logout()
+      .then(() => {
+        console.log('user logged out');
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  }
 
 }

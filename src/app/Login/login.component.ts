@@ -22,7 +22,7 @@ export class LoginComponent {
         console.log('user logged in');
       })
       .then(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/marketplace']);
       })
       .catch(err => {
         console.log(err.message);

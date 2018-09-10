@@ -8,15 +8,4 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LogoutComponent {
   constructor(private auth: AuthService) {}
-
-  logout() {
-    return this.auth
-      .logout()
-      .then(() => {
-        console.log('user logged out');
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
-  }
 }
