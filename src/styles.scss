@@ -1,4 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+$mainFont: 'Lato', sans-serif;
+$subFont: 'Catamaran', sans-serif;
+
 html {
   box-sizing: border-box;
 }
@@ -12,6 +14,7 @@ html, body{
   background-color:#eeeeee;
   height: 100%;
   width:100%;
+  font-family: $mainFont;
 }
 
 .btn{

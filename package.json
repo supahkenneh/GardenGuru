@@ -22,6 +22,7 @@
     "@angular/router": "^6.1.0",
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
+    "bookshelf": "^0.13.3",
     "connect-redis": "^3.3.3",
     "core-js": "^2.5.4",
     "dotenv": "^6.0.0",
