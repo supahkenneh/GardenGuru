@@ -11,7 +11,7 @@ export class AddCropComponent implements OnInit {
   loggedIn: boolean = false;
 
   plants: any;
-  plantDescription: string;
+  plantDescription: string = '';
 
   months: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   years: number[] = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018]
@@ -57,14 +57,12 @@ export class AddCropComponent implements OnInit {
     let id = this.cropFormData.plant
     this.plants.map(plant => {
       if (Number(id) === plant.id) {
-        console.log('hello');
-        this.plantDescription = plant.description;
+        return this.plantDescription = plant.description;
       }
     })
   }
 
   getPlantDescription() {
-    console.log('hi');
     return this.plantDescription;
   }
 }

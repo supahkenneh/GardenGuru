@@ -10,6 +10,8 @@ export class GardenComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
 
+  garden: any;
+
   constructor(
     private backend: BackendService,
     private session: SessionService
@@ -22,6 +24,7 @@ export class GardenComponent implements OnInit {
     return this.backend.getGarden()
       .then(result => {
         console.log(result);
+        return this.garden = result;
       })
   }
 }
