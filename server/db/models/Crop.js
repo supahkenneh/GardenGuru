@@ -1,4 +1,9 @@
 const bookshelf = require('./bookshelf');
+require('./User');
+require('./CropStatus');
+require('./Plant');
+require('./Photo');
+
 
 class Crop extends bookshelf.Model {
   get tableName() {

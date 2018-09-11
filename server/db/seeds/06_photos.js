@@ -8,27 +8,32 @@ exports.seed = function(knex, Promise) {
         {
           link: 'https://cdn.shopify.com/s/files/1/2083/6855/products/Liberty-Lemons.jpg',
           crop_id: 1,
-          user_id: 1
+          user_id: null
         },
         {
           link: 'https://www.afarmgirlsdabbles.com/wp-content/uploads/2017/07/IMG_6468-2_crop1200optim-600x900.jpg',
           crop_id: 2,
-          user_id: 1
+          user_id: null
         },
         {
           link: 'http://3.bp.blogspot.com/-yQKETG0FqDU/UH2soi4M0DI/AAAAAAAADXo/vkdbPeKCAqI/s1600/Sweet+Cherry+03.jpg',
           crop_id: 3,
-          user_id: 1
+          user_id: null
         },
         {
           link: 'https://www.bangaloreagrico.in/wp-content/uploads/2018/01/apple-plant-bangalore-agrico-600x600.jpg',
           crop_id: 4,
-          user_id: 2
+          user_id: null
         },
         {
           link: 'http://www.handymanmagazine.co.nz/sites/default/files/sweet-strawberries-mar-14-p104-main.jpg',
           crop_id: 5,
-          user_id: 2
+          user_id: null
+        },
+        {
+          link: 'http://placekitten.com/g/150/150',
+          crop_id: null,
+          user_id: 1
         }
       ]);
     });

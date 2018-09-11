@@ -10,19 +10,16 @@ export class LoginComponent {
     username: string,
     password: string
   } = {
-    username: '',
-    password: ''
-  };
-  constructor(private auth: AuthService, private router: Router) {}
+      username: '',
+      password: ''
+    };
+  constructor(private auth: AuthService, private router: Router) { }
 
   login() {
     return this.auth
       .login(this.loginFormData)
       .then(() => {
-        console.log('user logged in');
-      })
-      .then(() => {
-        this.router.navigate(['/marketplace']);
+        return this.router.navigate(['/garden']);
       })
       .catch(err => {
         console.log(err.message);

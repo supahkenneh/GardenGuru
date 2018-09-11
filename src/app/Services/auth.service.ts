@@ -9,20 +9,21 @@ export class AuthService {
   constructor(
     private backend: BackendService,
     private session: SessionService
-  ) {}
+  ) { }
 
   register(data) {
     return this.backend.register(data);
   }
 
   login(data) {
-    return this.backend.login(data).then(response => {
-      return this.session.setSession(response['username']);
-    });
+    return this.backend.login(data)
+      .then(user => {
+        return this.session.setSession(user);
+      });
   }
 
   logout() {
-    return this.backend.logout().then(repsonse => {
+    return this.backend.logout().then(response => {
       return this.session.clearSession();
     });
   }

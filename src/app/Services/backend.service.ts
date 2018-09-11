@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class BackendService {
   url: string = '/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -20,17 +20,17 @@ export class BackendService {
   }
 
   getStand(id) {
-    const getUrl = this.url + `user/${id}/stand`
+    const getUrl = this.url + `user/${id}/stand`;
     return this.http.get(getUrl).toPromise();
   }
 
   getUserProfile(id) {
-    const getUrl = this.url + `user/${id}`
+    const getUrl = this.url + `user/${id}`;
     return this.http.get(getUrl).toPromise();
   }
 
-  getCrop(id){
-    const getUrl = this.url + `crops/${id}`
+  getCrop(id) {
+    const getUrl = this.url + `crops/${id}`;
     return this.http.get(getUrl).toPromise();
   }
 
@@ -49,8 +49,12 @@ export class BackendService {
     return this.http.get(logoutUrl).toPromise();
   }
 
-  deleteCrop(id){
-    const delUrl = this.url + `crops/${id}`
+  deleteCrop(id) {
+    const delUrl = this.url + `crops/${id}`;
     return this.http.delete(delUrl).toPromise();
+  }
+  getPlants() {
+    const plantsUrl = this.url + 'garden/plants';
+    return this.http.get(plantsUrl).toPromise();
   }
 }
