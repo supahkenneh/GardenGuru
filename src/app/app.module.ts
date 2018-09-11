@@ -11,7 +11,7 @@ import { SidebarComponent } from './Components/Sidebar/sidebar.component';
 import { FooterComponent } from './Components/Footer/footer.component';
 import { LoginComponent } from './Login/login.component';
 import { RegisterComponent } from './Register/register.component';
-import { LogoutComponent } from './Logout/logout.component';
+
 import { GardenComponent } from './Pages/Garden/garden.component';
 import { MarketplaceComponent } from './Pages/Marketplace/marketplace.component';
 import { StandComponent } from './Pages/Stand/stand.component';
@@ -34,7 +34,7 @@ import { SessionService } from './Services/session.service';
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
-    LogoutComponent
+
   ],
   imports: [
     BrowserModule,
@@ -43,7 +43,6 @@ import { SessionService } from './Services/session.service';
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'logout', component: LogoutComponent },
       { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
       { path: 'stand', component: StandComponent },

@@ -1,11 +1,10 @@
 #sidebar {
   position: fixed;
   width: 50%;
-  height: 100%;
+  height: 83.25vh;
   background: lightgreen;
   left: -50%;
   transition: all 200ms linear;
-
   ul {
     width: 100%;
     padding: 0;
@@ -17,7 +16,7 @@
       list-style-type: none;
       padding: 15px 10px;
       width: 100%;
-      padding-left:15%;
+      padding-left: 15%;
       border-bottom: 1px solid green;
       a {
         width: 100%;
@@ -30,6 +29,6 @@
   left: 0px;
 }
 
-.logout-button{
+.logout-button {
   background-color: red;
 }
