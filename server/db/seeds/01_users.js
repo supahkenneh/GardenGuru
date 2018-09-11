@@ -25,8 +25,8 @@ exports.seed = function(knex, Promise) {
           last_name: 'Evans',
           rating: 0,
           bio: '',
-          city: 'Honolulu',
-          state: 'Hawaii',
+          city: 'Dallas',
+          state: 'Texas',
           stand_name: 'Joseph\'s Stand'
         },
         {
@@ -49,9 +49,33 @@ exports.seed = function(knex, Promise) {
           last_name: '',
           rating: 0,
           bio: '',
-          city: 'Honolulu',
-          state: 'Hawaii',
+          city: 'Dallas',
+          state: 'Texas',
           stand_name: 'Fresh Fruits of Froppy'
+        },
+        {
+          username: 'muibirb',
+          password: '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
+          email: 'muibirb@gmail.com',
+          first_name: '',
+          last_name: '',
+          rating: 0,
+          bio: '',
+          city: 'Miami',
+          state: 'Florida',
+          stand_name: ''
+        },
+        {
+          username: 'merurun16',
+          password: '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
+          email: 'merurun16@gmail.com',
+          first_name: '',
+          last_name: '',
+          rating: 0,
+          bio: '',
+          city: 'Miami',
+          state: 'Florida',
+          stand_name: ''
         }
       ]);
     });

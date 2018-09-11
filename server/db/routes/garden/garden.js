@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     .where({ owner_id: id })
     .fetchAll({ withRelated: 'photo' })
     .then(response => {
-      res.json(response);
+      return res.json(response);
     })
     .catch(err => {
       console.log('error :', err);
