@@ -24,17 +24,19 @@ router.post('/', (req, res) => {
   } = req.body;
   //YYYY-MM-DD
   let date = moment().year(year).month(month).day(day)
-  return new Crop({
-    plant_id: plant,
-    watering_interval: watering,
-    planted_on: date,
-    description: '',
-    crop_status: 2
-  })
-    .save()
-    .then(newCrop => {
-      return res.json(newCrop);
-    })
+  let watering_date = moment(date).add(watering, 'days');
+  console.log('watering_date :', watering_date);
+  // return new Crop({
+  //   plant_id: plant,
+  //   watering_interval: watering,
+  //   planted_on: date,
+  //   description: '',
+  //   crop_status: 2
+  // })
+  //   .save()
+  //   .then(newCrop => {
+  //     return res.json(newCrop);
+  //   })
 });
 
 router.get('/:id', (req, res) => {
