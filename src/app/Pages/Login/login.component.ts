@@ -18,11 +18,12 @@ export class LoginComponent {
   login() {
     return this.auth
       .login(this.loginFormData)
-      .then(() => {
+      .then(result => {
+        console.log('result :', result);
         console.log('user logged in');
       })
       .then(() => {
-        this.router.navigate(['/marketplace']);
+        this.router.navigate(['/garden']);
       })
       .catch(err => {
         console.log(err.message);
