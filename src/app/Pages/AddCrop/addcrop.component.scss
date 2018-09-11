@@ -3,6 +3,7 @@
   height: 100%;
   form {
     background: white;
+    height: 85%;
     border-radius: 5px;
     margin-top: 20px;
     padding: 15px;
@@ -12,13 +13,39 @@
       text-align: center;
       font-size: 28px;
     }
+    label {
+      margin: 20px auto;
+    }
+    .water-container {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      select {
+        width: 40%;
+        height: 20px;
+        background: whitesmoke;
+      }
+    }
     .date-container {
       display: flex;
       width: 100%;
+      justify-content: space-evenly;
       select {
-        border: 1px solid black;
-        width: 33%;
+        width: 30%;
+        height: 20px;
+        background: whitesmoke;
       }
+    }
+    button {
+      font-size: 14px;
+      font-weight: 100;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 5px;
+      width: 40%;
+      align-self: center;
+      background: #7BC677;
+      color: white;
     }
   }
 }
