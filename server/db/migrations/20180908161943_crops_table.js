@@ -7,9 +7,10 @@ exports.up = function(knex, Promise) {
     table.integer('owner_id').references('users.id');
     table.date('planted_on');
     table.integer('watering_interval');
+    table.date('watering_date');
     table.integer('inventory');
     table.timestamps(true, true);
-    table.integer('crop_statuses').references('crop_statuses.id');
+    table.integer('crop_status').references('crop_statuses.id');
     table.string('price');
   })
 };

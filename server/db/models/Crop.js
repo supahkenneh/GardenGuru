@@ -19,7 +19,7 @@ class Crop extends bookshelf.Model {
   }
 
   cropStatus() {
-    return this.belongsTo('CropStatus', 'crop_statuses');
+    return this.belongsTo('CropStatus', 'crop_status');
   }
 
   plant() {
