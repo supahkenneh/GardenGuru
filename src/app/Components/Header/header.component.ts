@@ -13,7 +13,6 @@ export class HeaderComponent {
 
   toggleSideBar() {
     document.getElementById('sidebar').classList.toggle('active')
-    console.log('hi')
   }
   
 }

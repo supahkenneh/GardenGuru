@@ -1,0 +1,16 @@
+<div>
+  <h1>
+    Register Page
+  </h1>
+</div>
+
+<div class="login-container">
+  <form>
+    <input type="text" name="username" placeholder="username" [(ngModel)]="registerFormData.username">
+    <input type="text" name="email" placeholder="email" [(ngModel)]="registerFormData.email">
+    <input type="text" name="city" placeholder="city" [(ngModel)]="registerFormData.city">
+    <input type="text" name="state" placeholder="state" [(ngModel)]="registerFormData.state">
+    <input type="text" name="password" placeholder="password" [(ngModel)]="registerFormData.password">
+    <button class="btn" (click)="register()">Register</button>
+  </form>
+</div>

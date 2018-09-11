@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { SessionService } from '../../Services/session.service';
-import { AuthService } from '../../Services/auth.service';
+import { SessionService } from '../Services/session.service';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
