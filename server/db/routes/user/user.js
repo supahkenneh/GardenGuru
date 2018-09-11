@@ -1,5 +1,9 @@
 const router = require('express').Router();
+const bcrypt = require('bcrypt');
+
+const saltRounds = 12;
 const User = require('../../models/User');
+const Crop = require('../../models/Crop');
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
@@ -20,13 +24,59 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/stand', (req, res) => {
-  console.log(`a user's stand`)
-  res.json('user stand');
+  const id = req.params.id;
+
+  return Crop
+    .where({ owner_id: id, crop_statuses: 1 })
+    .fetchAll({ withRelated: 'photo'})
+    .then(crops => {
+      if (crops.length < 1) {
+        return res.send('Nothing but us chickens!');
+      } else {
+      return res.json(crops);
+      }
+    })
+    .catch(err => {
+      console.log('error :', err);
+    })
 });
 
 router.put('/settings', (req, res) => {
-  console.log('change user settings')
-  res.json('change user settings');
+  const username = req.user.username;
+  const id = req.user.id
+  const {
+    oldPass,
+    newPass,
+    city,
+    state,
+    bio
+  } = req.body;
+
+  return User
+    .where({ username, id })
+    .fetchAll()
+    .then(user => {
+      bcrypt.compare(oldPass, user.models[0].attributes.password)
+        .then(result => {
+          if (!result) {
+            res.send('Invalid password');
+          } else {
+            bcrypt.genSalt(saltRounds, (err, salt) => {
+              bcrypt.hash(newPass, salt, (err, hashedPassword) => {
+                if (err) {
+                  return res.status(500);
+                }
+                return User
+                  .where({ username, id })
+                  .save({ password: hashedPassword}, { patch: true })
+                  .then(user => {
+                    res.json({ message: 'success '});
+                  });
+              });
+            });
+          };
+        });
+    });
 });
 
 module.exports = router;
