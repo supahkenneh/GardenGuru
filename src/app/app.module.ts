@@ -34,7 +34,8 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
-    AddCropComponent
+    AddCropComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -48,6 +49,8 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
       { path: 'stand', component: StandComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'garden/addcrop', component: AddCropComponent },
+
+      
     ])
   ],
   providers: [BackendService, SessionService, AuthService],
