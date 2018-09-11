@@ -50,8 +50,6 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
       { path: 'profile', component: ProfileComponent },
       { path: 'crops/:id', component: CropComponent },
       { path: 'garden/addcrop', component: AddCropComponent },
-
-      
     ])
   ],
   providers: [BackendService, SessionService, AuthService],
