@@ -18,7 +18,7 @@ export class CropComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.id)
     .then(result => {
-      console.log(typeof result)
+      console.log(result)
       return this.crop = result
     });
   }

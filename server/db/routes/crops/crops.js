@@ -15,7 +15,7 @@ router.get('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
   .query({where: {id}})
-  .fetch()
+  .fetch({withRelated: ['owner']})
   .then(crop=>{
     return res.json(crop)
   })
