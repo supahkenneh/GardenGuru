@@ -1,0 +1,39 @@
+<div class="content-container">
+  <form>
+    <div class="secondary-header">Add A Crop</div>
+    <label for="plant">Select Plant</label>
+    <div class="plant-container">
+      <select name="plants" (change)="showPlantInfo()" [(ngModel)]="cropFormData.plant">
+        <option value="0">Select Plant</option>
+        <option *ngFor="let plant of plants" value="{{plant.id}}">{{plant.name}}</option>
+      </select>
+    </div>
+    <label for="watering">Watering Interval</label>
+    <div class="water-container">
+      <select name="watering-days">
+        <option value="0">Select Interval</option>
+        <option value="1">Daily</option>
+        <option value="2">Every Other Day</option>
+        <option value="3">Weekly</option>
+        <option value="4">Every Two Weeks</option>
+      </select>
+    </div>
+    <label for="date">Planting Date</label>
+    <div class="date-container">
+      <select name="plant-date" [(ngModel)]="cropFormData.month">
+        <option value="">Select Month</option>
+        <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
+      </select>
+      <select name="plant-day" [(ngModel)]="cropFormData.day">
+        <option value="0">Select Day</option>
+        <option *ngFor="let day of days" value="{{day}}">{{day}}</option>
+      </select>
+      <select name="plant-year" [(ngModel)]="cropFormData.year">
+        <option value="0">Select Year</option>
+        <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+      </select>
+    </div>
+    <button (click)="addCrop()">Add To Garden</button>
+    <div class="plant-description">{{getPlantDescription()}}</div>
+  </form>
+</div>

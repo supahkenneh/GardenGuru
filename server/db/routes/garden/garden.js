@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const Plant = require('../../models/Plant');
 const Crop = require('../../models/Crop');
 
 router.get('/', (req, res) => {
@@ -8,14 +9,22 @@ router.get('/', (req, res) => {
   } else {
     return Crop
       .where({ owner_id: req.user.id })
-      .fetchAll({ withRelated: 'photo' })
-      .then(response => {
-        return res.json(response);
+      .fetchAll({ withRelated: ['photo', 'cropStatus'] })
+      .then(crops => {
+        return res.json(crops);
       })
       .catch(err => {
         console.log('error :', err);
       });
   }
 });
+
+router.get('/plants', (req, res) => {
+  return Plant
+    .fetchAll()
+    .then(plants => {
+      res.json(plants);
+    })
+})
 
 module.exports = router;

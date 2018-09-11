@@ -43,4 +43,9 @@ export class BackendService {
     const logoutUrl = this.url + 'logout';
     return this.http.get(logoutUrl).toPromise();
   }
+
+  getPlants() {
+    const plantsUrl = this.url + 'garden/plants';
+    return this.http.get(plantsUrl).toPromise();
+  }
 }

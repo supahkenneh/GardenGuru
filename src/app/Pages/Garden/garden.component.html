@@ -1,6 +1,10 @@
 <div class="content-container" *ngIf="!loggedIn">
   <div class="secondary-header">
-    <div>Sign Up or Log In to access your Garden</div>
+    <div>
+      <span routerLink="/register">Sign Up</span>
+      or
+      <span routerLink="/login">Log In</span>
+      to access your Garden</div>
   </div>
   <div class="feature-description">
     <div>With an account, you'll be able to:</div>
@@ -8,7 +12,38 @@
       <li>Manage the crops in your garden</li>
       <li>Set reminders for watering schedule</li>
       <li>Get notified when it is time for a harvest</li>
-      <li>Build your 'Stand' to be displayed in the Marketplace</li>
+      <li>Sell your crops in the Marketplace</li>
     </ul>
+  </div>
+</div>
+<!-- Authenticated view of garden -->
+<div class="content-container" *ngIf="loggedIn">
+  <div class="secondary-header">
+    {{user.first_name}}'s Garden
+  </div>
+  <div class="garden-container">
+    <div class="garden">
+      <div class="card" *ngFor="let crop of garden">
+        <div class="img-container"><img routerLink="/crops/{{crop.id}}" src="{{crop.mainPhoto}}"></div>
+        <div>{{crop.description}}</div>
+        <div>{{crop.details}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="garden-container">
+    <div class="header">Today's Watering Schedule</div>
+    <div class="watering">
+      <div class="card" *ngFor="let plant of plantsToWater">
+        <div class="img-container"><img routerLink="/crops/{{plant.id}}"src="{{plant.mainPhoto}}" alt=""></div>
+        <div>{{plant.description}}</div>
+        <div>{{plant.details}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="garden-container">
+    <div class="header">Upcoming harvests</div>
+  </div>
+  <div class="add-button" routerLink="addcrop">
+    <img src="https://icongr.am/jam/plus.svg?size=14">
   </div>
 </div>

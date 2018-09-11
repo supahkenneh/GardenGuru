@@ -1,0 +1,65 @@
+.content-container {
+  padding: 20px;
+  height: 100%;
+  form {
+    background: white;
+    height: 85%;
+    border-radius: 5px;
+    margin-top: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    .secondary-header {
+      text-align: center;
+      font-size: 28px;
+    }
+    .plant-container {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      select {
+        width: 40%;
+        height: 20px;
+        background: whitesmoke;
+      }
+    }
+    label {
+      margin: 20px auto;
+    }
+    .water-container {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      select {
+        width: 40%;
+        height: 20px;
+        background: whitesmoke;
+      }
+    }
+    .date-container {
+      display: flex;
+      width: 100%;
+      justify-content: space-evenly;
+      select {
+        width: 30%;
+        height: 20px;
+        background: whitesmoke;
+      }
+    }
+    button {
+      font-size: 14px;
+      font-weight: 100;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 5px;
+      width: 40%;
+      align-self: center;
+      background: #7BC677;
+      color: white;
+    }
+    .plant-description {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  }
+}

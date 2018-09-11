@@ -26,7 +26,7 @@ passport.deserializeUser((user, done) => {
       user = user.toJSON();
       return done(null, {
         id: user.id,
-        username: user.username.toLowerCase()
+        username: user.username.toLowerCase(),
       });
     })
     .catch(err => {
@@ -66,7 +66,7 @@ passport.use(
 
 // ===== REGISTRATION ===== //
 router.post('/register', (req, res) => {
-  let { username, email, city, state } = req.body;
+  let { username, email, first_name, last_name, city, state } = req.body;
   bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) {
       return res.status(500);
@@ -78,12 +78,10 @@ router.post('/register', (req, res) => {
       return new User({
         username: username.toLowerCase(),
         password: hashedPassword,
-        email: email,
-        city: city,
-        state: state
       })
         .save()
         .then(result => {
+          console.log(result);
           res.json({ success: true });
         })
         .catch(err => {
@@ -111,6 +109,13 @@ router.post('/login', (req, res, next) => {
         let userProfile = {
           id: user.id,
           username: user.username,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          rating: user.rating,
+          bio: user.bio,
+          city: user.city,
+          state: user.state,
+          stand: user.stand_name
         };
         return res.json(userProfile);
       }
