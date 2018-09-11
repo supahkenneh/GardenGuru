@@ -4,18 +4,27 @@
   .secondary-header {
     text-align: center;
     font-size: 28px;
+    margin-top: 15px;
+    div {
+      span {
+        text-decoration: underline;
+      }
+    }
   }
   .feature-description {
     margin-top: 15px;
     text-align: center;
     div {
       font-size: 18px;
+      margin-top: 100px;
     }
     ul {
       width: 100%;
       padding: 0;
       li {
         list-style-type: none;
+        padding: 5px;
+        font-size: 16px;
       }
     }
   }
