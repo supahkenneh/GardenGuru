@@ -10,7 +10,8 @@ export class GardenComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
 
-  garden: any;
+  garden: object[] = [];
+  plantsToWater: object[] = [];
 
   constructor(
     private backend: BackendService,
@@ -21,10 +22,27 @@ export class GardenComponent implements OnInit {
   }
 
   ngOnInit() {
+    //resets garden
+    this.garden.length = 0;
     return this.backend.getGarden()
       .then(result => {
-        console.log(result);
-        return this.garden = result;
+        let resultArr = Object.values(result);
+        resultArr.map(crop => {
+          //show only crops that are growing
+          if (crop.cropStatus['name'] === 'Growing') {
+            crop.mainPhoto = crop.photo[0].link;
+            this.garden.push(crop);
+          }
+        })
+        return resultArr
+      })
+      .then(() => {
+        let gardenArr = Object.values(this.garden)
+        gardenArr.map(crop => {
+          if (crop['watering_interval'] < 24) {
+            this.plantsToWater.push(crop);
+          }
+        })
       })
   }
 }

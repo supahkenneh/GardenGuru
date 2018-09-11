@@ -1,16 +1,22 @@
 const router = require('express').Router();
 const Plant = require('../../models/Plant');
 const Crop = require('../../models/Crop');
-const CropStatus = require('../../models/CropStatus');
 
 router.get('/', (req, res) => {
-  const id = req.user.id;
-  return Crop
-    .where({ owner_id: id })
-    .fetch({withRelated: ['cropStatus']})
-    .then(crops => {
-      res.json(crops)
-    })
+  
+  if (!req.user) {
+    return res.send('Please log in to see your garden.');
+  } else {
+    return Crop
+      .where({ owner_id: req.user.id })
+      .fetchAll({ withRelated: ['photo', 'cropStatus'] })
+      .then(crops => {
+        return res.json(crops);
+      })
+      .catch(err => {
+        console.log('error :', err);
+      });
+  }
 });
 
 router.get('/plants', (req, res) => {

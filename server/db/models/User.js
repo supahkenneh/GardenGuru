@@ -1,4 +1,5 @@
 const bookshelf = require('./bookshelf');
+require('./Photo')
 
 class User extends bookshelf.Model {
   get tableName() {
@@ -14,7 +15,7 @@ class User extends bookshelf.Model {
   }
 
   photos() {
-    return this.belongsTo('Photo', 'user_id');
+    return this.hasOne('Photo', 'user_id');
   }
 
   toMessages() {

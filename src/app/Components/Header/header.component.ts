@@ -5,14 +5,13 @@ import { Component } from '@angular/core';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
+
+
 export class HeaderComponent {
-
-  constructor() {
-
-  }
+  constructor() {}
 
   toggleSideBar() {
-    document.getElementById('sidebar').classList.toggle('active')
+      document.getElementById('sidebar').classList.toggle('active');
   }
-  
 }
