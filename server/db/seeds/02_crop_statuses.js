@@ -1,5 +1,5 @@
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
   return knex('crop_statuses').del()
     .then(function () {
@@ -15,7 +15,7 @@ exports.seed = function(knex, Promise) {
           name: 'Removed'
         },
         {
-          name: 'Out of season'
+          name: 'Out of Season'
         }
       ]);
     });
