@@ -25,9 +25,7 @@ router.post('/', (req, res) => {
     garden_description
   } = req.body;
   //YYYY-MM-DD
-  console.log(year);
-  console.log(month);
-  console.log(day);
+  //sets the next watering_date
   let date = moment().year(year).month(month).date(day)
   let watering_date = moment(date).add(watering, 'd');
   return new Crop({
@@ -35,7 +33,7 @@ router.post('/', (req, res) => {
     watering_interval: watering,
     watering_date: watering_date,
     planted_on: date,
-    description: '',
+    garden_description,
     crop_status: 2,
     owner_id: id,
     garden_description

@@ -8,6 +8,7 @@ exports.seed = function (knex, Promise) {
         {
           description: 'Lemons',
           details: 'Lemon tree',
+          garden_description: 'Lemon tree',
           planted_on: null,
           watering_interval: 7,
           inventory: 0,
@@ -19,6 +20,7 @@ exports.seed = function (knex, Promise) {
         {
           description: 'Blueberries',
           details: 'Lowbush',
+          garden_description: 'blueberryyy',
           planted_on: null,
           watering_interval: 7,
           inventory: 0,
@@ -30,6 +32,7 @@ exports.seed = function (knex, Promise) {
         {
           description: 'Cherries',
           details: 'Sour cherries.',
+          garden_description: 'cherryyy',
           planted_on: null,
           watering_interval: 7,
           inventory: 0,
@@ -41,6 +44,7 @@ exports.seed = function (knex, Promise) {
         {
           description: 'Apples',
           details: 'fuji apples',
+          garden_description: 'appooool',
           planted_on: null,
           watering_interval: 7,
           inventory: 0,
@@ -52,6 +56,7 @@ exports.seed = function (knex, Promise) {
         {
           description: 'Strawberries',
           details: 'wild strawberries',
+          garden_description: 'strewberri',
           planted_on: null,
           watering_interval: 7,
           inventory: 0,
