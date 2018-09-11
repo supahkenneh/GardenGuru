@@ -9,9 +9,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/Header/header.component';
 import { SidebarComponent } from './Components/Sidebar/sidebar.component';
 import { FooterComponent } from './Components/Footer/footer.component';
-import { LoginComponent } from './Login/login.component';
-import { RegisterComponent } from './Register/register.component';
-
+import { LoginComponent } from './Pages/Login/login.component';
+import { RegisterComponent } from './Pages/Register/register.component';
 import { GardenComponent } from './Pages/Garden/garden.component';
 import { MarketplaceComponent } from './Pages/Marketplace/marketplace.component';
 import { StandComponent } from './Pages/Stand/stand.component';
@@ -33,8 +32,7 @@ import { SessionService } from './Services/session.service';
     StandComponent,
     ProfileComponent,
     LoginComponent,
-    RegisterComponent,
-
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
