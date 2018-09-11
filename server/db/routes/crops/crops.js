@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
   .query({where: {id}})
-  .fetch({withRelated: ['owner', 'status', 'plant', 'photo', 'messages']})
+  .fetch({withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']})
   .then(crop=>{
     return res.json(crop)
   })

@@ -13,7 +13,7 @@ class Crop extends bookshelf.Model {
     return this.belongsTo('User', 'owner_id');
   }
 
-  status() {
+  cropStatus() {
     return this.belongsTo('CropStatus', 'crop_statuses');
   }
 

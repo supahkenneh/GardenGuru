@@ -4,7 +4,7 @@
     <div class="image" [style.backgroundImage]="'url('+ crop.photo[0].link +')'"></div>
     <div class="owner">Owner: {{crop.owner.username}}</div>
     <div class="species">Species: {{crop.plant.name}}</div>
-    <div class="status">Status: {{crop.status.name}}</div>
+    <div class="status">Status: {{crop.cropStatus.name}}</div>
   </div>
   <div class="auth-actions" *ngIf = "isLoggedIn()">
     <button class="delete-button" (click)="deleteCrop()">Remove</button>
