@@ -20,17 +20,17 @@ export class BackendService {
   }
 
   getStand(id) {
-    const getUrl = this.url + `/user/${id}/stand`
+    const getUrl = this.url + `user/${id}/stand`
     return this.http.get(getUrl).toPromise();
   }
 
   getUserProfile(id) {
-    const getUrl = this.url + `/user/${id}`
+    const getUrl = this.url + `user/${id}`
     return this.http.get(getUrl).toPromise();
   }
 
   getCrop(id){
-    const getUrl = this.url + `/crops/${id}`
+    const getUrl = this.url + `crops/${id}`
     return this.http.get(getUrl).toPromise();
   }
 

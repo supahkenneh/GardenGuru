@@ -1,5 +1,10 @@
 const router = require('express').Router();
 const Crop = require('../../models/Crop');
+const CropStatus = require('../../models/CropStatus');
+const Plant = require('../../models/Plant');
+const Photo = require('../../models/Photo');
+const Message = require('../../models/Message');
+const User = require('../../models/Message');
 
 router.get('/', (req, res) => {
   console.log('request for crops');
@@ -15,12 +20,12 @@ router.get('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
   .query({where: {id}})
-  .fetch({withRelated: ['owner']})
+  .fetch({withRelated: ['owner', 'status', 'plant', 'photo', 'messages']})
   .then(crop=>{
     return res.json(crop)
   })
   .catch(err=>{
-    console.log('err.message', err.message);
+    console.log('err', err);
   })
 });
 
