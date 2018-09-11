@@ -20,7 +20,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((user, done) => {
-  console.log('deserializing');
   new User({ id: user.id })
     .fetch()
     .then(user => {
@@ -38,7 +37,6 @@ passport.deserializeUser((user, done) => {
 
 passport.use(
   new LocalStrategy((username, password, done) => {
-    console.log('local');
     return new User({ username: username })
       .fetch()
       .then(user => {

@@ -19,8 +19,6 @@ export class GardenComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('this.user :', this.user);
-    console.log('this.loggedIn :', this.loggedIn);
     return this.backend.getGarden()
       .then(result => {
         console.log(result);

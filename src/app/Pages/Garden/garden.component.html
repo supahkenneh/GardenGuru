@@ -16,3 +16,21 @@
     </ul>
   </div>
 </div>
+
+<div class="content-container" *ngIf="loggedIn">
+  <div class="secondary-header">
+    {{user.first_name}}'s Garden
+  </div>
+  <div class="garden-container">
+    <div class="garden">
+      garden stuff
+    </div>
+  </div>
+  <div class="garden-container">
+    <div class="header">Today's Watering Schedule</div>
+
+  </div>
+  <div class="garden-container">
+    <div class="header">Upcoming harvests</div>
+  </div>
+</div>

@@ -12,6 +12,7 @@
   background: -webkit-linear-gradient(skyblue, lightgreen);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  padding: 5px;
 }
 
 .search {
@@ -27,6 +28,7 @@
   right: 5%;
   padding-right: 10px;
   opacity: 0.5;
+  padding: 5px;
 }
 .overlay {
   flex:1;
@@ -39,6 +41,7 @@
   position: absolute;
   height: 35px;
   width: 35px;
+  padding: 5px;
 }
 
 /* // Extra Small devices (smartphones, 0px and up) */
