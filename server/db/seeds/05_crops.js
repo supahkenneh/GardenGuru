@@ -18,7 +18,7 @@ exports.seed = function (knex, Promise) {
         },
         {
           description: 'Blueberries',
-          details: 'Lowbusg',
+          details: 'Lowbush',
           planted_on: null,
           watering_interval: 7,
           inventory: 0,
