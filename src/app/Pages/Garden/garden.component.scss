@@ -39,4 +39,16 @@
       font-size: 18px;
     }
   }
+  .add-button {
+    display: flex;
+    justify-content: center;
+    background: #6BA368;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+  }
 }
