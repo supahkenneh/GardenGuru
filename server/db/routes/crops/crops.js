@@ -12,8 +12,16 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  console.log('specific crop requested');
-  res.json('crop id');
+  const id = req.params.id;
+  return Crop
+  .query({where: {id}})
+  .fetch()
+  .then(crop=>{
+    return res.json(crop)
+  })
+  .catch(err=>{
+    console.log('err.message', err.message);
+  })
 });
 
 router.put('/:id', (req, res) => {

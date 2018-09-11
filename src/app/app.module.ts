@@ -15,7 +15,7 @@ import { GardenComponent } from './Pages/Garden/garden.component';
 import { MarketplaceComponent } from './Pages/Marketplace/marketplace.component';
 import { StandComponent } from './Pages/Stand/stand.component';
 import { ProfileComponent } from './Pages/Profile/profile.component';
-
+import {CropComponent} from './Pages/Crop/crop.component'
 //services
 import { BackendService } from './Services/backend.service';
 import { AuthService } from './Services/auth.service';
@@ -32,7 +32,8 @@ import { SessionService } from './Services/session.service';
     StandComponent,
     ProfileComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    CropComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +45,9 @@ import { SessionService } from './Services/session.service';
       { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
       { path: 'stand', component: StandComponent },
-      { path: 'profile', component: ProfileComponent }
+      { path: 'profile', component: ProfileComponent },
+      { path: 'crops/:id', component: CropComponent },
+
     ])
   ],
   providers: [BackendService, SessionService, AuthService],

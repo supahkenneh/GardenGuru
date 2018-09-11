@@ -29,6 +29,11 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
+  getCrop(id){
+    const getUrl = this.url + `/crops/${id}`
+    return this.http.get(getUrl).toPromise();
+  }
+
   login(data) {
     const loginUrl = this.url + 'login';
     return this.http.post(loginUrl, data).toPromise();
