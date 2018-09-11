@@ -46,7 +46,7 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
       { path: 'register', component: RegisterComponent },
       { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
-      { path: 'stand', component: StandComponent },
+      { path: 'user/:id/stand', component: StandComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'crops/:id', component: CropComponent },
       { path: 'garden/addcrop', component: AddCropComponent },

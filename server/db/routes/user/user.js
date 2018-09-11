@@ -25,10 +25,11 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
-
-  return Crop
-    .where({ owner_id: id, crop_statuses: 1 })
-    .fetchAll({ withRelated: 'photo' })
+  console.log('id', id);
+  return Crop.where({ owner_id: id, crop_statuses: 1 })
+    .fetchAll({
+      withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']
+    })
     .then(crops => {
       if (crops.length < 1) {
         return res.send('Nothing but us chickens!');
@@ -38,7 +39,7 @@ router.get('/:id/stand', (req, res) => {
     })
     .catch(err => {
       console.log('error :', err);
-    })
+    });
 });
 
 router.put('/settings', (req, res) => {
