@@ -29,6 +29,26 @@ router.get('/:id', (req, res) => {
   })
 });
 
+router.delete('/:id', (req,res)=>{
+  const id = req.params.id;
+  return Crop
+  .where({id})
+  .fetch()
+  .then(crop=>{
+    let status = crop.attributes.crop_statuses;
+    status = 3
+    return Crop
+    .where({id})
+      .save({ crop_statuses: status}, {patch: true})
+      .then(()=>{
+        res.json({success: 'true'})
+      })
+      .catch(err=>{
+        console.log('err.message', err.message);
+      })
+  })
+})
+
 router.put('/:id', (req, res) => {
   console.log('editing crop');
   res.json('edit specific crop');

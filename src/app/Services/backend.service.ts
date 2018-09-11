@@ -48,4 +48,9 @@ export class BackendService {
     const logoutUrl = this.url + 'logout';
     return this.http.get(logoutUrl).toPromise();
   }
+
+  deleteCrop(id){
+    const delUrl = this.url + `crops/${id}`
+    return this.http.delete(delUrl).toPromise();
+  }
 }
