@@ -1,4 +1,9 @@
 const bookshelf = require('./bookshelf');
+require('./User');
+require('./CropStatus');
+require('./Plant');
+require('./Photo');
+
 
 class Crop extends bookshelf.Model {
   get tableName() {
@@ -14,7 +19,7 @@ class Crop extends bookshelf.Model {
   }
 
   cropStatus() {
-    return this.belongsTo('cropStatus', 'crop_status_id');
+    return this.belongsTo('CropStatus', 'crop_statuses');
   }
 
   plant() {
