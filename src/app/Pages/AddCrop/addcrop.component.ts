@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './addcrop.component.html',
@@ -17,6 +18,7 @@ export class AddCropComponent implements OnInit {
   years: number[] = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018]
   days: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 
+  //value of watering is number of days
   cropFormData: {
     plant: number;
     watering: number;
@@ -33,7 +35,8 @@ export class AddCropComponent implements OnInit {
 
   constructor(
     private backend: BackendService,
-    private session: SessionService
+    private session: SessionService,
+    private router: Router
   ) {
     this.user = this.session.getSession();
     this.loggedIn = this.session.isLoggedIn();
@@ -48,9 +51,10 @@ export class AddCropComponent implements OnInit {
   }
 
   addCrop() {
-    console.log('hi');
-    const date = `${this.cropFormData.month} ${this.cropFormData.day} ${this.cropFormData.year}`;
-    console.log('date :', date);
+    return this.backend.addCrop(this.cropFormData)
+      .then(result => {
+        return this.router.navigate(['/garden'])
+      })
   }
 
   showPlantInfo() {

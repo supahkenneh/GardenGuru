@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const moment = require('moment');
+
 const Crop = require('../../models/Crop');
 const CropStatus = require('../../models/CropStatus');
 const Plant = require('../../models/Plant');
@@ -12,41 +14,60 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log('posting to crops');
-  res.json('add a new crop')
+  console.log('req.body :', req.body);
+  let {
+    plant,
+    watering,
+    month,
+    day,
+    year,
+  } = req.body;
+  //YYYY-MM-DD
+  let date = moment().year(year).month(month).day(day)
+  return new Crop({
+    plant_id: plant,
+    watering_interval: watering,
+    planted_on: date,
+    description: '',
+    crop_status: 2
+  })
+    .save()
+    .then(newCrop => {
+      return res.json(newCrop);
+    })
 });
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
-  .query({where: {id}})
-  .fetch({withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']})
-  .then(crop=>{
-    return res.json(crop)
-  })
-  .catch(err=>{
-    console.log('err', err);
-  })
+    .query({ where: { id } })
+    .fetch({ withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages'] })
+    .then(crop => {
+      return res.json(crop)
+    })
+    .catch(err => {
+      console.log('err', err);
+    })
 });
 
-router.delete('/:id', (req,res)=>{
+router.delete('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
-  .where({id})
-  .fetch()
-  .then(crop=>{
-    let status = crop.attributes.crop_statuses;
-    status = 3
-    return Crop
-    .where({id})
-      .save({ crop_statuses: status}, {patch: true})
-      .then(()=>{
-        res.json({success: 'true'})
-      })
-      .catch(err=>{
-        console.log('err.message', err.message);
-      })
-  })
+    .where({ id })
+    .fetch()
+    .then(crop => {
+      let status = crop.attributes.crop_statuses;
+      status = 3
+      return Crop
+        .where({ id })
+        .save({ crop_statuses: status }, { patch: true })
+        .then(() => {
+          res.json({ success: 'true' })
+        })
+        .catch(err => {
+          console.log('err.message', err.message);
+        })
+    })
 })
 
 router.put('/:id', (req, res) => {

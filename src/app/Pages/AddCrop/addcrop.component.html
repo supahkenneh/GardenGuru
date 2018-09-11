@@ -10,12 +10,12 @@
     </div>
     <label for="watering">Watering Interval</label>
     <div class="water-container">
-      <select name="watering-days">
+      <select name="watering-days" [(ngModel)]="cropFormData.watering">
         <option value="0">Select Interval</option>
         <option value="1">Daily</option>
         <option value="2">Every Other Day</option>
-        <option value="3">Weekly</option>
-        <option value="4">Every Two Weeks</option>
+        <option value="7">Weekly</option>
+        <option value="14">Every Two Weeks</option>
       </select>
     </div>
     <label for="date">Planting Date</label>
