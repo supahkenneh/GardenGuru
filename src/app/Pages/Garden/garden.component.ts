@@ -26,6 +26,7 @@ export class GardenComponent implements OnInit {
     this.garden.length = 0;
     return this.backend.getGarden()
       .then(result => {
+        console.log('result :', result);
         let resultArr = Object.values(result);
         resultArr.map(crop => {
           //show only crops that are growing
