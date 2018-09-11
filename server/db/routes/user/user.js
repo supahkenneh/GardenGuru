@@ -1,8 +1,22 @@
 const router = require('express').Router();
+const User = require('../../models/User');
 
 router.get('/:id', (req, res) => {
-  console.log('get user profile');
-  res.json('user profile');
+  const id = req.params.id;
+
+  return User
+    .where({ id })
+    .fetchAll({ withRelated: 'photos' })
+    .then(user => {
+      if (!user) {
+        return res.send( 'User does not exist.' );
+      } else {
+        return res.json(user);
+      }
+    })
+    .catch(err => {
+      console.log('error :', err);
+    });
 });
 
 router.get('/:id/stand', (req, res) => {
