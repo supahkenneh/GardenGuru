@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  let id = req.user.id
   console.log('req.body :', req.body);
   let {
     plant,
@@ -21,22 +22,29 @@ router.post('/', (req, res) => {
     month,
     day,
     year,
+    garden_description
   } = req.body;
   //YYYY-MM-DD
-  let date = moment().year(year).month(month).day(day)
-  let watering_date = moment(date).add(watering, 'days');
-  console.log('watering_date :', watering_date);
-  // return new Crop({
-  //   plant_id: plant,
-  //   watering_interval: watering,
-  //   planted_on: date,
-  //   description: '',
-  //   crop_status: 2
-  // })
-  //   .save()
-  //   .then(newCrop => {
-  //     return res.json(newCrop);
-  //   })
+  console.log(year);
+  console.log(month);
+  console.log(day);
+  let date = moment().year(year).month(month).date(day)
+  let watering_date = moment(date).add(watering, 'd');
+  return new Crop({
+    plant_id: plant,
+    watering_interval: watering,
+    watering_date: watering_date,
+    planted_on: date,
+    description: '',
+    crop_status: 2,
+    owner_id: id,
+    garden_description
+  })
+    .save()
+    .then(newCrop => {
+      console.log(newCrop);
+      return res.json(newCrop);
+    })
 });
 
 router.get('/:id', (req, res) => {

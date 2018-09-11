@@ -31,10 +31,13 @@ export class GardenComponent implements OnInit {
         resultArr.map(crop => {
           //show only crops that are growing
           if (crop.cropStatus['name'] === 'Growing') {
-            crop.mainPhoto = crop.photo[0].link;
+            if (crop.photo.length > 0) {
+              crop.mainPhoto = crop.photo[0].link;
+            }
             this.garden.push(crop);
           }
         })
+        console.log(this.garden);
         return resultArr
       })
       .then(() => {
