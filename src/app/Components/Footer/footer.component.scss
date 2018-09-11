@@ -3,10 +3,13 @@
   position: fixed;
   bottom: 0;
   background: #6BA368;
-  height: 6%;
-  padding: 15px;
+  height: 8vh;
+  display: flex;
+  align-items:center;
+
   .nav {
     display: flex;
+    width: 100%;
     justify-content: space-evenly;
     div {
       color: white;

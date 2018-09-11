@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { SessionService } from '../../Services/session.service';
 import { AuthService } from '../../Services/auth.service';
 
@@ -8,20 +8,30 @@ import { AuthService } from '../../Services/auth.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  user:object;
+  user: object;
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (
+      event.target !== document.getElementById('sidebar') &&
+      event.target.id !== 'overlay' &&
+      document.getElementById('sidebar').className === 'active'
+    ) {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+  }
 
   constructor(private session: SessionService, private auth: AuthService) {
     this.user = session.getSession();
   }
 
-  isLoggedIn(){
-    return this.session.isLoggedIn()
-  }
-  
-  toggleSideBar() {
-    document.getElementById('sidebar').classList.toggle('active')
+  isLoggedIn() {
+    return this.session.isLoggedIn();
   }
 
+  toggleSideBar() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
 
   logout() {
     return this.auth
@@ -33,5 +43,4 @@ export class SidebarComponent {
         console.log(err.message);
       });
   }
-
 }
