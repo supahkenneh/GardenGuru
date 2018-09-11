@@ -15,7 +15,7 @@ import { GardenComponent } from './Pages/Garden/garden.component';
 import { MarketplaceComponent } from './Pages/Marketplace/marketplace.component';
 import { StandComponent } from './Pages/Stand/stand.component';
 import { ProfileComponent } from './Pages/Profile/profile.component';
-
+import {CropComponent} from './Pages/Crop/crop.component'
 //services
 import { BackendService } from './Services/backend.service';
 import { AuthService } from './Services/auth.service';
@@ -34,8 +34,8 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
+    CropComponent,
     AddCropComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -48,6 +48,7 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
       { path: 'marketplace', component: MarketplaceComponent },
       { path: 'stand', component: StandComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'crops/:id', component: CropComponent },
       { path: 'garden/addcrop', component: AddCropComponent },
 
       

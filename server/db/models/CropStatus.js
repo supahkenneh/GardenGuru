@@ -10,7 +10,7 @@ class CropStatus extends bookshelf.Model {
   }
 
   crops() {
-    return this.hasMany('Crop', 'crop_status_id');
+    return this.hasMany('Crop', 'crop_statuses');
   }
 }
 
