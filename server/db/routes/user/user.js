@@ -11,8 +11,9 @@ const api_key = process.env.MAILGUN_API_KEY;
 const domain = process.env.DOMAIN;
 const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
-// ===== MESSAGES ===== //
+// ===== ROUTES ===== //
 
+// Gets all messages in inbox
 router.get('/messages', (req, res) => {
   if (!req.user) {
     return res.send('Please log in to proceed to your inbox.');
@@ -33,6 +34,7 @@ router.get('/messages', (req, res) => {
   };
 });
 
+// Gets all messages pertaining to a particular crop
 router.get('/messages/:id', (req, res) => {
   const crop_id = req.params.id;
   if (!req.user) {
@@ -45,8 +47,8 @@ router.get('/messages/:id', (req, res) => {
       })
       .fetchAll({ withRelated: ['to', 'from', 'crops'] })
       .then(response => {
-        if (response.length < 1){
-          return res.send('Nobody here but us chickens!')
+        if (response.length < 1) {
+          return res.send('Nobody here but us chickens!');
         } else {
           return res.json(response);
         };
@@ -57,6 +59,7 @@ router.get('/messages/:id', (req, res) => {
   };
 });
 
+// Sends message regarding a specific crop; sellers cannot initiate a conversation
 router.post('/:toId/messages/:cropId', (req, res) => {
   const userId = req.user.id;
   const cropId = req.params.cropId;
@@ -111,7 +114,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
 
             const data = {
               from: `GroBro <GroBro@mailinator.com>`,
-              to: `manmckarl@gmail.com`,
+              to: `${receiver}`,
               subject: `Someone is interested in buying your ${item}!`,
               text: `${messageBody}`
             };
@@ -120,7 +123,13 @@ router.post('/:toId/messages/:cropId', (req, res) => {
               console.log('Data :', data);
               console.log('Body :', body);
             });
-            return new Message(req.body)
+            return new Message({
+              to,
+              from,
+              seller_id,
+              crop_id: cropId,
+              content: messageBody
+            })
               .save()
               .then(message => {
                 res.json(message);
@@ -130,6 +139,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
     });
 });
 
+// Gets a user's profile
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   console.log(req.user)
@@ -148,6 +158,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// Gets a user's stand
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
 
@@ -166,6 +177,7 @@ router.get('/:id/stand', (req, res) => {
     })
 });
 
+// Change password, location, bio, stand name
 router.put('/settings', (req, res) => {
   const username = req.user.username;
   const id = req.user.id;
@@ -216,7 +228,5 @@ router.put('/settings', (req, res) => {
       console.log('error :', err);
     });
 });
-
-
 
 module.exports = router;
