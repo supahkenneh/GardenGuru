@@ -10,7 +10,7 @@ router.get('/:id', (req, res) => {
 
   return User
     .where({ id })
-    .fetchAll({ withRelated: 'photos' })
+    .fetch()
     .then(user => {
       if (!user) {
         return res.send('User does not exist.');
