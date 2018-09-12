@@ -63,7 +63,6 @@ export class GardenComponent implements OnInit {
             this.plantsToHarvest.push(crop);
           }
         })
-        console.log(this.garden);
       })
   }
 }
