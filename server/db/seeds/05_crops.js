@@ -16,7 +16,8 @@ exports.seed = function (knex, Promise) {
           crop_status: 2,
           owner_id: 1,
           plant_id: 1,
-          watering_date: '2018-09-09T00:48:38.382Z'
+          watering_date: '2018-09-09T00:48:38.382Z',
+          harvest_date: '2019-04-30T15:51:53.723'
         },
         {
           description: 'Blueberries',
@@ -29,7 +30,8 @@ exports.seed = function (knex, Promise) {
           crop_status: 2,
           owner_id: 1,
           plant_id: 2,
-          watering_date: '2018-09-09T00:48:38.382Z'
+          watering_date: '2018-09-09T00:48:38.382Z',
+          harvest_date: '2019-04-30T15:51:53.723'
         },
         {
           description: 'Cherries',
@@ -42,6 +44,7 @@ exports.seed = function (knex, Promise) {
           crop_status: 1,
           owner_id: 1,
           plant_id: 3,
+          harvest_date: '2018-09-12T15:51:53.723',
           watering_date: '2018-09-09T00:48:38.382Z'
         },
         {
@@ -55,7 +58,8 @@ exports.seed = function (knex, Promise) {
           crop_status: 2,
           owner_id: 2,
           plant_id: 4,
-          watering_date: '2018-09-09T00:48:38.382Z'
+          watering_date: '2018-09-09T00:48:38.382Z',
+          harvest_date: '2018-09-11T15:51:53.723'
         },
         {
           description: 'Strawberries',
@@ -68,7 +72,8 @@ exports.seed = function (knex, Promise) {
           crop_status: 1,
           owner_id: 2,
           plant_id: 4,
-          watering_date: '2018-09-09T00:48:38.382Z'
+          watering_date: '2018-09-09T00:48:38.382Z',
+          harvest_date: '2019-01-30T15:51:53.723'
         }
       ]);
     });

@@ -28,23 +28,32 @@ router.post('/', (req, res) => {
   //sets the next watering_date
   let date = moment().year(year).month(month).date(day)
   let watering_date = moment(date).add(watering, 'd');
-  let convertedDate = moment(watering_date).local().format('YYYY-MM-DD HH:mm:ss');
-  console.log(convertedDate);
-  return new Crop({
-    plant_id: plant,
-    watering_interval: watering,
-    watering_date: convertedDate,
-    planted_on: date,
-    garden_description,
-    description: '',
-    crop_status: 2,
-    owner_id: id,
-    garden_description
-  })
-    .save()
-    .then(newCrop => {
-      console.log(newCrop);
-      return res.json(newCrop);
+  let convertedWateringDate = moment(watering_date).local().format('YYYY-MM-DD HH:mm:ss');
+  return Plant
+    .where({ id: plant })
+    .fetchAll()
+    .then(plant => {
+      let harvestDays = plant.models[0].attributes.days_to_harvest;
+      let harvest_date = moment(date).add(harvestDays, 'd');
+      return harvest_date
+    })
+    .then(harvest_date => {
+      return new Crop({
+        plant_id: plant,
+        watering_interval: watering,
+        watering_date: convertedWateringDate,
+        planted_on: date,
+        garden_description,
+        description: '',
+        crop_status: 2,
+        owner_id: id,
+        garden_description,
+        harvest_date
+      })
+        .save()
+        .then(newCrop => {
+          return res.json(newCrop);
+        })
     })
 });
 

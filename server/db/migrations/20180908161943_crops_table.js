@@ -13,6 +13,7 @@ exports.up = function(knex, Promise) {
     table.timestamps(true, true);
     table.integer('crop_status').references('crop_statuses.id');
     table.string('price');
+    table.date('harvest_date');
   })
 };
 

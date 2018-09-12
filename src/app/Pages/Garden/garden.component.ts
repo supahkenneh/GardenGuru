@@ -10,9 +10,12 @@ export class GardenComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
   date: string;
+  //for parsing date objects and dates in data
+  index: number = 10;
 
   garden: object[] = [];
   plantsToWater: object[] = [];
+  plantsToHarvest: object[] = [];
 
   constructor(
     private backend: BackendService,
@@ -31,7 +34,6 @@ export class GardenComponent implements OnInit {
     this.garden.length = 0;
     return this.backend.getGarden()
       .then(result => {
-        console.log('result :', result);
         let resultArr = Object.values(result);
         resultArr.map(crop => {
           //show only crops that are growing
@@ -42,21 +44,26 @@ export class GardenComponent implements OnInit {
             this.garden.push(crop);
           }
         })
-        console.log(this.garden);
         return resultArr
       })
       .then(() => {
         let gardenArr = Object.values(this.garden)
         gardenArr.map(crop => {
-          console.log(this.date);
-          console.log(crop['watering_date']);
-          let index = crop['watering_date'].indexOf('T');
-          let subWaterDate = crop['watering_date'].substring(0, index);
-          console.log('sub ', subWaterDate);
+          let subWaterDate = crop['watering_date'].substring(0, this.index);
           if (subWaterDate === this.date) {
             this.plantsToWater.push(crop);
           }
         })
+      })
+      .then(() => {
+        let gardenArr = Object.values(this.garden);
+        gardenArr.map(crop => {
+          let subHarvestDate = crop['harvest_date'].substring(0, this.index);
+          if (subHarvestDate === this.date) {
+            this.plantsToHarvest.push(crop);
+          }
+        })
+        console.log(this.garden);
       })
   }
 }
