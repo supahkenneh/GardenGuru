@@ -120,7 +120,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
 
             const data = {
               from: `GroBro <GroBro@mailinator.com>`,
-              to: `manmckarl@gmail.com`,
+              to: `${receiver}`,
               subject: `Someone is interested in buying your ${item}!`,
               text: `${messageBody}`
             };
