@@ -63,11 +63,11 @@ router.delete('/:id', (req, res) => {
     .where({ id })
     .fetch()
     .then(crop => {
-      let status = crop.attributes.crop_statuses;
+      let status = crop.attributes.crop_status;
       status = 3
       return Crop
         .where({ id })
-        .save({ crop_statuses: status }, { patch: true })
+        .save({ crop_status: status }, { patch: true })
         .then(() => {
           res.json({ success: 'true' })
         })

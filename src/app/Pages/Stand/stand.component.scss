@@ -1,9 +1,9 @@
 .crop-container {
   display: flex;
-  width: 100%;
+  height:fit-content;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 8%;
+   margin-bottom: 15%;
   .crop {
     display: flex;
     justify-content: space-evenly;
@@ -24,7 +24,7 @@
       flex-direction: column;
       height: 50px;
       width: 110px;
-      font-size: 90%;
+      font-size: 90%; 
       align-items: center;
       .title,
       .details,
@@ -37,7 +37,18 @@
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-      .delete-button {
+      .delete-button{
+        border:1px outset grey;
+      }
+      .delete-button:hover {
+        background-color:red;
+        color:white;
+        border:1px inset grey;
+      }
+      .delete-button:active {
+        background-color:red;
+        color:white;
+        border:1px inset grey;
       }
     }
   }
