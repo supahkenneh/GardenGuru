@@ -1,16 +1,17 @@
 .crop-container {
   display: flex;
   width: 100%;
-  flex-direction: column;
-  align-items: center;
-  padding-top:8%;
+  justify-content: center;
+  flex-wrap:wrap;
+  margin-top:8%;
   .crop {
     display: flex;
     justify-content:space-evenly;
     flex-direction: column;
     align-items: center;
     height: 30vh;
-    width:100%;
+    width:40%;
+    padding:10px;
     .title{
       text-align: center;
     }
@@ -24,6 +25,7 @@
       text-align: center;
     }
     .image {
+      background-color:black;
       height: 100px;
       width: 100px;
       background-size: contain;

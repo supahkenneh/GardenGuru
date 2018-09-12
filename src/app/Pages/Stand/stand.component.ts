@@ -9,7 +9,7 @@ import { SessionService } from '../../Services/session.service';
 export class StandComponent implements OnInit {
   userId;
   crops;
-  user
+  user;
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -18,15 +18,22 @@ export class StandComponent implements OnInit {
     this.user = session.getSession();
   }
 
-  isLoggedIn(){
-    return this.session.isLoggedIn
+  isLoggedIn() {
+    return this.session.isLoggedIn;
   }
+
+  sortContacts(result) {
+    this.crops = result.sort(function(a, b) {
+      var textA = a.description;
+      var textB = b.description;
+      return textA > textB;
+    });
+  }
+
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id');
-    
     return this.backend.getStand(this.userId).then(result => {
-      this.crops = result;
-      console.log(this.crops)
+      this.sortContacts(result);
     });
   }
 }

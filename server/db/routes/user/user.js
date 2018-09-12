@@ -26,7 +26,7 @@ router.get('/:id', (req, res) => {
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
   console.log('id', id);
-  return Crop.where({ owner_id: id, crop_statuses: 1 })
+  return Crop.where({ owner_id: id, crop_status: 1 })
     .fetchAll({
       withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']
     })
