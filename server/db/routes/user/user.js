@@ -69,6 +69,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
   const seller_id = req.body.seller_id;
   const messageBody = req.body.content;
   
+  let itemOwner;
   let item;
   let err;
 
@@ -79,6 +80,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
       if (!crop) { 
         res.send('Item does not exist.')
       }
+      itemOwner = crop.attributes.owner_id;
       item = crop.attributes.description.toLowerCase();
     })
     .then(() => { // Three-layer message-and-users validation check
@@ -96,10 +98,14 @@ router.post('/:toId/messages/:cropId', (req, res) => {
             };
           });
       } else if (seller_id === from && seller_id === to) {
-        return err = 'You cannot send a message to yourself!';
+        return err = 'You cannot be the recipient of your own message!';
       } else if (userId !== from) {
         return err = 'You cannot send a message as someone else!';
-      };
+      } else if (seller_id !== to && seller_id !== from) {
+        return err = 'This crop does not belong to you nor the recipient!';
+      } else if (seller_id !== itemOwner) {
+        return err = 'There was an error matching the crop to its owner. Please try again.'
+      }
     })
     .then(response => {
       if (response) { // Stops here if "err" is defined
@@ -114,7 +120,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
 
             const data = {
               from: `GroBro <GroBro@mailinator.com>`,
-              to: `${receiver}`,
+              to: `manmckarl@gmail.com`,
               subject: `Someone is interested in buying your ${item}!`,
               text: `${messageBody}`
             };
