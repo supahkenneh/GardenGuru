@@ -63,4 +63,9 @@ export class BackendService {
     const plantsUrl = this.url + 'garden/plants';
     return this.http.get(plantsUrl).toPromise();
   }
+
+  updateWateringDays(data) {
+    const waterUrl = this.url + 'garden/water'
+    return this.http.put(waterUrl, data).toPromise();
+  }
 }

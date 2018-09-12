@@ -101,6 +101,13 @@ export class GardenComponent implements OnInit {
   }
 
   waterPlants() {
-    console.log(this.wateredPlants);
+    this.backend.updateWateringDays(this.wateredPlants)
+      .then(result => {
+        this.wateredPlants.length = 0;
+        if (result['success']) {
+          this.plantsToWater.length = 0;
+          return this.ngOnInit();
+        }
+      })
   }
 }
