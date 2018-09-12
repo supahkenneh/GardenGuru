@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
     table.text('link');
     table.timestamps(true, true);
     table.integer('crop_id').references('crops.id');
-    table.integer('user_id').references('users.id');
   });  
 };
 

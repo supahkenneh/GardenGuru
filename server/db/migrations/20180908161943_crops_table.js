@@ -2,6 +2,7 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('crops', table => {
     table.increments();
     table.string('description').notNullable();
+    table.string('garden_description').notNullable();
     table.text('details');
     table.integer('plant_id').references('plants.id');
     table.integer('owner_id').references('users.id');
@@ -12,6 +13,7 @@ exports.up = function(knex, Promise) {
     table.timestamps(true, true);
     table.integer('crop_status').references('crop_statuses.id');
     table.string('price');
+    table.date('harvest_date');
   })
 };
 
