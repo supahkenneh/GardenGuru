@@ -16,21 +16,21 @@
     .image {
       background-color: black;
       height: 110px;
-      width: 110px;
+      width: 140px;
       background-size: contain;
     }
     .details-container {
       display: flex;
       flex-direction: column;
       height: 50px;
-      width: 110px;
+      width: 140px;
       font-size: 90%; 
       align-items: center;
       .title,
       .details,
       .species,
       .status {
-        width:110px;
+        width:140px;
         text-align: center;
         padding: 1px;
         overflow: hidden;
@@ -39,16 +39,19 @@
       }
       .delete-button{
         border:1px outset grey;
+        padding-top:2px;
       }
       .delete-button:hover {
         background-color:red;
         color:white;
         border:1px inset grey;
+         padding-top:2px;
       }
       .delete-button:active {
         background-color:red;
         color:white;
         border:1px inset grey;
+         padding-top:2px;
       }
     }
   }
