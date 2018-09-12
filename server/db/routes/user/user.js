@@ -169,7 +169,7 @@ router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
 
   return Crop
-    .where({ owner_id: id, crop_statuses: 1 })
+    .where({ owner_id: id, crop_status: 1 })
     .fetchAll({ withRelated: 'photo' })
     .then(crops => {
       if (crops.length < 1) {
