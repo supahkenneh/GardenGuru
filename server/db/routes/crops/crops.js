@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const moment = require('moment');
+
 const Crop = require('../../models/Crop');
 const CropStatus = require('../../models/CropStatus');
 const Plant = require('../../models/Plant');
@@ -12,41 +14,80 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log('posting to crops');
-  res.json('add a new crop')
+  let id = req.user.id
+  console.log('req.body :', req.body);
+  let {
+    plant,
+    watering,
+    month,
+    day,
+    year,
+    garden_description
+  } = req.body;
+  //YYYY-MM-DD
+  //sets the next watering_date
+  let date = moment().year(year).month(month).date(day)
+  let watering_date = moment(date).add(watering, 'd');
+  let convertedWateringDate = moment(watering_date).local().format('YYYY-MM-DD HH:mm:ss');
+  return Plant
+    .where({ id: plant })
+    .fetchAll()
+    .then(plant => {
+      let harvestDays = plant.models[0].attributes.days_to_harvest;
+      let harvest_date = moment(date).add(harvestDays, 'd');
+      return harvest_date
+    })
+    .then(harvest_date => {
+      return new Crop({
+        plant_id: plant,
+        watering_interval: watering,
+        watering_date: convertedWateringDate,
+        planted_on: date,
+        garden_description,
+        description: '',
+        crop_status: 2,
+        owner_id: id,
+        garden_description,
+        harvest_date
+      })
+        .save()
+        .then(newCrop => {
+          return res.json(newCrop);
+        })
+    })
 });
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
-  .query({where: {id}})
-  .fetch({withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']})
-  .then(crop=>{
-    return res.json(crop)
-  })
-  .catch(err=>{
-    console.log('err', err);
-  })
+    .query({ where: { id } })
+    .fetch({ withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages'] })
+    .then(crop => {
+      return res.json(crop)
+    })
+    .catch(err => {
+      console.log('err', err);
+    })
 });
 
-router.delete('/:id', (req,res)=>{
+router.delete('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
-  .where({id})
-  .fetch()
-  .then(crop=>{
-    let status = crop.attributes.crop_statuses;
-    status = 3
-    return Crop
-    .where({id})
-      .save({ crop_statuses: status}, {patch: true})
-      .then(()=>{
-        res.json({success: 'true'})
-      })
-      .catch(err=>{
-        console.log('err.message', err.message);
-      })
-  })
+    .where({ id })
+    .fetch()
+    .then(crop => {
+      let status = crop.attributes.crop_statuses;
+      status = 3
+      return Crop
+        .where({ id })
+        .save({ crop_statuses: status }, { patch: true })
+        .then(() => {
+          res.json({ success: 'true' })
+        })
+        .catch(err => {
+          console.log('err.message', err.message);
+        })
+    })
 })
 
 router.put('/:id', (req, res) => {

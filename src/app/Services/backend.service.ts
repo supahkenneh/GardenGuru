@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class BackendService {
   url: string = '/api/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -32,6 +32,12 @@ export class BackendService {
   getCrop(id) {
     const getUrl = this.url + `crops/${id}`;
     return this.http.get(getUrl).toPromise();
+  }
+
+  addCrop(data) {
+    console.log(data);
+    const postUrl = this.url + 'crops';
+    return this.http.post(postUrl, data).toPromise();
   }
 
   login(data) {

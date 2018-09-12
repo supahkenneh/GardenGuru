@@ -40,16 +40,18 @@
     }
     .garden {
       width: 100%;
-      height: 200px;
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       padding: 10px 20px;
       .card {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        padding: 10px;
         .img-container {
-          height: 100px;
-          width: 100px;
+          height: 30px;
+          width: 30px;
           img {
             max-height: 100%;
             max-width: 100%;
@@ -59,10 +61,10 @@
     }
     .watering {
       width: 100%;
-      height: 200px;
       display: flex;
       flex-direction: row;
       padding: 10px 20px;
+      flex-wrap: wrap;
       .card {
         display: flex;
         flex-direction: column;
@@ -84,7 +86,7 @@
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    padding: 5px;
+    padding: 10px;
     position: fixed;
     bottom: 80px;
     right: 30px;

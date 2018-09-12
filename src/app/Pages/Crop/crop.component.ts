@@ -27,18 +27,18 @@ export class CropComponent implements OnInit {
     return this.session.isLoggedIn();
   }
 
-  deleteCrop(){
+  deleteCrop() {
     this.backend.deleteCrop(this.id)
-    .then(result =>{
-      this.ngOnInit()
-    })
+      .then(result => {
+        this.ngOnInit()
+      })
   }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    return this.backend.getCrop(this.id).then(result => {
-      console.log(result);
-      return (this.crop = result);
-    });
+    return this.backend.getCrop(this.id)
+      .then(result => {
+        return this.crop = result;
+      });
   }
 }
