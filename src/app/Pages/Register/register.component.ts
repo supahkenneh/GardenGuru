@@ -11,13 +11,15 @@ export class RegisterComponent {
   registerFormData: {
     username: string;
     name: string;
+    email:string
     city: string;
     state: string;
   } = {
     username: '',
     name: '',
     city: '',
-    state: ''
+    state: '',
+    email:''
   };
   constructor(private auth: AuthService, private router: Router) {}
 

@@ -15,7 +15,9 @@ app.use(passport.session());
 passport.serializeUser((user, done) => {
   return done(null, {
     id: user.id,
-    username: user.username.toLowerCase()
+    username: user.username.toLowerCase(),
+    city: user.city.toLowerCase(),
+    state: user.state.toLowerCase()
   });
 });
 
@@ -27,6 +29,8 @@ passport.deserializeUser((user, done) => {
       return done(null, {
         id: user.id,
         username: user.username.toLowerCase(),
+        city: user.city.toLowerCase(),
+        state: user.state.toLowerCase()
       });
     })
     .catch(err => {
@@ -78,6 +82,9 @@ router.post('/register', (req, res) => {
       return new User({
         username: username.toLowerCase(),
         password: hashedPassword,
+        email,
+        city,
+        state
       })
         .save()
         .then(result => {
