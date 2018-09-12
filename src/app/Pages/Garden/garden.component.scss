@@ -68,15 +68,30 @@
       .card {
         display: flex;
         flex-direction: column;
-        .img-container {
-          height: 100px;
-          width: 100px;
-          img {
-            max-height: 100%;
-            max-width: 100%;
+        padding: 10px;
+          .jam.jam-water-drop-f{
+            height: 30px;
+            width: 30px;
+            fill: gray;
+            path {
+              fill: gray;
+            }
           }
-        }
       }
+    }
+  }
+  .button-container {
+    position: fixed;
+    bottom: 80px;
+    width: 89%;
+    text-align: center;
+    .water-button {
+      padding: 10px;
+      font-size: 14px;
+      width: 50%;
+      color: white;
+      background: cornflowerblue;
+      border-radius: 5px;
     }
   }
   .add-button {

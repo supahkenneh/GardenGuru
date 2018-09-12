@@ -21,6 +21,9 @@ export class GardenComponent implements OnInit {
   veggiePic: string = 'https://cdn1.iconfinder.com/data/icons/fruit-and-veg-ios/64/veg-brocolli-512.png';
   herbPic: string = 'https://cdn0.iconfinder.com/data/icons/healthy-and-clean-food-1/64/herb-healthy-leaf-spinach-512.png';
 
+  wateredPlants: string[] = [];
+  showWaterButton: boolean = false;
+
   constructor(
     private backend: BackendService,
     private session: SessionService,
@@ -76,5 +79,28 @@ export class GardenComponent implements OnInit {
           }
         })
       })
+  }
+
+  selectForWatering(event) {
+    this.showWaterButton = true;
+    //if item is not already selected, push it into wateredPlants
+    if (!this.wateredPlants.includes(event.target.id)) {
+      event.target.style.fill = 'cornflowerblue';
+      this.wateredPlants.push(event.target.id);
+      if (this.wateredPlants.length === 0) {
+        this.showWaterButton = false;
+      }
+    } else if (this.wateredPlants.includes(event.target.id)) {
+      event.target.style.fill = 'gray';
+      let index = this.wateredPlants.indexOf(event.target.id);
+      this.wateredPlants.splice(index, 1);
+      if (this.wateredPlants.length === 0) {
+        this.showWaterButton = false;
+      }
+    }
+  }
+
+  waterPlants() {
+    console.log(this.wateredPlants);
   }
 }
