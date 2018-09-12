@@ -34,6 +34,7 @@ export class StandComponent implements OnInit {
     this.userId = this.route.snapshot.paramMap.get('id');
     return this.backend.getStand(this.userId).then(result => {
       this.sortContacts(result);
+      console.log(result)
     });
   }
 }
