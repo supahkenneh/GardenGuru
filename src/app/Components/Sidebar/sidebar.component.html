@@ -1,20 +1,20 @@
 <div id="sidebar-container">
 <div id="sidebar">
   <ul>
-    <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()">
-      <a routerLink="login">Login</a>
+    <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()" routerLink="login">
+      <a >Login</a>
     </li>
-    <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()">
-      <a routerLink="register">Register</a>
+    <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()" routerLink="register">
+      <a >Register</a>
     </li>
-    <li (click)="toggleSideBar()">
-      <a routerLink="about">About</a>
+    <li (click)="toggleSideBar()" routerLink="about">
+      <a >About</a>
     </li>
-    <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
+    <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" >
       <button class="logout-button" (click)="logout()">Logout</button>
     </li>
-    <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
-      <a routerLink="messages">Messages</a>
+    <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="messages">
+      <a>Messages</a>
     </li>
   </ul>
 </div>

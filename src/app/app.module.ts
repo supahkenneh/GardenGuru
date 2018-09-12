@@ -21,7 +21,7 @@ import { BackendService } from './Services/backend.service';
 import { AuthService } from './Services/auth.service';
 import { SessionService } from './Services/session.service';
 import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
-
+import { MessagesComponent } from './Pages/Messages/messages.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +36,7 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
     RegisterComponent,
     CropComponent,
     AddCropComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +51,10 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
       { path: 'profile', component: ProfileComponent },
       { path: 'crops/:id', component: CropComponent },
       { path: 'garden/addcrop', component: AddCropComponent },
+      { path: 'messages', component: MessagesComponent }
     ])
   ],
   providers: [BackendService, SessionService, AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
