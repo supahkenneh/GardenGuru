@@ -1,9 +1,7 @@
-
-
 <div class="profile-header">
   {{user.username}}
 </div>
-<div class="profilepic"></div>
+<div class="profile-pic" [style.backgroundImage]="'url('+ user.avatar_link +')'" ></div>
 <div class="profile-second-header">
   <div class="name">{{user.first_name}} {{user.last_name}}</div>
   <div class="bio">{{user.bio}}</div>
