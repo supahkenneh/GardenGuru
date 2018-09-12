@@ -4,10 +4,135 @@ const bcrypt = require('bcrypt');
 const saltRounds = 12;
 const User = require('../../models/User');
 const Crop = require('../../models/Crop');
+const Message = require('../../models/Message');
+
+const botEmail = process.env.BOT_EMAIL;
+const api_key = process.env.MAILGUN_API_KEY;
+const domain = process.env.DOMAIN;
+const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
+
+// ===== MESSAGES ===== //
+
+router.get('/messages', (req, res) => {
+  if (!req.user) {
+    return res.send('Please log in to proceed to your inbox.');
+  } else {
+    return Message
+      .query({ where: { to: req.user.id }, orWhere: { from: req.user.id }})
+      .fetchAll({ withRelated: ['to', 'from', 'crops'] })
+      .then(response => {
+        if (response.length < 1){
+          return res.send('Nobody here but us chickens!')
+        } else {
+          return res.json(response);
+        }
+      })
+      .catch(err => {
+        console.log('Error: ', err);
+      });
+  };
+});
+
+router.get('/messages/:id', (req, res) => {
+  const crop_id = req.params.id;
+  if (!req.user) {
+    return res.send('Please log in to proceed to your inbox.');
+  } else {
+    return Message
+      .query({ 
+        where: { crop_id, to: req.user.id },
+        orWhere: { crop_id, from: req.user.id }
+      })
+      .fetchAll({ withRelated: ['to', 'from', 'crops'] })
+      .then(response => {
+        if (response.length < 1){
+          return res.send('Nobody here but us chickens!')
+        } else {
+          return res.json(response);
+        };
+      })
+      .catch(err => {
+        console.log('Error: ', err);
+      });
+  };
+});
+
+router.post('/:toId/messages/:cropId', (req, res) => {
+  const userId = req.user.id;
+  const cropId = req.params.cropId;
+  const to = Number(req.params.toId); // for proper comparison
+  
+  const from = req.body.from;
+  const seller_id = req.body.seller_id;
+  const messageBody = req.body.content;
+  
+  let item;
+  let err;
+
+  return Crop
+    .where({ id: cropId })
+    .fetch()
+    .then(crop => { // Crop validation check
+      if (!crop) { 
+        res.send('Item does not exist.')
+      }
+      item = crop.attributes.description.toLowerCase();
+    })
+    .then(() => { // Three-layer message-and-users validation check
+      if (seller_id === from && seller_id !== to) {
+        return Message
+          .where({
+            crop_id: cropId,
+            to: seller_id,
+            from: to
+          })
+          .fetch()
+          .then(message => {
+            if (!message) {
+              return err = 'Seller is not allowed to initiate contact.';
+            };
+          });
+      } else if (seller_id === from && seller_id === to) {
+        return err = 'You cannot send a message to yourself!';
+      } else if (userId !== from) {
+        return err = 'You cannot send a message as someone else!';
+      };
+    })
+    .then(response => {
+      if (response) { // Stops here if "err" is defined
+        return res.json({ message: response })
+      } else {
+        return User
+          .where({ id: to })
+          .fetch()
+          .then(response => {
+            // only works with Gmail, need to change domain
+            const receiver = response.attributes.email;
+
+            const data = {
+              from: `GroBro <GroBro@mailinator.com>`,
+              to: `manmckarl@gmail.com`,
+              subject: `Someone is interested in buying your ${item}!`,
+              text: `${messageBody}`
+            };
+            mailgun.messages().send(data, (error, body) => {
+              if (error) { console.log(error); }
+              console.log('Data :', data);
+              console.log('Body :', body);
+            });
+            return new Message(req.body)
+              .save()
+              .then(message => {
+                res.json(message);
+              });
+          });
+      };
+    });
+});
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-
+  console.log(req.user)
   return User
     .where({ id })
     .fetchAll({ withRelated: 'photos' })
@@ -90,6 +215,8 @@ router.put('/settings', (req, res) => {
     .catch(err => {
       console.log('error :', err);
     });
-})
+});
+
+
 
 module.exports = router;
