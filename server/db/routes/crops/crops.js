@@ -28,12 +28,15 @@ router.post('/', (req, res) => {
   //sets the next watering_date
   let date = moment().year(year).month(month).date(day)
   let watering_date = moment(date).add(watering, 'd');
+  let convertedDate = moment(watering_date).local().format('YYYY-MM-DD HH:mm:ss');
+  console.log(convertedDate);
   return new Crop({
     plant_id: plant,
     watering_interval: watering,
-    watering_date: watering_date,
+    watering_date: convertedDate,
     planted_on: date,
     garden_description,
+    description: '',
     crop_status: 2,
     owner_id: id,
     garden_description

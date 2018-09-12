@@ -9,7 +9,7 @@
       </select>
     </div>
     <label for="garden_description">Description</label>
-    <input type="text" [(ngModel)]="cropFormData.garden_description">
+    <input type="text" name="garden_description" [(ngModel)]="cropFormData.garden_description">
     <label for="watering">Watering Interval</label>
     <div class="water-container">
       <select name="watering-days" [(ngModel)]="cropFormData.watering">

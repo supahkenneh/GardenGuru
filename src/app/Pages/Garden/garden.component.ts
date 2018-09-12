@@ -9,16 +9,21 @@ import { SessionService } from '../../Services/session.service';
 export class GardenComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
+  date: string;
 
   garden: object[] = [];
   plantsToWater: object[] = [];
 
   constructor(
     private backend: BackendService,
-    private session: SessionService
+    private session: SessionService,
   ) {
     this.user = this.session.getSession();
     this.loggedIn = this.session.isLoggedIn();
+    let year = new Date().getFullYear();
+    let month = ('0' + (new Date().getMonth() + 1)).slice(-2);
+    let day = ('0' + (new Date().getDate())).slice(-2);
+    this.date = `${year}-${month}-${day}`
   }
 
   ngOnInit() {
@@ -43,7 +48,12 @@ export class GardenComponent implements OnInit {
       .then(() => {
         let gardenArr = Object.values(this.garden)
         gardenArr.map(crop => {
-          if (crop['watering_interval'] < 24) {
+          console.log(this.date);
+          console.log(crop['watering_date']);
+          let index = crop['watering_date'].indexOf('T');
+          let subWaterDate = crop['watering_date'].substring(0, index);
+          console.log('sub ', subWaterDate);
+          if (subWaterDate === this.date) {
             this.plantsToWater.push(crop);
           }
         })

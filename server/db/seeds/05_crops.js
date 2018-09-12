@@ -16,6 +16,7 @@ exports.seed = function (knex, Promise) {
           crop_status: 2,
           owner_id: 1,
           plant_id: 1,
+          watering_date: '2018-09-09T00:48:38.382Z'
         },
         {
           description: 'Blueberries',
@@ -28,6 +29,7 @@ exports.seed = function (knex, Promise) {
           crop_status: 2,
           owner_id: 1,
           plant_id: 2,
+          watering_date: '2018-09-09T00:48:38.382Z'
         },
         {
           description: 'Cherries',
@@ -40,6 +42,7 @@ exports.seed = function (knex, Promise) {
           crop_status: 1,
           owner_id: 1,
           plant_id: 3,
+          watering_date: '2018-09-09T00:48:38.382Z'
         },
         {
           description: 'Apples',
@@ -52,6 +55,7 @@ exports.seed = function (knex, Promise) {
           crop_status: 2,
           owner_id: 2,
           plant_id: 4,
+          watering_date: '2018-09-09T00:48:38.382Z'
         },
         {
           description: 'Strawberries',
@@ -64,6 +68,7 @@ exports.seed = function (knex, Promise) {
           crop_status: 1,
           owner_id: 2,
           plant_id: 4,
+          watering_date: '2018-09-09T00:48:38.382Z'
         }
       ]);
     });
