@@ -63,4 +63,9 @@ export class BackendService {
     const plantsUrl = this.url + 'garden/plants';
     return this.http.get(plantsUrl).toPromise();
   }
+
+  editUser(data){
+    const userUrl = this.url + 'user/addStand';
+    return this.http.put(userUrl, data).toPromise()
+  }
 }

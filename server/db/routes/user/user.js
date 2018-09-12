@@ -41,6 +41,19 @@ router.get('/:id/stand', (req, res) => {
     });
 });
 
+router.put('/addStand',(req,res)=>{
+  const {stand_name} = req.body;
+  const id = req.user.id;
+  return new User({id})
+  .save(stand_name)
+  .then(user=>{
+    return res.json(user)
+  })
+  .catch(err=>{
+    console.log('err.message', err.message);
+  })
+})
+
 router.put('/settings', (req, res) => {
   const username = req.user.username;
   const id = req.user.id;

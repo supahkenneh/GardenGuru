@@ -10,6 +10,12 @@ export class StandComponent implements OnInit {
   userId;
   crops;
   user;
+  noStand;
+  editUserFormData: {
+    stand_name:string
+  } = {
+      stand_name: ''
+  };
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -31,18 +37,28 @@ export class StandComponent implements OnInit {
   }
 
   deleteCrop(id) {
-    console.log(id)
     this.backend.deleteCrop(id).then(result => {
-      console.log(result)
+      console.log(result);
+      this.ngOnInit();
+    });
+  }
+
+  editUser() {
+    this.backend.editUser(this.editUserFormData).then(result => {
+      console.log(result);
       this.ngOnInit();
     });
   }
 
   ngOnInit() {
+    console.log(this.user)
     this.userId = this.route.snapshot.paramMap.get('id');
-    return this.backend.getStand(this.userId).then(result => {
-      this.sortContacts(result);
-      console.log(result);
-    });
+    if (this.user.stand_name) {
+      return this.backend.getStand(this.userId).then(result => {
+        this.sortContacts(result);
+      });
+    } else {
+      return (this.noStand = !this.noStand);
+    }
   }
 }

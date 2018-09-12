@@ -6,6 +6,10 @@
   align-items: center;
 }
 
+.emoji{
+  color: transparent;  
+  text-shadow: 0 0 0 red;
+}
 .crop-container {
   display: flex;
   height:fit-content;
