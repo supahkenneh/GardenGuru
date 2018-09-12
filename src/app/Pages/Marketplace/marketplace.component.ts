@@ -19,7 +19,6 @@ export class MarketplaceComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('show marketplace');
     return this.backend.getMarketplace()
       .then(result => {
         console.log('result :', result);

@@ -1,31 +1,31 @@
-<div *ngIf = "!noStand"class="main-stand-container">
-<div class="stand-header">
-  <div class="stand-title">{{crops[0].owner.stand_name}}</div>
-</div>
+<div  class="main-stand-container">
+  <div class="stand-header">
+    <div class="stand-title">{{user.stand_name}}</div>
+  </div>
 
-<div class="crop-container">
-  <div *ngFor="let crop of crops" class="crop">
-    <div class="title">{{crop.description}}({{crop.inventory}})</div>
+  <div class="crop-container">
+    <div *ngFor="let crop of crops" class="crop">
+      <div class="title">{{crop.description}}({{crop.inventory}})</div>
 
-    <div routerLink="/crops/{{crop.id}}" class="image"></div>
-    <div class="details-container">
-      <div class="price">Price: {{crop.price}}</div>
-      <!-- <div class="owner">Owner: {{crop.owner.username}}</div> -->
-      <div class="details">Details: {{crop.details}}</div>    
+      <div routerLink="/crops/{{crop.id}}" class="image"></div>
+      <div class="details-container">
+        <div class="price">Price: {{crop.price}}</div>
+        <!-- <div class="owner">Owner: {{crop.owner.username}}</div> -->
+        <div class="details">Details: {{crop.details}}</div>
         <button class="delete-button" (click)="deleteCrop(crop.id)">Remove</button>
+      </div>
     </div>
   </div>
 </div>
-</div>
 
-<div *ngIf="noStand" class="create-stand">
+<div  class="create-stand">
   you have no stand
   <button>Create Stand</button>
   <div (click)="toggleEdit()" class="edit-button">edit</div>
 </div>
 
 
-<div class="edit-contact-form" *ngIf="this.isEdit">
+<div class="edit-contact-form" >
   <div class="x-div" (click)="toggleEdit()">ⓧ</div>
   <form class="edit-form">
     <label for="stand_name">Stand Name:</label>

@@ -48,7 +48,6 @@ export class AddCropComponent implements OnInit {
     return this.backend.getPlants()
       .then(plants => {
         this.plants = plants;
-        console.log(this.plants);
       })
   }
 

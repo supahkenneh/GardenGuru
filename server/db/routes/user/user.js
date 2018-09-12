@@ -7,8 +7,7 @@ const Crop = require('../../models/Crop');
 
 router.get('/:id', (req, res) => {
   const id = req.user.id;
-  return User
-    .where({ id })
+  return User.where({ id })
     .fetch()
     .then(user => {
       if (!user) {
@@ -24,7 +23,6 @@ router.get('/:id', (req, res) => {
 
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
-  console.log('id', id);
   return Crop.where({ owner_id: id, crop_status: 1 })
     .fetchAll({
       withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']
@@ -41,68 +39,62 @@ router.get('/:id/stand', (req, res) => {
     });
 });
 
-router.put('/addStand',(req,res)=>{
-  const {stand_name} = req.body;
+router.put('/addStand', (req, res) => {
+  const { stand_name } = req.body;
   const id = req.user.id;
-  return new User({id})
-  .save(stand_name)
-  .then(user=>{
-    return res.json(user)
-  })
-  .catch(err=>{
-    console.log('err.message', err.message);
-  })
-})
+  return new User({ id })
+    .save({ stand_name }, { patch: true })
+    .then(user => {
+      return res.json(user);
+    })
+    .catch(err => {
+      console.log('err.message', err.message);
+    });
+});
 
 router.put('/settings', (req, res) => {
   const username = req.user.username;
   const id = req.user.id;
-  const {
-    oldPass,
-    newPass,
-    city,
-    state,
-    bio,
-    stand_name
-  } = req.body;
+  const { oldPass, newPass, city, state, bio, stand_name } = req.body;
 
-  return User
-    .where({ username, id })
+  return User.where({ username, id })
     .fetchAll()
     .then(user => {
-      bcrypt.compare(oldPass, user.models[0].attributes.password)
+      bcrypt
+        .compare(oldPass, user.models[0].attributes.password)
         .then(result => {
           if (!result) {
             res.send('Invalid password.');
           } else {
-              bcrypt.genSalt(saltRounds, (err, salt) => {
-                bcrypt.hash(newPass, salt, (err, hashedPassword) => {
-                  if (err) {
-                    return res.status(500);
-                  }
-                  return User
-                    .where({ username, id })
-                    .save({
+            bcrypt.genSalt(saltRounds, (err, salt) => {
+              bcrypt.hash(newPass, salt, (err, hashedPassword) => {
+                if (err) {
+                  return res.status(500);
+                }
+                return User.where({ username, id })
+                  .save(
+                    {
                       password: hashedPassword,
                       city,
                       state,
                       bio,
                       stand_name
-                    }, 
+                    },
                     {
                       patch: true
-                    })
-                    .then(user => {
-                      res.json({ message: 'success' });
-                    })
-                })
-              })
-          };
+                    }
+                  )
+                  .then(user => {
+                    res.json({ message: 'success' });
+                  });
+              });
+            });
+          }
         });
     })
     .catch(err => {
       console.log('error :', err);
     });
-})
+});
 
 module.exports = router;

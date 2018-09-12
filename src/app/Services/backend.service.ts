@@ -35,7 +35,6 @@ export class BackendService {
   }
 
   addCrop(data) {
-    console.log(data);
     const postUrl = this.url + 'crops';
     return this.http.post(postUrl, data).toPromise();
   }
@@ -65,6 +64,7 @@ export class BackendService {
   }
 
   editUser(data){
+
     const userUrl = this.url + 'user/addStand';
     return this.http.put(userUrl, data).toPromise()
   }

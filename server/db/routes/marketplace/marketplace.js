@@ -2,7 +2,6 @@ const router = require('express').Router();
 const Crop = require('../../models/Crop');
 const User = require('../../models/User')
 router.get('/', (req, res) => {
-  console.log('req.user', req.user.city);
   return User
     .query({where: {city : req.user.city}})
     

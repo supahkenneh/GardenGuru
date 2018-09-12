@@ -11,11 +11,11 @@ export class StandComponent implements OnInit {
   crops;
   user;
   noStand;
-  editUserFormData: {
-    stand_name:string
-  } = {
-      stand_name: ''
+
+  editFormData = {
+    stand_name: '',
   };
+  
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -38,14 +38,18 @@ export class StandComponent implements OnInit {
 
   deleteCrop(id) {
     this.backend.deleteCrop(id).then(result => {
-      console.log(result);
+      // console.log(result);
       this.ngOnInit();
     });
   }
 
   editUser() {
-    this.backend.editUser(this.editUserFormData).then(result => {
-      console.log(result);
+    this.backend.editUser(this.editFormData).then(result => {
+      console.log('this.user before', this.user)
+      console.log('result',result)
+      this.user.stand_name = result['stand_name']
+      console.log('this.user after',this.user)
+      this.session.setSession(this.user)
       this.ngOnInit();
     });
   }

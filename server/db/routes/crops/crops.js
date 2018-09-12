@@ -9,13 +9,11 @@ const Message = require('../../models/Message');
 const User = require('../../models/Message');
 
 router.get('/', (req, res) => {
-  console.log('request for crops');
   res.json('crops');
 });
 
 router.post('/', (req, res) => {
   let id = req.user.id
-  console.log('req.body :', req.body);
   let {
     plant,
     watering,
