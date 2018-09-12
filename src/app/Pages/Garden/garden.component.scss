@@ -47,10 +47,11 @@
       .card {
         display: flex;
         flex-direction: column;
-        border: 1px solid black;
+        align-items: center;
+        padding: 10px;
         .img-container {
-          height: 100px;
-          width: 100px;
+          height: 30px;
+          width: 30px;
           img {
             max-height: 100%;
             max-width: 100%;
@@ -85,7 +86,7 @@
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    padding: 5px;
+    padding: 10px;
     position: fixed;
     bottom: 80px;
     right: 30px;

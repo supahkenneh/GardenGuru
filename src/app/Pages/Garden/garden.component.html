@@ -24,7 +24,7 @@
   <div class="garden-container">
     <div class="garden">
       <div class="card" *ngFor="let crop of garden">
-        <!-- <div class="img-container"><img routerLink="/crops/{{crop.id}}" src="{{crop.mainPhoto}}"></div> -->
+        <div class="img-container"><img routerLink="/crops/{{crop.id}}" src="{{crop.displayPhoto}}"></div>
         <div>{{crop.description}}</div>
         <div>{{crop.garden_description}}</div>
       </div>
@@ -34,7 +34,7 @@
     <div class="header">Today's Watering Schedule</div>
     <div class="watering">
       <div class="card" *ngFor="let plant of plantsToWater">
-        <!-- <div class="img-container"><img routerLink="/crops/{{plant.id}}"src="{{plant.mainPhoto}}" alt=""></div> -->
+        <div class="img-container"><img routerLink="/crops/{{plant.id}}"src="{{plant.displayPhoto}}" alt=""></div>
         <div>{{plant.description}}</div>
         <div>{{plant.garden_description}}</div>
       </div>
@@ -50,6 +50,6 @@
     </div>
   </div>
   <div class="add-button" routerLink="addcrop">
-    <img src="https://icongr.am/jam/plus.svg?size=14">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-plus"><path d='M8.9 6.9v-5a1 1 0 1 0-2 0v5h-5a1 1 0 1 0 0 2h5v5a1 1 0 1 0 2 0v-5h5a1 1 0 1 0 0-2h-5z' /></svg>
   </div>
 </div>
