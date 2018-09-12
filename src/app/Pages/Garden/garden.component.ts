@@ -17,6 +17,10 @@ export class GardenComponent implements OnInit {
   plantsToWater: object[] = [];
   plantsToHarvest: object[] = [];
 
+  fruitPic: string = 'https://cdn1.iconfinder.com/data/icons/food-vol-1/48/017-512.png'
+  veggiePic: string = 'https://cdn1.iconfinder.com/data/icons/fruit-and-veg-ios/64/veg-brocolli-512.png';
+  herbPic: string = 'https://cdn0.iconfinder.com/data/icons/healthy-and-clean-food-1/64/herb-healthy-leaf-spinach-512.png';
+
   constructor(
     private backend: BackendService,
     private session: SessionService,
@@ -38,8 +42,16 @@ export class GardenComponent implements OnInit {
         resultArr.map(crop => {
           //show only crops that are growing
           if (crop.cropStatus['name'] === 'Growing') {
-            if (crop.photo.length > 0) {
-              crop.mainPhoto = crop.photo[0].link;
+            switch (crop.plant['type_id']) {
+              case 1:
+                crop.displayPhoto = this.veggiePic;
+                break;
+              case 2:
+                crop.displayPhoto = this.fruitPic;
+                break;
+              case 3:
+                crop.displayPhoto = this.herbPic;
+                break;
             }
             this.garden.push(crop);
           }
