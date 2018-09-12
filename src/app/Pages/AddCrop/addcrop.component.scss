@@ -26,6 +26,14 @@
     label {
       margin: 20px auto;
     }
+    input {
+      border: 1px solid gray;
+      border-radius: 5px;
+      width: 80%;
+      align-self: center;
+      padding: 5px;
+      font-size: 14px;
+    }
     .water-container {
       display: flex;
       width: 100%;

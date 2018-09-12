@@ -24,9 +24,9 @@
   <div class="garden-container">
     <div class="garden">
       <div class="card" *ngFor="let crop of garden">
-        <div class="img-container"><img routerLink="/crops/{{crop.id}}" src="{{crop.mainPhoto}}"></div>
+        <!-- <div class="img-container"><img routerLink="/crops/{{crop.id}}" src="{{crop.mainPhoto}}"></div> -->
         <div>{{crop.description}}</div>
-        <div>{{crop.details}}</div>
+        <div>{{crop.garden_description}}</div>
       </div>
     </div>
   </div>
@@ -34,14 +34,20 @@
     <div class="header">Today's Watering Schedule</div>
     <div class="watering">
       <div class="card" *ngFor="let plant of plantsToWater">
-        <div class="img-container"><img routerLink="/crops/{{plant.id}}"src="{{plant.mainPhoto}}" alt=""></div>
+        <!-- <div class="img-container"><img routerLink="/crops/{{plant.id}}"src="{{plant.mainPhoto}}" alt=""></div> -->
         <div>{{plant.description}}</div>
-        <div>{{plant.details}}</div>
+        <div>{{plant.garden_description}}</div>
       </div>
     </div>
   </div>
   <div class="garden-container">
     <div class="header">Upcoming harvests</div>
+    <div class="harvest">
+      <div class="card" *ngFor="let plant of plantsToHarvest">
+        <div>{{plant.description}}</div>
+        <div>{{plant.garden_description}}</div>
+      </div>
+    </div>
   </div>
   <div class="add-button" routerLink="addcrop">
     <img src="https://icongr.am/jam/plus.svg?size=14">

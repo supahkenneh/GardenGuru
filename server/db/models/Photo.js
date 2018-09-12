@@ -11,10 +11,6 @@ class Photo extends bookshelf.Model {
   crops() {
     return this.belongsTo('Crop', 'crop_id');
   }
-
-  users() {
-    return this.belongsTo('User', 'user_id');
-  }
 }
 
 module.exports = bookshelf.model('Photo', Photo);
