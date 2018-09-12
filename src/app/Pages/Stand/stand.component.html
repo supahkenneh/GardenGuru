@@ -1,3 +1,7 @@
+<div class="stand-header">
+  <div class="stand-title">{{crops[0].owner.stand_name}}</div>
+</div>
+
 <div class="crop-container">
   <div *ngFor="let crop of crops" class="crop">
     <div class="title">{{crop.description}}({{crop.inventory}})</div>

@@ -2,7 +2,9 @@
   {{user.username}}
 </div>
 <div class="profile-pic" [style.backgroundImage]="'url('+ user.avatar_link +')'" ></div>
-<div class="profile-second-header">
+<div class="profile-body">
   <div class="name">{{user.first_name}} {{user.last_name}}</div>
   <div class="bio">{{user.bio}}</div>
+  <div class="city">Location: {{user.city}}, {{user.state}}</div>
+  <div class="stand" routerLink="/user/{{user.id}}/stand">{{user.stand_name}}</div>
 </div>
