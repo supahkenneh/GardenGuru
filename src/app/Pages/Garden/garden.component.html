@@ -24,7 +24,7 @@
   <div class="garden-container">
     <div class="garden">
       <div class="card" *ngFor="let crop of garden">
-        <div class="img-container"><img routerLink="/crops/{{crop.id}}" src="{{crop.displayPhoto}}"></div>
+        <div class="img-container"><img routerLink="/garden/crops/{{crop.id}}" src="{{crop.displayPhoto}}"></div>
         <div>{{crop.description}}</div>
         <div>{{crop.garden_description}}</div>
       </div>
