@@ -15,7 +15,6 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   let id = req.user.id
-  console.log('req.body :', req.body);
   let {
     plant,
     watering,

@@ -106,7 +106,7 @@ export class GardenComponent implements OnInit {
         this.wateredPlants.length = 0;
         if (result['success']) {
           this.plantsToWater.length = 0;
-          return this.ngOnInit();
+          this.showWaterButton = false;
         }
       })
   }
