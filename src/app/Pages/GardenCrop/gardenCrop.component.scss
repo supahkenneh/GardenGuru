@@ -120,3 +120,19 @@
   background: #6BA368;
 }
 }
+
+#modal-container{
+ position:fixed;
+ z-index: 1;
+ left:0;
+ top:0;
+ height: 90vh;
+ width:100%;
+ overflow: auto;
+ background-color: rgba(0,0,0,0.4)
+}
+#modal-content{
+  background-color: white;
+  margin:50% auto;
+  width:60%;
+}
