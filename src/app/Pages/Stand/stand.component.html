@@ -1,4 +1,4 @@
-<div  class="main-stand-container">
+<div class="main-stand-container">
   <div class="stand-header">
     <div class="stand-title">{{user.stand_name}}</div>
   </div>
@@ -18,25 +18,58 @@
   </div>
 </div>
 
-<div  class="create-stand" *ngIf="!user.stand_name">
+<div class="create-stand" *ngIf="!user.stand_name">
   Your Stand Has No Name
 </div>
 
 <button *ngIf="!isEdit" (click)="toggleEdit()">Name Stand</button>
 
-<div class="edit-user-form-container" *ngIf="isEdit" >
+<div class="edit-user-form-container" *ngIf="isEdit">
   <div class="x-div" (click)="toggleEdit()">ⓧ</div>
   <form class="edit-form">
     <label for="stand_name">Stand Name:</label>
     <input maxlength="25" type="text" name="stand_name" [(ngModel)]="editFormData.stand_name">
     <div class="buttons">
-      <button (click)="editUser()">Name Stand</button>
+      <button (click)="editUser()" (click)="toggleEdit()">Name Stand</button>
     </div>
   </form>
 </div>
 
-<div class="from-garden-container">
-<div class="garden-header">
-  
-</div>
-</div>
+
+<div class="garden-header" (click)="toggleGarden()">Add Items From Your Garden (optional)</div>
+<div *ngIf="
+    isGarden" id='modal-container'>
+  <div id="modal-content">
+    <div class="garden-crops-container">
+
+      <div class="content-container" id="content-container">
+        <div class="edit-form-container" *ngIf="isEdit">
+          <form class="edit-form">
+            <label for="stand_name">Description</label>
+            <input maxlength="25" type="text" name="description" [(ngModel)]="moveFormData.description">
+            <label for="price">Price</label>
+            <input maxlength="25" type="text" name="price" [(ngModel)]="moveFormData.price">
+            <label for="details">Details</label>
+            <input maxlength="25" type="text" name="details" [(ngModel)]="moveFormData.details">
+            <label for="inventory">Inventory</label>
+            <input maxlength="25" type="text" name="inventory" [(ngModel)]="moveFormData.inventory">
+            <div class="buttons">
+              <button (click)="moveToStand()" (click)="toggleEdit()">Move To Stand</button>
+              <button (click)="turnEditToFalse()">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div class="crop-container" (click)="toggleEdit(crop)" *ngFor='let crop of garden'>
+          <div class="secondary-header">
+            <div>{{crop.plant.name}}</div>
+            <div class="img-container">
+              <img src="{{crop.mainPhoto}}">
+            </div>
+            <div class="description">{{crop.garden_description}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="done-container">
+      <button id="done-button" (click)="toggleGarden()">done</button>
+    </div>

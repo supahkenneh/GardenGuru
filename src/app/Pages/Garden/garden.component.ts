@@ -85,7 +85,6 @@ export class GardenComponent implements OnInit {
 
   selectForWatering(event) {
     this.showWaterButton = true;
-    console.log('test');
     //if item is not already selected, push it into wateredPlants
     if (!this.wateredPlants.includes(event.target.id)) {
       event.target.style.fill = 'cornflowerblue';

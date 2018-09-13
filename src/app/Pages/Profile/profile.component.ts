@@ -16,7 +16,6 @@ export class ProfileComponent implements OnInit {
     return this.backend.getUserProfile(this.userId)
       .then(result => {
         this.user = result
-        console.log(this.user)
       })
   }
 }

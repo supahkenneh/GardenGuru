@@ -71,4 +71,14 @@ export class BackendService {
     const waterUrl = this.url + 'garden/water';
     return this.http.put(waterUrl, data).toPromise();
   }
+  moveToStand(id,data) {
+    console.log(data)
+    console.log('movetostandbackendservive')
+    const moveUrl = this.url + `crops/${id}/move`;
+    return this.http.put(moveUrl, data).toPromise();
+  }
 }
+
+
+
+
