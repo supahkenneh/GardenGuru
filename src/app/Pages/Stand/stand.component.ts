@@ -48,11 +48,9 @@ export class StandComponent implements OnInit {
   toggleCheck() {
     this.check = !this.check
     this.moveFormData.check = !this.moveFormData.check
-    console.log(this.moveFormData.check)
   }
 
   moveToStand() {
-    console.log(this.cropId, 'move form data');
 
     this.backend
       .moveToStand(this.cropId, this.moveFormData)
@@ -80,7 +78,6 @@ export class StandComponent implements OnInit {
   }
 
   toggleEdit(crop) {
-    console.log('toggledit');
     if (crop) {
       this.cropId = crop.id;
     }
@@ -104,7 +101,6 @@ export class StandComponent implements OnInit {
 
   deleteCrop(id) {
     this.backend.deleteCrop(id).then(result => {
-      console.log(result);
       this.ngOnInit();
     });
   }
