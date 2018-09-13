@@ -25,7 +25,7 @@
 <button *ngIf="!isEdit" (click)="toggleEdit()">Name Stand</button>
 
 <div class="edit-user-form-container" *ngIf="isEdit">
-  <div class="x-div" (click)="toggleEdit()">ⓧ</div>
+  <div class="x-div" (click)="turnEditToFalse()">ⓧ</div>
   <form class="edit-form">
     <label for="stand_name">Stand Name:</label>
     <input maxlength="25" type="text" name="stand_name" [(ngModel)]="editFormData.stand_name">

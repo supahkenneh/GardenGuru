@@ -68,8 +68,10 @@ export class StandComponent implements OnInit {
   }
 
   toggleEdit(crop) {
-    console.log(crop,'toggledit')
-    this.cropId = crop.id;
+    console.log('toggledit')
+    if(crop){
+      this.cropId = crop.id;
+    }
     if (this.isEdit) {
       this.isEdit = !this.isEdit;
     }
