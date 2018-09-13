@@ -1,0 +1,16 @@
+<div id="search-sidebar-container">
+  <div id="search-sidebar">
+    <label for="category_id">Category</label>
+    <span>{{ getCategoryErrors() }}</span>
+    <select name="category_id" [(ngModel)]="newItemFormData.category_id" (change)="validateCategory()">
+      <option value="-1" class="option">Select Category</option>
+      <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
+    </select>
+    
+    <label for="description">Description</label>
+    <span>{{ getDescriptionErrors() }}</span>
+    <div class="input-wrapper">
+      <input type="text" name="description" [(ngModel)]="newItemFormData.description" (keyup)="validateDescription()">
+    </div>
+  </div>
+</div>
