@@ -11,21 +11,27 @@ export class StandComponent implements OnInit {
   crops;
   user;
   noStand;
+  isEdit: boolean = true;
 
   editFormData = {
-    stand_name: '',
+    stand_name: ''
   };
-  
+
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
     private session: SessionService
   ) {
     this.user = session.getSession();
+
   }
 
   isLoggedIn() {
     return this.session.isLoggedIn;
+  }
+
+  toggleEdit() {
+    this.isEdit = !this.isEdit;
   }
 
   sortContacts(result) {
@@ -45,17 +51,14 @@ export class StandComponent implements OnInit {
 
   editUser() {
     this.backend.editUser(this.editFormData).then(result => {
-      console.log('this.user before', this.user)
-      console.log('result',result)
-      this.user.stand_name = result['stand_name']
-      console.log('this.user after',this.user)
-      this.session.setSession(this.user)
+      this.user.stand_name = result['stand_name'];
+      this.session.setSession(this.user);
       this.ngOnInit();
     });
   }
 
   ngOnInit() {
-    console.log(this.user)
+    console.log(this.user);
     this.userId = this.route.snapshot.paramMap.get('id');
     if (this.user.stand_name) {
       return this.backend.getStand(this.userId).then(result => {
