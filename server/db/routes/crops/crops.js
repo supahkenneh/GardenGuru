@@ -57,6 +57,26 @@ router.post('/', (req, res) => {
     })
 });
 
+router.post('/search/:term', (req, res) => {
+  const search = req.params.term;
+  return Crop
+    .query(qb => {
+      if (req.body.plants) {
+        qb.where('plant_id', '=', req.body.plants)
+          .andWhere('description', 'ILIKE', `${search}%`);
+      } else {
+        qb.where('description', 'ILIKE', `${search}%`);
+      };
+    })
+    .fetchAll()
+    .then(response => {
+      res.json(response);
+    })
+    .catch(err => {
+      console.log('err', err);
+    });
+});
+
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
