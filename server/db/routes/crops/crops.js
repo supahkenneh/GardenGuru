@@ -12,36 +12,34 @@ const Photo = require('../../models/Photo');
 const Message = require('../../models/Message');
 const User = require('../../models/User');
 
-// const BUCKET_NAME = process.env.BUCKET_NAME;
-// const IAM_USER_KEY = process.env.IAM_USER_KEY;
-// const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+const BUCKET_NAME = process.env.BUCKET_NAME;
+const IAM_USER_KEY = process.env.IAM_USER_KEY;
+const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
 
-// const s3 = new aws.S3({
-//   accessKeyId: IAM_USER_KEY,
-//   secretAccessKey: IAM_USER_SECRET
-// });
+const s3 = new aws.S3({
+  accessKeyId: IAM_USER_KEY,
+  secretAccessKey: IAM_USER_SECRET
+});
 
-// const upload = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     bucket: BUCKET_NAME,
-//     acl: 'public-read-write',
-//     metadata: (req, file, cb) => {
-//       cb(null, { fieldName: file.fieldname })
-//     },
-//     key: function (req, file, cb) {
-//       cb(null, `${req.user.username}/${Date.now().toString()}-${file.originalname}`)
-//     }
-//   })
-// })
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: BUCKET_NAME,
+    acl: 'public-read-write',
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname })
+    },
+    key: function (req, file, cb) {
+      cb(null, `${req.user.username}/${Date.now().toString()}-${file.originalname}`)
+    }
+  })
+})
 
 router.get('/', (req, res) => {
   res.json('crops');
 });
 
-// router.post('/', upload.array('photo', 6), (req, res) => {
-router.post('/', (req, res) => {
-
+router.post('/', upload.array('photo', 6), (req, res) => {
   let id = req.user.id
   let {
     plant,
@@ -76,16 +74,28 @@ router.post('/', (req, res) => {
         planted_on: date,
         garden_description,
         description: '',
-        crop_status: 2,
+        crop_status: 1,
         owner_id: id,
         garden_description,
         harvest_date
       })
         .save()
         .then(newCrop => {
-          return res.json(newCrop);
-        });
-    });
+          if (req.files.length === 0) {
+            return res.json(newCrop);
+          }
+          let promises = req.files.map(file => {
+            return new Photo({
+              crop_id: newCrop.id,
+              link: file.location,
+            })
+              .save()
+          })
+          Promise.all(promises)
+            .then(() => res.json(newCrop))
+        })
+    })
+    .catch(err => console.log(err))
 });
 
 router.post('/search/:term', (req, res) => {
@@ -93,7 +103,7 @@ router.post('/search/:term', (req, res) => {
   const category = req.body.category;
   let city;
   let err;
-  
+
   if (!req.user) {
     return Crop
       .query(qb => {
@@ -111,7 +121,7 @@ router.post('/search/:term', (req, res) => {
         if (err) {
           return res.send(err)
         } else {
-          if(response.length < 1) {
+          if (response.length < 1) {
             return res.send('Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.');
           } else {
             return res.json(response);
@@ -142,7 +152,7 @@ router.post('/search/:term', (req, res) => {
       })
       .fetchAll()
       .then(response => {
-        if(response.length < 1) {
+        if (response.length < 1) {
           return res.send('Nobody here but us chickens!');
         } else {
           return res.json(response);
