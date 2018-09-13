@@ -11,7 +11,7 @@ export class StandComponent implements OnInit {
   crops;
   user;
   noStand;
-  isEdit: boolean = true;
+  isEdit: boolean = false;
   garden
   editFormData = {
     stand_name: ''
