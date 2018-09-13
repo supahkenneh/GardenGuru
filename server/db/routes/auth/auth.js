@@ -15,7 +15,7 @@ app.use(passport.session());
 passport.serializeUser((user, done) => {
   return done(null, {
     id: user.id,
-    username: user.username.toLowerCase()
+    username: user.username.toLowerCase(),
   });
 });
 
@@ -86,7 +86,6 @@ router.post('/register', (req, res) => {
       })
         .save()
         .then(result => {
-          console.log(result);
           res.json({ success: true });
         })
         .catch(err => {
@@ -120,7 +119,7 @@ router.post('/login', (req, res, next) => {
           bio: user.bio,
           city: user.city,
           state: user.state,
-          stand: user.stand_name
+          stand_name: user.stand_name
         };
         return res.json(userProfile);
       }

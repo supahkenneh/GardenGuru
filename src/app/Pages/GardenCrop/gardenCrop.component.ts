@@ -4,15 +4,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
 import { AuthService } from '../../Services/auth.service';
 @Component({
-  templateUrl: './crop.component.html',
-  styleUrls: ['./crop.component.scss']
+  templateUrl: './gardenCrop.component.html',
+  styleUrls: ['./gardenCrop.component.scss']
 })
-export class CropComponent implements OnInit {
+export class GardenCropComponent implements OnInit {
   userId: string;
   id;
   loggedIn: boolean = false;
   crop: object;
-  user
+  user;
 
   constructor(
     private backend: BackendService,
@@ -28,18 +28,15 @@ export class CropComponent implements OnInit {
   }
 
   deleteCrop() {
-    this.backend.deleteCrop(this.id)
-      .then(result => {
-        this.ngOnInit()
-      })
+    this.backend.deleteCrop(this.id).then(result => {
+      this.ngOnInit();
+    });
   }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
-    return this.backend.getCrop(this.id)
-      .then(result => {
-
-        return this.crop = result;
-      });
+    return this.backend.getCrop(this.id).then(result => {
+      return (this.crop = result);
+    });
   }
 }

@@ -13,7 +13,7 @@ export class SessionService {
     bio: string;
     city: string;
     state: string;
-    stand: string;
+    stand_name: string;
     rating: number;
   } = {
       id: -1,
@@ -24,7 +24,7 @@ export class SessionService {
       bio: '',
       city: '',
       state: '',
-      stand: '',
+      stand_name: '',
       rating: -1
     };
 
@@ -56,7 +56,7 @@ export class SessionService {
     this.user.bio = data.bio;
     this.user.city = data.city;
     this.user.state = data.state;
-    this.user.stand = data.stand_name;
+    this.user.stand_name = data.stand_name;
 
     let userString = JSON.stringify(this.user);
     window.localStorage.setItem('user', userString);
@@ -71,7 +71,7 @@ export class SessionService {
     this.user.bio = '';
     this.user.city = '';
     this.user.state = '';
-    this.user.stand = '';
+    this.user.stand_name = '';
     window.localStorage.removeItem('user');
   }
 
