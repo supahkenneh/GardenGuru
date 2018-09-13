@@ -28,9 +28,17 @@
       border-radius: 5px;
     }
   }
+  .img-scroller {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5px;
+    div {
+      padding: 5px;
+    }
+  }
   .description {
     font-size: 18px;
-    margin-top: 15px;
+    margin-top: 10px;
   }
   .date {
     font-size: 18px;

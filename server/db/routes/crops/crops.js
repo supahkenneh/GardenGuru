@@ -180,7 +180,7 @@ router.delete('/:id', (req, res) => {
     .fetch()
     .then(crop => {
       let status = crop.attributes.crop_status;
-      status = 3
+      status = 2
       return Crop
         .where({ id })
         .save({ crop_status: status }, { patch: true })

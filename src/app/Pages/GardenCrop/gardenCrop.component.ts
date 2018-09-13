@@ -14,12 +14,21 @@ export class GardenCropComponent implements OnInit {
   crop: object;
   date: any;
 
-  wateringDate: string;
-  harvestDate: string;
-
+  //view switchers
   gardenEditing: boolean = false;
   standPosting: boolean = false;
 
+  //handles water and harvesting, converted/parsed dates only
+  wateringDate: string;
+  harvestDate: string;
+  newWaterDate: any;
+
+  //photo stuff
+  photos: string[] = [];
+  currentPhoto: string;
+  hasPhoto: boolean = false;
+
+  //form data
   gardenEditFormData: {
     garden_description: string,
     watering_interval: number,
@@ -28,7 +37,6 @@ export class GardenCropComponent implements OnInit {
       watering_interval: 0,
     }
 
-  newWaterDate: any;
 
   constructor(
     private backend: BackendService,
@@ -47,7 +55,18 @@ export class GardenCropComponent implements OnInit {
     return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
-        this.crop['mainPhoto'] = result['photo'][0].link;
+        // this.crop['mainPhoto'] = result['photo'][0].link;
+        //gets photo links to be displayed on page
+        if (this.crop['photo'].length > 0) {
+          this.crop['photo'].map(photo => {
+            this.photos.push(photo.link);
+          })
+          this.currentPhoto = this.photos[0];
+          this.hasPhoto = true;
+        } else {
+          this.hasPhoto = false;
+        }
+        //parsing date
         this.wateringDate = result['watering_date'];
         this.wateringDate = this.crop['watering_date'].slice(0, 10);
         this.harvestDate = this.crop['harvest_date'].slice(0, 10);
@@ -103,6 +122,31 @@ export class GardenCropComponent implements OnInit {
   }
 
   getNewWaterDate() {
-    return this.newWaterDate;
+    if (this.newWaterDate) {
+      return this.newWaterDate;
+    }
+    return this.wateringDate;
+  }
+
+  //photo carousel
+  previousPhoto() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    if ((index - 1) < 0) {
+      return this.currentPhoto = this.photos[this.photos.length - 1]
+    }
+    return this.currentPhoto = this.photos[index - 1]
+  }
+
+  nextPhoto() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    if ((index + 1) === this.photos.length) {
+      return this.currentPhoto = this.photos[0]
+    }
+    return this.currentPhoto = this.photos[index + 1]
+  }
+
+  imageCounter() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    return `${index + 1} of ${this.photos.length} images`
   }
 }
