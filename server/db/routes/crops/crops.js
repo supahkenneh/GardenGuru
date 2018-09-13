@@ -6,7 +6,7 @@ const CropStatus = require('../../models/CropStatus');
 const Plant = require('../../models/Plant');
 const Photo = require('../../models/Photo');
 const Message = require('../../models/Message');
-const User = require('../../models/Message');
+const User = require('../../models/User');
 
 router.get('/', (req, res) => {
   res.json('crops');
@@ -57,22 +57,100 @@ router.post('/', (req, res) => {
 
 router.post('/search/:term', (req, res) => {
   const search = req.params.term;
-  return Crop
-    .query(qb => {
-      if (req.body.plants) {
-        qb.where('plant_id', '=', req.body.plants)
-          .andWhere('description', 'ILIKE', `${search}%`);
-      } else {
-        qb.where('description', 'ILIKE', `${search}%`);
-      };
-    })
-    .fetchAll()
-    .then(response => {
-      res.json(response);
-    })
-    .catch(err => {
-      console.log('err', err);
-    });
+  const category = req.body.category;
+  
+  if (!req.user) {
+    return Crop
+      .query(qb => {
+        if (category === 'Garden') {
+          return res.send('Please log in to search through your garden!');
+        } else if (category === 'Stand') {
+          return res.send('Please log in to search through your stand!');
+        } else if (category === 'Marketplace') {
+          qb.where('crop_status', '=', 1)
+            .andWhere('description', 'ILIKE', `${search}%`);
+        }
+      })
+      .fetchAll()
+      .then(response => {
+        console.log(response)
+        if(response.length < 1) {
+          return res.send('Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.');
+        } else {
+          return res.json(response);
+        }
+      })
+      .catch(err => {
+        console.log('Error :', err);
+      });
+  } else {
+    return User
+      .where({ id: req.user.id })
+      .fetch()
+      .then(response => {
+        if (!response) {
+          return res.send('An error has occurred. Please try again.')
+        } else {
+          return Crop
+            .query(qb => {
+              if (category === 'Marketplace') {
+                qb.where('crop_status', '=', 1)
+                  .andWhere('owner_id', '!=', req.user.id)
+                  .andWhere('description', 'ILIKE', `${search}%`);
+              } else if (category === 'Stand') {
+                qb.where('crop_status', '=', 1)
+                  .andWhere('owner_id', '=', req.user.id)
+                  .andWhere('description', 'ILIKE', `${search}%`);
+              } else if (category === 'Garden') {
+                qb.where('crop_status', '=', 2)
+                  .andWhere('owner_id', '=', req.user.id)
+                  .andWhere('description', 'ILIKE', `${search}%`);
+              }
+            })
+            .fetchAll()
+            .then(response => {
+              if(response.length < 1) {
+                return res.send('Nobody here but us chickens!');
+              } else {
+                return res.json(response);
+              }
+            })
+            .catch(err => {
+              console.log('Error :', err);
+            })
+        }
+      })
+  }
+
+
+
+  // return Crop
+  //   .query(qb => {
+  //     if (category === 'Marketplace') {
+  //       qb.where('crop_status', '=', 1)
+  //         .andWhere('owner_id', '!=', req.user.id)
+  //         .andWhere('description', 'ILIKE', `%${search}%`);
+  //     } else if (category === 'Stand') {
+  //       qb.where('crop_status', '=', 1)
+  //         .andWhere('owner_id', '=', req.user.id)
+  //         .andWhere('description', 'ILIKE', `%${search}%`);
+  //     } else if (category === 'Garden') {
+  //       qb.where('crop_status', '=', 2)
+  //         .andWhere('owner_id', '=', req.user.id)
+  //         .andWhere('description', 'ILIKE', `%${search}%`);
+  //     };
+  //   })
+  //   .fetchAll()
+  //   .then(response => {
+  //     if (response.length < 1) {
+  //       return res.send('Nobody here but us chickens!');
+  //     } else {
+  //       return res.json(response);
+  //     }
+  //   })
+  //   .catch(err => {
+  //     console.log('err', err);
+  //   });
 });
 
 router.get('/:id', (req, res) => {
