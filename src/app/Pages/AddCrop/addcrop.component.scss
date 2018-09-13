@@ -80,5 +80,26 @@
       margin-top: 20px;
       font-size: 14px;
     }
+    .photo-error {
+      color: red;
+      font-size: 12px;
+    }
+    .image-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      input {
+        padding: 0;
+        border: 0;
+      }
+    }
+    .photo-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .photo-name {
+        font-size: 12px;
+      }
+    }
   }
 }

@@ -37,6 +37,14 @@
         <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
       </select>
     </div>
+    <div class="photo-error">{{getPhotoErrors()}}</div>
+    <div class="image-upload">
+      <label for="photos">Upload Photos</label>
+      <input type="file" name="file" accept=".jpg, .jpeg, .png" multiple (change)="updatePhotoList($event)">
+    </div>
+    <div class="photo-list" *ngFor="let photo of cropFormData.photo">
+      <div class="photo-name">{{photo.name}}</div>
+    </div>
     <button (click)="addCrop()" class="add-button">Add To Garden</button>
     <div class="plant-description">{{getPlantDescription()}}</div>
   </form>

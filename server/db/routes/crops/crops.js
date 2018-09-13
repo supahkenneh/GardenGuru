@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const moment = require('moment');
 
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
 const Crop = require('../../models/Crop');
 const CropStatus = require('../../models/CropStatus');
 const Plant = require('../../models/Plant');
@@ -8,11 +12,36 @@ const Photo = require('../../models/Photo');
 const Message = require('../../models/Message');
 const User = require('../../models/Message');
 
+// const BUCKET_NAME = process.env.BUCKET_NAME;
+// const IAM_USER_KEY = process.env.IAM_USER_KEY;
+// const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+
+// const s3 = new aws.S3({
+//   accessKeyId: IAM_USER_KEY,
+//   secretAccessKey: IAM_USER_SECRET
+// });
+
+// const upload = multer({
+//   storage: multerS3({
+//     s3: s3,
+//     bucket: BUCKET_NAME,
+//     acl: 'public-read-write',
+//     metadata: (req, file, cb) => {
+//       cb(null, { fieldName: file.fieldname })
+//     },
+//     key: function (req, file, cb) {
+//       cb(null, `${req.user.username}/${Date.now().toString()}-${file.originalname}`)
+//     }
+//   })
+// })
+
 router.get('/', (req, res) => {
   res.json('crops');
 });
 
+// router.post('/', upload.array('photo', 6), (req, res) => {
 router.post('/', (req, res) => {
+
   let id = req.user.id
   let {
     plant,
