@@ -21,17 +21,22 @@
 <div  class="create-stand" *ngIf="!isEdit">
   you have no stand
   <button (click)="toggleEdit()">Create Stand</button>
-
 </div>
 
 
-<div class="edit-contact-form" *ngIf="isEdit" >
+<div class="edit-user-form-container" *ngIf="isEdit" >
   <div class="x-div" (click)="toggleEdit()">ⓧ</div>
   <form class="edit-form">
     <label for="stand_name">Stand Name:</label>
-    <input maxlength="25" minlength="number" type="text" name="stand_name" [(ngModel)]="editFormData.stand_name">
+    <input maxlength="25" type="text" name="stand_name" [(ngModel)]="editFormData.stand_name">
     <div class="buttons">
       <button (click)="editUser()">Create Stand</button>
     </div>
   </form>
+</div>
+
+<div class="from-garden-container">
+<div class="garden-header">
+  
+</div>
 </div>

@@ -12,7 +12,7 @@ export class StandComponent implements OnInit {
   user;
   noStand;
   isEdit: boolean = true;
-
+  garden
   editFormData = {
     stand_name: ''
   };
@@ -23,7 +23,6 @@ export class StandComponent implements OnInit {
     private session: SessionService
   ) {
     this.user = session.getSession();
-
   }
 
   isLoggedIn() {
@@ -61,11 +60,16 @@ export class StandComponent implements OnInit {
     console.log(this.user);
     this.userId = this.route.snapshot.paramMap.get('id');
     if (this.user.stand_name) {
-      return this.backend.getStand(this.userId).then(result => {
+      this.backend.getStand(this.userId).then(result => {
         this.sortContacts(result);
-      });
+      })
     } else {
-      return (this.noStand = !this.noStand);
+      this.noStand = !this.noStand;
     }
+    this.backend.getGarden()
+    .then(result=>{
+      this.garden = result[0]
+    })
   }
+  
 }
