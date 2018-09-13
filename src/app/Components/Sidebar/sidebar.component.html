@@ -11,7 +11,7 @@
       <a routerLink="about">About</a>
     </li>
     <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
-      <button class="logout-button" (click)="logout()">Logout</button>
+      <button class="logout-button" routerLink="/marketplace" (click)="logout()">Logout</button>
     </li>
     <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
       <a routerLink="messages">Messages</a>

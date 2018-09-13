@@ -1,16 +1,30 @@
-<div>
-  <h1>
-    Register Page
-  </h1>
-</div>
-
-<div class="login-container">
+<div class="content-container">
   <form>
-    <input type="text" name="username" placeholder="username" [(ngModel)]="registerFormData.username">
-    <input type="text" name="email" placeholder="email" [(ngModel)]="registerFormData.email">
-    <input type="text" name="city" placeholder="city" [(ngModel)]="registerFormData.city">
-    <input type="text" name="state" placeholder="state" [(ngModel)]="registerFormData.state">
-    <input type="text" name="password" placeholder="password" [(ngModel)]="registerFormData.password">
-    <button class="btn" (click)="register()">Register</button>
+    <div class="secondary-header">
+      <div>Register</div>
+    </div>
+    <label for="username">Username</label>
+    <input type="text" name="username" [(ngModel)]="registerFormData.username">
+    <label for="password">Password</label>
+    <input type="password" name="password" [(ngModel)]="registerFormData.password">
+    <label for="name">Name</label>
+    <div class="name-container">
+      <input type="first_name" name="first_name" placeholder="First" [(ngModel)]="registerFormData.first_name">
+      <input type="last_name" name="last_name" placeholder="Last" [(ngModel)]="registerFormData.last_name">
+    </div>
+    <label for="email">Email</label>
+    <input type="text" name="email" [(ngModel)]="registerFormData.email">
+    <label for="location">Location</label>
+    <div class="location-container">
+      <select name="city" [(ngModel)]="registerFormData.city">
+        <option value="">Select City</option>
+        <option *ngFor="let city of cities" value="{{city}}">{{city}}</option>
+      </select>
+      <select name="state" [(ngModel)]="registerFormData.state">
+        <option value="">Select State</option>
+        <option *ngFor="let state of states" value="{{state}}">{{state}}</option>
+      </select>
+    </div>
+    <button class="register-button" (click)="register()">Register</button>
   </form>
 </div>

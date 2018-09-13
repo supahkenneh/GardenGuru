@@ -78,6 +78,11 @@ router.post('/register', (req, res) => {
       return new User({
         username: username.toLowerCase(),
         password: hashedPassword,
+        email,
+        first_name,
+        last_name,
+        city,
+        state,
       })
         .save()
         .then(result => {
