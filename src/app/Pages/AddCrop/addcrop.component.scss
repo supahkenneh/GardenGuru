@@ -3,7 +3,7 @@
   height: 100%;
   form {
     background: white;
-    height: 85%;
+    height: 90%;
     border-radius: 5px;
     margin-top: 20px;
     padding: 15px;
@@ -54,11 +54,22 @@
         background: whitesmoke;
       }
     }
-    button {
+    .today-button {
+      background: whitesmoke;
+      width: 30%;
+      align-self: center;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 12px;
+      font-weight: 100;
+      margin-bottom: 15px;
+    }
+    .add-button {
       font-size: 14px;
       font-weight: 100;
       padding: 10px;
       margin: 10px;
+      margin-top: 20px;
       border-radius: 5px;
       width: 40%;
       align-self: center;
