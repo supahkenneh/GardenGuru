@@ -48,7 +48,7 @@
 </div>
 <!-- For changing water interval, garden_description, and image -->
 <div class="content-container" *ngIf="gardenEditing">
-  <div class="crop-container">
+  <form class="crop-container" enctype="multipart/form-data">
     <div class="secondary-header">
       <div>{{crop.plant.name}}</div>
     </div>
@@ -70,8 +70,7 @@
     </div>
     <div class="remove-container" *ngIf="hasPhoto" (click)="tagForRemoval()">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-minus-circle">
-        <path
-          d='M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0 2C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zM5 9h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2z'
+        <path d='M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0 2C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zM5 9h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2z'
         /></svg>
     </div>
     <div id="photos-marked">{{getPhotosToDelete()}}</div>
@@ -89,8 +88,17 @@
       </select>
       <label for="updated_water_date">Next Watering Date:</label>
       <div>{{getNewWaterDate()}}</div>
+      <div class="photo-error">{{getPhotoErrors()}}</div>
+      <div class="image-upload">
+        <label for="photos">Upload Photos</label>
+        <input type="file" name="photo" accept=".jpg, .jpeg, .png" multiple (change)="updatePhotoList($event)">
+        <div class="photo-list" *ngFor="let photo of photosToUpload">
+          <div class="photo-name">{{photo.name}}</div>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
+
   <button class="submit-button" (click)="submitGardenEdit()">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-check">
       <path d='M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z'

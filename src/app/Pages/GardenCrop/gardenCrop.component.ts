@@ -22,11 +22,21 @@ export class GardenCropComponent implements OnInit {
   harvestDate: string;
   newWaterDate: any;
 
-  //photo stuff
+  //photo view and edit
   photos: string[] = [];
   currentPhoto: string;
   hasPhoto: boolean = false;
   photosToDelete: string[] = [];
+
+  //photo upload
+  photosToUpload: File[] = [];
+  acceptableExtensions: string[] = ['.jpg', '.png', '.jpeg']
+  acceptableSize: number = 1000000000;
+  showPhotoError: boolean = false;
+  unacceptablePhoto: string = 'File format not accepted, please upload .jpg, .jpeg, or .png';
+  unacceptableSize: string = 'File size exceeded, max 1GB'
+  photoErrors: string[] = [];
+
 
   //form data
   gardenEditFormData: {
@@ -163,6 +173,26 @@ export class GardenCropComponent implements OnInit {
       return `${this.photosToDelete.length} images selected`
     } else {
       document.getElementById('photos-marked').style.display === 'none';
+    }
+  }
+
+  getPhotoErrors() {
+    return this.photoErrors.join(', ');
+  }
+
+  updatePhotoList(event) {
+    let file = event.target.files[0];
+    let fileSize = file.size
+    let dot = file.name.indexOf('.');
+    let extension = file.name.slice(dot, file.name.length);
+    if (this.acceptableExtensions.includes(extension.toLowerCase())) {
+      if (fileSize < this.acceptableSize) {
+        return this.photosToUpload.push(file)
+      } else {
+        return this.photoErrors.push(this.unacceptableSize);
+      }
+    } else {
+      return this.photoErrors.push(this.unacceptablePhoto)
     }
   }
 }
