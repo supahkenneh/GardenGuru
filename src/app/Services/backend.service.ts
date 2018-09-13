@@ -35,7 +35,6 @@ export class BackendService {
   }
 
   addCrop(data) {
-    console.log(data);
     const form = new FormData();
 
     form.append('garden_description', data.garden_description);

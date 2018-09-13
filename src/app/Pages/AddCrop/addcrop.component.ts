@@ -68,7 +68,6 @@ export class AddCropComponent implements OnInit {
   }
 
   addCrop() {
-    console.log(this.cropFormData);
     return this.backend.addCrop(this.cropFormData)
       .then(result => {
         return this.router.navigate(['/garden'])
@@ -89,7 +88,6 @@ export class AddCropComponent implements OnInit {
   }
 
   selectToday() {
-    console.log(this.cropFormData.photo);
     this.cropFormData.year = this.year;
     this.cropFormData.month = this.months[Number(this.month) - 1];
     this.cropFormData.day = this.day;
