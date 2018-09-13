@@ -6,7 +6,7 @@ const CropStatus = require('../../models/CropStatus');
 const Plant = require('../../models/Plant');
 const Photo = require('../../models/Photo');
 const Message = require('../../models/Message');
-const User = require('../../models/Message');
+const User = require('../../models/User');
 
 router.get('/', (req, res) => {
   res.json('crops');
@@ -50,6 +50,72 @@ router.post('/', (req, res) => {
           return res.json(newCrop);
         });
     });
+});
+
+router.post('/search/:term', (req, res) => {
+  const search = req.params.term;
+  const category = req.body.category;
+  let city;
+  let err;
+  
+  if (!req.user) {
+    return Crop
+      .query(qb => {
+        if (category === 'Garden') {
+          return err = ('Please log in to search through your garden!');
+        } else if (category === 'Stand') {
+          return err = ('Please log in to search through your stand!');
+        } else if (category === 'Marketplace') {
+          qb.where('crop_status', '=', 1)
+            .andWhere('description', 'ILIKE', `${search}%`);
+        }
+      })
+      .fetchAll()
+      .then(response => {
+        if (err) {
+          return res.send(err)
+        } else {
+          if(response.length < 1) {
+            return res.send('Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.');
+          } else {
+            return res.json(response);
+          }
+        }
+      })
+      .catch(err => {
+        console.log('Error :', err);
+      });
+  } else {
+    return Crop
+      .query(qb => {
+        if (category === 'Marketplace') {
+          qb.innerJoin('users', 'crops.owner_id', 'users.id')
+          qb.where('crop_status', '=', 1)
+            .andWhere('city', '=', req.user.city)
+            .andWhere('owner_id', '!=', req.user.id)
+            .andWhere('description', 'ILIKE', `${search}%`);
+        } else if (category === 'Stand') {
+          qb.where('crop_status', '=', 1)
+            .andWhere('owner_id', '=', req.user.id)
+            .andWhere('description', 'ILIKE', `${search}%`);
+        } else if (category === 'Garden') {
+          qb.where('crop_status', '=', 2)
+            .andWhere('owner_id', '=', req.user.id)
+            .andWhere('description', 'ILIKE', `${search}%`);
+        }
+      })
+      .fetchAll()
+      .then(response => {
+        if(response.length < 1) {
+          return res.send('Nobody here but us chickens!');
+        } else {
+          return res.json(response);
+        }
+      })
+      .catch(err => {
+        console.log('Error :', err);
+      })
+  }
 });
 
 router.get('/:id', (req, res) => {
