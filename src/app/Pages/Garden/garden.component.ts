@@ -21,6 +21,9 @@ export class GardenComponent implements OnInit {
   veggiePic: string = 'https://cdn1.iconfinder.com/data/icons/fruit-and-veg-ios/64/veg-brocolli-512.png';
   herbPic: string = 'https://cdn0.iconfinder.com/data/icons/healthy-and-clean-food-1/64/herb-healthy-leaf-spinach-512.png';
 
+  wateredPlants: string[] = [];
+  showWaterButton: boolean = false;
+
   constructor(
     private backend: BackendService,
     private session: SessionService,
@@ -34,47 +37,80 @@ export class GardenComponent implements OnInit {
   }
 
   ngOnInit() {
-    //resets garden
-    this.garden.length = 0;
-    return this.backend.getGarden()
-      .then(result => {
-        let resultArr = Object.values(result);
-        resultArr.map(crop => {
-          //show only crops that are growing
-          if (crop.cropStatus['name'] === 'Growing') {
-            switch (crop.plant['type_id']) {
-              case 1:
-                crop.displayPhoto = this.veggiePic;
-                break;
-              case 2:
-                crop.displayPhoto = this.fruitPic;
-                break;
-              case 3:
-                crop.displayPhoto = this.herbPic;
-                break;
+    if (this.loggedIn) {
+      //resets garden
+      this.garden.length = 0;
+      return this.backend.getGarden()
+        .then(result => {
+          let resultArr = Object.values(result);
+          resultArr.map(crop => {
+            //show only crops that are growing
+            if (crop.cropStatus['name'] === 'Growing') {
+              switch (crop.plant['type_id']) {
+                case 1:
+                  crop.displayPhoto = this.veggiePic;
+                  break;
+                case 2:
+                  crop.displayPhoto = this.fruitPic;
+                  break;
+                case 3:
+                  crop.displayPhoto = this.herbPic;
+                  break;
+              }
+              this.garden.push(crop);
             }
-            this.garden.push(crop);
-          }
+          })
+          return resultArr
         })
-        return resultArr
-      })
-      .then(() => {
-        let gardenArr = Object.values(this.garden)
-        gardenArr.map(crop => {
-          let subWaterDate = crop['watering_date'].substring(0, this.index);
-          if (subWaterDate === this.date) {
-            this.plantsToWater.push(crop);
-          }
+        .then(() => {
+          let gardenArr = Object.values(this.garden)
+          gardenArr.map(crop => {
+            let subWaterDate = crop['watering_date'].substring(0, this.index);
+            if (subWaterDate === this.date) {
+              this.plantsToWater.push(crop);
+            }
+          })
         })
-      })
-      .then(() => {
-        let gardenArr = Object.values(this.garden);
-        gardenArr.map(crop => {
-          let subHarvestDate = crop['harvest_date'].substring(0, this.index);
-          if (subHarvestDate === this.date) {
-            this.plantsToHarvest.push(crop);
-          }
+        .then(() => {
+          let gardenArr = Object.values(this.garden);
+          gardenArr.map(crop => {
+            let subHarvestDate = crop['harvest_date'].substring(0, this.index);
+            if (subHarvestDate === this.date) {
+              this.plantsToHarvest.push(crop);
+            }
+          })
         })
+    }
+  }
+
+  selectForWatering(event) {
+    this.showWaterButton = true;
+    console.log('test');
+    //if item is not already selected, push it into wateredPlants
+    if (!this.wateredPlants.includes(event.target.id)) {
+      event.target.style.fill = 'cornflowerblue';
+      this.wateredPlants.push(event.target.id);
+      if (this.wateredPlants.length === 0) {
+        this.showWaterButton = false;
+      }
+    } else if (this.wateredPlants.includes(event.target.id)) {
+      event.target.style.fill = 'gray';
+      let index = this.wateredPlants.indexOf(event.target.id);
+      this.wateredPlants.splice(index, 1);
+      if (this.wateredPlants.length === 0) {
+        this.showWaterButton = false;
+      }
+    }
+  }
+
+  waterPlants() {
+    this.backend.updateWateringDays(this.wateredPlants)
+      .then(result => {
+        this.wateredPlants.length = 0;
+        if (result['success']) {
+          this.plantsToWater.length = 0;
+          this.showWaterButton = false;
+        }
       })
   }
 }

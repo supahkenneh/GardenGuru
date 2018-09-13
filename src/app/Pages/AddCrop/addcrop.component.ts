@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 export class AddCropComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
+  year: any;
+  month: any;
+  day: any;
 
   plants: any;
   plantDescription: string = '';
@@ -23,15 +26,15 @@ export class AddCropComponent implements OnInit {
     plant: number;
     watering: number;
     month: string;
-    day: number;
-    year: number;
+    day: string;
+    year: string;
     garden_description: string;
   } = {
       plant: 0,
       watering: 0,
       month: '',
-      day: 0,
-      year: 0,
+      day: '',
+      year: '',
       garden_description: ''
     }
 
@@ -42,13 +45,15 @@ export class AddCropComponent implements OnInit {
   ) {
     this.user = this.session.getSession();
     this.loggedIn = this.session.isLoggedIn();
+    this.year = new Date().getFullYear();
+    this.month = ('0' + (new Date().getMonth() + 1)).slice(-2);
+    this.day = ('0' + (new Date().getDate())).slice(-2);
   }
 
   ngOnInit() {
     return this.backend.getPlants()
       .then(plants => {
         this.plants = plants;
-        console.log(this.plants);
       })
   }
 
@@ -70,5 +75,11 @@ export class AddCropComponent implements OnInit {
 
   getPlantDescription() {
     return this.plantDescription;
+  }
+
+  selectToday() {
+    this.cropFormData.year = this.year;
+    this.cropFormData.month = this.months[Number(this.month) - 1];
+    this.cropFormData.day = this.day;
   }
 }

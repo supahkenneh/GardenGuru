@@ -2,9 +2,11 @@
   <div class="crop">
     <div class = "title">{{crop.description}}</div>
     <div class="image" [style.backgroundImage]="'url('+ crop.photo[0].link +')'"></div>
-    <div class="owner">Owner: {{crop.owner.username}}</div>
+    <div routerLink="/crops/{{crop.id}}" class="owner">Owner: {{crop.owner.stand_name}}</div>
     <div class="species">Species: {{crop.plant.name}}</div>
+    <div class="price">Price: {{crop.price}}</div>
     <div class="status">Status: {{crop.cropStatus.name}}</div>
+    <div class="owner">Details: {{crop.details}}</div>  
   </div>
   <div class="auth-actions" *ngIf = "isLoggedIn()">
     <button class="delete-button" (click)="deleteCrop()">Remove</button>

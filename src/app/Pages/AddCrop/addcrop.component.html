@@ -22,21 +22,22 @@
       </select>
     </div>
     <label for="date">Planting Date</label>
+    <button (click)="selectToday()" class="today-button">Today's Date</button>
     <div class="date-container">
       <select name="plant-date" [(ngModel)]="cropFormData.month">
         <option value="">Select Month</option>
         <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
       </select>
       <select name="plant-day" [(ngModel)]="cropFormData.day">
-        <option value="0">Select Day</option>
+        <option value="">Select Day</option>
         <option *ngFor="let day of days" value="{{day}}">{{day}}</option>
       </select>
       <select name="plant-year" [(ngModel)]="cropFormData.year">
-        <option value="0">Select Year</option>
+        <option value="">Select Year</option>
         <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
       </select>
     </div>
-    <button (click)="addCrop()">Add To Garden</button>
+    <button (click)="addCrop()" class="add-button">Add To Garden</button>
     <div class="plant-description">{{getPlantDescription()}}</div>
   </form>
 </div>
