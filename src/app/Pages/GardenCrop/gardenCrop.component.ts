@@ -77,14 +77,12 @@ export class GardenCropComponent implements OnInit {
   toggleCheck(){
     this.check = !this.check
     this.moveFormData.check = !this.moveFormData.check
-console.log(this.moveFormData.check)
   }
 
   toggleEdit(crop) {
     if (crop) {
       this.editId = crop.id;
     }
-    console.log('toggleEdit');
     this.isEdit = !this.isEdit;
   }
 
@@ -97,7 +95,6 @@ console.log(this.moveFormData.check)
   }
 
   moveToStand() {
-    console.log(this.moveFormData.check, 'move form data');
     this.backend
       .moveToStand(this.cropId, this.moveFormData)
       .then(response => {
