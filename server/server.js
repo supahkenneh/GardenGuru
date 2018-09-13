@@ -4,7 +4,6 @@ const bodyparser = require('body-parser');
 const session = require('express-session');
 const Redis = require('connect-redis')(session);
 const passport = require('passport');
-const moment = require('moment');
 
 const PORT = process.env.PORT || 8008;
 const server = express();

@@ -43,9 +43,7 @@ router.put('/water', (req, res) => {
           .save(
             { watering_date: date },
             { patch: true })
-          .then(response => {
-            return response.refresh()
-          })
+          .then(response => response.refresh())
           .then(response => true)
           .catch(() => false)
       })
@@ -53,6 +51,24 @@ router.put('/water', (req, res) => {
   Promise.all(promises)
     .then(() => res.json({ success: true }))
     .catch(() => res.json({ success: false }))
+})
+
+router.put('/crop/:id', (req, res) => {
+  let {
+    id,
+    garden_description,
+    watering_interval,
+    newWaterDate,
+  } = req.body;
+  return new Crop({ id })
+    .save({
+      garden_description,
+      watering_interval,
+      watering_date: newWaterDate
+    }, { patch: true })
+    .then(result => result.refresh({withRelated: ['plant', 'photo']}))
+    .then(result => res.json(result))
+    .catch(err => console.log(err));
 })
 
 module.exports = router;
