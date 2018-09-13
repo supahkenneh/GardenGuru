@@ -108,7 +108,7 @@ router.post('/search/:term', (req, res) => {
         } else if (category === 'Stand') {
           return err = ('Please log in to search through your stand!');
         } else if (category === 'Marketplace') {
-          qb.where('crop_status', '=', 1)
+          qb.where('selling', '=', true)
             .andWhere('description', 'ILIKE', `${search}%`);
         }
       })
@@ -132,16 +132,17 @@ router.post('/search/:term', (req, res) => {
       .query(qb => {
         if (category === 'Marketplace') {
           qb.innerJoin('users', 'crops.owner_id', 'users.id')
-          qb.where('crop_status', '=', 1)
+          qb.where('selling', '=', true)
             .andWhere('city', '=', req.user.city)
             .andWhere('owner_id', '!=', req.user.id)
             .andWhere('description', 'ILIKE', `${search}%`);
         } else if (category === 'Stand') {
-          qb.where('crop_status', '=', 1)
+          qb.where('selling', '=', true)
             .andWhere('owner_id', '=', req.user.id)
             .andWhere('description', 'ILIKE', `${search}%`);
         } else if (category === 'Garden') {
-          qb.where('crop_status', '=', 2)
+          qb.where('crop_status', '=', 1)
+            .andWhere('selling', '=', false)
             .andWhere('owner_id', '=', req.user.id)
             .andWhere('description', 'ILIKE', `${search}%`);
         }
