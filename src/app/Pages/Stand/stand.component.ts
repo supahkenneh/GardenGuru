@@ -49,10 +49,12 @@ export class StandComponent implements OnInit {
   }
 
   editUser() {
+    console.log('triggered')
     this.backend.editUser(this.editFormData).then(result => {
       this.user.stand_name = result['stand_name'];
       this.session.setSession(this.user);
       this.ngOnInit();
+      // this.user.stand_name = '';
     });
   }
 
@@ -70,6 +72,6 @@ export class StandComponent implements OnInit {
     .then(result=>{
       this.garden = result[0]
     })
+    
   }
-  
 }

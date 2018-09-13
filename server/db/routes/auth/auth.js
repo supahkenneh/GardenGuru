@@ -3,7 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const app = express()
+const app = express();
 const User = require('../../models/User');
 const saltRounds = 12;
 
@@ -27,6 +27,8 @@ passport.deserializeUser((user, done) => {
       return done(null, {
         id: user.id,
         username: user.username.toLowerCase(),
+        city: user.city,
+        state: user.state
       });
     })
     .catch(err => {
@@ -82,7 +84,7 @@ router.post('/register', (req, res) => {
         first_name,
         last_name,
         city,
-        state,
+        state
       })
         .save()
         .then(result => {

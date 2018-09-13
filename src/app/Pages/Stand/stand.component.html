@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<div  class="create-stand" *ngIf="!isEdit">
+<div  class="create-stand" *ngIf="!user.stand_name">
   you have no stand
   <button (click)="toggleEdit()">Create Stand</button>
 </div>
