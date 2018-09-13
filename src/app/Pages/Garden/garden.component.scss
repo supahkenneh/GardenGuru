@@ -84,17 +84,20 @@
     }
   }
   .button-container {
+    display: flex;
+    flex-direction: row;
     position: fixed;
     bottom: 80px;
     width: 89%;
-    text-align: center;
+    justify-content: center;
     .water-button {
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
       padding: 10px;
-      font-size: 14px;
-      width: 50%;
-      color: white;
+      display: flex;
+      justify-content: center;
       background: cornflowerblue;
-      border-radius: 5px;
     }
   }
   .add-button {

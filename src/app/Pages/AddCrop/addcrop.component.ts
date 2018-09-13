@@ -88,7 +88,6 @@ export class AddCropComponent implements OnInit {
   }
 
   selectToday() {
-    console.log(this.cropFormData.photo);
     this.cropFormData.year = this.year;
     this.cropFormData.month = this.months[Number(this.month) - 1];
     this.cropFormData.day = this.day;
