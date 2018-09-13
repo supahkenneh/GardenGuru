@@ -51,13 +51,13 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
-
     this.backend
       .moveToStand(this.cropId, this.moveFormData)
       .then(response => {
         this.backend
           .getGarden()
           .then(result => {
+            console.log('garden', result)
             this.garden = result;
           })
           .then(() => {
