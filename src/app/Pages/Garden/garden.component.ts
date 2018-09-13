@@ -37,48 +37,50 @@ export class GardenComponent implements OnInit {
   }
 
   ngOnInit() {
-    //resets garden
-    this.garden.length = 0;
-    return this.backend.getGarden()
-      .then(result => {
-        let resultArr = Object.values(result);
-        resultArr.map(crop => {
-          //show only crops that are growing
-          if (crop.cropStatus['name'] === 'Growing') {
-            switch (crop.plant['type_id']) {
-              case 1:
-                crop.displayPhoto = this.veggiePic;
-                break;
-              case 2:
-                crop.displayPhoto = this.fruitPic;
-                break;
-              case 3:
-                crop.displayPhoto = this.herbPic;
-                break;
+    if (this.loggedIn) {
+      //resets garden
+      this.garden.length = 0;
+      return this.backend.getGarden()
+        .then(result => {
+          let resultArr = Object.values(result);
+          resultArr.map(crop => {
+            //show only crops that are growing
+            if (crop.cropStatus['name'] === 'Growing') {
+              switch (crop.plant['type_id']) {
+                case 1:
+                  crop.displayPhoto = this.veggiePic;
+                  break;
+                case 2:
+                  crop.displayPhoto = this.fruitPic;
+                  break;
+                case 3:
+                  crop.displayPhoto = this.herbPic;
+                  break;
+              }
+              this.garden.push(crop);
             }
-            this.garden.push(crop);
-          }
+          })
+          return resultArr
         })
-        return resultArr
-      })
-      .then(() => {
-        let gardenArr = Object.values(this.garden)
-        gardenArr.map(crop => {
-          let subWaterDate = crop['watering_date'].substring(0, this.index);
-          if (subWaterDate === this.date) {
-            this.plantsToWater.push(crop);
-          }
+        .then(() => {
+          let gardenArr = Object.values(this.garden)
+          gardenArr.map(crop => {
+            let subWaterDate = crop['watering_date'].substring(0, this.index);
+            if (subWaterDate === this.date) {
+              this.plantsToWater.push(crop);
+            }
+          })
         })
-      })
-      .then(() => {
-        let gardenArr = Object.values(this.garden);
-        gardenArr.map(crop => {
-          let subHarvestDate = crop['harvest_date'].substring(0, this.index);
-          if (subHarvestDate === this.date) {
-            this.plantsToHarvest.push(crop);
-          }
+        .then(() => {
+          let gardenArr = Object.values(this.garden);
+          gardenArr.map(crop => {
+            let subHarvestDate = crop['harvest_date'].substring(0, this.index);
+            if (subHarvestDate === this.date) {
+              this.plantsToHarvest.push(crop);
+            }
+          })
         })
-      })
+    }
   }
 
   selectForWatering(event) {
