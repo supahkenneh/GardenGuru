@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class BackendService {
   url: string = '/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -63,15 +63,12 @@ export class BackendService {
     return this.http.get(plantsUrl).toPromise();
   }
 
-<<<<<<< HEAD
-  editUser(data){
-
+  editUser(data) {
     const userUrl = this.url + 'user/addStand';
-    return this.http.put(userUrl, data).toPromise()
-=======
+    return this.http.put(userUrl, data).toPromise();
+  }
   updateWateringDays(data) {
-    const waterUrl = this.url + 'garden/water'
+    const waterUrl = this.url + 'garden/water';
     return this.http.put(waterUrl, data).toPromise();
->>>>>>> develop
   }
 }

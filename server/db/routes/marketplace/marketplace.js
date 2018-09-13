@@ -3,8 +3,7 @@ const Crop = require('../../models/Crop');
 const User = require('../../models/User')
 router.get('/', (req, res) => {
   return User
-    .query({where: {city : req.user.city}})
-    
+    .query({where: {city : req.user.city}})  
     .orderBy('rating', 'ASC')
     .fetchAll()
     .then(response => {
