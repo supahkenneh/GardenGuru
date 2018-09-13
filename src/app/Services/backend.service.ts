@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class BackendService {
   url: string = '/api/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -35,8 +35,21 @@ export class BackendService {
   }
 
   addCrop(data) {
+    console.log(data);
+    const form = new FormData();
+
+    form.append('garden_description', data.garden_description);
+    form.append('watering', data.watering);
+    form.append('month', data.month);
+    form.append('day', data.day);
+    form.append('year', data.year);
+    form.append('plant', data.plant);
+    data.photo.map(photo => {
+      form.append('photo', photo);
+    });
+
     const postUrl = this.url + 'crops';
-    return this.http.post(postUrl, data).toPromise();
+    return this.http.post(postUrl, form).toPromise();
   }
 
   login(data) {

@@ -68,6 +68,7 @@ export class AddCropComponent implements OnInit {
   }
 
   addCrop() {
+    console.log(this.cropFormData);
     return this.backend.addCrop(this.cropFormData)
       .then(result => {
         return this.router.navigate(['/garden'])
