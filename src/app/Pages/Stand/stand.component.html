@@ -36,7 +36,7 @@
 </div>
 
 
-<div class="garden-header" (click)="toggleGarden()">Add Items From Your Garden (optional)</div>
+<div class="garden-header" (click)="turnEditToFalse()" (click)="toggleGarden()">Add Items From Your Garden (optional)</div>
 <div *ngIf="
     isGarden" id='modal-container'>
   <div id="modal-content">
