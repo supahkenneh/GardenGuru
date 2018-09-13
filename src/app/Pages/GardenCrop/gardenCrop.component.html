@@ -1,4 +1,4 @@
-<div class="content-container" *ngIf="!gardenEditing && !standPosting && crop">
+<div class="content-container" *ngIf="!gardenEditing && crop">
   <div class="crop-container">
     <div class="secondary-header">
       <div>{{crop.plant.name}}</div>
@@ -6,13 +6,17 @@
     <div class="img-container" *ngIf="hasPhoto">
       <img src="{{currentPhoto}}">
     </div>
-    <div class="img-scroller">
+    <div class="img-scroller" *ngIf="hasPhoto">
       <div class="left" (click)="previousPhoto()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-left"><path d='M3.414 7.657l3.95 3.95A1 1 0 0 1 5.95 13.02L.293 7.364a.997.997 0 0 1 0-1.414L5.95.293a1 1 0 1 1 1.414 1.414l-3.95 3.95H13a1 1 0 0 1 0 2H3.414z' /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-left">
+          <path d='M3.414 7.657l3.95 3.95A1 1 0 0 1 5.95 13.02L.293 7.364a.997.997 0 0 1 0-1.414L5.95.293a1 1 0 1 1 1.414 1.414l-3.95 3.95H13a1 1 0 0 1 0 2H3.414z'
+          /></svg>
       </div>
       <div class="img-count">{{imageCounter()}}</div>
       <div class="right" (click)="nextPhoto()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-right"><path d='M10.586 5.657l-3.95-3.95A1 1 0 0 1 8.05.293l5.657 5.657a.997.997 0 0 1 0 1.414L8.05 13.021a1 1 0 1 1-1.414-1.414l3.95-3.95H1a1 1 0 1 1 0-2h9.586z' /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-right">
+          <path d='M10.586 5.657l-3.95-3.95A1 1 0 0 1 8.05.293l5.657 5.657a.997.997 0 0 1 0 1.414L8.05 13.021a1 1 0 1 1-1.414-1.414l3.95-3.95H1a1 1 0 1 1 0-2h9.586z'
+          /></svg>
       </div>
     </div>
     <div class="description">{{crop.garden_description}}</div>
@@ -42,15 +46,35 @@
     </svg>
   </button>
 </div>
-<!-- For changing water interval and garden_description -->
+<!-- For changing water interval, garden_description, and image -->
 <div class="content-container" *ngIf="gardenEditing">
   <div class="crop-container">
     <div class="secondary-header">
       <div>{{crop.plant.name}}</div>
     </div>
-    <div class="img-container">
-      <img src="{{crop.mainPhoto}}">
+    <div class="img-container" *ngIf="hasPhoto">
+      <img src="{{currentPhoto}}">
     </div>
+    <div class="img-scroller" *ngIf="hasPhoto">
+      <div class="left" (click)="previousPhoto()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-left">
+          <path d='M3.414 7.657l3.95 3.95A1 1 0 0 1 5.95 13.02L.293 7.364a.997.997 0 0 1 0-1.414L5.95.293a1 1 0 1 1 1.414 1.414l-3.95 3.95H13a1 1 0 0 1 0 2H3.414z'
+          /></svg>
+      </div>
+      <div class="img-count">{{imageCounter()}}</div>
+      <div class="right" (click)="nextPhoto()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-arrow-right">
+          <path d='M10.586 5.657l-3.95-3.95A1 1 0 0 1 8.05.293l5.657 5.657a.997.997 0 0 1 0 1.414L8.05 13.021a1 1 0 1 1-1.414-1.414l3.95-3.95H1a1 1 0 1 1 0-2h9.586z'
+          /></svg>
+      </div>
+    </div>
+    <div class="remove-container" *ngIf="hasPhoto" (click)="tagForRemoval()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-minus-circle">
+        <path
+          d='M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0 2C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10-4.477 10-10 10zM5 9h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2z'
+        /></svg>
+    </div>
+    <div id="photos-marked">{{getPhotosToDelete()}}</div>
     <div class="editing-body">
       <label for="garden_description">Change Description</label>
       <input type="text" name="garden_description" [(ngModel)]="gardenEditFormData.garden_description">

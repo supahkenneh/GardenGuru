@@ -16,7 +16,6 @@ export class GardenCropComponent implements OnInit {
 
   //view switchers
   gardenEditing: boolean = false;
-  standPosting: boolean = false;
 
   //handles water and harvesting, converted/parsed dates only
   wateringDate: string;
@@ -27,6 +26,7 @@ export class GardenCropComponent implements OnInit {
   photos: string[] = [];
   currentPhoto: string;
   hasPhoto: boolean = false;
+  photosToDelete: string[] = [];
 
   //form data
   gardenEditFormData: {
@@ -104,7 +104,6 @@ export class GardenCropComponent implements OnInit {
 
   cancel() {
     this.gardenEditing = false;
-    this.standPosting = false;
   }
 
   recalculateDate(date, days) {
@@ -148,5 +147,22 @@ export class GardenCropComponent implements OnInit {
   imageCounter() {
     let index = this.photos.indexOf(this.currentPhoto);
     return `${index + 1} of ${this.photos.length} images`
+  }
+
+  tagForRemoval() {
+    if (this.photosToDelete.length < this.photos.length) {
+      return this.photosToDelete.push(this.currentPhoto);
+    }
+  }
+
+  getPhotosToDelete() {
+    if (this.photosToDelete.length !== 0 && this.photosToDelete.length < this.photos.length) {
+      return `${this.photosToDelete.length} images selected`;
+    } else if (this.photosToDelete.length >= this.photos.length) {
+      this.photosToDelete = this.photos
+      return `${this.photosToDelete.length} images selected`
+    } else {
+      document.getElementById('photos-marked').style.display === 'none';
+    }
   }
 }

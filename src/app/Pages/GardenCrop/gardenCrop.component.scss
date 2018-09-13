@@ -127,4 +127,16 @@
   justify-content: center;
   background: #6BA368;
 }
+.remove-container {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 130px;
+  right: 65px;
+  svg {
+    height: 40px;
+    width: 40px;
+    fill: red;
+  }
+}
 }
