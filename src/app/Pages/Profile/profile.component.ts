@@ -7,7 +7,7 @@ import { BackendService } from '../../Services/backend.service';
 })
 export class ProfileComponent implements OnInit {
   userId: string;
-
+  user
   constructor(
     private backend: BackendService
   ) { }
@@ -15,7 +15,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     return this.backend.getUserProfile(this.userId)
       .then(result => {
-        console.log('result :', result);
+        this.user = result
+        console.log(this.user)
       })
   }
 }

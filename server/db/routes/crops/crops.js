@@ -9,7 +9,6 @@ const Message = require('../../models/Message');
 const User = require('../../models/Message');
 
 router.get('/', (req, res) => {
-  console.log('request for crops');
   res.json('crops');
 });
 
@@ -60,7 +59,7 @@ router.get('/:id', (req, res) => {
   const id = req.params.id;
   return Crop
     .query({ where: { id } })
-    .fetch({ withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages'] })
+    .fetch({ withRelated: ['cropStatus', 'plant', 'photo'] })
     .then(crop => {
       return res.json(crop)
     })
@@ -75,11 +74,11 @@ router.delete('/:id', (req, res) => {
     .where({ id })
     .fetch()
     .then(crop => {
-      let status = crop.attributes.crop_statuses;
+      let status = crop.attributes.crop_status;
       status = 3
       return Crop
         .where({ id })
-        .save({ crop_statuses: status }, { patch: true })
+        .save({ crop_status: status }, { patch: true })
         .then(() => {
           res.json({ success: 'true' })
         })

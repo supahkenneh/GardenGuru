@@ -15,12 +15,15 @@ import { GardenComponent } from './Pages/Garden/garden.component';
 import { MarketplaceComponent } from './Pages/Marketplace/marketplace.component';
 import { StandComponent } from './Pages/Stand/stand.component';
 import { ProfileComponent } from './Pages/Profile/profile.component';
-import {CropComponent} from './Pages/Crop/crop.component'
+import { CropComponent } from './Pages/Crop/crop.component';
+import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
+import { MessagesComponent } from './Pages/Messages/messages.component';
+import { GardenCropComponent } from './Pages/GardenCrop/gardenCrop.component';
+
 //services
 import { BackendService } from './Services/backend.service';
 import { AuthService } from './Services/auth.service';
 import { SessionService } from './Services/session.service';
-import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
     RegisterComponent,
     CropComponent,
     AddCropComponent,
+    MessagesComponent,
+    GardenCropComponent
   ],
   imports: [
     BrowserModule,
@@ -46,13 +51,15 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
       { path: 'register', component: RegisterComponent },
       { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
-      { path: 'stand', component: StandComponent },
+      { path: 'user/:id/stand', component: StandComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'crops/:id', component: CropComponent },
       { path: 'garden/addcrop', component: AddCropComponent },
+      { path: 'messages', component: MessagesComponent },
+      { path: 'garden/crops/:id', component: GardenCropComponent },
     ])
   ],
   providers: [BackendService, SessionService, AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

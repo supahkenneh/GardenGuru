@@ -24,7 +24,7 @@
   <div class="garden-container">
     <div class="garden">
       <div class="card" *ngFor="let crop of garden">
-        <div class="img-container"><img routerLink="/crops/{{crop.id}}" src="{{crop.displayPhoto}}"></div>
+        <div class="img-container"><img routerLink="/garden/crops/{{crop.id}}" src="{{crop.displayPhoto}}"></div>
         <div>{{crop.description}}</div>
         <div>{{crop.garden_description}}</div>
       </div>
@@ -54,8 +54,9 @@
   <div class="button-container" *ngIf="showWaterButton">
     <button class="water-button" (click)="waterPlants()">Plants Watered</button>
   </div>
-  <div class="add-button" routerLink="addcrop">
+  <button class="add-button" routerLink="addcrop">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-plus">
-      <path d='M8.9 6.9v-5a1 1 0 1 0-2 0v5h-5a1 1 0 1 0 0 2h5v5a1 1 0 1 0 2 0v-5h5a1 1 0 1 0 0-2h-5z' /></svg>
-  </div>
+      <path d='M8.9 6.9v-5a1 1 0 1 0-2 0v5h-5a1 1 0 1 0 0 2h5v5a1 1 0 1 0 2 0v-5h5a1 1 0 1 0 0-2h-5z' />
+    </svg>
+  </button>
 </div>
