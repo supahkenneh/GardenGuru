@@ -70,7 +70,7 @@ router.post('/', upload.array('photo', 6), (req, res) => {
         planted_on: date,
         garden_description,
         description: '',
-        crop_status: 2,
+        crop_status: 1,
         owner_id: id,
         garden_description,
         harvest_date
