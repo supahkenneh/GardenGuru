@@ -9,9 +9,13 @@ import { Component } from '@angular/core';
 
 
 export class HeaderComponent {
-  constructor() {}
+  constructor() { }
 
   toggleSideBar() {
-      document.getElementById('sidebar').classList.toggle('active');
+    document.getElementById('sidebar').classList.toggle('active');
   }
+
+  // toggleSearchSideBar() { // to be used later
+  //   document.getElementById('searchSidebar').classList.toggle('active');
+  // }
 }
