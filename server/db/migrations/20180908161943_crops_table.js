@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function (knex, Promise) {
   return knex.schema.createTable('crops', table => {
     table.increments();
     table.string('description').notNullable();
@@ -14,9 +14,10 @@ exports.up = function(knex, Promise) {
     table.integer('crop_status').references('crop_statuses.id');
     table.string('price');
     table.date('harvest_date');
+    table.boolean('selling').defaultTo(false);
   })
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
   return knex.schema.dropTable('crops');
 };

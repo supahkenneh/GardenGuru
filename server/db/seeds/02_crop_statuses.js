@@ -6,17 +6,11 @@ exports.seed = function (knex, Promise) {
       // Inserts seed entries
       return knex('crop_statuses').insert([
         {
-          name: 'Selling'
-        },
-        {
           name: 'Growing'
         },
         {
           name: 'Removed'
         },
-        {
-          name: 'Out of Season'
-        }
       ]);
     });
 };
