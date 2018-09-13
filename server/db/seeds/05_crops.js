@@ -13,11 +13,12 @@ exports.seed = function (knex, Promise) {
           watering_interval: 7,
           inventory: 0,
           price: '$2',
-          crop_status: 2,
+          crop_status: 1,
           owner_id: 1,
           plant_id: 1,
           watering_date: '2018-09-09T00:48:38.382Z',
-          harvest_date: '2019-04-30T15:51:53.723'
+          harvest_date: '2019-04-30T15:51:53.723',
+          selling: false,
         },
         {
           description: 'Blueberries',
@@ -27,11 +28,12 @@ exports.seed = function (knex, Promise) {
           watering_interval: 7,
           inventory: 0,
           price: '$2',
-          crop_status: 2,
+          crop_status: 1,
           owner_id: 1,
           plant_id: 2,
           watering_date: '2018-09-09T00:48:38.382Z',
-          harvest_date: '2019-04-30T15:51:53.723'
+          harvest_date: '2019-04-30T15:51:53.723',
+          selling: false,
         },
         {
           description: 'Cherries',
@@ -45,7 +47,8 @@ exports.seed = function (knex, Promise) {
           owner_id: 1,
           plant_id: 3,
           harvest_date: '2018-09-12T15:51:53.723',
-          watering_date: '2018-09-09T00:48:38.382Z'
+          watering_date: '2018-09-09T00:48:38.382Z',
+          selling: true,
         },
         {
           description: 'Apples',
@@ -55,11 +58,12 @@ exports.seed = function (knex, Promise) {
           watering_interval: 7,
           inventory: 0,
           price: '$3',
-          crop_status: 2,
+          crop_status: 1,
           owner_id: 2,
           plant_id: 5,
           watering_date: '2018-09-09T00:48:38.382Z',
-          harvest_date: '2018-09-11T15:51:53.723'
+          harvest_date: '2018-09-11T15:51:53.723',
+          selling: true,
         },
         {
           description: 'green apples',
@@ -69,11 +73,12 @@ exports.seed = function (knex, Promise) {
           watering_interval: 7,
           inventory: 0,
           price: '$3',
-          crop_status: 2,
+          crop_status: 1,
           owner_id: 2,
           plant_id: 5,
           watering_date: '2018-09-09T00:48:38.382Z',
-          harvest_date: '2018-09-11T15:51:53.723'
+          harvest_date: '2018-09-11T15:51:53.723',
+          selling: true,
         },
         {
           description: 'maraschino cherries',
@@ -83,11 +88,12 @@ exports.seed = function (knex, Promise) {
           watering_interval: 7,
           inventory: 0,
           price: '$3',
-          crop_status: 2,
+          crop_status: 1,
           owner_id: 2,
           plant_id: 5,
           watering_date: '2018-09-09T00:48:38.382Z',
-          harvest_date: '2018-09-11T15:51:53.723'
+          harvest_date: '2018-09-11T15:51:53.723',
+          selling: false,
         },
         {
           description: 'Strawberries',
@@ -101,7 +107,8 @@ exports.seed = function (knex, Promise) {
           owner_id: 2,
           plant_id: 4,
           watering_date: '2018-09-09T00:48:38.382Z',
-          harvest_date: '2019-01-30T15:51:53.723'
+          harvest_date: '2019-01-30T15:51:53.723',
+          selling: false,
         }
       ]);
     });
