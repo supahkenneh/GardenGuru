@@ -15,6 +15,7 @@ export class StandComponent implements OnInit {
   garden;
   isGarden: boolean = false;
   cropId;
+  check: boolean = true;
   editFormData = {
     stand_name: ''
   };
@@ -24,7 +25,7 @@ export class StandComponent implements OnInit {
     details: '',
     price: '',
     inventory: '',
-    
+    check: this.check
   };
 
   @HostListener('document:click', ['$event'])
@@ -43,21 +44,32 @@ export class StandComponent implements OnInit {
   ) {
     this.user = session.getSession();
   }
-  moveToStand() {
-    console.log(this.cropId, 'move form data')
 
-    this.backend.moveToStand(this.cropId, this.moveFormData).then(response => {
-      this.backend.getGarden().then(result => {
-        this.garden = result;
+  toggleCheck() {
+    this.check = !this.check
+    this.moveFormData.check = !this.moveFormData.check
+    console.log(this.moveFormData.check)
+  }
+
+  moveToStand() {
+    console.log(this.cropId, 'move form data');
+
+    this.backend
+      .moveToStand(this.cropId, this.moveFormData)
+      .then(response => {
+        this.backend
+          .getGarden()
+          .then(result => {
+            this.garden = result;
+          })
+          .then(() => {
+            this.ngOnInit();
+            this.toggleGarden();
+          });
       })
-      .then(()=>{
-        this.ngOnInit()
-        this.toggleGarden()
-      })
-    })
-    .catch(err=>{
-      console.log(err.message)
-    })
+      .catch(err => {
+        console.log(err.message);
+      });
   }
   isLoggedIn() {
     return this.session.isLoggedIn;
@@ -68,8 +80,8 @@ export class StandComponent implements OnInit {
   }
 
   toggleEdit(crop) {
-    console.log('toggledit')
-    if(crop){
+    console.log('toggledit');
+    if (crop) {
       this.cropId = crop.id;
     }
     if (this.isEdit) {
@@ -92,7 +104,7 @@ export class StandComponent implements OnInit {
 
   deleteCrop(id) {
     this.backend.deleteCrop(id).then(result => {
-      // console.log(result);
+      console.log(result);
       this.ngOnInit();
     });
   }

@@ -44,6 +44,9 @@
 
       <div class="content-container" id="content-container">
         <div class="edit-form-container" *ngIf="isEdit">
+          <div class="choice-title">keep in garden?</div>
+          <div class="check-true" *ngIf="check" (click)="toggleCheck()">yes</div>
+          <div class="check-false" *ngIf="!check" (click)="toggleCheck()">no</div>
           <form class="edit-form">
             <label for="stand_name">Description</label>
             <input maxlength="25" type="text" name="description" [(ngModel)]="moveFormData.description">

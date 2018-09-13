@@ -175,6 +175,7 @@ router.get('/:id/stand', (req, res) => {
       if (crops.length < 1) {
         return res.send('Nothing but us chickens!');
       } else {
+        console.log(crops.models[0].attributes)
         return res.json(crops);
       }
     })

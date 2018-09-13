@@ -179,9 +179,15 @@ router.delete('/:id', (req, res) => {
     .fetch()
     .then(crop => {
       let status = crop.attributes.crop_status;
-      status = 3;
+      status = 2;
       return Crop.where({ id })
-        .save({ crop_status: status }, { patch: true })
+        .save(
+          {
+            crop_status: status,
+            selling: false
+          },
+          { patch: true }
+        )
         .then(() => {
           res.json({ success: 'true' });
         })
@@ -201,7 +207,7 @@ router.put('/:id/move', (req, res) => {
   const id = req.params.id;
   const { description, details, price, inventory, check } = req.body;
   const selling = true;
-  console.log(check)
+  console.log(check);
   if (check) {
     return new Crop({ id })
       .save(
