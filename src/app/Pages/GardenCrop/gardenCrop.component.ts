@@ -15,6 +15,7 @@ export class GardenCropComponent implements OnInit {
   date: any;
   isEdit: boolean = false;
   editId;
+  check: boolean = true;
 
   wateringDate: string;
   harvestDate: string;
@@ -34,8 +35,10 @@ export class GardenCropComponent implements OnInit {
     description: '',
     details: '',
     price: '',
-    inventory: ''
+    inventory: '',
+    check: this.check
   };
+
   newWaterDate: any;
 
   @HostListener('document:click', ['$event'])
@@ -60,6 +63,7 @@ export class GardenCropComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.cropId = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.cropId).then(result => {
       this.crop = result;
@@ -70,10 +74,15 @@ export class GardenCropComponent implements OnInit {
     });
   }
 
+  toggleCheck(){
+    this.check = !this.check
+    this.moveFormData.check = !this.moveFormData.check
+console.log(this.moveFormData.check)
+  }
+
   toggleEdit(crop) {
     if (crop) {
       this.editId = crop.id;
-      console.log(crop.id)
     }
     console.log('toggleEdit');
     this.isEdit = !this.isEdit;
@@ -88,11 +97,12 @@ export class GardenCropComponent implements OnInit {
   }
 
   moveToStand() {
-    console.log(this.cropId, 'move form data');
-
+    console.log(this.moveFormData.check, 'move form data');
     this.backend
       .moveToStand(this.cropId, this.moveFormData)
-      .then(response => {})
+      .then(response => {
+        this.isEdit = false
+      })
       .catch(err => {
         console.log(err.message);
       });

@@ -68,7 +68,6 @@ export class StandComponent implements OnInit {
   }
 
   toggleEdit(crop) {
-    console.log(crop)
     console.log('toggledit')
     if(crop){
       this.cropId = crop.id;
@@ -108,7 +107,6 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.cropId)
     this.userId = this.route.snapshot.paramMap.get('id');
     if (this.user.stand_name) {
       this.backend.getStand(this.userId).then(result => {
@@ -119,7 +117,6 @@ export class StandComponent implements OnInit {
     }
     this.backend.getGarden().then(result => {
       this.garden = result;
-      console.log('this.garden', this.garden);
     });
   }
 }

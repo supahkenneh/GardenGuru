@@ -40,6 +40,9 @@
 <div id="modal-container" *ngIf="isEdit">
   <div id="modal-content">
     <div class="edit-form-container" *ngIf="isEdit">
+      <div class="choice-title">keep in garden?</div>
+      <div class="check-true" *ngIf="check" (click)="toggleCheck()">yes</div>
+      <div class="check-false" *ngIf="!check" (click)="toggleCheck()">no</div>
       <form class="edit-form">
         <label for="description">Description</label>
         <input maxlength="25" type="text" name="description" [(ngModel)]="moveFormData.description">
@@ -50,7 +53,7 @@
         <label for="inventory">Inventory</label>
         <input maxlength="25" type="text" name="inventory" [(ngModel)]="moveFormData.inventory">
         <div class="buttons">
-          <button (click)="moveToStand()" (click)="toggleEdit()">Move To Stand</button>
+          <button (click)="moveToStand()">Move To Stand</button>
           <button (click)="turnEditToFalse()">Cancel</button>
         </div>
       </form>

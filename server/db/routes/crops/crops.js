@@ -27,28 +27,24 @@ const upload = multer({
     bucket: BUCKET_NAME,
     acl: 'public-read-write',
     metadata: (req, file, cb) => {
-      cb(null, { fieldName: file.fieldname })
+      cb(null, { fieldName: file.fieldname });
     },
-    key: function (req, file, cb) {
-      cb(null, `${req.user.username}/${Date.now().toString()}-${file.originalname}`)
+    key: function(req, file, cb) {
+      cb(
+        null,
+        `${req.user.username}/${Date.now().toString()}-${file.originalname}`
+      );
     }
   })
-})
+});
 
 router.get('/', (req, res) => {
   res.json('crops');
 });
 
 router.post('/', upload.array('photo', 6), (req, res) => {
-  let id = req.user.id
-  let {
-    plant,
-    watering,
-    month,
-    day,
-    year,
-    garden_description
-  } = req.body;
+  let id = req.user.id;
+  let { plant, watering, month, day, year, garden_description } = req.body;
   //YYYY-MM-DD
   //sets the next watering_date
   let date = moment()
@@ -87,15 +83,13 @@ router.post('/', upload.array('photo', 6), (req, res) => {
           let promises = req.files.map(file => {
             return new Photo({
               crop_id: newCrop.id,
-              link: file.location,
-            })
-              .save()
-          })
-          Promise.all(promises)
-            .then(() => res.json(newCrop))
-        })
+              link: file.location
+            }).save();
+          });
+          Promise.all(promises).then(() => res.json(newCrop));
+        });
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 router.post('/search/:term', (req, res) => {
@@ -105,24 +99,28 @@ router.post('/search/:term', (req, res) => {
   let err;
 
   if (!req.user) {
-    return Crop
-      .query(qb => {
-        if (category === 'Garden') {
-          return err = ('Please log in to search through your garden!');
-        } else if (category === 'Stand') {
-          return err = ('Please log in to search through your stand!');
-        } else if (category === 'Marketplace') {
-          qb.where('crop_status', '=', 1)
-            .andWhere('description', 'ILIKE', `${search}%`);
-        }
-      })
+    return Crop.query(qb => {
+      if (category === 'Garden') {
+        return (err = 'Please log in to search through your garden!');
+      } else if (category === 'Stand') {
+        return (err = 'Please log in to search through your stand!');
+      } else if (category === 'Marketplace') {
+        qb.where('crop_status', '=', 1).andWhere(
+          'description',
+          'ILIKE',
+          `${search}%`
+        );
+      }
+    })
       .fetchAll()
       .then(response => {
         if (err) {
-          return res.send(err)
+          return res.send(err);
         } else {
           if (response.length < 1) {
-            return res.send('Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.');
+            return res.send(
+              'Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.'
+            );
           } else {
             return res.json(response);
           }
@@ -132,24 +130,23 @@ router.post('/search/:term', (req, res) => {
         console.log('Error :', err);
       });
   } else {
-    return Crop
-      .query(qb => {
-        if (category === 'Marketplace') {
-          qb.innerJoin('users', 'crops.owner_id', 'users.id')
-          qb.where('crop_status', '=', 1)
-            .andWhere('city', '=', req.user.city)
-            .andWhere('owner_id', '!=', req.user.id)
-            .andWhere('description', 'ILIKE', `${search}%`);
-        } else if (category === 'Stand') {
-          qb.where('crop_status', '=', 1)
-            .andWhere('owner_id', '=', req.user.id)
-            .andWhere('description', 'ILIKE', `${search}%`);
-        } else if (category === 'Garden') {
-          qb.where('crop_status', '=', 2)
-            .andWhere('owner_id', '=', req.user.id)
-            .andWhere('description', 'ILIKE', `${search}%`);
-        }
-      })
+    return Crop.query(qb => {
+      if (category === 'Marketplace') {
+        qb.innerJoin('users', 'crops.owner_id', 'users.id');
+        qb.where('crop_status', '=', 1)
+          .andWhere('city', '=', req.user.city)
+          .andWhere('owner_id', '!=', req.user.id)
+          .andWhere('description', 'ILIKE', `${search}%`);
+      } else if (category === 'Stand') {
+        qb.where('crop_status', '=', 1)
+          .andWhere('owner_id', '=', req.user.id)
+          .andWhere('description', 'ILIKE', `${search}%`);
+      } else if (category === 'Garden') {
+        qb.where('crop_status', '=', 2)
+          .andWhere('owner_id', '=', req.user.id)
+          .andWhere('description', 'ILIKE', `${search}%`);
+      }
+    })
       .fetchAll()
       .then(response => {
         if (response.length < 1) {
@@ -160,14 +157,13 @@ router.post('/search/:term', (req, res) => {
       })
       .catch(err => {
         console.log('Error :', err);
-      })
+      });
   }
 });
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  return Crop
-    .query({ where: { id } })
+  return Crop.query({ where: { id } })
     .fetch({ withRelated: ['cropStatus', 'plant', 'photo'] })
     .then(crop => {
       return res.json(crop);
@@ -203,25 +199,40 @@ router.put('/:id', (req, res) => {
 router.put('/:id/move', (req, res) => {
   console.log('move');
   const id = req.params.id;
-  const { description, details, price, inventory } = req.body;
-  const crop_status = 1;
-  return new Crop({ id })
-    .save(
-      {
-        description,
-        details,
-        price,
-        inventory,
-        crop_status
-      },
-      { patch: true }
-    )
-    .then(crop => {
-      return res.json(crop);
-    })
-    .catch(err => {
-      console.log('err.message', err.message);
-    });
+  const { description, details, price, inventory, check } = req.body;
+  const selling = true;
+  console.log(check)
+  if (check) {
+    return new Crop({ id })
+      .save(
+        {
+          description,
+          details,
+          price,
+          inventory,
+          selling
+        },
+        { patch: true }
+      )
+      .then(crop => {
+        return res.json(crop);
+      })
+      .catch(err => {
+        console.log('err.message', err.message);
+      });
+  } else {
+    return new Crop({ id })
+      .save(
+        { description, details, price, inventory, selling, crop_status: 2 },
+        { patch: true }
+      )
+      .then(crop => {
+        return res.json(crop);
+      })
+      .catch(err => {
+        console.log('err.message', err.message);
+      });
+  }
 });
 
 module.exports = router;

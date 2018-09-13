@@ -44,6 +44,7 @@ export class GardenComponent implements OnInit {
         .then(result => {
           let resultArr = Object.values(result);
           resultArr.map(crop => {
+            console.log(crop.cropStatus['name'])
             //show only crops that are growing
             if (crop.cropStatus['name'] === 'Growing') {
               switch (crop.plant['type_id']) {
