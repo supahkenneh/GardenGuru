@@ -67,8 +67,14 @@ export class BackendService {
     const userUrl = this.url + 'user/addStand';
     return this.http.put(userUrl, data).toPromise();
   }
+
   updateWateringDays(data) {
     const waterUrl = this.url + 'garden/water';
     return this.http.put(waterUrl, data).toPromise();
+  }
+
+  editGardenCrop(data) {
+    const editUrl = this.url + `garden/crop/${data.id}`;
+    return this.http.put(editUrl, data).toPromise();
   }
 }

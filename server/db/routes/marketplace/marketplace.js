@@ -5,9 +5,9 @@ router.get('/', (req, res) => {
   return User
     .query({where: {city : req.user.city}})  
     .orderBy('rating', 'ASC')
-    .fetchAll()
-    .then(response => {
-      return res.json(response);
+    .fetchAll({columns: ['stand_name', 'username']})
+    .then(user => {
+      return res.json(user);
     })
     .catch(err => {
       console.log('error :', err);

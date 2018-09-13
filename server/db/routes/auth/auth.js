@@ -27,7 +27,8 @@ passport.deserializeUser((user, done) => {
       return done(null, {
         id: user.id,
         username: user.username.toLowerCase(),
-        city: user.city
+        city: user.city,
+        state: user.state
       });
     })
     .catch(err => {

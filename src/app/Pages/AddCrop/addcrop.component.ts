@@ -29,14 +29,24 @@ export class AddCropComponent implements OnInit {
     day: string;
     year: string;
     garden_description: string;
+    photo: File[];
   } = {
       plant: 0,
       watering: 0,
       month: '',
       day: '',
       year: '',
-      garden_description: ''
+      garden_description: '',
+      photo: []
     }
+
+  photosToUpload: File[] = [];
+  acceptableExtensions: string[] = ['.jpg', '.png', '.jpeg']
+  acceptableSize: number = 1000000000;
+  showPhotoError: boolean = false;
+  unacceptablePhoto: string = 'File format not accepted, please upload .jpg, .jpeg, or .png';
+  unacceptableSize: string = 'File size exceeded, max 1GB'
+  photoErrors: string[] = [];
 
   constructor(
     private backend: BackendService,
@@ -78,8 +88,29 @@ export class AddCropComponent implements OnInit {
   }
 
   selectToday() {
+    console.log(this.cropFormData.photo);
     this.cropFormData.year = this.year;
     this.cropFormData.month = this.months[Number(this.month) - 1];
     this.cropFormData.day = this.day;
+  }
+
+  updatePhotoList(event) {
+    let file = event.target.files[0];
+    let fileSize = file.size
+    let dot = file.name.indexOf('.');
+    let extension = file.name.slice(dot, file.name.length);
+    if (this.acceptableExtensions.includes(extension.toLowerCase())) {
+      if (fileSize < this.acceptableSize) {
+        return this.cropFormData.photo.push(file)
+      } else {
+        return this.photoErrors.push(this.unacceptableSize);
+      }
+    } else {
+      return this.photoErrors.push(this.unacceptablePhoto)
+    }
+  }
+
+  getPhotoErrors() {
+    return this.photoErrors.join(', ');
   }
 }
