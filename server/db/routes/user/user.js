@@ -83,7 +83,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
       itemOwner = crop.attributes.owner_id;
       item = crop.attributes.description.toLowerCase();
     })
-    .then(() => { // Three-layer message-and-users validation check
+    .then(() => { // Multi-layer message-and-users validation check
       if (seller_id === from && seller_id !== to) {
         return Message
           .where({
@@ -99,10 +99,10 @@ router.post('/:toId/messages/:cropId', (req, res) => {
           });
       } else if (seller_id === from && seller_id === to) {
         return err = 'You cannot be the recipient of your own message!';
-      } else if (userId !== from) {
-        return err = 'You cannot send a message as someone else!';
       } else if (seller_id !== to && seller_id !== from) {
         return err = 'This crop does not belong to you nor the recipient!';
+      } else if (userId !== from) {
+        return err = 'You cannot send a message as someone else!';
       } else if (seller_id !== itemOwner) {
         return err = 'There was an error matching the crop to its owner. Please try again.'
       }
@@ -120,7 +120,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
 
             const data = {
               from: `GroBro <${botEmail}>`,
-              to: `${receiver}`,
+              to: `manmckarl@gmail.com`,
               subject: `Someone is interested in buying your ${item}!`,
               text: `${messageBody}`
             };
@@ -138,6 +138,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
             })
               .save()
               .then(message => {
+                console.log('message', message)
                 res.json(message);
               });
           });
