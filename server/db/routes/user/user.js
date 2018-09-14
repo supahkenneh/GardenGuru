@@ -19,10 +19,10 @@ router.get('/messages', (req, res) => {
     return res.send('Please log in to proceed to your inbox.');
   } else {
     return Message
-      .query({ where: { to: req.user.id }, orWhere: { from: req.user.id }})
+      .query({ where: { to: req.user.id }, orWhere: { from: req.user.id } })
       .fetchAll({ withRelated: ['to', 'from', 'crops'] })
       .then(response => {
-        if (response.length < 1){
+        if (response.length < 1) {
           return res.send('Nobody here but us chickens!')
         } else {
           return res.json(response);
@@ -41,7 +41,7 @@ router.get('/messages/:id', (req, res) => {
     return res.send('Please log in to proceed to your inbox.');
   } else {
     return Message
-      .query({ 
+      .query({
         where: { crop_id, to: req.user.id },
         orWhere: { crop_id, from: req.user.id }
       })
@@ -64,11 +64,11 @@ router.post('/:toId/messages/:cropId', (req, res) => {
   const userId = req.user.id;
   const cropId = req.params.cropId;
   const to = Number(req.params.toId); // for proper comparison
-  
+
   const from = req.body.from;
   const seller_id = req.body.seller_id;
   const messageBody = req.body.content;
-  
+
   let itemOwner;
   let item;
   let err;
@@ -77,7 +77,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
     .where({ id: cropId })
     .fetch()
     .then(crop => { // Crop validation check
-      if (!crop) { 
+      if (!crop) {
         res.send('Item does not exist.')
       }
       itemOwner = crop.attributes.owner_id;
@@ -190,7 +190,23 @@ router.put('/addStand', (req, res) => {
   return new User({ id })
     .save({ stand_name }, { patch: true })
     .then(user => {
-      return res.json(user);
+      return user.refresh()
+    })
+    .then(user => {
+      let userProfile = {
+        id: user.attributes.id,
+        stand_name: user.attributes.stand_name,
+        username: user.attributes.username,
+        email: user.attributes.email,
+        first_name: user.attributes.first_name,
+        last_name: user.attributes.last_name,
+        rating: user.attributes.rating,
+        bio: user.attributes.bio,
+        city: user.attributes.city,
+        state: user.attributes.state,
+        avatar_link: user.attributes.avatar_link
+      }
+      return res.json(userProfile);
     })
     .catch(err => {
       console.log('err.message', err.message);

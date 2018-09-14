@@ -85,7 +85,6 @@ export class GardenCropComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.cropId = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.cropId)
       .then(result => {
@@ -132,7 +131,7 @@ export class GardenCropComponent implements OnInit {
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
-        this.movingToStand = false
+        this.router.navigate([`/user/${this.user['id']}/stand`])
       })
       .catch(err => {
         console.log(err.message);

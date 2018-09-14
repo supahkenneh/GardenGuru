@@ -10,16 +10,19 @@ export class StandComponent implements OnInit {
   userId;
   crops;
   user;
-  noStand;
+  noStand: boolean;
   isEdit: boolean = false;
   garden;
   isGarden: boolean = false;
   cropId;
   check: boolean = true;
   userIsUser: boolean = false;
-  editFormData = {
-    stand_name: ''
-  };
+
+  standFormdata: {
+    stand_name: string,
+  } = {
+      stand_name: ''
+    }
 
   moveFormData = {
     description: '',
@@ -46,6 +49,31 @@ export class StandComponent implements OnInit {
     this.user = session.getSession();
   }
 
+  ngOnInit() {
+    this.userId = this.route.snapshot.paramMap.get('id');
+    if (parseInt(this.userId) === this.user.id) {
+      this.userIsUser = true
+    }
+    if (this.user.stand_name) {
+      this.backend.getStand(this.userId)
+        .then(result => {
+          this.sortContacts(result);
+          let resultArr = Object.values(result);
+          resultArr.map(crop => {
+            if (crop.photo.length > 0) {
+              crop.displayPhoto = crop.photo[0].link;
+            }
+          })
+        });
+    } else {
+      this.noStand = !this.noStand;
+    }
+    this.backend.getGarden().then(result => {
+      this.garden = result;
+    });
+  }
+
+
   toggleCheck() {
     this.check = !this.check
     this.moveFormData.check = !this.moveFormData.check
@@ -57,18 +85,13 @@ export class StandComponent implements OnInit {
       .then(response => {
         this.backend
           .getGarden()
-          .then(result => {
-            console.log('garden', result)
-            this.garden = result;
-          })
+          .then(result => this.garden = result)
           .then(() => {
             this.ngOnInit();
             this.toggleGarden();
           });
       })
-      .catch(err => {
-        console.log(err.message);
-      });
+      .catch(err => console.log(err.message));
   }
   isLoggedIn() {
     return this.session.isLoggedIn;
@@ -79,12 +102,8 @@ export class StandComponent implements OnInit {
   }
 
   toggleEdit(crop) {
-    if (crop) {
-      this.cropId = crop.id;
-    }
-    if (this.isEdit) {
-      this.isEdit = !this.isEdit;
-    }
+    if (crop) { this.cropId = crop.id; }
+    if (this.isEdit) { this.isEdit = !this.isEdit; }
     this.isEdit = !this.isEdit;
   }
 
@@ -93,7 +112,7 @@ export class StandComponent implements OnInit {
   }
 
   sortContacts(result) {
-    this.crops = result.sort(function(a, b) {
+    this.crops = result.sort(function (a, b) {
       var textA = a.description;
       var textB = b.description;
       return textA > textB;
@@ -107,29 +126,12 @@ export class StandComponent implements OnInit {
   }
 
   editUser() {
-    // console.log()
-    this.backend.editUser(this.editFormData).then(result => {
-      this.user.stand_name = result['stand_name'];
-      this.session.setSession(this.user);
-      this.ngOnInit();
-    });
-  }
-
-  ngOnInit() {
-    this.userId = this.route.snapshot.paramMap.get('id');
-    console.log(this.user.id, this.userId)
-    if(parseInt(this.userId) === this.user.id){
-      this.userIsUser = true
-    }
-    if (this.user.stand_name) {
-      this.backend.getStand(this.userId).then(result => {
-        this.sortContacts(result);
+    this.backend.editUser(this.standFormdata)
+      .then(result => {
+        this.user.stand_name = result['stand_name'];
+        this.session.setSession(this.user);
+        this.noStand = false;
+        this.ngOnInit();
       });
-    } else {
-      this.noStand = !this.noStand;
-    }
-    this.backend.getGarden().then(result => {
-      this.garden = result;
-    });
   }
 }

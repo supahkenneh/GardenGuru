@@ -90,7 +90,6 @@ export class BackendService {
     return this.http.put(waterUrl, data).toPromise();
   }
   moveToStand(id, data) {
-    console.log(data);
     const form = new FormData();
     form.append('check', data.check);
     form.append('description', data.description);
