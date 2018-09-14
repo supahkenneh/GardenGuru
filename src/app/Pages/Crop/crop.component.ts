@@ -26,10 +26,7 @@ export class CropComponent implements OnInit {
     private auth: AuthService
   ) {
     this.user = session.getSession();
-  }
-
-  isLoggedIn() {
-    return this.session.isLoggedIn();
+    this.loggedIn = this.session.isLoggedIn();
   }
 
   deleteCrop() {
