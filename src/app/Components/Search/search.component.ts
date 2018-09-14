@@ -18,8 +18,8 @@ export class SearchComponent {
   clickout(event) {
     if (
       event.target !== document.getElementById('search-sidebar') &&
-      event.target.id !== 'search' &&
-      document.getElementById('search-sidebar').className === 'active'
+      event.target.id !== 'search-sidebar' &&
+      document.getElementById('search-sidebar-container').className === 'active'
     ) {
       document.getElementById('search-sidebar').classList.toggle('active');
     }

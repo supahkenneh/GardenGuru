@@ -4,7 +4,7 @@
     <!-- <span>{{ getCategoryErrors() }}</span> -->
     <select name="search-category" [(ngModel)]="newItemFormData.category_id" (change)="validateCategory()">
       <!-- <option value="-1" class="option">Select Category</option> -->
-      <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
+      <option *ngFor="let category of categories" value="{{category}}">x{{category}}</option>
     </select>
     
     <!-- <label for="description">Description</label> -->
