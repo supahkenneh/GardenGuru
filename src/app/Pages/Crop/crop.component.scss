@@ -44,4 +44,32 @@
       font-size: 16px;
     }
   }
+  .auth-actions {
+    position: fixed;
+    bottom: 80px;
+    .edit-button {
+      position: fixed;
+      bottom: 80px;
+      left: 30px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      background: #6BA368;
+    }
+    .delete-button {
+      position: fixed;
+      bottom: 80px;
+      right: 30px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      background: #6BA368;
+    }
+  }
 }

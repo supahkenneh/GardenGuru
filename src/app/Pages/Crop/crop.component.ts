@@ -9,7 +9,7 @@ import { AuthService } from '../../Services/auth.service';
 })
 export class CropComponent implements OnInit {
   userId: string;
-  id;
+  cropId;
   loggedIn: boolean = false;
   crop: object;
   user
@@ -30,18 +30,17 @@ export class CropComponent implements OnInit {
   }
 
   deleteCrop() {
-    this.backend.deleteCrop(this.id)
+    this.backend.deleteCrop(this.cropId)
       .then(result => {
         this.ngOnInit()
       })
   }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
-    return this.backend.getCrop(this.id)
+    this.cropId = this.route.snapshot.paramMap.get('id');
+    return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
-        console.log(this.crop);
         if (this.crop['photo'].length > 0) {
           this.crop['photo'].map(photo => {
             this.photos.push(photo.link);
