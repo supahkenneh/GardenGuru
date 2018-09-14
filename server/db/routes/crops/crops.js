@@ -199,43 +199,87 @@ router.put('/:id', (req, res) => {
   res.json('edit specific crop');
 });
 
-router.put('/:id/move', (req, res) => {
-  console.log('move');
+router.put('/:id/move', upload.array('photo', 6), (req, res) => {
   const id = req.params.id;
   const { description, details, price, inventory, check } = req.body;
   const selling = true;
-  console.log(check);
-  if (check) {
-    return new Crop({ id })
-      .save(
-        {
-          description,
-          details,
-          price,
-          inventory,
-          selling
-        },
-        { patch: true }
-      )
-      .then(crop => {
-        return res.json(crop);
+  let savingPhotosPromise = new Promise((resolve, reject) => {
+    if (req.body.links) {
+      if (Array.isArray(req.body.links)) {
+        let linkArr = Object.values(req.body.links)
+        let linkPromises = linkArr.map(link => {
+          return Photo
+            .where({ link, crop_id: id })
+            .save({ selling }, { patch: true })
+        })
+        Promise.all(linkPromises)
+          .then(() => resolve())
+          .catch(() => reject())
+      } else {
+        return Photo
+          .where({ link: req.body.link, crop_id: id })
+          .save({ selling })
+          .then(() => resolve())
+          .catch(() => reject())
+      }
+    } else {
+      resolve()
+    }
+  })
+  let savePhotoLocationPromise = new Promise((resolve, reject) => {
+    if (req.files.length === 0 || !req.files) {
+      resolve()
+    } else {
+      let promises = req.files.map(file => {
+        return new Photo({
+          crop_id: id,
+          link: file.location,
+          selling,
+        })
+          .save()
       })
-      .catch(err => {
-        console.log('err.message', err.message);
-      });
-  } else {
-    return new Crop({ id })
-      .save(
-        { description, details, price, inventory, selling, crop_status: 2 },
-        { patch: true }
-      )
-      .then(crop => {
-        return res.json(crop);
-      })
-      .catch(err => {
-        console.log('err.message', err.message);
-      });
-  }
+      Promise.all(promises)
+        .then(() => resolve())
+        .catch(() => reject())
+    }
+  })
+  savingPhotosPromise
+    .then(() => {
+      savePhotoLocationPromise
+    })
+    .then(() => {
+      if (check) {
+        return new Crop({ id })
+          .save(
+            {
+              description,
+              details,
+              price,
+              inventory,
+              selling
+            },
+            { patch: true }
+          )
+          .then(crop => {
+            return res.json(crop);
+          })
+          .catch(err => {
+            console.log('err.message', err.message);
+          });
+      } else {
+        return new Crop({ id })
+          .save(
+            { description, details, price, inventory, selling, crop_status: 2 },
+            { patch: true }
+          )
+          .then(crop => {
+            return res.json(crop);
+          })
+          .catch(err => {
+            console.log('err.message', err.message);
+          });
+      }
+    })
 });
 
 module.exports = router;

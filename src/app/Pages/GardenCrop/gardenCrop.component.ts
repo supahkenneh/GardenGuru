@@ -13,7 +13,7 @@ export class GardenCropComponent implements OnInit {
   loggedIn: boolean = false;
   crop: object;
   date: any;
-  isEdit: boolean = false;
+  movingToStand: boolean = false;
   editId;
   check: boolean = true;
 
@@ -68,7 +68,7 @@ export class GardenCropComponent implements OnInit {
     document.getElementById('modal-content');
     document.getElementById('content-container');
     if (event.target === document.getElementById('modal-container')) {
-      this.isEdit = !this.isEdit;
+      this.movingToStand = !this.movingToStand;
     }
   }
 
@@ -116,7 +116,7 @@ export class GardenCropComponent implements OnInit {
     if (crop) {
       this.editId = crop.id;
     }
-    this.isEdit = !this.isEdit;
+    this.movingToStand = !this.movingToStand;
   }
 
   deleteCrop() {
@@ -128,10 +128,11 @@ export class GardenCropComponent implements OnInit {
   }
 
   moveToStand() {
-    this.backend
-      .moveToStand(this.cropId, this.moveFormData)
+    this.moveFormData['selectedForStand'] = this.selectedForStand;
+    this.moveFormData['uploadForStand'] = this.photosToStand;
+    this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
-        this.isEdit = false
+        this.movingToStand = false
       })
       .catch(err => {
         console.log(err.message);
@@ -174,6 +175,12 @@ export class GardenCropComponent implements OnInit {
     this.photosToDelete.length = 0;
     this.photosToUpload.length = 0;
     this.gardenEditing = false;
+  }
+
+  cancelStand() {
+    this.photosToStand.length = 0;
+    this.selectedForStand.length = 0;
+    this.movingToStand = false;
   }
 
   recalculateDate(date, days) {
@@ -247,7 +254,11 @@ export class GardenCropComponent implements OnInit {
     let extension = file.name.slice(dot, file.name.length);
     if (this.acceptableExtensions.includes(extension.toLowerCase())) {
       if (fileSize < this.acceptableSize) {
-        return this.photosToUpload.push(file)
+        if (!this.movingToStand) {
+          return this.photosToUpload.push(file);
+        } else {
+          return this.photosToStand.push(file);
+        }
       } else {
         return this.photoErrors.push(this.unacceptableSize);
       }

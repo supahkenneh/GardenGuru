@@ -19,7 +19,7 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
-  getMarketplaceCrops(){
+  getMarketplaceCrops() {
     const getUrl = this.url + 'marketplace/crops';
     return this.http.get(getUrl).toPromise();
   }
@@ -90,8 +90,25 @@ export class BackendService {
     return this.http.put(waterUrl, data).toPromise();
   }
   moveToStand(id, data) {
+    console.log(data);
+    const form = new FormData();
+    form.append('check', data.check);
+    form.append('description', data.description);
+    form.append('details', data.details);
+    form.append('inventory', data.inventory);
+    form.append('price', data.price);
+    if (data.selectedForStand) {
+      data.selectedForStand.map(photo => {
+        form.append('links', photo);
+      })
+    }
+    if (data.uploadForStand) {
+      data.uploadForStand.map(photo => {
+        form.append('photo', photo);
+      })
+    }
     const moveUrl = this.url + `crops/${id}/move`;
-    return this.http.put(moveUrl, data).toPromise();
+    return this.http.put(moveUrl, form).toPromise();
   }
   editGardenCrop(data) {
     console.log(data);
