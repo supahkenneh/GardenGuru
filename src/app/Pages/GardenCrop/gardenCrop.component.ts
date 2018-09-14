@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
@@ -13,6 +13,9 @@ export class GardenCropComponent implements OnInit {
   loggedIn: boolean = false;
   crop: object;
   date: any;
+  isEdit: boolean = false;
+  editId;
+  check: boolean = true;
 
   //view switchers
   gardenEditing: boolean = false;
@@ -40,13 +43,30 @@ export class GardenCropComponent implements OnInit {
 
   //form data
   gardenEditFormData: {
-    garden_description: string,
-    watering_interval: number,
+    garden_description: string;
+    watering_interval: number;
   } = {
       garden_description: '',
-      watering_interval: 0,
-    }
+      watering_interval: 0
+    };
 
+  moveFormData = {
+    description: '',
+    details: '',
+    price: '',
+    inventory: '',
+    check: this.check
+  };
+
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    document.getElementById('modal-content');
+    document.getElementById('content-container');
+    if (event.target === document.getElementById('modal-container')) {
+      this.isEdit = !this.isEdit;
+    }
+  }
 
   constructor(
     private backend: BackendService,
@@ -61,11 +81,11 @@ export class GardenCropComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.cropId = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
-        // this.crop['mainPhoto'] = result['photo'][0].link;
         //gets photo links to be displayed on page
         if (this.crop['photo'].length > 0) {
           this.crop['photo'].map(photo => {
@@ -83,19 +103,43 @@ export class GardenCropComponent implements OnInit {
       });
   }
 
+  toggleCheck() {
+    this.check = !this.check
+    this.moveFormData.check = !this.moveFormData.check
+  }
+
+  toggleEdit(crop) {
+    if (crop) {
+      this.editId = crop.id;
+    }
+    this.isEdit = !this.isEdit;
+  }
+
   deleteCrop() {
-    this.backend.deleteCrop(this.cropId)
-      .then(result => {
-        if (result['success']) {
-          return this.router.navigate(['/garden'])
-        }
+    this.backend.deleteCrop(this.cropId).then(result => {
+      if (result['success']) {
+        return this.router.navigate(['/garden']);
+      }
+    });
+  }
+
+  moveToStand() {
+    this.backend
+      .moveToStand(this.cropId, this.moveFormData)
+      .then(response => {
+        this.isEdit = false
+      })
+      .catch(err => {
+        console.log(err.message);
       });
   }
 
   editGardenCrop() {
     this.gardenEditing = true;
-    this.gardenEditFormData.watering_interval = this.crop['watering_interval']
-    this.gardenEditFormData.garden_description = this.crop['garden_description']
+    this.gardenEditFormData.watering_interval = this.crop['watering_interval'];
+    this.gardenEditFormData.garden_description = this.crop[
+      'garden_description'
+    ];
   }
 
   submitGardenEdit() {
@@ -122,10 +166,6 @@ export class GardenCropComponent implements OnInit {
       })
   }
 
-  moveToStand() {
-    console.log('stand');
-  }
-
   cancel() {
     this.photosToDelete.length = 0;
     this.gardenEditing = false;
@@ -135,14 +175,14 @@ export class GardenCropComponent implements OnInit {
     let newDate = new Date(
       date.getFullYear(),
       date.getMonth(),
-      date.getDate() + Number(days),
-    )
+      date.getDate() + Number(days)
+    );
     let dateToModify = newDate.toLocaleDateString();
     let newDay = ('0' + new Date(dateToModify).getDate()).slice(-2);
     let newMonth = ('0' + (new Date(dateToModify).getMonth() + 1)).slice(-2);
     let newYear = new Date(dateToModify).getFullYear();
-    let modifiedDate = `${newYear}-${newMonth}-${newDay}`
-    return this.newWaterDate = modifiedDate;
+    let modifiedDate = `${newYear}-${newMonth}-${newDay}`;
+    return (this.newWaterDate = modifiedDate);
   }
 
   getNewWaterDate() {

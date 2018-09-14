@@ -9,6 +9,8 @@ import { SessionService } from '../../Services/session.service';
 export class MarketplaceComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
+  stands
+  crops
 
   constructor(
     private backend: BackendService,
@@ -21,7 +23,15 @@ export class MarketplaceComponent implements OnInit {
   ngOnInit() {
     return this.backend.getMarketplace()
       .then(result => {
-        console.log('result :', result);
+        this.stands = result
+        console.log(this.stands)
+      })
+      .then(()=>{
+        return this.backend.getMarketplaceCrops()
+        .then(crops=>{
+          this.crops = crops
+          console.log('crops',this.crops)
+        })
       })
   }
 }
