@@ -14,6 +14,11 @@ export class CropComponent implements OnInit {
   crop: object;
   user
 
+  //photo stuff
+  photos: string[] = [];
+  currentPhoto: string;
+  hasPhoto: boolean = false;
+
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -38,8 +43,40 @@ export class CropComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.id)
       .then(result => {
-
-        return this.crop = result;
+        this.crop = result;
+        console.log(this.crop);
+        if (this.crop['photo'].length > 0) {
+          this.crop['photo'].map(photo => {
+            this.photos.push(photo.link);
+          })
+          this.currentPhoto = this.photos[0];
+          this.hasPhoto = true;
+        } else {
+          this.hasPhoto = false;
+        }
       });
   }
+
+  //photo handlers
+  previousPhoto() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    if ((index - 1) < 0) {
+      return this.currentPhoto = this.photos[this.photos.length - 1]
+    }
+    return this.currentPhoto = this.photos[index - 1]
+  }
+
+  nextPhoto() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    if ((index + 1) === this.photos.length) {
+      return this.currentPhoto = this.photos[0]
+    }
+    return this.currentPhoto = this.photos[index + 1]
+  }
+
+  imageCounter() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    return `${index + 1} of ${this.photos.length} images`
+  }
+
 }

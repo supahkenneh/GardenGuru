@@ -15,7 +15,7 @@ export class StandComponent implements OnInit {
   buildStand: boolean;
   garden;
   showingGarden: boolean = false;
-  cropId;
+  cropId: string;
   check: boolean = true;
   userIsUser: boolean = false;
 

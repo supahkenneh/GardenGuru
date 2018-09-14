@@ -163,10 +163,17 @@ router.post('/search/:term', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  return Crop.query({ where: { id } })
+  return Crop
+    .query({ where: { id } })
     .fetch({ withRelated: ['cropStatus', 'plant', 'photo'] })
     .then(crop => {
-      return res.json(crop);
+      return User
+        .query({ where: { id: crop.attributes.owner_id } })
+        .fetch({ columns: ['id', 'username', 'stand_name'] })
+        .then(user => {
+          crop.attributes['user'] = user.attributes
+          return res.json(crop);
+        })
     })
     .catch(err => {
       console.log('err', err);
