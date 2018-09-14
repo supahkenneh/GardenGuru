@@ -27,9 +27,9 @@ server.use(passport.session());
 
 server.use('/api', routes);
 
-server.get('*', (req, res) => {
-  res.sendFile('index.html');
-});
+// server.get('*', (req, res) => {
+//   res.sendFile('index.html');
+// });
 
 server.listen(PORT, () => {
   console.log(`Connected to port ${PORT}\n`);

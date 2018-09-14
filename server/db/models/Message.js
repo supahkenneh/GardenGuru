@@ -16,14 +16,6 @@ class Message extends bookshelf.Model {
   from() {
     return this.belongsTo('User', 'from');
   }
-
-  seller() {
-    return this.belongsTo('User', 'seller_id');
-  }
-
-  crops() {
-    return this.belongsTo('Crop', 'crop_id');
-  }
 }
 
 module.exports = bookshelf.model('Message', Message);

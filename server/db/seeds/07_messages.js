@@ -8,24 +8,18 @@ exports.seed = function(knex, Promise) {
         {
           to: 2,
           from: 1,
-          seller_id: 2,
-          crop_id: 5,
           content: 'Hello, I would like to buy some of your strawberries. Where is a good place to meet up? I\'m free everyday after 4pm.',
           read: false
         },
         {
           to: 1,
           from: 3,
-          seller_id: 1,
-          crop_id: 3,
           content: 'Hey I saw that you have some cherries up. What kind of cherries are they?',
           read: false
         },
         {
           to: 1,
           from: 2,
-          seller_id: 1,
-          crop_id: 3,
           content: 'How many cherries do you have left? I\'m looking to buy a lot. Are you willing to haggle for them?',
           read: false
         }
