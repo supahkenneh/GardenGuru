@@ -22,7 +22,7 @@ router.get('/messages', (req, res) => {
       where: { to: req.user.id },
       orWhere: { from: req.user.id }
     })
-      .fetchAll({ withRelated: ['to', 'from',] })
+      .fetchAll({ withRelated: ['to', 'from'] })
       .then(response => {
         if (response.length < 1) {
           return res.send('Nobody here but us chickens!');
@@ -74,20 +74,27 @@ router.post('/messages/:id', (req, res) => {
   })
     .save()
     .then(message => {
-      const data = {
-        from: `GroBro <${botEmail}>`,
-        to: `manmckarl@gmail.com`,
-        subject: `${req.user.username} is trying to reach you!`,
-        text: `${messageBody}`
-      };
-      mailgun.messages().send(data, (error, body) => {
-        if (error) {
-          console.log(error);
-        }
-        console.log('Data :', data);
-        console.log('Body :', body);
+      return User
+      .where({ id: to })
+      .fetch()
+      .then(user => {
+        const toEmail = user.attributes.email
+        console.log(toEmail)
+        const data = {
+          from: `GroBro <${botEmail}>`,
+          to: `${toEmail}`,
+          subject: `${req.user.username} is trying to reach you!`,
+          text: `${messageBody}`
+        };
+        mailgun.messages().send(data, (error, body) => {
+          if (error) {
+            console.log(error);
+          }
+          console.log('Data :', data);
+          console.log('Body :', body);
+        });
+        res.json(message);
       });
-      res.json(message);
     });
   //         });
   // return Crop
