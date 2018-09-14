@@ -12,8 +12,9 @@ export class StandComponent implements OnInit {
   user;
   noStand: boolean;
   isEdit: boolean = false;
+  buildStand: boolean;
   garden;
-  isGarden: boolean = false;
+  showingGarden: boolean = false;
   cropId;
   check: boolean = true;
   userIsUser: boolean = false;
@@ -37,7 +38,7 @@ export class StandComponent implements OnInit {
     document.getElementById('modal-content');
     document.getElementById('content-container');
     if (event.target === document.getElementById('modal-container')) {
-      this.isGarden = !this.isGarden;
+      this.showingGarden = !this.showingGarden;
     }
   }
 
@@ -68,11 +69,12 @@ export class StandComponent implements OnInit {
     } else {
       this.noStand = !this.noStand;
     }
-    this.backend.getGarden().then(result => {
-      this.garden = result;
-    });
+    this.backend.getGarden()
+      .then(result => {
+        this.garden = result;
+        console.log(this.garden);
+      });
   }
-
 
   toggleCheck() {
     this.check = !this.check
@@ -88,7 +90,7 @@ export class StandComponent implements OnInit {
           .then(result => this.garden = result)
           .then(() => {
             this.ngOnInit();
-            this.toggleGarden();
+            this.showGarden();
           });
       })
       .catch(err => console.log(err.message));
@@ -107,8 +109,18 @@ export class StandComponent implements OnInit {
     this.isEdit = !this.isEdit;
   }
 
-  toggleGarden() {
-    this.isGarden = !this.isGarden;
+  buildingStand() {
+    if (this.buildStand) {
+      return this.buildStand = false
+    }
+    return this.buildStand = true
+  }
+
+  showGarden() {
+    if (this.showingGarden) {
+      return this.showingGarden = false;
+    }
+    return this.showingGarden = true;
   }
 
   sortContacts(result) {
