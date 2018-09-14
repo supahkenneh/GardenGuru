@@ -19,6 +19,13 @@ export class StandComponent implements OnInit {
   check: boolean = true;
   userIsUser: boolean = false;
 
+  //crop photo values
+  cropPhotos: string[] = [];
+  //holds photos to upload
+  photosToStand: File[] = [];
+  //holds photos to carry over to stand
+  selectedForStand: string[] = [];
+
   standFormdata: {
     stand_name: string,
   } = {
@@ -73,6 +80,9 @@ export class StandComponent implements OnInit {
       .then(result => {
         this.garden = result;
         console.log(this.garden);
+        this.garden.map(crop => {
+          crop['mainPhoto'] = crop.photo[0].link
+        })
       });
   }
 
@@ -82,11 +92,13 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
-    this.backend
-      .moveToStand(this.cropId, this.moveFormData)
+    console.log(this.selectedForStand);
+    console.log(this.photosToStand);
+    this.moveFormData['selectedForStand'] = this.selectedForStand;
+    this.moveFormData['uploadForStand'] = this.photosToStand;
+    this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
-        this.backend
-          .getGarden()
+        this.backend.getGarden()
           .then(result => this.garden = result)
           .then(() => {
             this.ngOnInit();
@@ -95,6 +107,7 @@ export class StandComponent implements OnInit {
       })
       .catch(err => console.log(err.message));
   }
+
   isLoggedIn() {
     return this.session.isLoggedIn;
   }
@@ -105,7 +118,15 @@ export class StandComponent implements OnInit {
 
   toggleEdit(crop) {
     if (crop) { this.cropId = crop.id; }
-    if (this.isEdit) { this.isEdit = !this.isEdit; }
+    if (this.isEdit) {
+      this.isEdit = !this.isEdit;
+    }
+    this.garden.map(crop => {
+      if (crop.id === this.cropId) {
+        this.moveFormData = crop;
+        this.cropPhotos = crop.photo;
+      }
+    })
     this.isEdit = !this.isEdit;
   }
 
@@ -145,5 +166,24 @@ export class StandComponent implements OnInit {
         this.noStand = false;
         this.ngOnInit();
       });
+  }
+
+  //photo functions
+  selectPhoto(event) {
+    if (!this.selectedForStand.includes(event.target.src)) {
+      this.selectedForStand.push(event.target.src)
+      event.target.style.border = '3px solid #2c84fc'
+    } else {
+      let index = this.selectedForStand.indexOf(event.target.src);
+      this.selectedForStand.splice(index, 1);
+      event.target.style.border = 'none';
+    }
+  }
+
+  updatePhotoList(event) {
+    let file = event.target.files[0];
+    if (!this.photosToStand.includes(file)) {
+      return this.photosToStand.push(file);
+    }
   }
 }
