@@ -113,8 +113,10 @@ export class GardenCropComponent implements OnInit {
     this.gardenEditFormData['photos'] = this.photosToUpload;
     return this.backend.editGardenCrop(this.gardenEditFormData)
       .then(result => {
-        console.log(result);
+        //reset values
         this.photos.length = 0;
+        this.photosToUpload.length = 0;
+        this.photosToDelete.length = 0;
         this.ngOnInit();
         this.gardenEditing = false;
       })

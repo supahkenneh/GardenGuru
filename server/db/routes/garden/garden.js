@@ -88,12 +88,9 @@ router.put('/crop/:id', upload.array('photo', 6), (req, res) => {
     watering_interval,
     newWaterDate,
   } = req.body;
-  console.log('route hit');
   let photoDeletePromise = new Promise((resolve, reject) => {
-    console.log('in promise');
     if (req.body.delete) {
       if (Array.isArray(req.body.delete)) {
-        console.log('two');
         let deleteArr = Object.values(req.body.delete)
         let deletePromises = deleteArr.map(link => {
           return Photo
@@ -102,14 +99,13 @@ router.put('/crop/:id', upload.array('photo', 6), (req, res) => {
         })
         Promise.all(deletePromises)
           .then(() => resolve())
-          .catch(() => false)
+          .catch(() => reject())
       } else {
-        console.log('one');
         return Photo
           .where({ link: req.body.delete, crop_id: id })
           .destroy()
           .then(() => resolve())
-          .catch(() => false)
+          .catch(() => reject())
       }
     } else {
       resolve()
