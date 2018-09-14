@@ -15,13 +15,14 @@ const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
 // Gets all messages in inbox
 router.get('/messages', (req, res) => {
-  console.log('hit');
   if (!req.user) {
     console.log('error');
     return res.send('Please log in to proceed to your inbox.');
   } else {
-    return Message
-      .query({ where: { to: req.user.id }, orWhere: { from: req.user.id } })
+    return Message.query({
+      where: { to: req.user.id },
+      orWhere: { from: req.user.id }
+    })
       .fetchAll({ withRelated: ['to', 'from'] })
       .then(response => {
         if (!response) {
@@ -36,6 +37,30 @@ router.get('/messages', (req, res) => {
   }
 });
 
+router.get('/conversations', (req, res) => {
+  console.log('getting conversations');
+  return Message
+  .query(function(qb){
+    qb.distinct('from')
+    qb.where('from', '!=', req.user.id);
+  })
+  .fetchAll({withRelated: ['from']})
+  .then(result=>{
+    return res.json(result)
+  })
+});
+
+router.get('/', (req, res) => {
+  return User.where({ city: req.user.city })
+    .orderBy('updated_at', 'DESC')
+    .fetchAll({ columns: ['stand_name', 'username', 'avatar_link'] })
+    .then(user => {
+      return res.json(user);
+    })
+    .catch(err => {
+      console.log('error :', err);
+    });
+});
 // Gets all messages pertaining to a particular crop
 // router.get('/messages/:id', (req, res) => {
 //   const crop_id = req.params.id;

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class BackendService {
   url: string = '/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -19,7 +19,7 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
-  getMarketplaceCrops(){
+  getMarketplaceCrops() {
     const getUrl = this.url + 'marketplace/crops';
     return this.http.get(getUrl).toPromise();
   }
@@ -39,9 +39,14 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
-  getMessages(){
-    const getUrl = this.url + `user/messages`
-    return this.http.get(getUrl).toPromise()
+  getMessages() {
+    const getUrl = this.url + `user/messages`;
+    return this.http.get(getUrl).toPromise();
+  }
+
+  getConversations() {
+    const getUrl = this.url + `user/conversations`;
+    return this.http.get(getUrl).toPromise();
   }
 
   addCrop(data) {
@@ -111,7 +116,7 @@ export class BackendService {
     if (data.photosToDelete) {
       data.photosToDelete.map(photo => {
         form.append('delete', photo);
-      })
+      });
       // form.append('photosToDelete', data.photosToDelete)
     }
     const editUrl = this.url + `garden/crop/${data.id}`;

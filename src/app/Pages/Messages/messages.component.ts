@@ -24,16 +24,17 @@ export class MessagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMessages();
+    this.getConversations()
   }
 
-//get user conversations
-  // getConversations(){
-  //   this.backend.getConversations()
-  //   .then(result=>{
-  //     this.conversations = result;
-  //   })
-  // }
+// get user conversations
+  getConversations(){
+    this.backend.getConversations()
+    .then(result=>{
+      this.conversations = result;
+      console.log(this.conversations)
+    })
+  }
 
   getMessages() {
     this.backend

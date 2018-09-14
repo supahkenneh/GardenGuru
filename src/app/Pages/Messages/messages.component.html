@@ -2,8 +2,8 @@
   no messages
 </div>
 
-<div class="message-header" *ngIf="hasMessages">
-  <div class="message-container" *ngFor="let message of messages">
-    {{message.content}}
+<div class="conversation-body" *ngIf="hasMessages">
+  <div class="conversation" *ngFor="let conversation of conversations">
+    {{conversation.from.username}}
   </div>
 </div>
