@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/Header/header.component';
 import { SidebarComponent } from './Components/Sidebar/sidebar.component';
+import { SearchComponent } from './Components/Search/search.component';
 import { FooterComponent } from './Components/Footer/footer.component';
 import { LoginComponent } from './Pages/Login/login.component';
 import { RegisterComponent } from './Pages/Register/register.component';
@@ -30,6 +31,7 @@ import { SessionService } from './Services/session.service';
     AppComponent,
     HeaderComponent,
     SidebarComponent,
+    SearchComponent,
     FooterComponent,
     GardenComponent,
     MarketplaceComponent,
