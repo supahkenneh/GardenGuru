@@ -1,1 +1,10 @@
-<div class="yeet">yeet</div>
+<div class="conversation-container">
+  <div class="message" *ngFor="let message of messages">
+    <div class="my-message-container">
+      <div class="my-message" *ngIf="message.from.id === user.id">{{message.content}}</div>
+    </div>
+    <div class="their-message-container">
+      <div class="their-message" *ngIf="message.from.id !== user.id">{{message.content}}</div>
+    </div>
+  </div>
+</div>
