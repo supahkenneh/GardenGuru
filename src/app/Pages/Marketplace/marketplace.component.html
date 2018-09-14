@@ -3,5 +3,9 @@
 </div>
 
 <div class="stands-container">
-  
+  <div class="stand" *ngFor = "let stand of stands">
+      <div class = "stand-name"> {{stand.stand_name}}</div>
+      <div class="avatar" *ngIf="stand.avatar_link" [style.backgroundImage]="'url('+ stand.avatar_link +')'"></div>
+      <div class="no-avatar" *ngIf="!stand.avatar_link"></div>
+    </div>
 </div>

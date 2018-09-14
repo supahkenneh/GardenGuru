@@ -16,6 +16,7 @@ export class StandComponent implements OnInit {
   isGarden: boolean = false;
   cropId;
   check: boolean = true;
+  userIsUser: boolean = false;
   editFormData = {
     stand_name: ''
   };
@@ -116,6 +117,10 @@ export class StandComponent implements OnInit {
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id');
+    console.log(this.user.id, this.userId)
+    if(parseInt(this.userId) === this.user.id){
+      this.userIsUser = true
+    }
     if (this.user.stand_name) {
       this.backend.getStand(this.userId).then(result => {
         this.sortContacts(result);

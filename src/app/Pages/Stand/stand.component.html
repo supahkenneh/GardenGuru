@@ -18,6 +18,7 @@
   </div>
 </div>
 
+<div *ngIf = 'userIsUser'>
 <div class="create-stand" *ngIf="!user.stand_name">
   Your Stand Has No Name
 </div>
@@ -35,8 +36,8 @@
   </form>
 </div>
 
-
 <div class="garden-header" (click)="turnEditToFalse()" (click)="toggleGarden()">Add Items From Your Garden (optional)</div>
+</div>
 <div *ngIf="
     isGarden" id='modal-container'>
   <div id="modal-content">
