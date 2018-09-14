@@ -11,6 +11,7 @@ export class MessagesComponent implements OnInit {
   user;
   messages;
   hasMessages: boolean = true;
+  conversations;
 
   constructor(
     private auth: AuthService,
@@ -26,14 +27,22 @@ export class MessagesComponent implements OnInit {
     this.getMessages();
   }
 
+//get user conversations
+  // getConversations(){
+  //   this.backend.getConversations()
+  //   .then(result=>{
+  //     this.conversations = result;
+  //   })
+  // }
+
   getMessages() {
     this.backend
       .getMessages()
       .then(result => {
         this.messages = result;
+        console.log(this.messages)
         if (!this.messages.length) {
           this.hasMessages = false;
-          console.log(this.hasMessages);
         }
       })
       .catch(err => {

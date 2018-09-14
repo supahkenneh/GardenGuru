@@ -41,8 +41,12 @@ export class StandComponent implements OnInit {
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
+    private router: Router,
     private session: SessionService
   ) {
+    router.events.subscribe((val)=>{
+      this.ngOnInit()
+    })
     this.user = session.getSession();
   }
 
@@ -92,7 +96,7 @@ export class StandComponent implements OnInit {
     this.isGarden = !this.isGarden;
   }
 
-  sortContacts(result) {
+  sortCrops(result) {
     this.crops = result.sort(function(a, b) {
       var textA = a.description;
       var textB = b.description;
@@ -123,7 +127,7 @@ export class StandComponent implements OnInit {
     }
     if (this.user.stand_name) {
       this.backend.getStand(this.userId).then(result => {
-        this.sortContacts(result);
+        this.sortCrops(result);
       });
     } else {
       this.noStand = !this.noStand;
