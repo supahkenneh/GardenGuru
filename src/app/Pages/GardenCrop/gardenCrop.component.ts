@@ -99,10 +99,22 @@ export class GardenCropComponent implements OnInit {
   }
 
   submitGardenEdit() {
-    this.gardenEditFormData['newWaterDate'] = this.newWaterDate;
+    //if watering interval was changed, then update new watering date
+    if (this.newWaterDate) {
+      this.gardenEditFormData['newWaterDate'] = this.newWaterDate;
+    } else {
+      this.gardenEditFormData['newWaterDate'] = this.wateringDate;
+    }
+    //if there are photos to delete, then attach to body
+    if (this.photosToDelete) {
+      this.gardenEditFormData['photosToDelete'] = this.photosToDelete;
+    }
     this.gardenEditFormData['id'] = this.cropId;
+    this.gardenEditFormData['photos'] = this.photosToUpload;
     return this.backend.editGardenCrop(this.gardenEditFormData)
       .then(result => {
+        console.log(result);
+        this.photos.length = 0;
         this.ngOnInit();
         this.gardenEditing = false;
       })
@@ -113,6 +125,7 @@ export class GardenCropComponent implements OnInit {
   }
 
   cancel() {
+    this.photosToDelete.length = 0;
     this.gardenEditing = false;
   }
 
