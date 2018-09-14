@@ -39,17 +39,30 @@ router.get('/messages', (req, res) => {
 
 router.get('/conversations', (req, res) => {
   console.log('getting conversations');
-  return Message
-  .query(function(qb){
-    qb.distinct('from')
+  return Message.query(function(qb) {
+    qb.distinct('from');
     qb.where('from', '!=', req.user.id);
   })
-  .fetchAll({withRelated: ['from']})
-  .then(result=>{
-    return res.json(result)
-  })
+    .fetchAll({ withRelated: ['from'] })
+    .then(result => {
+      return res.json(result);
+    });
 });
 
+router.get('/conversations/:id', (req, res) => {
+  const me = req.user.id;
+  const they = req.params.id;
+  return Message
+  .query({
+    where: {from: they, to: me},
+    orWhere: { from: me , to: they}
+  })
+    .fetchAll({ withRelated: ['to', 'from'] })
+    .then(result=>{
+      console.log(result)
+      res.json(result)
+    })
+});
 router.get('/', (req, res) => {
   return User.where({ city: req.user.city })
     .orderBy('updated_at', 'DESC')

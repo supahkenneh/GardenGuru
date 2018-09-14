@@ -1,9 +1,9 @@
-<div class="no-messages" *ngIf="!hasMessages">
-  no messages
+<div class="no-conversations" *ngIf="!hasMessages">
+  no conversations
 </div>
 
 <div class="conversation-body" *ngIf="hasMessages">
-  <div class="conversation" *ngFor="let conversation of conversations">
+  <div class="conversation" *ngFor="let conversation of conversations" routerLink="/conversation/{{conversation.from.id}}">
     {{conversation.from.username}}
   </div>
 </div>

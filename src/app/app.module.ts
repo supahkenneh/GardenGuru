@@ -20,6 +20,7 @@ import { CropComponent } from './Pages/Crop/crop.component';
 import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
 import { MessagesComponent } from './Pages/Messages/messages.component';
 import { GardenCropComponent } from './Pages/GardenCrop/gardenCrop.component';
+import { ConversationComponent } from './Pages/Conversation/conversation.component';
 
 //services
 import { BackendService } from './Services/backend.service';
@@ -42,7 +43,8 @@ import { SessionService } from './Services/session.service';
     CropComponent,
     AddCropComponent,
     MessagesComponent,
-    GardenCropComponent
+    GardenCropComponent,
+    ConversationComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +61,7 @@ import { SessionService } from './Services/session.service';
       { path: 'garden/addcrop', component: AddCropComponent },
       { path: 'messages', component: MessagesComponent },
       { path: 'garden/crops/:id', component: GardenCropComponent },
+      { path: 'conversation/:id', component: ConversationComponent },
     ])
   ],
   providers: [BackendService, SessionService, AuthService],
