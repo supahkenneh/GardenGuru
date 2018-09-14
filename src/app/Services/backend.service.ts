@@ -19,6 +19,11 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
+  getMarketplaceCrops(){
+    const getUrl = this.url + 'marketplace/crops';
+    return this.http.get(getUrl).toPromise();
+  }
+
   getStand(id) {
     const getUrl = this.url + `user/${id}/stand`;
     return this.http.get(getUrl).toPromise();
