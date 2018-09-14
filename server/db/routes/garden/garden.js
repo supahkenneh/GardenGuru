@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     return res.send('Please log in to see your garden.');
   } else {
     return Crop
-      .where({ owner_id: req.user.id })
+      .where({ owner_id: req.user.id, crop_status: 1 })
       .fetchAll({ withRelated: ['photo', 'cropStatus', 'plant'] })
       .then(crops => {
         return res.json(crops);

@@ -43,7 +43,8 @@ exports.seed = function(knex, Promise) {
           bio: '',
           city: 'Honolulu',
           state: 'Hawaii',
-          stand_name: "Iskandar's Organic Veggies"
+          stand_name: "Iskandar's Organic Veggies",
+          avatar_link: 'https://pbs.twimg.com/media/BLw0bLHCcAAuks-.png'
         },
         {
           username: 'tsuyun',
@@ -54,9 +55,10 @@ exports.seed = function(knex, Promise) {
           last_name: '',
           rating: 0,
           bio: '',
-          city: 'Dallas',
-          state: 'Texas',
-          stand_name: 'Fresh Fruits of Froppy'
+          city: 'Honolulu',
+          state: 'Hawaii',
+          stand_name: 'Fresh Fruits of Froppy',
+          avatar_link: ''
         },
         {
           username: 'muibirb',

@@ -30,7 +30,6 @@ export class RegisterComponent {
   constructor(private auth: AuthService, private router: Router) { }
 
   register() {
-    console.log(this.registerFormData);
     this.auth.register(this.registerFormData).then(() => {
       this.router.navigate(['login']);
     });

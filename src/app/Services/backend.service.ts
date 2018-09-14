@@ -19,6 +19,11 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
+  getMarketplaceCrops(){
+    const getUrl = this.url + 'marketplace/crops';
+    return this.http.get(getUrl).toPromise();
+  }
+
   getStand(id) {
     const getUrl = this.url + `user/${id}/stand`;
     return this.http.get(getUrl).toPromise();
@@ -84,7 +89,10 @@ export class BackendService {
     const waterUrl = this.url + 'garden/water';
     return this.http.put(waterUrl, data).toPromise();
   }
-
+  moveToStand(id, data) {
+    const moveUrl = this.url + `crops/${id}/move`;
+    return this.http.put(moveUrl, data).toPromise();
+  }
   editGardenCrop(data) {
     const editUrl = this.url + `garden/crop/${data.id}`;
     return this.http.put(editUrl, data).toPromise();
