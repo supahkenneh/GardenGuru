@@ -29,7 +29,7 @@ const upload = multer({
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
     },
-    key: function(req, file, cb) {
+    key: function (req, file, cb) {
       cb(
         null,
         `${req.user.username}/${Date.now().toString()}-${file.originalname}`
@@ -182,10 +182,7 @@ router.delete('/:id', (req, res) => {
       status = 2;
       return Crop.where({ id })
         .save(
-          {
-            crop_status: status,
-            selling: false
-          },
+          { crop_status: status, selling: false },
           { patch: true }
         )
         .then(() => {

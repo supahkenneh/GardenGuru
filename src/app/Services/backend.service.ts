@@ -94,7 +94,22 @@ export class BackendService {
     return this.http.put(moveUrl, data).toPromise();
   }
   editGardenCrop(data) {
+    console.log(data);
+    const form = new FormData();
+    form.append('garden_description', data.garden_description);
+    form.append('id', data.id);
+    form.append('newWaterDate', data.newWaterDate);
+    form.append('watering_interval', data.watering_interval);
+    data.photos.map(photo => {
+      form.append('photo', photo);
+    });
+    if (data.photosToDelete) {
+      data.photosToDelete.map(photo => {
+        form.append('delete', photo);
+      })
+      // form.append('photosToDelete', data.photosToDelete)
+    }
     const editUrl = this.url + `garden/crop/${data.id}`;
-    return this.http.put(editUrl, data).toPromise();
+    return this.http.put(editUrl, form).toPromise();
   }
 }

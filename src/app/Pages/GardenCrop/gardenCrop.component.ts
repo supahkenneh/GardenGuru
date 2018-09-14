@@ -17,19 +17,38 @@ export class GardenCropComponent implements OnInit {
   editId;
   check: boolean = true;
 
+  //view switchers
+  gardenEditing: boolean = false;
+
+  //handles water and harvesting, converted/parsed dates only
   wateringDate: string;
   harvestDate: string;
+  newWaterDate: any;
 
-  gardenEditing: boolean = false;
-  standPosting: boolean = false;
+  //photo view and edit
+  photos: string[] = [];
+  currentPhoto: string;
+  hasPhoto: boolean = false;
+  photosToDelete: string[] = [];
 
+  //photo upload
+  photosToUpload: File[] = [];
+  acceptableExtensions: string[] = ['.jpg', '.png', '.jpeg']
+  acceptableSize: number = 1000000000;
+  showPhotoError: boolean = false;
+  unacceptablePhoto: string = 'File format not accepted, please upload .jpg, .jpeg, or .png';
+  unacceptableSize: string = 'File size exceeded, max 1GB'
+  photoErrors: string[] = [];
+
+
+  //form data
   gardenEditFormData: {
     garden_description: string;
     watering_interval: number;
   } = {
-    garden_description: '',
-    watering_interval: 0
-  };
+      garden_description: '',
+      watering_interval: 0
+    };
 
   moveFormData = {
     description: '',
@@ -39,7 +58,6 @@ export class GardenCropComponent implements OnInit {
     check: this.check
   };
 
-  newWaterDate: any;
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
@@ -63,18 +81,29 @@ export class GardenCropComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.cropId = this.route.snapshot.paramMap.get('id');
-    return this.backend.getCrop(this.cropId).then(result => {
-      this.crop = result;
-      this.crop['mainPhoto'] = result['photo'][0].link;
-      this.wateringDate = result['watering_date'];
-      this.wateringDate = this.crop['watering_date'].slice(0, 10);
-      this.harvestDate = this.crop['harvest_date'].slice(0, 10);
-    });
+    return this.backend.getCrop(this.cropId)
+      .then(result => {
+        this.crop = result;
+        //gets photo links to be displayed on page
+        if (this.crop['photo'].length > 0) {
+          this.crop['photo'].map(photo => {
+            this.photos.push(photo.link);
+          })
+          this.currentPhoto = this.photos[0];
+          this.hasPhoto = true;
+        } else {
+          this.hasPhoto = false;
+        }
+        //parsing date
+        this.wateringDate = result['watering_date'];
+        this.wateringDate = this.crop['watering_date'].slice(0, 10);
+        this.harvestDate = this.crop['harvest_date'].slice(0, 10);
+      });
   }
 
-  toggleCheck(){
+  toggleCheck() {
     this.check = !this.check
     this.moveFormData.check = !this.moveFormData.check
   }
@@ -114,17 +143,32 @@ export class GardenCropComponent implements OnInit {
   }
 
   submitGardenEdit() {
-    this.gardenEditFormData['newWaterDate'] = this.newWaterDate;
+    //if watering interval was changed, then update new watering date
+    if (this.newWaterDate) {
+      this.gardenEditFormData['newWaterDate'] = this.newWaterDate;
+    } else {
+      this.gardenEditFormData['newWaterDate'] = this.wateringDate;
+    }
+    //if there are photos to delete, then attach to body
+    if (this.photosToDelete) {
+      this.gardenEditFormData['photosToDelete'] = this.photosToDelete;
+    }
     this.gardenEditFormData['id'] = this.cropId;
-    return this.backend.editGardenCrop(this.gardenEditFormData).then(result => {
-      this.ngOnInit();
-      this.gardenEditing = false;
-    });
+    this.gardenEditFormData['photos'] = this.photosToUpload;
+    return this.backend.editGardenCrop(this.gardenEditFormData)
+      .then(result => {
+        //reset values
+        this.photos.length = 0;
+        this.photosToUpload.length = 0;
+        this.photosToDelete.length = 0;
+        this.ngOnInit();
+        this.gardenEditing = false;
+      })
   }
 
   cancel() {
+    this.photosToDelete.length = 0;
     this.gardenEditing = false;
-    this.standPosting = false;
   }
 
   recalculateDate(date, days) {
@@ -142,6 +186,68 @@ export class GardenCropComponent implements OnInit {
   }
 
   getNewWaterDate() {
-    return this.newWaterDate;
+    if (this.newWaterDate) {
+      return this.newWaterDate;
+    }
+    return this.wateringDate;
+  }
+
+  //photo carousel
+  previousPhoto() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    if ((index - 1) < 0) {
+      return this.currentPhoto = this.photos[this.photos.length - 1]
+    }
+    return this.currentPhoto = this.photos[index - 1]
+  }
+
+  nextPhoto() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    if ((index + 1) === this.photos.length) {
+      return this.currentPhoto = this.photos[0]
+    }
+    return this.currentPhoto = this.photos[index + 1]
+  }
+
+  imageCounter() {
+    let index = this.photos.indexOf(this.currentPhoto);
+    return `${index + 1} of ${this.photos.length} images`
+  }
+
+  tagForRemoval() {
+    if (this.photosToDelete.length < this.photos.length) {
+      return this.photosToDelete.push(this.currentPhoto);
+    }
+  }
+
+  getPhotosToDelete() {
+    if (this.photosToDelete.length !== 0 && this.photosToDelete.length < this.photos.length) {
+      return `${this.photosToDelete.length} images selected`;
+    } else if (this.photosToDelete.length >= this.photos.length) {
+      this.photosToDelete = this.photos
+      return `${this.photosToDelete.length} images selected`
+    } else {
+      document.getElementById('photos-marked').style.display === 'none';
+    }
+  }
+
+  getPhotoErrors() {
+    return this.photoErrors.join(', ');
+  }
+
+  updatePhotoList(event) {
+    let file = event.target.files[0];
+    let fileSize = file.size
+    let dot = file.name.indexOf('.');
+    let extension = file.name.slice(dot, file.name.length);
+    if (this.acceptableExtensions.includes(extension.toLowerCase())) {
+      if (fileSize < this.acceptableSize) {
+        return this.photosToUpload.push(file)
+      } else {
+        return this.photoErrors.push(this.unacceptableSize);
+      }
+    } else {
+      return this.photoErrors.push(this.unacceptablePhoto)
+    }
   }
 }
