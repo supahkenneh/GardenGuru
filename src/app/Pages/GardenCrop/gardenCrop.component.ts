@@ -40,6 +40,10 @@ export class GardenCropComponent implements OnInit {
   unacceptableSize: string = 'File size exceeded, max 1GB'
   photoErrors: string[] = [];
 
+  //photos selected to be moved to garden
+  photosToStand: File[] = [];
+  selectedForStand: string[] = [];
+
 
   //form data
   gardenEditFormData: {
@@ -168,6 +172,7 @@ export class GardenCropComponent implements OnInit {
 
   cancel() {
     this.photosToDelete.length = 0;
+    this.photosToUpload.length = 0;
     this.gardenEditing = false;
   }
 
@@ -248,6 +253,17 @@ export class GardenCropComponent implements OnInit {
       }
     } else {
       return this.photoErrors.push(this.unacceptablePhoto)
+    }
+  }
+
+  selectPhoto(event) {
+    if (!this.selectedForStand.includes(event.target.src)) {
+      this.selectedForStand.push(event.target.src)
+      event.target.style.border = '3px solid #2c84fc'
+    } else {
+      let index = this.selectedForStand.indexOf(event.target.src);
+      this.selectedForStand.splice(index, 1);
+      event.target.style.border = 'none';
     }
   }
 }
