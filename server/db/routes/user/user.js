@@ -15,16 +15,16 @@ const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 
 // Gets all messages in inbox
 router.get('/messages', (req, res) => {
+  console.log('hit');
   if (!req.user) {
+    console.log('error');
     return res.send('Please log in to proceed to your inbox.');
   } else {
-    return Message.query({
-      where: { to: req.user.id },
-      orWhere: { from: req.user.id }
-    })
+    return Message
+      .query({ where: { to: req.user.id }, orWhere: { from: req.user.id } })
       .fetchAll({ withRelated: ['to', 'from'] })
       .then(response => {
-        if (response.length < 1) {
+        if (!response) {
           return res.send('Nobody here but us chickens!');
         } else {
           return res.json(response);
@@ -74,27 +74,26 @@ router.post('/messages/:id', (req, res) => {
   })
     .save()
     .then(message => {
-      return User
-      .where({ id: to })
-      .fetch()
-      .then(user => {
-        const toEmail = user.attributes.email
-        console.log(toEmail)
-        const data = {
-          from: `GroBro <${botEmail}>`,
-          to: `${toEmail}`,
-          subject: `${req.user.username} is trying to reach you!`,
-          text: `${messageBody}`
-        };
-        mailgun.messages().send(data, (error, body) => {
-          if (error) {
-            console.log(error);
-          }
-          console.log('Data :', data);
-          console.log('Body :', body);
+      return User.where({ id: to })
+        .fetch()
+        .then(user => {
+          const toEmail = user.attributes.email;
+          console.log(toEmail);
+          const data = {
+            from: `GroBro <${botEmail}>`,
+            to: `${toEmail}`,
+            subject: `${req.user.username} is trying to reach you!`,
+            text: `${messageBody}`
+          };
+          mailgun.messages().send(data, (error, body) => {
+            if (error) {
+              console.log(error);
+            }
+            console.log('Data :', data);
+            console.log('Body :', body);
+          });
+          res.json(message);
         });
-        res.json(message);
-      });
     });
   //         });
   // return Crop

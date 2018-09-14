@@ -39,6 +39,11 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
+  getMessages(){
+    const getUrl = this.url + `user/messages`
+    return this.http.get(getUrl).toPromise()
+  }
+
   addCrop(data) {
     const form = new FormData();
 

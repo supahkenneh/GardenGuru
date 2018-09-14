@@ -1,3 +1,9 @@
-<div class="messages-header">
-  messages work
+<div class="no-messages" *ngIf="!hasMessages">
+  no messages
+</div>
+
+<div class="message-header" *ngIf="hasMessages">
+  <div class="message-container" *ngFor="let message of messages">
+    {{message.content}}
+  </div>
 </div>
