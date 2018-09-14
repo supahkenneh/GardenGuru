@@ -12,6 +12,13 @@ export class ConversationComponent implements OnInit {
   conversationId;
   messages;
   user;
+
+  message:{
+    content: string
+  } = {
+    content:''
+  }
+
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -20,6 +27,16 @@ export class ConversationComponent implements OnInit {
     private session: SessionService
   ) {
     this.user = this.session.getSession()
+  }
+
+  sendMessage(){
+    console.log(this.message.content)
+    this.backend.sendMessage(this.message, this.conversationId )
+    .then(result=>{
+      this.messages.push(result)
+      this.ngOnInit()
+      console.log(result)
+    })
   }
 
   ngOnInit() {

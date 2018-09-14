@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +49,14 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
-  getConversation(id){
+  getConversation(id) {
     const getUrl = this.url + `user/conversations/${id}`;
-    return this.http.get(getUrl).toPromise()
+    return this.http.get(getUrl).toPromise();
+  }
+
+  sendMessage(content, id) {
+    const postUrl = this.url + `user/messages/${id}`;
+    return this.http.post(postUrl, content).toPromise();
   }
 
   addCrop(data) {

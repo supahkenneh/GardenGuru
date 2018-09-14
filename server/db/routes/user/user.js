@@ -14,6 +14,18 @@ const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
 // ===== ROUTES ===== //
 
 // Gets all messages in inbox
+router.get('/', (req, res) => {
+  return User.where({ city: req.user.city })
+    .orderBy('updated_at', 'DESC')
+    .fetchAll({ columns: ['stand_name', 'username', 'avatar_link'] })
+    .then(user => {
+      return res.json(user);
+    })
+    .catch(err => {
+      console.log('error :', err);
+    });
+});
+
 router.get('/messages', (req, res) => {
   if (!req.user) {
     console.log('error');
@@ -37,72 +49,14 @@ router.get('/messages', (req, res) => {
   }
 });
 
-router.get('/conversations', (req, res) => {
-  console.log('getting conversations');
-  return Message.query(function(qb) {
-    qb.distinct('from');
-    qb.where('from', '!=', req.user.id);
-  })
-    .fetchAll({ withRelated: ['from'] })
-    .then(result => {
-      return res.json(result);
-    });
-});
 
-router.get('/conversations/:id', (req, res) => {
-  const me = req.user.id;
-  const they = req.params.id;
-  return Message
-  .query({
-    where: {from: they, to: me},
-    orWhere: { from: me , to: they}
-  })
-    .fetchAll({ withRelated: ['to', 'from'] })
-    .then(result=>{
-      console.log(result)
-      res.json(result)
-    })
-});
-router.get('/', (req, res) => {
-  return User.where({ city: req.user.city })
-    .orderBy('updated_at', 'DESC')
-    .fetchAll({ columns: ['stand_name', 'username', 'avatar_link'] })
-    .then(user => {
-      return res.json(user);
-    })
-    .catch(err => {
-      console.log('error :', err);
-    });
-});
-// Gets all messages pertaining to a particular crop
-// router.get('/messages/:id', (req, res) => {
-//   const crop_id = req.params.id;
-//   if (!req.user) {
-//     return res.send('Please log in to proceed to your inbox.');
-//   } else {
-//     return Message.query({
-//       where: { crop_id, to: req.user.id },
-//       orWhere: { crop_id, from: req.user.id }
-//     })
-//       .fetchAll({ withRelated: ['to', 'from', ] })
-//       .then(response => {
-//         if (response.length < 1) {
-//           return res.send('Nobody here but us chickens!');
-//         } else {
-//           return res.json(response);
-//         }
-//       })
-//       .catch(err => {
-//         console.log('Error: ', err);
-//       });
-//   }
-// });
-
-// Sends message regarding a specific crop; sellers cannot initiate a conversation
 router.post('/messages/:id', (req, res) => {
   const initiatorId = req.user.id;
   const to = Number(req.params.id); // for proper comparison
+  console.log('req.body', req.body)
   const messageBody = req.body.content;
+  console.log('to', to,);
+  console.log('from', initiatorId);
   let err;
 
   return new Message({
@@ -133,78 +87,39 @@ router.post('/messages/:id', (req, res) => {
           res.json(message);
         });
     });
-  //         });
-  // return Crop
-  //   .where({ id: cropId })
-  //   .fetch()
-  //   .then(crop => { // Crop validation check
-  //     if (!crop) {
-  //       res.send('Item does not exist.')
-  //     }
-  //     itemOwner = crop.attributes.owner_id;
-  //     item = crop.attributes.description.toLowerCase();
-  //   })
-  //   .then(() => { // Three-layer message-and-users validation check
-  //     if (seller_id === from && seller_id !== to) {
-  //       return Message
-  //         .where({
-  //           crop_id: cropId,
-  //           to: seller_id,
-  //           from: to
-  //         })
-  //         .fetch()
-  //         .then(message => {
-  //           if (!message) {
-  //             return err = 'Seller is not allowed to initiate contact.';
-  //           };
-  //         });
-  //     } else if (seller_id === from && seller_id === to) {
-  //       return err = 'You cannot be the recipient of your own message!';
-  //     } else if (userId !== from) {
-  //       return err = 'You cannot send a message as someone else!';
-  //     } else if (seller_id !== to && seller_id !== from) {
-  //       return err = 'This crop does not belong to you nor the recipient!';
-  //     } else if (seller_id !== itemOwner) {
-  //       return err = 'There was an error matching the crop to its owner. Please try again.'
-  //     }
-  //   })
-  //   .then(response => {
-  //     if (response) { // Stops here if "err" is defined
-  //       return res.json({ message: response })
-  //     } else {
-  //       return User
-  //         .where({ id: to })
-  //         .fetch()
-  //         .then(response => {
-  //           // only works with Gmail, need to change domain
-  //           const receiver = response.attributes.email;
-
-  //           const data = {
-  //             from: `GroBro <${botEmail}>`,
-  //             to: `${receiver}`,
-  //             subject: `Someone is interested in buying your ${item}!`,
-  //             text: `${messageBody}`
-  //           };
-  //           mailgun.messages().send(data, (error, body) => {
-  //             if (error) { console.log(error); }
-  //             console.log('Data :', data);
-  //             console.log('Body :', body);
-  //           });
-  //           return new Message({
-  //             to,
-  //             from,
-  //             seller_id,
-  //             crop_id: cropId,
-  //             content: messageBody
-  //           })
-  //             .save()
-  //             .then(message => {
-  //               res.json(message);
-  //             });
-  //         });
-  //     };
-  //   });
 });
+
+
+router.get('/conversations', (req, res) => {
+  console.log('getting conversations');
+  return Message.query(function(qb) {
+    qb.distinct('from');
+    qb.where('from', '!=', req.user.id);
+  })
+    .fetchAll({ withRelated: ['from'] })
+    .then(result => {
+      return res.json(result);
+    });
+});
+
+router.get('/conversations/:id', (req, res) => {
+  const me = req.user.id;
+  const they = req.params.id;
+  return Message
+  .query({
+    where: {from: they, to: me},
+    orWhere: { from: me , to: they}
+  })
+    .fetchAll({ withRelated: ['to', 'from'] })
+    .then(result=>{
+      console.log(result)
+      res.json(result)
+    })
+});
+
+
+// Sends message regarding a specific crop; sellers cannot initiate a conversation
+
 
 // Gets a user's profile
 router.get('/:id', (req, res) => {
