@@ -27,40 +27,40 @@ const upload = multer({
     bucket: BUCKET_NAME,
     acl: 'public-read-write',
     metadata: (req, file, cb) => {
-      cb(null, { fieldName: file.fieldname })
+      cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-      cb(null, `${req.user.username}/${Date.now().toString()}-${file.originalname}`)
+      cb(
+        null,
+        `${req.user.username}/${Date.now().toString()}-${file.originalname}`
+      );
     }
   })
-})
+});
 
 router.get('/', (req, res) => {
   res.json('crops');
 });
 
 router.post('/', upload.array('photo', 6), (req, res) => {
-  let id = req.user.id
-  let {
-    plant,
-    watering,
-    month,
-    day,
-    year,
-    garden_description
-  } = req.body;
+  let id = req.user.id;
+  let { plant, watering, month, day, year, garden_description } = req.body;
   //YYYY-MM-DD
   //sets the next watering_date
-  let date = moment().year(year).month(month).date(day)
+  let date = moment()
+    .year(year)
+    .month(month)
+    .date(day);
   let watering_date = moment(date).add(watering, 'd');
-  let convertedWateringDate = moment(watering_date).local().format('YYYY-MM-DD HH:mm:ss');
-  return Plant
-    .where({ id: plant })
+  let convertedWateringDate = moment(watering_date)
+    .local()
+    .format('YYYY-MM-DD HH:mm:ss');
+  return Plant.where({ id: plant })
     .fetchAll()
     .then(plant => {
       let harvestDays = plant.models[0].attributes.days_to_harvest;
       let harvest_date = moment(date).add(harvestDays, 'd');
-      return harvest_date
+      return harvest_date;
     })
     .then(harvest_date => {
       return new Crop({
@@ -83,15 +83,13 @@ router.post('/', upload.array('photo', 6), (req, res) => {
           let promises = req.files.map(file => {
             return new Photo({
               crop_id: newCrop.id,
-              link: file.location,
-            })
-              .save()
-          })
-          Promise.all(promises)
-            .then(() => res.json(newCrop))
-        })
+              link: file.location
+            }).save();
+          });
+          Promise.all(promises).then(() => res.json(newCrop));
+        });
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 router.post('/search/:term', (req, res) => {
@@ -115,10 +113,12 @@ router.post('/search/:term', (req, res) => {
       .fetchAll()
       .then(response => {
         if (err) {
-          return res.send(err)
+          return res.send(err);
         } else {
           if (response.length < 1) {
-            return res.send('Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.');
+            return res.send(
+              'Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.'
+            );
           } else {
             return res.json(response);
           }
@@ -157,46 +157,85 @@ router.post('/search/:term', (req, res) => {
       })
       .catch(err => {
         console.log('Error :', err);
-      })
+      });
   }
 });
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  return Crop
-    .query({ where: { id } })
+  return Crop.query({ where: { id } })
     .fetch({ withRelated: ['cropStatus', 'plant', 'photo'] })
     .then(crop => {
-      return res.json(crop)
+      return res.json(crop);
     })
     .catch(err => {
       console.log('err', err);
-    })
+    });
 });
 
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
-  return Crop
-    .where({ id })
+  return Crop.where({ id })
     .fetch()
     .then(crop => {
       let status = crop.attributes.crop_status;
-      status = 3
-      return Crop
-        .where({ id })
-        .save({ crop_status: status }, { patch: true })
+      status = 2;
+      return Crop.where({ id })
+        .save(
+          { crop_status: status, selling: false },
+          { patch: true }
+        )
         .then(() => {
-          res.json({ success: 'true' })
+          res.json({ success: 'true' });
         })
         .catch(err => {
           console.log('err.message', err.message);
-        })
-    })
-})
+        });
+    });
+});
 
 router.put('/:id', (req, res) => {
   console.log('editing crop');
   res.json('edit specific crop');
+});
+
+router.put('/:id/move', (req, res) => {
+  console.log('move');
+  const id = req.params.id;
+  const { description, details, price, inventory, check } = req.body;
+  const selling = true;
+  console.log(check);
+  if (check) {
+    return new Crop({ id })
+      .save(
+        {
+          description,
+          details,
+          price,
+          inventory,
+          selling
+        },
+        { patch: true }
+      )
+      .then(crop => {
+        return res.json(crop);
+      })
+      .catch(err => {
+        console.log('err.message', err.message);
+      });
+  } else {
+    return new Crop({ id })
+      .save(
+        { description, details, price, inventory, selling, crop_status: 2 },
+        { patch: true }
+      )
+      .then(crop => {
+        return res.json(crop);
+      })
+      .catch(err => {
+        console.log('err.message', err.message);
+      });
+  }
 });
 
 module.exports = router;

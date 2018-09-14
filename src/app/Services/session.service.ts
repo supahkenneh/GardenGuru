@@ -46,7 +46,6 @@ export class SessionService {
   }
 
   setSession(data) {
-    console.log('data :', data);
     this.user.id = data.id;
     this.user.loggedIn = true;
     this.user.username = data.username;

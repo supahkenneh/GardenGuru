@@ -1,6 +1,6 @@
 .content-container {
   padding: 20px;
-    height: 100%;
+  height: 110%;
   .crop-container {
     background: white;
     border-radius: 5px;
@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 80%;
+    height: 100%;
     .secondary-header {
       margin-bottom: 20px;
       div {
@@ -28,9 +28,17 @@
       border-radius: 5px;
     }
   }
+  .img-scroller {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5px;
+    div {
+      padding: 5px;
+    }
+  }
   .description {
     font-size: 18px;
-    margin-top: 15px;
+    margin-top: 10px;
   }
   .date {
     font-size: 18px;
@@ -94,6 +102,16 @@
     background: whitesmoke;
     margin-bottom: 10px;
   }
+  .image-upload {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    text-align: center;
+    input {
+      border: 0;
+    }
+
+  }
 }
 .submit-button {
   position: fixed;
@@ -119,4 +137,39 @@
   justify-content: center;
   background: #6BA368;
 }
+.remove-container {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 130px;
+  right: 65px;
+  svg {
+    height: 40px;
+    width: 40px;
+    fill: red;
+  }
+}
+}
+
+#modal-container{
+ position:fixed;
+ z-index: 1;
+ left:0;
+ top:0;
+ height: 90vh;
+ width:100%;
+ overflow: auto;
+ background-color: rgba(0,0,0,0.4)
+}
+#modal-content{
+  background-color: white;
+  margin:50% auto;
+  width:60%;
+}
+
+.check-true{
+  color:green;
+}
+.check-false{
+  color:red;
 }

@@ -25,10 +25,6 @@ class User extends bookshelf.Model {
   fromMessages() {
     return this.hasMany('Message', 'from');
   }
-
-  sellerMessages() {
-    return this.hasMany('Message', 'seller_id');
-  }
 }
 
 module.exports = bookshelf.model('User', User);
