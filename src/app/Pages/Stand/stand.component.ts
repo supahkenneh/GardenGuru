@@ -166,6 +166,10 @@ export class StandComponent implements OnInit {
       });
   }
 
+  startConversation() {
+
+  }
+
   //photo functions
   selectPhoto(event) {
     if (!this.selectedForStand.includes(event.target.src)) {
