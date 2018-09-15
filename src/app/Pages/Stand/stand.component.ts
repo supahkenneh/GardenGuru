@@ -20,6 +20,7 @@ export class StandComponent implements OnInit {
   userIsUser: boolean = false;
   openMessage: boolean = false;
   conversationId: boolean = false;
+  messageSentPopUp =''
   //crop photo values
   cropPhotos: string[] = [];
   //holds photos to upload
@@ -74,12 +75,15 @@ export class StandComponent implements OnInit {
 
   sendMessage() {
     this.backend.sendMessage(this.message, this.userId).then(result => {
-      this.ngOnInit();
+      this.openMessage = false;
+      this.message.content = '';
+      this.messageSentPopUp = 'Message Sent!';
+      console.log(this.messageSentPopUp);
     });
   }
 
   ngOnInit() {
-    
+    this.messageSentPopUp = '';
     this.userId = this.route.snapshot.paramMap.get('id');
     if (parseInt(this.userId) === this.user.id) {
       this.userIsUser = true;
