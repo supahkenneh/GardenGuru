@@ -18,12 +18,14 @@ router.get('/messages', (req, res) => {
   if (!req.user) {
     return res.send('Please log in to proceed to your inbox.');
   } else {
-    return Message
-      .query({ where: { to: req.user.id }, orWhere: { from: req.user.id } })
-      .fetchAll({ withRelated: ['to', 'from', 'crops'] })
+    return Message.query({
+      where: { to: req.user.id },
+      orWhere: { from: req.user.id }
+    })
+      .fetchAll({ withRelated: ['to', 'from'] })
       .then(response => {
         if (response.length < 1) {
-          return res.send('Nobody here but us chickens!')
+          return res.send('Nobody here but us chickens!');
         } else {
           return res.json(response);
         }
@@ -31,7 +33,7 @@ router.get('/messages', (req, res) => {
       .catch(err => {
         console.log('Error: ', err);
       });
-  };
+  }
 });
 
 // Gets all messages pertaining to a particular crop
@@ -143,14 +145,84 @@ router.post('/:toId/messages/:cropId', (req, res) => {
           });
       };
     });
+  //         });
+  // return Crop
+  //   .where({ id: cropId })
+  //   .fetch()
+  //   .then(crop => { // Crop validation check
+  //     if (!crop) {
+  //       res.send('Item does not exist.')
+  //     }
+  //     itemOwner = crop.attributes.owner_id;
+  //     item = crop.attributes.description.toLowerCase();
+  //   })
+  //   .then(() => { // Three-layer message-and-users validation check
+  //     if (seller_id === from && seller_id !== to) {
+  //       return Message
+  //         .where({
+  //           crop_id: cropId,
+  //           to: seller_id,
+  //           from: to
+  //         })
+  //         .fetch()
+  //         .then(message => {
+  //           if (!message) {
+  //             return err = 'Seller is not allowed to initiate contact.';
+  //           };
+  //         });
+  //     } else if (seller_id === from && seller_id === to) {
+  //       return err = 'You cannot be the recipient of your own message!';
+  //     } else if (userId !== from) {
+  //       return err = 'You cannot send a message as someone else!';
+  //     } else if (seller_id !== to && seller_id !== from) {
+  //       return err = 'This crop does not belong to you nor the recipient!';
+  //     } else if (seller_id !== itemOwner) {
+  //       return err = 'There was an error matching the crop to its owner. Please try again.'
+  //     }
+  //   })
+  //   .then(response => {
+  //     if (response) { // Stops here if "err" is defined
+  //       return res.json({ message: response })
+  //     } else {
+  //       return User
+  //         .where({ id: to })
+  //         .fetch()
+  //         .then(response => {
+  //           // only works with Gmail, need to change domain
+  //           const receiver = response.attributes.email;
+
+  //           const data = {
+  //             from: `GroBro <${botEmail}>`,
+  //             to: `${receiver}`,
+  //             subject: `Someone is interested in buying your ${item}!`,
+  //             text: `${messageBody}`
+  //           };
+  //           mailgun.messages().send(data, (error, body) => {
+  //             if (error) { console.log(error); }
+  //             console.log('Data :', data);
+  //             console.log('Body :', body);
+  //           });
+  //           return new Message({
+  //             to,
+  //             from,
+  //             seller_id,
+  //             crop_id: cropId,
+  //             content: messageBody
+  //           })
+  //             .save()
+  //             .then(message => {
+  //               res.json(message);
+  //             });
+  //         });
+  //     };
+  //   });
 });
 
 // Gets a user's profile
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  console.log(req.user)
-  return User
-    .where({ id })
+  console.log(req.user);
+  return User.where({ id })
     .fetch()
     .then(user => {
       if (!user) {
@@ -175,7 +247,7 @@ router.get('/:id/stand', (req, res) => {
       if (crops.length < 1) {
         return res.send('Nothing but us chickens!');
       } else {
-        console.log(crops.models[0].attributes)
+        console.log(crops.models[0].attributes);
         return res.json(crops);
       }
     })
