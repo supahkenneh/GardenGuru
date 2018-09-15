@@ -114,7 +114,6 @@ router.get('/conversations/:id', (req, res) => {
       res.json(result);
     });
 });
-
 // Sends message regarding a specific crop; sellers cannot initiate a conversation
 
 // Gets a user's profile
@@ -161,7 +160,23 @@ router.put('/addStand', (req, res) => {
   return new User({ id })
     .save({ stand_name }, { patch: true })
     .then(user => {
-      return res.json(user);
+      return user.refresh()
+    })
+    .then(user => {
+      let userProfile = {
+        id: user.attributes.id,
+        stand_name: user.attributes.stand_name,
+        username: user.attributes.username,
+        email: user.attributes.email,
+        first_name: user.attributes.first_name,
+        last_name: user.attributes.last_name,
+        rating: user.attributes.rating,
+        bio: user.attributes.bio,
+        city: user.attributes.city,
+        state: user.attributes.state,
+        avatar_link: user.attributes.avatar_link
+      }
+      return res.json(userProfile);
     })
     .catch(err => {
       console.log('err.message', err.message);
