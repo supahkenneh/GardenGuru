@@ -33,7 +33,7 @@ const upload = multer({
       console.log(file);
       cb(
         null,
-        `${req.user.username}/${Date.now().toString()}-${file.originalname}`
+        `${req.body.username}/avatar/${Date.now().toString()}-${file.originalname}`
       );
     }
   })
@@ -100,7 +100,6 @@ passport.use(
 
 // ===== REGISTRATION ===== //
 router.post('/register', upload.single('photo'), (req, res) => {
-  console.log(req.file);
   let { username, email, first_name, last_name, city, state } = req.body;
   bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) {
@@ -110,6 +109,12 @@ router.post('/register', upload.single('photo'), (req, res) => {
       if (err) {
         return res.status(500);
       }
+      let avatar_link;
+      if (req.file) {        
+        avatar_link = req.file.location
+      } else {
+        avatar_link = null
+      }
       return new User({
         username: username.toLowerCase(),
         password: hashedPassword,
@@ -118,9 +123,11 @@ router.post('/register', upload.single('photo'), (req, res) => {
         last_name,
         city,
         state,
+        avatar_link,
       })
         .save()
         .then(result => {
+          console.log(result);
           res.json({ success: true });
         })
         .catch(err => {

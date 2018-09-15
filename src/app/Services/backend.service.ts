@@ -61,19 +61,21 @@ export class BackendService {
   }
 
   register(data) {
-    console.log(data);
     const form = new FormData();
 
     form.append('username', data.username);
+    form.append('password', data.password);
     form.append('city', data.city);
     form.append('state', data.state);
     form.append('email', data.email);
     form.append('first_name', data.first_name);
     form.append('last_name', data.last_name);
-    form.append('photo', data.photo);
+    if (data.photo) {
+      form.append('photo', data.photo);
+    }
 
     const registerUrl = this.url + 'register';
-    return this.http.post(registerUrl, data).toPromise();
+    return this.http.post(registerUrl, form).toPromise();
   }
 
   logout() {
