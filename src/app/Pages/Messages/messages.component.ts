@@ -12,7 +12,7 @@ export class MessagesComponent implements OnInit {
   messages;
   hasMessages: boolean = true;
   conversations;
-
+  searchTerm;
   constructor(
     private auth: AuthService,
     private router: Router,
