@@ -1,17 +1,24 @@
 <div class="conversation-container">
-  <div class="message" *ngFor="let message of messages">
-    <div class="my-message-container">
-      <div class="my-message" *ngIf="message.from.id === user.id">{{message.content}}</div>
-    </div>
-    <div class="their-message-container">
-      <div class="their-message" *ngIf="message.from.id !== user.id">{{message.content}}</div>
+
+<div class="their-messages">
+  <div class="their-message-container" *ngFor="let message of messages">
+    <div class="their-message" *ngIf="user.id != message.from.id">{{message.content}}</div>
+  </div>
+</div>
+
+  <div class="my-messages">
+    <div class="my-message-container" *ngFor="let message of messages">
+      <div class="my-message" *ngIf="user.id == message.from.id" >{{message.content}}</div>
     </div>
   </div>
 
-  <div class="enter-message-container">
+</div>
+
+
+<button routerLink="/messages">back</button>
+<div class="enter-message-container">
     <form enctype="application/x-www-form-urlencoded">
       <input type="" name="content" [(ngModel)]="message.content">
       <button (click)="sendMessage()">send</button>
     </form>
   </div>
-</div>

@@ -14,6 +14,7 @@ export class MessagesComponent implements OnInit {
   conversations;
   searchTerm;
   filtered:any
+  deleted: boolean = false;
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -41,18 +42,17 @@ export class MessagesComponent implements OnInit {
         let cache = [];
         let filteredResult = []
         for (let i = 0; i < result.length; i++) {
-
           if (!cache.includes(result[i].from.id)) {
-
             cache.push(result[i].from.id)
             filteredResult.push(result[i])
-
-            console.log(filteredResult)
-
           }
         }
         this.filtered = filteredResult
       });
+  }
+
+  deleteThread(){
+    this.deleted = true
   }
 
   getMessages() {

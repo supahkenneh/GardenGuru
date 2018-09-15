@@ -3,6 +3,9 @@ import { AuthService } from '../../Services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
+
+
+
 @Component({
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.scss']
@@ -12,12 +15,15 @@ export class ConversationComponent implements OnInit {
   conversationId;
   messages;
   user;
+  deleted:boolean = true;
 
   message:{
     content: string
   } = {
     content:''
   }
+
+  
 
   constructor(
     private auth: AuthService,
@@ -37,12 +43,14 @@ export class ConversationComponent implements OnInit {
     })
   }
 
+
+
   ngOnInit() {
     this.conversationId = this.route.snapshot.paramMap.get('id');
     this.backend.getConversation(this.conversationId)
     .then(result=>{
       this.messages = result;
-      // console.log(this.messages)
+      console.log(this.messages)
     })
   }
 }

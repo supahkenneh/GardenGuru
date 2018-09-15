@@ -1,20 +1,21 @@
-.my-message{
-  background-color: rgb(177, 177, 255);
-  width: 40%;
-}
-.their-message{
-  background-color:rgb(165, 243, 165);
-  width:40%;
-}
-
-.their-message-container{
-  width:100%;
-  display:flex;
-}
-
-.my-message-container{
-  width: 100%;
+.conversation-container {
   display: flex;
-  justify-content: flex-end;
+  height: 80vh;
+  .their-messages,
+  .my-messages {
+    height: 80vh;
+    width: 45%;
+    background-color: rgb(221, 221, 221);
+  }
+
+  .my-message-container{
+    display: flex;
+    flex-direction: row-reverse;
+  }
 }
 
+.enter-message-container{
+  position: fixed;
+  z-index: 1;
+
+}

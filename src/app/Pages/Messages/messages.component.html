@@ -1,10 +1,9 @@
 <div class="no-conversations" *ngIf="!hasMessages">
   no conversations
 </div>
-<button class="start-conversation">new conversation</button>
 
 <div class="conversations-container">
-  <div class="conversation-body" *ngIf="hasMessages">
+  <div class="conversation-body" *ngIf="hasMessages && !deleted">
     <div class="conversation" *ngFor="let conversation of filtered" routerLink="/conversation/{{conversation.from.id}}">
       {{conversation.from.username}}
     </div>
