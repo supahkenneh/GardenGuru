@@ -28,7 +28,6 @@ router.get('/', (req, res) => {
 
 router.get('/messages', (req, res) => {
   if (!req.user) {
-    console.log('error');
     return res.send('Please log in to proceed to your inbox.');
   } else {
     return Message.query({
@@ -52,10 +51,7 @@ router.get('/messages', (req, res) => {
 router.post('/messages/:id', (req, res) => {
   const initiatorId = req.user.id;
   const to = Number(req.params.id); // for proper comparison
-  console.log('req.body', req.body);
   const messageBody = req.body.content;
-  console.log('to', to);
-  console.log('from', initiatorId);
   let err;
 
   return new Message({
@@ -69,7 +65,7 @@ router.post('/messages/:id', (req, res) => {
         .fetch()
         .then(user => {
           const toEmail = user.attributes.email;
-          console.log(toEmail);
+
           const data = {
             from: `GroBro <${botEmail}>`,
             to: `${toEmail}`,
@@ -80,8 +76,6 @@ router.post('/messages/:id', (req, res) => {
             if (error) {
               console.log(error);
             }
-            console.log('Data :', data);
-            console.log('Body :', body);
           });
           res.json(message);
         });
@@ -98,7 +92,6 @@ router.get('/conversations', (req, res) => {
       { withRelated: ['from'], columns: ['content'] }
       )
     .then(result => {
-      console.log(result)
       return res.json(result);
     });
 });
@@ -114,7 +107,6 @@ router.get('/conversations/:id', (req, res) => {
   })
     .fetchAll({ withRelated: ['to', 'from'] })
     .then(result => {
-      console.log(result);
       res.json(result);
     });
 });
@@ -124,7 +116,6 @@ router.get('/conversations/:id', (req, res) => {
 // Gets a user's profile
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  console.log(req.user);
   return User.where({ id })
     .fetch()
     .then(user => {
@@ -144,13 +135,12 @@ router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
   return Crop.where({ owner_id: id, selling: true })
     .fetchAll({
-      withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']
+      withRelated: ['owner', 'cropStatus', 'plant', 'photo']
     })
     .then(crops => {
       if (crops.length < 1) {
         return res.send('Nothing but us chickens!');
       } else {
-        console.log(crops.models[0].attributes);
         return res.json(crops);
       }
     })

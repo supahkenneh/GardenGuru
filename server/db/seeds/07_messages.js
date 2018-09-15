@@ -13,7 +13,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           to: 1,
-          from: 3,
+          from: 2,
           content: 'Hey I saw that you have some cherries up. What kind of cherries are they?',
           read: false
         },
