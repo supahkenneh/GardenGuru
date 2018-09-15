@@ -18,6 +18,7 @@ export class StandComponent implements OnInit {
   cropId: string;
   check: boolean = true;
   userIsUser: boolean = false;
+  postingCrop: boolean = false;
 
   //crop photo values
   cropPhotos: string[] = [];
@@ -40,14 +41,35 @@ export class StandComponent implements OnInit {
     check: this.check
   };
 
-  @HostListener('document:click', ['$event'])
+  postFormData: {
+    plant: number;
+    description: string,
+    price: string,
+    inventory: number,
+    details: string,
+    photos: File[]
+  } = {
+      plant: 0,
+      description: '',
+      price: '',
+      inventory: null,
+      details: '',
+      photos: []
+    }
+
+  plants: any;
+
+  @HostListener('click', ['$event'])
   clickout(event) {
-    document.getElementById('modal-content');
-    document.getElementById('content-container');
     if (event.target === document.getElementById('modal-container')) {
       this.showingGarden = !this.showingGarden;
     }
+    if (event.target === document.getElementById('add-modal-container')) {
+      this.postingCrop = !this.postingCrop
+    }
   }
+
+
 
   constructor(
     private backend: BackendService,
@@ -84,6 +106,10 @@ export class StandComponent implements OnInit {
           crop['mainPhoto'] = crop.photo[0].link
         })
       });
+  }
+
+  addToStand() {
+    console.log(this.postFormData);
   }
 
   toggleCheck() {
@@ -166,6 +192,18 @@ export class StandComponent implements OnInit {
       });
   }
 
+  showPostForm() {
+    if (this.postingCrop) {
+      return this.postingCrop = false;
+    }
+    this.backend.getPlants()
+      .then(result => {
+        console.log(result);
+        this.plants = result;
+        return this.postingCrop = true;
+      })
+  }
+
   startConversation() {
 
   }
@@ -184,7 +222,9 @@ export class StandComponent implements OnInit {
 
   updatePhotoList(event) {
     let file = event.target.files[0];
-    if (!this.photosToStand.includes(file)) {
+    if (this.postingCrop) {
+      this.postFormData.photos.push(file);
+    } else if (this.showingGarden) {
       return this.photosToStand.push(file);
     }
   }
