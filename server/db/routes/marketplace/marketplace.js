@@ -18,7 +18,6 @@ router.get('/crops', (req, res) => {
     .orderBy('updated_at', 'DESC')
     .fetchAll({ withRelated: ['photo'] })
     .then(crops => {
-      console.log('crops', crops);
       return res.json(crops);
     });
 });

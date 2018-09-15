@@ -88,18 +88,22 @@ router.post('/messages/:id', (req, res) => {
     });
 });
 
+
+
 router.get('/conversations', (req, res) => {
-  console.log('getting conversations');
   return Message.query(function(qb) {
-    qb.where('from', '!=', req.user.id).andWhere('to', '=', req.user.id )
-    qb.distinct('from')
+    qb.where('from', '!=', req.user.id).distinct('from');
   })
-    
-    .fetchAll({ withRelated: ['from'] })
+    .fetchAll(
+      { withRelated: ['from'], columns: ['content'] }
+      )
     .then(result => {
+      console.log(result)
       return res.json(result);
     });
 });
+
+
 
 router.get('/conversations/:id', (req, res) => {
   const me = req.user.id;

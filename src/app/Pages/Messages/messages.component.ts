@@ -13,6 +13,7 @@ export class MessagesComponent implements OnInit {
   hasMessages: boolean = true;
   conversations;
   searchTerm;
+  filtered:any
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -24,16 +25,34 @@ export class MessagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getConversations()
+    this.getConversations();
   }
 
-// get user conversations
-  getConversations(){
-    this.backend.getConversations()
-    .then(result=>{
-      this.conversations = result;
-      console.log(this.conversations)
-    })
+  // get user conversations
+  getConversations() {
+    return this.backend
+      .getConversations()
+      .then(result => {
+        this.conversations = result;
+        // console.log('this.convo', this.conversations);
+        return this.conversations;
+      })
+      .then(result => {
+        let cache = [];
+        let filteredResult = []
+        for (let i = 0; i < result.length; i++) {
+
+          if (!cache.includes(result[i].from.id)) {
+
+            cache.push(result[i].from.id)
+            filteredResult.push(result[i])
+
+            console.log(filteredResult)
+
+          }
+        }
+        this.filtered = filteredResult
+      });
   }
 
   getMessages() {
@@ -41,7 +60,6 @@ export class MessagesComponent implements OnInit {
       .getMessages()
       .then(result => {
         this.messages = result;
-        console.log(this.messages)
         if (!this.messages.length) {
           this.hasMessages = false;
         }

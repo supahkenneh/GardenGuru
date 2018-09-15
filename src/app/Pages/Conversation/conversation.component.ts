@@ -30,22 +30,19 @@ export class ConversationComponent implements OnInit {
   }
 
   sendMessage(){
-    console.log(this.message.content)
     this.backend.sendMessage(this.message, this.conversationId )
     .then(result=>{
       this.messages.push(result)
       this.ngOnInit()
-      console.log(result)
     })
   }
 
   ngOnInit() {
-    console.log(this.user.id)
     this.conversationId = this.route.snapshot.paramMap.get('id');
     this.backend.getConversation(this.conversationId)
     .then(result=>{
       this.messages = result;
-      console.log(this.messages)
+      // console.log(this.messages)
     })
   }
 }

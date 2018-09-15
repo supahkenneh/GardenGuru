@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-    .secondary-header {
+  .secondary-header {
     width: 100%;
     height: 80px;
     display: flex;
@@ -21,7 +21,7 @@
       padding: 10px;
       display: flex;
       justify-content: center;
-      background: #6BA368;
+      background: #6ba368;
     }
     .message-stand {
       .message-button {
@@ -31,7 +31,7 @@
         padding: 10px;
         display: flex;
         justify-content: center;
-        background: #6BA368;
+        background: #6ba368;
       }
     }
   }
@@ -93,7 +93,7 @@
         padding: 10px;
         display: flex;
         justify-content: center;
-        background: #6BA368;
+        background: #6ba368;
       }
     }
     .create-stand-container {
@@ -131,7 +131,7 @@
             padding: 10px;
             display: flex;
             justify-content: center;
-            background: #6BA368;
+            background: #6ba368;
           }
           .close-button {
             border-radius: 50%;
@@ -140,7 +140,7 @@
             padding: 10px;
             display: flex;
             justify-content: center;
-            background: #6BA368;
+            background: #6ba368;
           }
         }
       }
@@ -159,7 +159,7 @@
     padding: 10px;
     display: flex;
     justify-content: center;
-    background: #6BA368;
+    background: #6ba368;
   }
   .post-stand-button {
     position: fixed;
@@ -171,150 +171,180 @@
     padding: 10px;
     display: flex;
     justify-content: center;
-    background: #6BA368;
+    background: #6ba368;
   }
 }
 
-#modal-container{
- position:fixed;
- z-index: 1;
- left:0;
- top:0;
- height: 100%;
- width:100%;
- padding: 5px;
- overflow: auto;
- background-color: rgba(0,0,0,0.4);
- #modal-content {
-  margin: 20% auto;
+#modal-container {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
   width: 100%;
-  background: white;
-  border-radius: 5px;
-  .garden-crops-container {
-    .content-container {
-      .edit-form-container {
-        background: whitesmoke;
-        border-radius: 5px;
-        padding: 10px;
-        width: 100%;
-        form {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          .choice-title {
-            font-size: 18px;
-          }
-          .check-true {
-            color: green;
-          }
-          .check-false {
-            color: red;
-          }
-          label {
-            font-size: 18px;
-            margin: 5px auto;
-          }
-          input {
-            width: 80%;
-            border: 1px solid gray;
-            border-radius: 5px;
-            padding: 5px;
-            font-size: 14px;
-          }
-          textarea {
-            height: 150px;
-            width: 80%;
-            padding: 5px;
-            font-size: 14px;
-            border-radius: 5px;
-            resize: none;
-            overflow: scroll;
-          }
-          .img-selection {
-            margin: 5px auto;
+  padding: 5px;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  #modal-content {
+    margin: 20% auto;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    .garden-crops-container {
+      .content-container {
+        .edit-form-container {
+          background: whitesmoke;
+          border-radius: 5px;
+          padding: 10px;
+          width: 100%;
+          form {
             display: flex;
             flex-direction: column;
             align-items: center;
-            .garden-photos {
-              display: flex;
-              flex-wrap: wrap;
-              height: 250px;
-              justify-content: center;
-              .img-container {
-                padding: 3px;
-                height: 100px;
-                width: 100px;
-                img {
-                  max-height: 100%;
-                  max-width: 100%;
-                }
-              }
+            .choice-title {
+              font-size: 18px;
+            }
+            .check-true {
+              color: green;
+            }
+            .check-false {
+              color: red;
+            }
+            label {
+              font-size: 18px;
+              margin: 5px auto;
             }
             input {
-              border: 0;
+              width: 80%;
+              border: 1px solid gray;
+              border-radius: 5px;
+              padding: 5px;
+              font-size: 14px;
+            }
+            textarea {
+              height: 150px;
+              width: 80%;
+              padding: 5px;
+              font-size: 14px;
+              border-radius: 5px;
+              resize: none;
+              overflow: scroll;
+            }
+            .img-selection {
+              margin: 5px auto;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .garden-photos {
+                display: flex;
+                flex-wrap: wrap;
+                height: 250px;
+                justify-content: center;
+                .img-container {
+                  padding: 3px;
+                  height: 100px;
+                  width: 100px;
+                  img {
+                    max-height: 100%;
+                    max-width: 100%;
+                  }
+                }
+              }
+              input {
+                border: 0;
+              }
+            }
+            .buttons {
+              width: 80%;
+              display: flex;
+              justify-content: space-around;
+              padding: 10px;
             }
           }
-          .buttons {
-            width: 80%;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-          }
         }
-      }
-      .seperating-line {
-        height: 2px;
-        width: 100%;
-        background: black;
-        margin: 5px auto;
-      }
-      .crop-container {
-        background: whitesmoke;
-        border-radius: 5px;
-        margin: 5px auto;
-        padding: 20px;
-        height: 190px;
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        .img-container {
+        .seperating-line {
+          height: 2px;
+          width: 100%;
+          background: black;
+          margin: 5px auto;
+        }
+        .crop-container {
+          background: whitesmoke;
+          border-radius: 5px;
+          margin: 5px auto;
+          padding: 20px;
+          height: 190px;
+          width: 100%;
           display: flex;
-          flex-direction: column;
-          justify-content: center;
-          height: 150px;
-          width: 150px;
-          img {
-            max-height: 100%;
-            max-width: 100%;
-            border-radius: 5px;
+          justify-content: flex-start;
+          .img-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 150px;
+            width: 150px;
+            img {
+              max-height: 100%;
+              max-width: 100%;
+              border-radius: 5px;
+            }
           }
-        }
-        .description-container {
-          padding: 10px;
-          .plant-name {
-            font-size: 18px;
-          }
-          .description {
-            font-size: 14px;
+          .description-container {
+            padding: 10px;
+            .plant-name {
+              font-size: 18px;
+            }
+            .description {
+              font-size: 14px;
+            }
           }
         }
       }
     }
-  }
-  .done-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 5px;
-    #done-button {
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      padding: 10px;
+    .done-container {
+      width: 100%;
       display: flex;
       justify-content: center;
-      background: #6BA368;
+      padding: 5px;
+      #done-button {
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        background: #6ba368;
+      }
     }
   }
- }
+}
+
+#message-modal-container {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 120%;
+  width: 100%;
+  padding: 5px;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  #message-modal-content {
+    margin: 10% auto;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    .form-container {
+      padding: 10px;
+      background: whitesmoke;
+      form {
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        border-radius: 5px;
+      }
+    }
+  }
 }
