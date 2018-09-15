@@ -163,10 +163,17 @@ router.post('/search/:term', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  return Crop.query({ where: { id } })
-    .fetch({ withRelated: ['cropStatus', 'plant', 'photo'] })
+  return Crop
+    .query({ where: { id } })
+    .fetch({ withRelated: ['plant', 'photo'] })
     .then(crop => {
-      return res.json(crop);
+      return User
+        .query({ where: { id: crop.attributes.owner_id } })
+        .fetch({ columns: ['id', 'username', 'stand_name'] })
+        .then(user => {
+          crop.attributes['user'] = user.attributes
+          return res.json(crop);
+        })
     })
     .catch(err => {
       console.log('err', err);
@@ -180,7 +187,8 @@ router.delete('/:id', (req, res) => {
     .then(crop => {
       let status = crop.attributes.crop_status;
       status = 2;
-      return Crop.where({ id })
+      return Crop
+        .where({ id })
         .save(
           { crop_status: status, selling: false },
           { patch: true }
@@ -194,48 +202,159 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
-  console.log('editing crop');
-  res.json('edit specific crop');
+router.put('/:id', upload.array('photo', 6), (req, res) => {
+  let {
+    id,
+    description,
+    details,
+    inventory,
+    price,
+  } = req.body;
+  let photoDeletePromise = new Promise((resolve, reject) => {
+    if (req.body.delete) {
+      if (Array.isArray(req.body.delete)) {
+        let deleteArr = Object.values(req.body.delete);
+        let deletePromises = deleteArr.map(link => {
+          return Photo
+            .where({ link, crop_id: id })
+            .destroy()
+        })
+        Promise.all(deletePromises)
+          .then(() => resolve())
+          .catch(() => reject())
+      } else {
+        return Photo
+          .where({ link: req.body.delete, crop_id: id })
+          .destroy()
+          .then(() => resolve())
+          .catch(() => reject())
+      }
+    } else {
+      resolve()
+    }
+  })
+  photoDeletePromise.then(() => {
+    return new Crop({ id })
+      .save({
+        description,
+        details,
+        inventory,
+        price,
+      }, { patch: true })
+      .then(result => {
+        if (req.files.length === 0 || !req.files) {
+          result.refresh({ withRelated: ['plant', 'photo'] })
+            .then(crop => { return res.json(crop) })
+        } else {
+          let promises = req.files.map(file => {
+            return new Photo({
+              crop_id: id,
+              link: file.location
+            })
+              .save()
+          })
+          Promise.all(promises)
+            .then(() => {
+              return Crop
+                .where({ id })
+                .fetchAll({ withRelated: ['plant', 'photo'] })
+                .then(crop => {
+                  return User
+                    .query({ where: { id: crop.models[0].attributes.owner_id } })
+                    .fetch({ columns: ['id', 'username', 'stand_name'] })
+                    .then(user => {
+                      crop.models[0].attributes['user'] = user.attributes
+                      return res.json(crop);
+                    })
+                })
+            })
+        }
+      })
+  })
+    .catch(err => console.log(err))
 });
 
-router.put('/:id/move', (req, res) => {
-  console.log('move');
+router.put('/:id/move', upload.array('photo', 6), (req, res) => {
   const id = req.params.id;
   const { description, details, price, inventory, check } = req.body;
   const selling = true;
-  console.log(check);
-  if (check) {
-    return new Crop({ id })
-      .save(
-        {
-          description,
-          details,
-          price,
-          inventory,
-          selling
-        },
-        { patch: true }
-      )
-      .then(crop => {
-        return res.json(crop);
+  let savingPhotosPromise = new Promise((resolve, reject) => {
+    if (req.body.links) {
+      if (Array.isArray(req.body.links)) {
+        let linkArr = Object.values(req.body.links)
+        let linkPromises = linkArr.map(link => {
+          return Photo
+            .where({ link, crop_id: id })
+            .save({ selling }, { patch: true })
+        })
+        Promise.all(linkPromises)
+          .then(() => resolve())
+          .catch(() => reject())
+      } else {
+        return Photo
+          .where({ link: req.body.link, crop_id: id })
+          .save({ selling })
+          .then(() => resolve())
+          .catch(() => reject())
+      }
+    } else {
+      resolve()
+    }
+  })
+  let savePhotoLocationPromise = new Promise((resolve, reject) => {
+    if (req.files.length === 0 || !req.files) {
+      resolve()
+    } else {
+      let promises = req.files.map(file => {
+        return new Photo({
+          crop_id: id,
+          link: file.location,
+          selling,
+        })
+          .save()
       })
-      .catch(err => {
-        console.log('err.message', err.message);
-      });
-  } else {
-    return new Crop({ id })
-      .save(
-        { description, details, price, inventory, selling, crop_status: 2 },
-        { patch: true }
-      )
-      .then(crop => {
-        return res.json(crop);
-      })
-      .catch(err => {
-        console.log('err.message', err.message);
-      });
-  }
+      Promise.all(promises)
+        .then(() => resolve())
+        .catch(() => reject())
+    }
+  })
+  savingPhotosPromise
+    .then(() => {
+      savePhotoLocationPromise
+    })
+    .then(() => {
+      if (check) {
+        return new Crop({ id })
+          .save(
+            {
+              description,
+              details,
+              price,
+              inventory,
+              selling
+            },
+            { patch: true }
+          )
+          .then(crop => {
+            return res.json(crop);
+          })
+          .catch(err => {
+            console.log('err.message', err.message);
+          });
+      } else {
+        return new Crop({ id })
+          .save(
+            { description, details, price, inventory, selling, crop_status: 2 },
+            { patch: true }
+          )
+          .then(crop => {
+            return res.json(crop);
+          })
+          .catch(err => {
+            console.log('err.message', err.message);
+          });
+      }
+    })
 });
 
 module.exports = router;

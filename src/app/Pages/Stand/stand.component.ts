@@ -10,16 +10,27 @@ export class StandComponent implements OnInit {
   userId;
   crops;
   user;
-  noStand;
+  noStand: boolean;
   isEdit: boolean = false;
+  buildStand: boolean;
   garden;
-  isGarden: boolean = false;
-  cropId;
+  showingGarden: boolean = false;
+  cropId: string;
   check: boolean = true;
   userIsUser: boolean = false;
-  editFormData = {
-    stand_name: ''
-  };
+
+  //crop photo values
+  cropPhotos: string[] = [];
+  //holds photos to upload
+  photosToStand: File[] = [];
+  //holds photos to carry over to stand
+  selectedForStand: string[] = [];
+
+  standFormdata: {
+    stand_name: string,
+  } = {
+      stand_name: ''
+    }
 
   moveFormData = {
     description: '',
@@ -34,7 +45,7 @@ export class StandComponent implements OnInit {
     document.getElementById('modal-content');
     document.getElementById('content-container');
     if (event.target === document.getElementById('modal-container')) {
-      this.isGarden = !this.isGarden;
+      this.showingGarden = !this.showingGarden;
     }
   }
 
@@ -46,30 +57,55 @@ export class StandComponent implements OnInit {
     this.user = session.getSession();
   }
 
+  ngOnInit() {
+    this.userId = this.route.snapshot.paramMap.get('id');
+    if (parseInt(this.userId) === this.user.id) {
+      this.userIsUser = true
+    }
+    if (this.user.stand_name) {
+      this.backend.getStand(this.userId)
+        .then(result => {
+          this.sortContacts(result);
+          let resultArr = Object.values(result);
+          resultArr.map(crop => {
+            if (crop.photo.length > 0) {
+              crop.displayPhoto = crop.photo[0].link;
+            }
+          })
+        });
+    } else {
+      this.noStand = !this.noStand;
+    }
+    this.backend.getGarden()
+      .then(result => {
+        this.garden = result;
+        console.log(this.garden);
+        this.garden.map(crop => {
+          crop['mainPhoto'] = crop.photo[0].link
+        })
+      });
+  }
+
   toggleCheck() {
     this.check = !this.check
     this.moveFormData.check = !this.moveFormData.check
   }
 
   moveToStand() {
-    this.backend
-      .moveToStand(this.cropId, this.moveFormData)
+    this.moveFormData['selectedForStand'] = this.selectedForStand;
+    this.moveFormData['uploadForStand'] = this.photosToStand;
+    this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
-        this.backend
-          .getGarden()
-          .then(result => {
-            console.log('garden', result)
-            this.garden = result;
-          })
+        this.backend.getGarden()
+          .then(result => this.garden = result)
           .then(() => {
             this.ngOnInit();
-            this.toggleGarden();
+            this.showGarden();
           });
       })
-      .catch(err => {
-        console.log(err.message);
-      });
+      .catch(err => console.log(err.message));
   }
+
   isLoggedIn() {
     return this.session.isLoggedIn;
   }
@@ -79,21 +115,35 @@ export class StandComponent implements OnInit {
   }
 
   toggleEdit(crop) {
-    if (crop) {
-      this.cropId = crop.id;
-    }
+    if (crop) { this.cropId = crop.id; }
     if (this.isEdit) {
       this.isEdit = !this.isEdit;
     }
+    this.garden.map(crop => {
+      if (crop.id === this.cropId) {
+        this.moveFormData = crop;
+        this.cropPhotos = crop.photo;
+      }
+    })
     this.isEdit = !this.isEdit;
   }
 
-  toggleGarden() {
-    this.isGarden = !this.isGarden;
+  buildingStand() {
+    if (this.buildStand) {
+      return this.buildStand = false
+    }
+    return this.buildStand = true
+  }
+
+  showGarden() {
+    if (this.showingGarden) {
+      return this.showingGarden = false;
+    }
+    return this.showingGarden = true;
   }
 
   sortContacts(result) {
-    this.crops = result.sort(function(a, b) {
+    this.crops = result.sort(function (a, b) {
       var textA = a.description;
       var textB = b.description;
       return textA > textB;
@@ -107,29 +157,35 @@ export class StandComponent implements OnInit {
   }
 
   editUser() {
-    // console.log()
-    this.backend.editUser(this.editFormData).then(result => {
-      this.user.stand_name = result['stand_name'];
-      this.session.setSession(this.user);
-      this.ngOnInit();
-    });
+    this.backend.editUser(this.standFormdata)
+      .then(result => {
+        this.user.stand_name = result['stand_name'];
+        this.session.setSession(this.user);
+        this.noStand = false;
+        this.ngOnInit();
+      });
   }
 
-  ngOnInit() {
-    this.userId = this.route.snapshot.paramMap.get('id');
-    console.log(this.user.id, this.userId)
-    if(parseInt(this.userId) === this.user.id){
-      this.userIsUser = true
-    }
-    if (this.user.stand_name) {
-      this.backend.getStand(this.userId).then(result => {
-        this.sortContacts(result);
-      });
+  startConversation() {
+
+  }
+
+  //photo functions
+  selectPhoto(event) {
+    if (!this.selectedForStand.includes(event.target.src)) {
+      this.selectedForStand.push(event.target.src)
+      event.target.style.border = '3px solid #2c84fc'
     } else {
-      this.noStand = !this.noStand;
+      let index = this.selectedForStand.indexOf(event.target.src);
+      this.selectedForStand.splice(index, 1);
+      event.target.style.border = 'none';
     }
-    this.backend.getGarden().then(result => {
-      this.garden = result;
-    });
+  }
+
+  updatePhotoList(event) {
+    let file = event.target.files[0];
+    if (!this.photosToStand.includes(file)) {
+      return this.photosToStand.push(file);
+    }
   }
 }
