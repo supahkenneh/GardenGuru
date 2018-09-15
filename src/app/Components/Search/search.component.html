@@ -1,16 +1,20 @@
 <div id="search-sidebar-container">
   <div id="search-sidebar">
-    <label for="search-category">Search</label>
-    <!-- <span>{{ getCategoryErrors() }}</span> -->
-    <select name="search-category" [(ngModel)]="newItemFormData.category_id" (change)="validateCategory()">
-      <!-- <option value="-1" class="option">Select Category</option> -->
-      <option *ngFor="let category of categories" value="{{category}}">x{{category}}</option>
-    </select>
-    
-    <!-- <label for="description">Description</label> -->
-    <!-- <span>{{ getDescriptionErrors() }}</span> -->
-    <div class="search-input">
-      <input type="text" name="description" [(ngModel)]="newItemFormData.description" (keyup)="validateDescription()">
-    </div>
+    <form enctype="application/x-www-form-urlencoded">
+      <label for="search-category">Looking for something in particular?</label>
+      <!-- <span>{{ getCategoryErrors() }}</span> -->
+      <select name="search-category" [(ngModel)]="cropSearchData.category">
+        <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
+      </select>
+
+      <label for="description">Filler (might delete later)</label>
+      <span>{{ getSearchErrors() }}</span>
+      <div class="search-input">
+        <input type="text" name="description" [(ngModel)]="cropSearchData.searchInput" (keyup)="validateSearch()">
+      </div>
+      <!-- <button type="button" class="search-button" (click)="searchCrop()">Submit</button> -->
+      <button type="button" class="search-button" (click)="searchCrop()">Submit</button>
+      <span>{{ getResultErrors() }}</span>
+    </form>
   </div>
 </div>

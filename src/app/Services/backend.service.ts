@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BackendService {
   url: string = '/api/';
+  searchResults: any[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -111,5 +112,18 @@ export class BackendService {
     }
     const editUrl = this.url + `garden/crop/${data.id}`;
     return this.http.put(editUrl, form).toPromise();
+  }
+  search(data) {
+    const searchUrl = `${this.url}crops/search/${data.searchInput}`
+    return this.http.post(searchUrl, data).toPromise();
+  }
+
+  results(data) {
+    console.log('search results service', data);
+    this.searchResults.push(data);
+  }
+
+  transferResults() {
+    return this.searchResults;
   }
 }
