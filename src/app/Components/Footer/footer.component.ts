@@ -11,6 +11,5 @@ export class FooterComponent implements OnInit {
     this.user = session.getSession();
   }
   ngOnInit() {
-    console.log('footer ', this.user);
   }
 }

@@ -7,9 +7,10 @@ import { SessionService } from '../../Services/session.service';
   styleUrls: ['./stand.component.scss']
 })
 export class StandComponent implements OnInit {
-  userId;
+  urlId;
   crops;
   user;
+  standOwner: object;
   noStand: boolean;
   isEdit: boolean = false;
   buildStand: boolean;
@@ -81,13 +82,16 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this.route.snapshot.paramMap.get('id');
-    if (parseInt(this.userId) === this.user.id) {
+    this.urlId = this.route.snapshot.paramMap.get('id');
+    //checks to see if the page belongs to logged in user
+    if (parseInt(this.urlId) === this.user.id) {
       this.userIsUser = true
     }
+    //check to see if logged in user has a stand
     if (this.user.stand_name) {
-      this.backend.getStand(this.userId)
+      this.backend.getStand(this.urlId)
         .then(result => {
+          this.standOwner = result[0].user;
           this.sortContacts(result);
           let resultArr = Object.values(result);
           resultArr.map(crop => {

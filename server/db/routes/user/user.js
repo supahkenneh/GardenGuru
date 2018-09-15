@@ -222,7 +222,7 @@ router.post('/:toId/messages/:cropId', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   return User.where({ id })
-    .fetch({ columns: ['username', 'email', 'rating', 'city', 'state', 'stand_name', 'avatar_link', 'first_name', 'last_name', 'bio'] })
+    .fetch({ columns: ['username', 'email', 'rating', 'city', 'state', 'stand_name', 'avatar_link', 'first_name', 'last_name', 'bio', 'id'] })
     .then(user => {
       if (!user) {
         return res.json({ message: 'User does not exist' });
@@ -238,16 +238,22 @@ router.get('/:id', (req, res) => {
 // Gets a user's stand
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
-  return Crop.where({ owner_id: id, selling: true })
-    .fetchAll({
-      withRelated: ['owner', 'cropStatus', 'plant', 'photo', 'messages']
-    })
+  return Crop
+    .where({ owner_id: id, selling: true })
+    .fetchAll({ withRelated: ['cropStatus', 'plant', 'photo', 'messages'] })
     .then(crops => {
       if (crops.length < 1) {
-        return res.send('Nothing but us chickens!');
+        return res.json({ message: `This user doesn't have a stand` });
       } else {
-        console.log(crops.models[0].attributes);
-        return res.json(crops);
+        return User
+          .where({ id: crops.models[0].attributes.owner_id })
+          .fetch({ columns: ['stand_name', 'id', 'avatar_link'] })
+          .then(user => {
+            crops.models.map(crop => {
+              crop.attributes.user = user;
+            })
+            res.json(crops);
+          })
       }
     })
     .catch(err => {

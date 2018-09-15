@@ -74,6 +74,7 @@ export class BackendService {
     const delUrl = this.url + `crops/${id}`;
     return this.http.delete(delUrl).toPromise();
   }
+  
   getPlants() {
     const plantsUrl = this.url + 'garden/plants';
     return this.http.get(plantsUrl).toPromise();
