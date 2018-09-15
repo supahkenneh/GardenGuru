@@ -55,6 +55,30 @@ router.get('/', (req, res) => {
     });
 });
 
+
+router.get('/conversations', (req, res) => {
+  return Message.query(function (qb) {
+    qb.where('from', '!=', req.user.id).distinct('from');
+  })
+    .fetchAll(
+      { withRelated: ['from'], columns: ['content'] }
+    )
+    .then(result => {
+      return res.json(result);
+    });
+});
+
+router.get('/sentConversations', (req,res)=>{
+  return Message.query(function(qb){
+    qb.where('from', '=', req.user.id)
+  })
+  .fetchAll({withRelated: ['to'], columns: ['content']})
+  .then(result=>{
+    return res.json(result);
+  })
+})
+
+
 router.get('/messages', (req, res) => {
   if (!req.user) {
     return res.send('Please log in to proceed to your inbox.');
@@ -113,17 +137,6 @@ router.post('/messages/:id', (req, res) => {
 
 
 
-router.get('/conversations', (req, res) => {
-  return Message.query(function(qb) {
-    qb.where('from', '!=', req.user.id).distinct('from');
-  })
-    .fetchAll(
-      { withRelated: ['from'], columns: ['content'] }
-      )
-    .then(result => {
-      return res.json(result);
-    });
-});
 
 
 

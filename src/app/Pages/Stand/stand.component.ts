@@ -51,7 +51,6 @@ export class StandComponent implements OnInit {
     content: ''
   };
 
-  @HostListener('document:click', ['$event'])
   postFormData: {
     plant: number;
     description: string,
@@ -77,6 +76,7 @@ export class StandComponent implements OnInit {
     }
 
     if (event.target === document.getElementById('message-modal-container')) {
+      console.log('clicked')
       this.openMessage = !this.openMessage;
     }
     if (event.target === document.getElementById('add-modal-container')) {
@@ -250,7 +250,9 @@ export class StandComponent implements OnInit {
   }
 
   startConversation() {
+    console.log('openMessage')
     this.openMessage = !this.openMessage;
+    console.log(this.openMessage)
   }
 
   //photo functions

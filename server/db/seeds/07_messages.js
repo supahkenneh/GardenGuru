@@ -6,19 +6,19 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('messages').insert([
         {
-          to: 2,
-          from: 1,
+          to: 4,
+          from: 2,
           content: 'Hello, I would like to buy some of your strawberries. Where is a good place to meet up? I\'m free everyday after 4pm.',
           read: false
         },
         {
-          to: 1,
+          to: 4,
           from: 2,
           content: 'Hey I saw that you have some cherries up. What kind of cherries are they?',
           read: false
         },
         {
-          to: 1,
+          to: 4,
           from: 2,
           content: 'How many cherries do you have left? I\'m looking to buy a lot. Are you willing to haggle for them?',
           read: false
