@@ -221,12 +221,11 @@ router.post('/:toId/messages/:cropId', (req, res) => {
 // Gets a user's profile
 router.get('/:id', (req, res) => {
   const id = req.params.id;
-  console.log(req.user);
   return User.where({ id })
-    .fetch()
+    .fetch({ columns: ['username', 'email', 'rating', 'city', 'state', 'stand_name', 'avatar_link', 'first_name', 'last_name', 'bio'] })
     .then(user => {
       if (!user) {
-        return res.send('User does not exist.');
+        return res.json({ message: 'User does not exist' });
       } else {
         return res.json(user);
       }

@@ -41,7 +41,6 @@ export class BackendService {
 
   addCrop(data) {
     const form = new FormData();
-
     form.append('garden_description', data.garden_description);
     form.append('watering', data.watering);
     form.append('month', data.month);
@@ -112,7 +111,6 @@ export class BackendService {
   }
 
   editGardenCrop(data) {
-    console.log(data);
     const form = new FormData();
     form.append('garden_description', data.garden_description);
     form.append('id', data.id);
@@ -133,7 +131,6 @@ export class BackendService {
   }
 
   editStandCrop(data) {
-    console.log(data)
     const form = new FormData();
     form.append('description', data.description);
     form.append('id', data.id);
@@ -155,7 +152,6 @@ export class BackendService {
   }
 
   postDirectlyToStand(data) {
-    console.log(data)
     const form = new FormData();
     form.append('description', data.description);
     form.append('details', data.details);
