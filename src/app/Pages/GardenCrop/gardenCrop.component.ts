@@ -157,8 +157,10 @@ export class GardenCropComponent implements OnInit {
     if (this.photosToDelete) {
       this.gardenEditFormData['photosToDelete'] = this.photosToDelete;
     }
+    if (this.photosToUpload) {
+      this.gardenEditFormData['photos'] = this.photosToUpload;
+    }
     this.gardenEditFormData['id'] = this.cropId;
-    this.gardenEditFormData['photos'] = this.photosToUpload;
     return this.backend.editGardenCrop(this.gardenEditFormData)
       .then(result => {
         //reset values

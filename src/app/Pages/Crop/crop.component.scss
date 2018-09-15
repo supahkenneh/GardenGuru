@@ -1,6 +1,6 @@
 .content-container {
   padding: 20px;
-  height: 110%;
+  height: 120%;
   .crop-container {
     background: white;
     border-radius: 5px;
@@ -43,6 +43,83 @@
       width: 100%;
       font-size: 16px;
     }
+    .remove-container {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      top: 130px;
+      right: 65px;
+      svg {
+        height: 40px;
+        width: 40px;
+        fill: red;
+      }
+    }
+    .editing-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 110%;
+      label {
+        margin: 15px auto;
+      }
+      input {
+        border: 1px solid gray;
+        padding: 5px;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 14px;
+        margin: 5px;
+      }
+      select {
+        width: 70%;
+        height: 20px;
+        background: whitesmoke;
+        margin-bottom: 10px;
+      }
+      textarea {
+        height: 150px;
+        width: 100%;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 5px;
+        resize: none;
+        overflow: scroll;
+      }
+      .image-upload {
+        display: flex;
+        flex-direction: column;
+        margin: 20px auto;
+        text-align: center;
+        input {
+          border: 0;
+        }
+      }
+      .submit-button {
+        position: fixed;
+        bottom: 80px;
+        left: 60px;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        background: #6BA368;
+      }
+      .cancel-button {
+        position: fixed;
+        bottom: 80px;
+        right: 60px;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        background: #6BA368;
+      }
+    }
   }
   .auth-actions {
     position: fixed;
@@ -52,8 +129,8 @@
       bottom: 80px;
       left: 30px;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       padding: 10px;
       display: flex;
       justify-content: center;
@@ -64,8 +141,8 @@
       bottom: 80px;
       right: 30px;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       padding: 10px;
       display: flex;
       justify-content: center;

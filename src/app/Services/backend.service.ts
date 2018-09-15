@@ -118,16 +118,39 @@ export class BackendService {
     form.append('id', data.id);
     form.append('newWaterDate', data.newWaterDate);
     form.append('watering_interval', data.watering_interval);
-    data.photos.map(photo => {
-      form.append('photo', photo);
-    });
+    if (data.photos) {
+      data.photos.map(photo => {
+        form.append('photo', photo);
+      });
+    }
     if (data.photosToDelete) {
       data.photosToDelete.map(photo => {
         form.append('delete', photo);
-      })
-      // form.append('photosToDelete', data.photosToDelete)
+      });
     }
     const editUrl = this.url + `garden/crop/${data.id}`;
+    return this.http.put(editUrl, form).toPromise();
+  }
+
+  editStandCrop(data) {
+    console.log(data)
+    const form = new FormData();
+    form.append('description', data.description);
+    form.append('id', data.id);
+    form.append('details', data.details);
+    form.append('inventory', data.inventory);
+    form.append('price', data.price);
+    if (data.photos) {
+      data.photos.map(photo => {
+        form.append('photo', photo);
+      });
+    }
+    if (data.photosToDelete) {
+      data.photosToDelete.map(photo => {
+        form.append('delete', photo);
+      });
+    }
+    const editUrl = this.url + `crops/${data.id}`;
     return this.http.put(editUrl, form).toPromise();
   }
 }

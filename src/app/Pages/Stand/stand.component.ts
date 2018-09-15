@@ -92,8 +92,6 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
-    console.log(this.selectedForStand);
-    console.log(this.photosToStand);
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend.moveToStand(this.cropId, this.moveFormData)
