@@ -91,14 +91,19 @@ export class StandComponent implements OnInit {
     if (this.user.stand_name) {
       this.backend.getStand(this.urlId)
         .then(result => {
-          this.standOwner = result[0].user;
-          this.sortContacts(result);
-          let resultArr = Object.values(result);
-          resultArr.map(crop => {
-            if (crop.photo.length > 0) {
-              crop.displayPhoto = crop.photo[0].link;
-            }
-          })
+          console.log(result)
+          if (result['message']) {
+            this.noStand = true;
+          } else {
+            this.standOwner = result[0].user;
+            this.sortContacts(result);
+            let resultArr = Object.values(result);
+            resultArr.map(crop => {
+              if (crop.photo.length > 0) {
+                crop.displayPhoto = crop.photo[0].link;
+              }
+            })
+          }
         });
     } else {
       this.noStand = !this.noStand;
@@ -106,9 +111,10 @@ export class StandComponent implements OnInit {
     this.backend.getGarden()
       .then(result => {
         this.garden = result;
-        console.log(this.garden);
         this.garden.map(crop => {
-          crop['mainPhoto'] = crop.photo[0].link
+          if (crop.photo.length > 0) {
+            crop['mainPhoto'] = crop.photo[0].link
+          }
         })
       });
   }

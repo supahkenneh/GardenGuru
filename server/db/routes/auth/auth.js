@@ -3,9 +3,41 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const app = express()
+const app = express();
+
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
+const BUCKET_NAME = process.env.BUCKET_NAME;
+const IAM_USER_KEY = process.env.IAM_USER_KEY;
+const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+
 const User = require('../../models/User');
 const saltRounds = 12;
+
+const s3 = new aws.S3({
+  accessKeyId: IAM_USER_KEY,
+  secretAccessKey: IAM_USER_SECRET
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: BUCKET_NAME,
+    acl: 'public-read-write',
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      console.log(file);
+      cb(
+        null,
+        `${req.user.username}/${Date.now().toString()}-${file.originalname}`
+      );
+    }
+  })
+});
 
 // ===== PASSPORT METHODS ===== //
 
@@ -67,7 +99,8 @@ passport.use(
 );
 
 // ===== REGISTRATION ===== //
-router.post('/register', (req, res) => {
+router.post('/register', upload.single('photo'), (req, res) => {
+  console.log(req.file);
   let { username, email, first_name, last_name, city, state } = req.body;
   bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) {

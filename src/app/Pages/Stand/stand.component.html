@@ -16,7 +16,7 @@
     <div *ngFor="let crop of crops" class="crop">
       <div routerLink="/crops/{{crop.id}}" class="image-container">
         <img src="{{crop.displayPhoto}}">
-      </div>
+    </div>
       <div class="crop-title">{{crop.description}}({{crop.inventory}})
       </div>
       <div class="details-container">
