@@ -1,5 +1,51 @@
-.profile-pic {
-  height: 200px;
-  width: 200px;
-  background-size: contain;
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  .avatar {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    .avatar-container {
+      height: 200px;
+      width: 200px;
+      border-radius: 50%;
+      border: 6px solid #7BC677;
+      img {
+        max-height: 100%;
+        max-width: 100%;
+        border-radius: 50%;
+      }
+    }
+  }
+  .secondary-header {
+    display: flex;
+    justify-content: center;
+    div {
+      font-size: 28px;
+    }
+  }
+  .profile-body {
+    width: 90%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .names {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 20px;
+      margin: 5px auto;
+      div {
+        margin: 5px auto;
+      }
+    }
+    .bio {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  }
 }

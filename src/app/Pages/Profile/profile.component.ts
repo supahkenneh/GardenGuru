@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
-import {SessionService} from '../../Services/session.service';
+import { SessionService } from '../../Services/session.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './profile.component.html',
@@ -8,21 +9,23 @@ import {SessionService} from '../../Services/session.service';
 })
 export class ProfileComponent implements OnInit {
   userId: string;
-  user
+  user: any;
+  profile: any;
+
   constructor(
     private backend: BackendService,
-    private session: SessionService
-  ) { 
+    private session: SessionService,
+    private route: ActivatedRoute
+  ) {
     this.user = this.session.getSession()
   }
 
   ngOnInit() {
-    console.log(this.user)
-  //   return this.backend.getUserProfile(this.userId)
-  //     .then(result => {
-  //       this.user = result
-  //       console.log(result)
-  //     })
-  // }
+    this.userId = this.route.snapshot.paramMap.get('id');
+    return this.backend.getUserProfile(this.userId)
+      .then(user => {
+        console.log(user);
+        this.profile = user;
+      })
   }
 }

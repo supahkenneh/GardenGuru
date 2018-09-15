@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../../Services/session.service';
 @Component({
   selector: 'app-footer',
@@ -6,11 +6,10 @@ import { SessionService } from '../../Services/session.service';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  user
+  user: any;
   constructor(private session: SessionService) {
     this.user = session.getSession();
-   }
-   ngOnInit(){
-
-   }
+  }
+  ngOnInit() {
+  }
 }

@@ -55,7 +55,9 @@ router.post('/', upload.array('photo', 6), (req, res) => {
   let convertedWateringDate = moment(watering_date)
     .local()
     .format('YYYY-MM-DD HH:mm:ss');
-  return Plant.where({ id: plant })
+  //getting harvest date to be saved in the crop
+  return Plant
+    .where({ id: plant })
     .fetchAll()
     .then(plant => {
       let harvestDays = plant.models[0].attributes.days_to_harvest;
@@ -91,6 +93,47 @@ router.post('/', upload.array('photo', 6), (req, res) => {
     })
     .catch(err => console.log(err));
 });
+
+router.post('/stand', upload.array('photo', 6), (req, res) => {
+  let id = req.user.id;
+  let {
+    description,
+    details,
+    inventory,
+    price,
+    plant
+  } = req.body;
+  console.log(req.body);
+  let date = new Date();
+  return new Crop({
+    plant_id: plant,
+    garden_description: '',
+    description,
+    details,
+    inventory,
+    price,
+    owner_id: id,
+    watering_interval: 0,
+    planted_on: date,
+    selling: true,
+    crop_status: 2,
+  })
+    .save()
+    .then(newCrop => {
+      if (req.files.length === 0) {
+        return res.json(newCrop);
+      }
+      let promises = req.files.map(file => {
+        return new Photo({
+          crop_id: newCrop.id,
+          link: file.location
+        })
+          .save();
+      })
+      Promise.all(promises).then(() => res.json(newCrop));
+    })
+    .catch(err => console.log(err));
+})
 
 router.post('/search/:term', (req, res) => {
   const search = req.params.term;

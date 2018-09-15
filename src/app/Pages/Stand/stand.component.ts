@@ -7,9 +7,10 @@ import { SessionService } from '../../Services/session.service';
   styleUrls: ['./stand.component.scss']
 })
 export class StandComponent implements OnInit {
-  userId;
+  urlId;
   crops;
   user;
+  standOwner: object;
   noStand: boolean;
   isEdit: boolean = false;
   buildStand: boolean;
@@ -18,6 +19,7 @@ export class StandComponent implements OnInit {
   cropId: string;
   check: boolean = true;
   userIsUser: boolean = false;
+  postingCrop: boolean = false;
 
   //crop photo values
   cropPhotos: string[] = [];
@@ -40,17 +42,39 @@ export class StandComponent implements OnInit {
     check: this.check
   };
 
-  @HostListener('document:click', ['$event'])
+  postFormData: {
+    plant: number;
+    description: string,
+    price: string,
+    inventory: number,
+    details: string,
+    photos: File[]
+  } = {
+      plant: 0,
+      description: '',
+      price: '',
+      inventory: null,
+      details: '',
+      photos: []
+    }
+
+  plants: any;
+
+  @HostListener('click', ['$event'])
   clickout(event) {
-    document.getElementById('modal-content');
-    document.getElementById('content-container');
     if (event.target === document.getElementById('modal-container')) {
       this.showingGarden = !this.showingGarden;
     }
+    if (event.target === document.getElementById('add-modal-container')) {
+      this.postingCrop = !this.postingCrop
+    }
   }
+
+
 
   constructor(
     private backend: BackendService,
+    private router: Router,
     private route: ActivatedRoute,
     private session: SessionService
   ) {
@@ -58,20 +82,28 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this.route.snapshot.paramMap.get('id');
-    if (parseInt(this.userId) === this.user.id) {
+    this.urlId = this.route.snapshot.paramMap.get('id');
+    //checks to see if the page belongs to logged in user
+    if (parseInt(this.urlId) === this.user.id) {
       this.userIsUser = true
     }
+    //check to see if logged in user has a stand
     if (this.user.stand_name) {
-      this.backend.getStand(this.userId)
+      this.backend.getStand(this.urlId)
         .then(result => {
-          this.sortContacts(result);
-          let resultArr = Object.values(result);
-          resultArr.map(crop => {
-            if (crop.photo.length > 0) {
-              crop.displayPhoto = crop.photo[0].link;
-            }
-          })
+          console.log(result)
+          if (result['message']) {
+            this.noStand = true;
+          } else {
+            this.standOwner = result[0].user;
+            this.sortContacts(result);
+            let resultArr = Object.values(result);
+            resultArr.map(crop => {
+              if (crop.photo.length > 0) {
+                crop.displayPhoto = crop.photo[0].link;
+              }
+            })
+          }
         });
     } else {
       this.noStand = !this.noStand;
@@ -79,11 +111,20 @@ export class StandComponent implements OnInit {
     this.backend.getGarden()
       .then(result => {
         this.garden = result;
-        console.log(this.garden);
         this.garden.map(crop => {
-          crop['mainPhoto'] = crop.photo[0].link
+          if (crop.photo.length > 0) {
+            crop['mainPhoto'] = crop.photo[0].link
+          }
         })
       });
+  }
+
+  addToStand() {
+    return this.backend.postDirectlyToStand(this.postFormData)
+      .then(result => {
+        this.showPostForm();
+        this.ngOnInit()
+      })
   }
 
   toggleCheck() {
@@ -166,6 +207,18 @@ export class StandComponent implements OnInit {
       });
   }
 
+  showPostForm() {
+    if (this.postingCrop) {
+      return this.postingCrop = false;
+    }
+    this.backend.getPlants()
+      .then(result => {
+        console.log(result);
+        this.plants = result;
+        return this.postingCrop = true;
+      })
+  }
+
   startConversation() {
 
   }
@@ -184,7 +237,9 @@ export class StandComponent implements OnInit {
 
   updatePhotoList(event) {
     let file = event.target.files[0];
-    if (!this.photosToStand.includes(file)) {
+    if (this.postingCrop) {
+      this.postFormData.photos.push(file);
+    } else if (this.showingGarden) {
       return this.photosToStand.push(file);
     }
   }

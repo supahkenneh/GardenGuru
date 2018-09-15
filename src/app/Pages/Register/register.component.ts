@@ -19,19 +19,27 @@ export class RegisterComponent {
     email: string;
     first_name: string;
     last_name: string;
+    photo: File
   } = {
       username: '',
       city: '',
       state: '',
       email: '',
       first_name: '',
-      last_name: ''
+      last_name: '',
+      photo: null
     };
   constructor(private auth: AuthService, private router: Router) { }
 
   register() {
-    this.auth.register(this.registerFormData).then(() => {
-      this.router.navigate(['login']);
-    });
+    this.auth.register(this.registerFormData)
+      .then(() => {
+        this.router.navigate(['/login']);
+      });
+  }
+
+  getPhotoFile(event) {
+    let file = event.target.files[0];
+    this.registerFormData.photo = file;
   }
 }

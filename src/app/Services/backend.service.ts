@@ -41,7 +41,6 @@ export class BackendService {
 
   addCrop(data) {
     const form = new FormData();
-
     form.append('garden_description', data.garden_description);
     form.append('watering', data.watering);
     form.append('month', data.month);
@@ -62,6 +61,17 @@ export class BackendService {
   }
 
   register(data) {
+    console.log(data);
+    const form = new FormData();
+
+    form.append('username', data.username);
+    form.append('city', data.city);
+    form.append('state', data.state);
+    form.append('email', data.email);
+    form.append('first_name', data.first_name);
+    form.append('last_name', data.last_name);
+    form.append('photo', data.photo);
+
     const registerUrl = this.url + 'register';
     return this.http.post(registerUrl, data).toPromise();
   }
@@ -75,6 +85,7 @@ export class BackendService {
     const delUrl = this.url + `crops/${id}`;
     return this.http.delete(delUrl).toPromise();
   }
+
   getPlants() {
     const plantsUrl = this.url + 'garden/plants';
     return this.http.get(plantsUrl).toPromise();
@@ -112,7 +123,6 @@ export class BackendService {
   }
 
   editGardenCrop(data) {
-    console.log(data);
     const form = new FormData();
     form.append('garden_description', data.garden_description);
     form.append('id', data.id);
@@ -133,7 +143,6 @@ export class BackendService {
   }
 
   editStandCrop(data) {
-    console.log(data)
     const form = new FormData();
     form.append('description', data.description);
     form.append('id', data.id);
@@ -152,5 +161,22 @@ export class BackendService {
     }
     const editUrl = this.url + `crops/${data.id}`;
     return this.http.put(editUrl, form).toPromise();
+  }
+
+  postDirectlyToStand(data) {
+    const form = new FormData();
+    form.append('description', data.description);
+    form.append('details', data.details);
+    form.append('inventory', data.inventory);
+    form.append('price', data.price);
+    form.append('plant', data.plant);
+    if (data.photos) {
+      data.photos.map(photo => {
+        form.append('photo', photo);
+      })
+    }
+
+    const postUrl = this.url + 'crops/stand'
+    return this.http.post(postUrl, form).toPromise();
   }
 }
