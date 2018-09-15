@@ -14,7 +14,6 @@ const routes = require('./db/routes');
 server.use(bodyparser.json());
 server.use(bodyparser.urlencoded({ extended: true }));
 server.use((req, res, next) => {
-  console.log('server req.body', req.body);
   next()
 });
 server.use(
