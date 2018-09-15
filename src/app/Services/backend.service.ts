@@ -153,4 +153,22 @@ export class BackendService {
     const editUrl = this.url + `crops/${data.id}`;
     return this.http.put(editUrl, form).toPromise();
   }
+
+  postDirectlyToStand(data) {
+    console.log(data)
+    const form = new FormData();
+    form.append('description', data.description);
+    form.append('details', data.details);
+    form.append('inventory', data.inventory);
+    form.append('price', data.price);
+    form.append('plant', data.plant);
+    if (data.photos) {
+      data.photos.map(photo => {
+        form.append('photo', photo);
+      })
+    }
+
+    const postUrl = this.url + 'crops/stand'
+    return this.http.post(postUrl, form).toPromise();
+  }
 }

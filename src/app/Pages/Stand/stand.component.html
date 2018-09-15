@@ -151,7 +151,7 @@
           <div>Add To Your Stand</div>
         </div>
         <div class="plant-container">
-          <select name="plants" (change)="showPlantInfo()" [(ngModel)]="postFormData.plant">
+          <select name="plants" [(ngModel)]="postFormData.plant">
             <option value="0">Select Plant</option>
             <option *ngFor="let plant of plants" value="{{plant.id}}">{{plant.name}}</option>
           </select>

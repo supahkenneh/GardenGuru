@@ -73,6 +73,7 @@ export class StandComponent implements OnInit {
 
   constructor(
     private backend: BackendService,
+    private router: Router,
     private route: ActivatedRoute,
     private session: SessionService
   ) {
@@ -109,7 +110,11 @@ export class StandComponent implements OnInit {
   }
 
   addToStand() {
-    console.log(this.postFormData);
+    return this.backend.postDirectlyToStand(this.postFormData)
+      .then(result => {
+        this.showPostForm();
+        this.ngOnInit()
+      })
   }
 
   toggleCheck() {
