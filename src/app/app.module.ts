@@ -56,7 +56,7 @@ import { SessionService } from './Services/session.service';
       { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
       { path: 'user/:id/stand', component: StandComponent },
-      { path: 'profile', component: ProfileComponent },
+      { path: 'user/:id', component: ProfileComponent },
       { path: 'crops/:id', component: CropComponent },
       { path: 'garden/addcrop', component: AddCropComponent },
       { path: 'messages', component: MessagesComponent },
@@ -67,4 +67,4 @@ import { SessionService } from './Services/session.service';
   providers: [BackendService, SessionService, AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

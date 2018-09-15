@@ -18,10 +18,15 @@
       border-radius: 50%;
       width: 50px;
       height: 50px;
-      padding: 10px;
       display: flex;
       justify-content: center;
-      background: #6ba368;
+      background: #6BA368;
+      border: 6px solid #6BA368;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 50%;
+      }
     }
     .message-stand {
       .message-button {
@@ -367,3 +372,110 @@
 //     top:0;
 //   }
 // }
+
+#add-modal-container {
+  position:fixed;
+  z-index: 1;
+  left:0;
+  top:0;
+  height: 120%;
+  width:100%;
+  padding: 5px;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  #add-modal-content {
+    margin: 10% auto;
+    width: 100%;
+    background: white;
+    border-radius: 5px;
+    .form-container {
+      padding: 10px;
+      background: whitesmoke;
+      form {
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        border-radius: 5px;
+        .secondary-header {
+          text-align: center;
+          font-size: 28px;
+        }
+        .plant-container {
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          margin-top: 15px;
+          select {
+            width: 70%;
+            background: whitesmoke;
+            padding: 5px;
+            font-size: 14px;
+          }
+        }
+        label {
+          margin: 15px auto;
+        }
+        input {
+          border: 1px solid gray;
+          border-radius: 5px;
+          width: 80%;
+          align-self: center;
+          padding: 5px;
+          font-size: 14px;
+        }
+        textarea {
+          height: 150px;
+          width: 80%;
+          padding: 5px;
+          font-size: 14px;
+          border-radius: 5px;
+          resize: none;
+          overflow: scroll;
+        }
+        .image-upload {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          input {
+            padding: 0;
+            border: 0;
+          }
+        }
+        .photo-list {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .photo-name {
+            font-size: 12px;
+          }
+        }
+        .submit-button-container {
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+          margin: 10px auto;
+          .add-button {
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            background: #6BA368;
+          }
+          .cancel-button {
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            background: #6BA368;
+          }
+        }
+      }
+    }
+  }
+}

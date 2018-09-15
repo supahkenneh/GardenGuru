@@ -1,11 +1,18 @@
-<div class="profile-header">
-  {{user.username}}
+<div class="content-container">
+  <div class="avatar">
+    <div class="avatar-container">
+      <img src="{{profile.avatar_link}}">
+    </div>
+  </div>
+  <div class="secondary-header">
+    <div *ngIf="profile">{{profile.username}}</div>
+  </div>
+  <div class="profile-body">
+    <div class="names">
+      <div>{{profile.first_name}} {{profile.last_name}}</div>
+      <div routerLink="/user/{{profile.id}}/stand">{{profile.stand_name}}</div>
+    </div>
+    <div>{{profile.city}}, {{profile.state}}</div>
+    <div class="bio">{{profile.bio}}</div>
+  </div>
 </div>
-<div class="profile-pic" [style.backgroundImage]="'url('+ user.avatar_link +')'" ></div>
-<div class="profile-body">
-  <div class="name">{{user.first_name}} {{user.last_name}}</div>
-  <div class="bio">{{user.bio}}</div>
-  <div class="city">Location: {{user.city}}, {{user.state}}</div>
-  <div class="stand" routerLink="/user/{{user.id}}/stand">{{user.stand_name}}</div>
-</div>
-

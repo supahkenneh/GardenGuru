@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
 
 const saltRounds = 12;
 const User = require('../../models/User');
@@ -10,6 +13,32 @@ const botEmail = process.env.BOT_EMAIL;
 const api_key = process.env.MAILGUN_API_KEY;
 const domain = process.env.DOMAIN;
 const mailgun = require('mailgun-js')({ apiKey: api_key, domain: domain });
+
+const BUCKET_NAME = process.env.BUCKET_NAME;
+const IAM_USER_KEY = process.env.IAM_USER_KEY;
+const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+
+const s3 = new aws.S3({
+  accessKeyId: IAM_USER_KEY,
+  secretAccessKey: IAM_USER_SECRET
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: BUCKET_NAME,
+    acl: 'public-read-write',
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      cb(
+        null,
+        `${req.user.username}/${Date.now().toString()}-${file.originalname}`
+      );
+    }
+  })
+});
 
 // ===== ROUTES ===== //
 
@@ -117,10 +146,10 @@ router.get('/conversations/:id', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   return User.where({ id })
-    .fetch()
+    .fetch({ columns: ['username', 'email', 'rating', 'city', 'state', 'stand_name', 'avatar_link', 'first_name', 'last_name', 'bio', 'id'] })
     .then(user => {
       if (!user) {
-        return res.send('User does not exist.');
+        return res.json({ message: 'User does not exist' });
       } else {
         return res.json(user);
       }
@@ -133,15 +162,22 @@ router.get('/:id', (req, res) => {
 // Gets a user's stand
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
-  return Crop.where({ owner_id: id, selling: true })
-    .fetchAll({
-      withRelated: ['owner', 'cropStatus', 'plant', 'photo']
-    })
+  return Crop
+    .where({ owner_id: id, selling: true })
+    .fetchAll({ withRelated: ['cropStatus', 'plant', 'photo'] })
     .then(crops => {
       if (crops.length < 1) {
-        return res.send('Nothing but us chickens!');
+        return res.json({ message: `This user doesn't have a stand` });
       } else {
-        return res.json(crops);
+        return User
+          .where({ id: crops.models[0].attributes.owner_id })
+          .fetch({ columns: ['stand_name', 'id', 'avatar_link'] })
+          .then(user => {
+            crops.models.map(crop => {
+              crop.attributes.user = user;
+            })
+            res.json(crops);
+          })
       }
     })
     .catch(err => {

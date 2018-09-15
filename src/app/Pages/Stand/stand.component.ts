@@ -7,9 +7,10 @@ import { SessionService } from '../../Services/session.service';
   styleUrls: ['./stand.component.scss']
 })
 export class StandComponent implements OnInit {
-  userId;
+  urlId;
   crops;
   user;
+  standOwner: object;
   noStand: boolean;
   isEdit: boolean = false;
   buildStand: boolean;
@@ -21,6 +22,8 @@ export class StandComponent implements OnInit {
   openMessage: boolean = false;
   conversationId: boolean = false;
   messageSentPopUp =''
+  postingCrop: boolean = false;
+
   //crop photo values
   cropPhotos: string[] = [];
   //holds photos to upload
@@ -49,9 +52,26 @@ export class StandComponent implements OnInit {
   };
 
   @HostListener('document:click', ['$event'])
+  postFormData: {
+    plant: number;
+    description: string,
+    price: string,
+    inventory: number,
+    details: string,
+    photos: File[]
+  } = {
+      plant: 0,
+      description: '',
+      price: '',
+      inventory: null,
+      details: '',
+      photos: []
+    }
+
+  plants: any;
+
+  @HostListener('click', ['$event'])
   clickout(event) {
-    document.getElementById('modal-content');
-    document.getElementById('content-container');
     if (event.target === document.getElementById('modal-container')) {
       this.showingGarden = !this.showingGarden;
     }
@@ -59,12 +79,17 @@ export class StandComponent implements OnInit {
     if (event.target === document.getElementById('message-modal-container')) {
       this.openMessage = !this.openMessage;
     }
+    if (event.target === document.getElementById('add-modal-container')) {
+      this.postingCrop = !this.postingCrop
+    }
   }
+
+
 
   constructor(
     private backend: BackendService,
-    private route: ActivatedRoute,
     private router: Router,
+    private route: ActivatedRoute,
     private session: SessionService
   ) {
     router.events.subscribe(val => {
@@ -74,7 +99,7 @@ export class StandComponent implements OnInit {
   }
 
   sendMessage() {
-    this.backend.sendMessage(this.message, this.userId).then(result => {
+    this.backend.sendMessage(this.message, this.urlId).then(result => {
       this.openMessage = false;
       this.message.content = '';
       this.messageSentPopUp = 'Message Sent!';
@@ -84,29 +109,49 @@ export class StandComponent implements OnInit {
 
   ngOnInit() {
     this.messageSentPopUp = '';
-    this.userId = this.route.snapshot.paramMap.get('id');
-    if (parseInt(this.userId) === this.user.id) {
-      this.userIsUser = true;
+    this.urlId = this.route.snapshot.paramMap.get('id');
+    //checks to see if the page belongs to logged in user
+    if (parseInt(this.urlId) === this.user.id) {
+      this.userIsUser = true
     }
+    //check to see if logged in user has a stand
     if (this.user.stand_name) {
-      this.backend.getStand(this.userId).then(result => {
-        this.sortCrops(result);
-        let resultArr = Object.values(result);
-        resultArr.map(crop => {
-          if (crop.photo.length > 0) {
-            crop.displayPhoto = crop.photo[0].link;
+      this.backend.getStand(this.urlId)
+        .then(result => {
+          console.log(result)
+          if (result['message']) {
+            this.noStand = true;
+          } else {
+            this.standOwner = result[0].user;
+            this.sortCrops(result);
+            let resultArr = Object.values(result);
+            resultArr.map(crop => {
+              if (crop.photo.length > 0) {
+                crop.displayPhoto = crop.photo[0].link;
+              }
+            })
           }
         });
+      } else {
+        this.noStand = !this.noStand;
+      }
+    this.backend.getGarden()
+      .then(result => {
+        this.garden = result;
+        this.garden.map(crop => {
+          if (crop.photo.length > 0) {
+            crop['mainPhoto'] = crop.photo[0].link
+          }
+        })
       });
-    } else {
-      this.noStand = !this.noStand;
-    }
-    this.backend.getGarden().then(result => {
-      this.garden = result;
-      this.garden.map(crop => {
-        crop['mainPhoto'] = crop.photo[0].link;
-      });
-    });
+  }
+
+  addToStand() {
+    return this.backend.postDirectlyToStand(this.postFormData)
+      .then(result => {
+        this.showPostForm();
+        this.ngOnInit()
+      })
   }
 
   toggleCheck() {
@@ -192,6 +237,18 @@ export class StandComponent implements OnInit {
     });
   }
 
+  showPostForm() {
+    if (this.postingCrop) {
+      return this.postingCrop = false;
+    }
+    this.backend.getPlants()
+      .then(result => {
+        console.log(result);
+        this.plants = result;
+        return this.postingCrop = true;
+      })
+  }
+
   startConversation() {
     this.openMessage = !this.openMessage;
   }
@@ -210,7 +267,9 @@ export class StandComponent implements OnInit {
 
   updatePhotoList(event) {
     let file = event.target.files[0];
-    if (!this.photosToStand.includes(file)) {
+    if (this.postingCrop) {
+      this.postFormData.photos.push(file);
+    } else if (this.showingGarden) {
       return this.photosToStand.push(file);
     }
   }

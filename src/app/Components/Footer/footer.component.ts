@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../../Services/session.service';
 import { BackendService } from '../../Services/backend.service';
 @Component({
@@ -7,13 +7,10 @@ import { BackendService } from '../../Services/backend.service';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  user
-  crops;
-  constructor(private session: SessionService, private backend: BackendService) {
+  user: any;
+  constructor(private session: SessionService) {
     this.user = session.getSession();
-   }
-   ngOnInit(){
-
-   }
-
+  }
+  ngOnInit() {
+  }
 }
