@@ -49,13 +49,12 @@ router.get('/messages', (req, res) => {
   }
 });
 
-
 router.post('/messages/:id', (req, res) => {
   const initiatorId = req.user.id;
   const to = Number(req.params.id); // for proper comparison
-  console.log('req.body', req.body)
+  console.log('req.body', req.body);
   const messageBody = req.body.content;
-  console.log('to', to,);
+  console.log('to', to);
   console.log('from', initiatorId);
   let err;
 
@@ -89,13 +88,13 @@ router.post('/messages/:id', (req, res) => {
     });
 });
 
-
 router.get('/conversations', (req, res) => {
   console.log('getting conversations');
   return Message.query(function(qb) {
-    qb.distinct('from');
-    qb.where('from', '!=', req.user.id);
+    qb.where('from', '!=', req.user.id).andWhere('to', '=', req.user.id )
+    qb.distinct('from')
   })
+    
     .fetchAll({ withRelated: ['from'] })
     .then(result => {
       return res.json(result);
@@ -105,21 +104,18 @@ router.get('/conversations', (req, res) => {
 router.get('/conversations/:id', (req, res) => {
   const me = req.user.id;
   const they = req.params.id;
-  return Message
-  .query({
-    where: {from: they, to: me},
-    orWhere: { from: me , to: they}
+  return Message.query({
+    where: { from: they, to: me },
+    orWhere: { from: me, to: they }
   })
     .fetchAll({ withRelated: ['to', 'from'] })
-    .then(result=>{
-      console.log(result)
-      res.json(result)
-    })
+    .then(result => {
+      console.log(result);
+      res.json(result);
+    });
 });
 
-
 // Sends message regarding a specific crop; sellers cannot initiate a conversation
-
 
 // Gets a user's profile
 router.get('/:id', (req, res) => {
