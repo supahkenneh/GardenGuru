@@ -2,5 +2,7 @@
   <div id="search-results">
     SEARCH RESULTS GO HERE BUT HOW DO I DO THAT
     <button (click)="getSearchResults()">TACCHI MII</button>
+    <div *ngFor="let searchResult of searchResults">{{searchResult.description}}</div>
+    <div>INFERNAL DIVIDER</div>
   </div>
 </div>

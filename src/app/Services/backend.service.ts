@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BackendService {
   url: string = '/api/';
-  searchResults: any[] = [];
+  searchResults: any;
 
   constructor(private http: HttpClient) { }
 
@@ -120,7 +120,8 @@ export class BackendService {
 
   results(data) {
     console.log('search results service', data);
-    this.searchResults.push(data);
+    // this.searchResults.push(data);
+    this.searchResults = data;
   }
 
   transferResults() {

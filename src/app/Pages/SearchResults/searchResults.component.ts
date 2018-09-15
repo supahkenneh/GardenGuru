@@ -10,8 +10,9 @@ import { SessionService } from '../../Services/session.service';
 export class SearchResultsComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
-  searchResults: any;
-  searchParams: any;
+  searchResult: any;
+
+  searchResults: any[] = [];
 
   constructor(
     private backend: BackendService,
@@ -21,11 +22,16 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ye', this.getSearchResults())
+    console.log('getSearchResults()', this.getSearchResults())
     return this.getSearchResults()
   }
   
   getSearchResults() {
-    return this.backend.transferResults()
+    this.searchResults = this.backend.transferResults();
+    console.log('button test', this.searchResults)
+    console.log('UGH', this.searchResults[0])
+    console.log('double UGH', this.searchResults[1])
+    console.log('triple UGH', this.searchResults[2])
+    return this.searchResult;
   }
 }
