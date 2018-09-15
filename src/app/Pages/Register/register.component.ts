@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { BackendService } from '../../Services/backend.service';
+import { SessionService } from '../../Services/session.service';
 
 @Component({
   selector: 'app-register',
@@ -35,7 +36,8 @@ export class RegisterComponent {
   constructor(
     private auth: AuthService, 
     private router: Router,
-    private backend: BackendService
+    private backend: BackendService,
+    private session: SessionService
   ) { }
 
   register() {
@@ -55,6 +57,7 @@ export class RegisterComponent {
       })
       .then(result => {
         if(result) {
+          this.session.setSession(result)
           return this.router.navigate(['/marketplace'])
         }
       })
