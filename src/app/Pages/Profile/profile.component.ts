@@ -118,7 +118,6 @@ export class ProfileComponent implements OnInit {
       this.profileFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.profileFormData)
         .then(result => {
-          console.log(result);
           if (result['success'] = false) {
             this.changingProfilePic = false;
           } else {

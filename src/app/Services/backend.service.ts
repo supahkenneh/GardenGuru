@@ -183,7 +183,6 @@ export class BackendService {
   }
 
   editUserProfile(data) {
-    console.log(data);
     const form = new FormData()
     form.append('id', data.id);
     //check if data has certain values
