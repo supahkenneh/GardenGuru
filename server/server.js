@@ -10,9 +10,12 @@ const server = express();
 const routes = require('./db/routes');
 
 // server.use(express.static('public/'))
+
 server.use(bodyparser.json());
 server.use(bodyparser.urlencoded({ extended: true }));
-
+server.use((req, res, next) => {
+  next()
+});
 server.use(
   session({
     store: new Redis(),

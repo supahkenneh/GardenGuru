@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class BackendService {
   url: string = '/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -37,6 +37,31 @@ export class BackendService {
   getCrop(id) {
     const getUrl = this.url + `crops/${id}`;
     return this.http.get(getUrl).toPromise();
+  }
+
+  getMessages() {
+    const getUrl = this.url + `user/messages`;
+    return this.http.get(getUrl).toPromise();
+  }
+
+  getConversations() {
+    const getUrl = this.url + `user/conversations`;
+    return this.http.get(getUrl).toPromise();
+  }
+
+  getSentConversations(){
+    const getUrl = this.url + `user/sentConversations`;
+    return this.http.get(getUrl).toPromise();
+  }
+
+  getConversation(id) {
+    const getUrl = this.url + `user/conversations/${id}`;
+    return this.http.get(getUrl).toPromise();
+  }
+
+  sendMessage(content, id) {
+    const postUrl = this.url + `user/messages/${id}`;
+    return this.http.post(postUrl, content).toPromise();
   }
 
   addCrop(data) {
