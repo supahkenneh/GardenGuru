@@ -64,6 +64,11 @@ export class BackendService {
     return this.http.post(postUrl, content).toPromise();
   }
 
+  getRecentCrops(){
+    const getUrl = this.url + `crops`;
+    return this.http.get(getUrl).toPromise();
+  }
+
   addCrop(data) {
     const form = new FormData();
     form.append('garden_description', data.garden_description);
