@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
 import { ActivatedRoute } from '@angular/router';
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   templateUrl: './profile.component.html',
@@ -22,7 +23,7 @@ export class ProfileComponent implements OnInit {
   states: string[] = ['HI']
 
 
-  passwordFormdata: {
+  passwordFormData: {
     oldPass: string,
     newPass: string,
     valPass: string,
@@ -46,6 +47,14 @@ export class ProfileComponent implements OnInit {
       stand_name: '',
     }
 
+  profileFormData: {
+    bio: string,
+    photo: File
+  } = {
+      bio: '',
+      photo: null
+    }
+
   constructor(
     private backend: BackendService,
     private session: SessionService,
@@ -66,6 +75,26 @@ export class ProfileComponent implements OnInit {
       .then(user => {
         this.profile = user;
       })
+  }
+
+  submitChanges() {
+    if (this.changingPass) {
+      this.passwordFormData['id'] = this.user.id
+      return this.backend.editUserProfile(this.passwordFormData)
+        .then(result => {
+          console.log(result);
+        })
+    } else if (this.changingLocation) {
+      this.locationFormData['id'] = this.user.id
+      console.log(this.locationFormData);
+      return this.backend.editUserProfile(this.locationFormData);
+    } else if (this.changingStandName) {
+      this.standFormData['id'] = this.user.id
+      return this.backend.editUserProfile(this.standFormData);
+    } else if (this.changingProfilePic) {
+      this.profileFormData['id'] = this.user.id
+      return this.backend.editUserProfile(this.profileFormData);
+    }
   }
 
   showSettings() {
@@ -99,13 +128,14 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  submitChanges() {
-  }
-
   cancel() {
     this.changingLocation = false;
     this.changingPass = false;
     this.changingProfilePic = false;
     this.changingStandName = false;
+  }
+
+  saveNewPhoto(event) {
+    this.profileFormData.photo = event.target.files[0];
   }
 }

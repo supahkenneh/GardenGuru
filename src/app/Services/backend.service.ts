@@ -181,4 +181,25 @@ export class BackendService {
     const postUrl = this.url + 'crops/stand'
     return this.http.post(postUrl, form).toPromise();
   }
+
+  editUserProfile(data) {
+    console.log(data);
+    const form = new FormData()
+    form.append('id', data.id);
+    //check if data has certain values
+    if (data.oldPass) {
+      form.append('oldPass', data.oldPass);
+      form.append('newPass', data.newPass);
+      form.append('valPass', data.valPass);
+    } else if (data.city) {
+      form.append('city', data.city);
+      form.append('state', data.state);
+    } else if (data.stand_name) {
+      form.append('stand_name', data.stand_name)
+    } else if (data.photo) {
+      form.append('photo', data.photo);
+    }
+    const editUrl = this.url + `user/${data.id}`
+    return this.http.put(editUrl, form).toPromise();
+  }
 }
