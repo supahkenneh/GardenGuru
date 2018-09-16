@@ -402,15 +402,13 @@ router.put('/:id', upload.single('photo'), (req, res) => {
   })
   let photoPromise = new Promise((resolve, reject) => {
     if (req.file || bio) {
-      let link;
+      let avatar_link
       if (req.file) {
-        link = req.file.location
-      } else {
-        link = null;
+        avatar_link = req.file.location
       }
       return User
         .where({ username, id })
-        .save({ avatar_link: link, bio }, { patch: true })
+        .save({ avatar_link: avatar_link, bio }, { patch: true })
         .then(result => {
           resolve(res.json({ success: true }))
         })
@@ -431,6 +429,7 @@ router.put('/:id', upload.single('photo'), (req, res) => {
     .then(() => {
       return photoPromise
     })
+    .catch(err => console.log(err))
 });
 
 module.exports = router;
