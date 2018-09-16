@@ -1,0 +1,43 @@
+.conversation-container{
+  width:100%;
+  .message-container{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    width:100%;
+    height: 80vh;
+  }
+  .messages{
+    width:100%;
+  }
+}
+
+.enter-message-container{
+  position: fixed;
+  bottom: 80px;
+  width:100%;
+  display: flex;
+  justify-content: flex-end;
+  form{
+    width:50%;
+  }
+  .send{
+    background-color:lightblue;
+  }
+}
+
+.back{
+  background-color: blue;
+  position: fixed;
+  bottom: 80px;
+}
+.not-my-message{
+  width:100%;
+  padding-top:10px;
+}
+
+.my-message{
+  width:100%;
+  text-align:end;
+  padding-top:10px;
+}

@@ -19,6 +19,9 @@ export class StandComponent implements OnInit {
   cropId: string;
   check: boolean = true;
   userIsUser: boolean = false;
+  openMessage: boolean = false;
+  conversationId: boolean = false;
+  messageSentPopUp =''
   postingCrop: boolean = false;
 
   //crop photo values
@@ -29,10 +32,10 @@ export class StandComponent implements OnInit {
   selectedForStand: string[] = [];
 
   standFormdata: {
-    stand_name: string,
+    stand_name: string;
   } = {
-      stand_name: ''
-    }
+    stand_name: ''
+  };
 
   moveFormData = {
     description: '',
@@ -40,6 +43,12 @@ export class StandComponent implements OnInit {
     price: '',
     inventory: '',
     check: this.check
+  };
+
+  message: {
+    content: string;
+  } = {
+    content: ''
   };
 
   postFormData: {
@@ -65,6 +74,11 @@ export class StandComponent implements OnInit {
     if (event.target === document.getElementById('modal-container')) {
       this.showingGarden = !this.showingGarden;
     }
+
+    if (event.target === document.getElementById('message-modal-container')) {
+      console.log('clicked')
+      this.openMessage = !this.openMessage;
+    }
     if (event.target === document.getElementById('add-modal-container')) {
       this.postingCrop = !this.postingCrop
     }
@@ -78,10 +92,23 @@ export class StandComponent implements OnInit {
     private route: ActivatedRoute,
     private session: SessionService
   ) {
+    router.events.subscribe(val => {
+      this.ngOnInit();
+    });
     this.user = session.getSession();
   }
 
+  sendMessage() {
+    this.backend.sendMessage(this.message, this.urlId).then(result => {
+      this.openMessage = false;
+      this.message.content = '';
+      this.messageSentPopUp = 'Message Sent!';
+      console.log(this.messageSentPopUp);
+    });
+  }
+
   ngOnInit() {
+    this.messageSentPopUp = '';
     this.urlId = this.route.snapshot.paramMap.get('id');
     //checks to see if the page belongs to logged in user
     if (parseInt(this.urlId) === this.user.id) {
@@ -96,7 +123,7 @@ export class StandComponent implements OnInit {
             this.noStand = true;
           } else {
             this.standOwner = result[0].user;
-            this.sortContacts(result);
+            this.sortCrops(result);
             let resultArr = Object.values(result);
             resultArr.map(crop => {
               if (crop.photo.length > 0) {
@@ -105,9 +132,9 @@ export class StandComponent implements OnInit {
             })
           }
         });
-    } else {
-      this.noStand = !this.noStand;
-    }
+      } else {
+        this.noStand = !this.noStand;
+      }
     this.backend.getGarden()
       .then(result => {
         this.garden = result;
@@ -128,17 +155,19 @@ export class StandComponent implements OnInit {
   }
 
   toggleCheck() {
-    this.check = !this.check
-    this.moveFormData.check = !this.moveFormData.check
+    this.check = !this.check;
+    this.moveFormData.check = !this.moveFormData.check;
   }
 
   moveToStand() {
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
-    this.backend.moveToStand(this.cropId, this.moveFormData)
+    this.backend
+      .moveToStand(this.cropId, this.moveFormData)
       .then(response => {
-        this.backend.getGarden()
-          .then(result => this.garden = result)
+        this.backend
+          .getGarden()
+          .then(result => (this.garden = result))
           .then(() => {
             this.ngOnInit();
             this.showGarden();
@@ -156,7 +185,9 @@ export class StandComponent implements OnInit {
   }
 
   toggleEdit(crop) {
-    if (crop) { this.cropId = crop.id; }
+    if (crop) {
+      this.cropId = crop.id;
+    }
     if (this.isEdit) {
       this.isEdit = !this.isEdit;
     }
@@ -165,26 +196,26 @@ export class StandComponent implements OnInit {
         this.moveFormData = crop;
         this.cropPhotos = crop.photo;
       }
-    })
+    });
     this.isEdit = !this.isEdit;
   }
 
   buildingStand() {
     if (this.buildStand) {
-      return this.buildStand = false
+      return (this.buildStand = false);
     }
-    return this.buildStand = true
+    return (this.buildStand = true);
   }
 
   showGarden() {
     if (this.showingGarden) {
-      return this.showingGarden = false;
+      return (this.showingGarden = false);
     }
-    return this.showingGarden = true;
+    return (this.showingGarden = true);
   }
 
-  sortContacts(result) {
-    this.crops = result.sort(function (a, b) {
+  sortCrops(result) {
+    this.crops = result.sort(function(a, b) {
       var textA = a.description;
       var textB = b.description;
       return textA > textB;
@@ -198,13 +229,12 @@ export class StandComponent implements OnInit {
   }
 
   editUser() {
-    this.backend.editUser(this.standFormdata)
-      .then(result => {
-        this.user.stand_name = result['stand_name'];
-        this.session.setSession(this.user);
-        this.noStand = false;
-        this.ngOnInit();
-      });
+    this.backend.editUser(this.standFormdata).then(result => {
+      this.user.stand_name = result['stand_name'];
+      this.session.setSession(this.user);
+      this.noStand = false;
+      this.ngOnInit();
+    });
   }
 
   showPostForm() {
@@ -220,14 +250,16 @@ export class StandComponent implements OnInit {
   }
 
   startConversation() {
-
+    console.log('openMessage')
+    this.openMessage = !this.openMessage;
+    console.log(this.openMessage)
   }
 
   //photo functions
   selectPhoto(event) {
     if (!this.selectedForStand.includes(event.target.src)) {
-      this.selectedForStand.push(event.target.src)
-      event.target.style.border = '3px solid #2c84fc'
+      this.selectedForStand.push(event.target.src);
+      event.target.style.border = '3px solid #2c84fc';
     } else {
       let index = this.selectedForStand.indexOf(event.target.src);
       this.selectedForStand.splice(index, 1);

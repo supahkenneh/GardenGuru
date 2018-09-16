@@ -24,13 +24,11 @@ export class MarketplaceComponent implements OnInit {
     return this.backend.getMarketplace()
       .then(result => {
         this.stands = result
-        console.log(this.stands)
       })
       .then(()=>{
         return this.backend.getMarketplaceCrops()
         .then(crops=>{
           this.crops = crops
-          console.log('crops',this.crops)
         })
       })
   }
