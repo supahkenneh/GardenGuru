@@ -76,7 +76,6 @@ export class StandComponent implements OnInit {
     }
 
     if (event.target === document.getElementById('message-modal-container')) {
-      console.log('clicked')
       this.openMessage = !this.openMessage;
     }
     if (event.target === document.getElementById('add-modal-container')) {
@@ -103,7 +102,6 @@ export class StandComponent implements OnInit {
       this.openMessage = false;
       this.message.content = '';
       this.messageSentPopUp = 'Message Sent!';
-      console.log(this.messageSentPopUp);
     });
   }
 
@@ -118,7 +116,6 @@ export class StandComponent implements OnInit {
     if (this.user.stand_name) {
       this.backend.getStand(this.urlId)
         .then(result => {
-          console.log(result)
           if (result['message']) {
             this.noStand = true;
           } else {
@@ -243,16 +240,13 @@ export class StandComponent implements OnInit {
     }
     this.backend.getPlants()
       .then(result => {
-        console.log(result);
         this.plants = result;
         return this.postingCrop = true;
       })
   }
 
   startConversation() {
-    console.log('openMessage')
     this.openMessage = !this.openMessage;
-    console.log(this.openMessage)
   }
 
   //photo functions

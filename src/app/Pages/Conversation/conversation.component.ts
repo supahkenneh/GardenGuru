@@ -51,7 +51,6 @@ export class ConversationComponent implements OnInit {
     this.backend.getConversation(this.conversationId)
     .then(result=>{
       this.messages = result;
-      console.log(this.messages)
     })
   }
 }
