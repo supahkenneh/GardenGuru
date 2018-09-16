@@ -57,7 +57,11 @@ import { SessionService } from './Services/session.service';
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'marketplace', component: MarketplaceComponent },
-      { path: 'user/:id/stand', component: StandComponent },
+      {
+        path: 'user/:id/stand',
+        component: StandComponent,
+        canActivate: [AuthGuard]
+      },
       { path: 'garden', component: GardenComponent, canActivate: [AuthGuard] },
       {
         path: 'user/:id',
