@@ -1,4 +1,4 @@
-<div class="content-container" *ngIf="showingSettings && profile">
+<div class="content-container" *ngIf="!showingSettings && profile">
   <div class="avatar">
     <div class="avatar-container">
       <img src="{{profile.avatar_link}}">
@@ -24,7 +24,7 @@
   </div>
   <!-- settings form -->
 </div>
-<div class="content-container" *ngIf="!showingSettings">
+<div class="content-container" *ngIf="showingSettings">
   <div class="form-container">
     <div class="setting-options" *ngIf="!changingPass && !changingLocation && !changingStandName && !changingProfilePic">
       <div>User Settings</div>

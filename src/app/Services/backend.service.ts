@@ -194,7 +194,6 @@ export class BackendService {
     } else if (data.city) {
       form.append('city', data.city);
       form.append('state', data.state);
-    } else if (data.stand_name) {
       form.append('stand_name', data.stand_name)
     } else if (data.photo) {
       form.append('photo', data.photo);

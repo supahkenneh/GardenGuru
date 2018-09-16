@@ -321,6 +321,7 @@ router.put('/addStand', (req, res) => {
 
 // Change password, location, bio, stand name
 router.put('/:id', upload.single('photo'), (req, res) => {
+  console.log(req.body);
   const username = req.user.username;
   const id = req.user.id;
   const { oldPass, newPass, valPass, city, state, bio, stand_name } = req.body;
@@ -364,7 +365,7 @@ router.put('/:id', upload.single('photo'), (req, res) => {
         .then(user => {
           return User
             .where({ username, id })
-            .save({ city, location }, { patch: true })
+            .save({ city, state }, { patch: true })
             .then(result => {
               resolve(res.json({ success: true }))
             })
@@ -378,47 +379,60 @@ router.put('/:id', upload.single('photo'), (req, res) => {
   })
   let standPromise = new Promise((resolve, reject) => {
     if (stand_name) {
-
+      return User
+        .where({ username, id })
+        .fetchAll()
+        .then(user => {
+          console.log(user.models[0].attributes)
+          if (!user.models[0].attributes.stand_name) {
+            reject(res.json({ sucess: false }))
+          } else {
+            return User
+              .where({ username, id })
+              .save({ stand_name }, { patch: true })
+              .then(result => {
+                resolve(res.json({ success: true }))
+              })
+              .catch(() => {
+                reject(res.json({ success: false }))
+              })
+          }
+        })
+    } else {
+      resolve()
     }
   })
+  let photoPromise = new Promise((resolve, reject) => {
+    if (req.file || bio) {
+      let link;
+      if (req.file) {
+        link = req.file.location
+      } else {
+        link = null;
+      }
+      return User
+        .where({ username, id })
+        .save({ avatar_link: link, bio }, { patch: true })
+        .then(result => {
+          resolve(res.json({ success: true }))
+        })
+        .catch(() => {
+          reject(res.json({ success: false }))
+        })
+    } else {
+      resolve()
+    }
+  })
+  return passwordPromise
+    .then(() => {
+      return locationPromise
+    })
+    .then(() => {
+      return standPromise
+    })
+    .then(() => {
+      return photoPromise
+    })
 });
-// return User.where({ username, id })
-//   .fetchAll()
-//   .then(user => {
-//     bcrypt
-//       .compare(oldPass, user.models[0].attributes.password)
-//       .then(result => {
-//         if (!result) {
-//           res.send('Invalid password.');
-//         } else {
-//           bcrypt.genSalt(saltRounds, (err, salt) => {
-//             bcrypt.hash(newPass, salt, (err, hashedPassword) => {
-//               if (err) {
-//                 return res.status(500);
-//               }
-//               return User.where({ username, id })
-//                 .save(
-//                   {
-//                     password: hashedPassword,
-//                     city,
-//                     state,
-//                     bio,
-//                     stand_name
-//                   },
-//                   {
-//                     patch: true
-//                   }
-//                 )
-//                 .then(user => {
-//                   res.json({ message: 'success' });
-//                 });
-//             });
-//           });
-//         }
-//       });
-//   })
-//   .catch(err => {
-//     console.log('error :', err);
-//   });
 
 module.exports = router;

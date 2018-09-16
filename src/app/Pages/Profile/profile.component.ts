@@ -82,18 +82,50 @@ export class ProfileComponent implements OnInit {
       this.passwordFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.passwordFormData)
         .then(result => {
-          console.log(result);
+          if (result['success'] = false) {
+            this.changingPass = false;
+          } else {
+            this.ngOnInit()
+            this.changingPass = false;
+            this.showingSettings = false;
+          }
         })
     } else if (this.changingLocation) {
       this.locationFormData['id'] = this.user.id
-      console.log(this.locationFormData);
-      return this.backend.editUserProfile(this.locationFormData);
+      return this.backend.editUserProfile(this.locationFormData)
+        .then(result => {
+          if (result['success'] = false) {
+            this.changingLocation = false;
+          } else {
+            this.ngOnInit();
+            this.changingLocation = false;
+            this.showingSettings = false;
+          }
+        })
     } else if (this.changingStandName) {
       this.standFormData['id'] = this.user.id
-      return this.backend.editUserProfile(this.standFormData);
+      return this.backend.editUserProfile(this.standFormData)
+        .then(result => {
+          if (result['success'] = false) {
+            this.changingStandName = false
+          } else {
+            this.ngOnInit();
+            this.changingStandName = false;
+            this.showingSettings = false;
+          }
+        })
     } else if (this.changingProfilePic) {
       this.profileFormData['id'] = this.user.id
-      return this.backend.editUserProfile(this.profileFormData);
+      return this.backend.editUserProfile(this.profileFormData)
+        .then(result => {
+          if (result['success'] = false) {
+            this.changingProfilePic = false;
+          } else {
+            this.ngOnInit();
+            this.changingProfilePic = false;
+            this.showingSettings = false;
+          }
+        })
     }
   }
 
