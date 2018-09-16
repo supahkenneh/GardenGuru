@@ -33,14 +33,14 @@ export class SentConversationsComponent implements OnInit {
     .getSentConversations()
     .then(result=>{
       
-      console.log(result);
       let resultsArr = Object.values(result);
       let cache = [];
       let filteredResult = [];
-      for (let i = resultsArr.length - 1; i >= 0; i--) {
+      for (let i =0; i < resultsArr.length; i++) {
         if (!cache.includes(result[i].to.id)) {
           cache.push(result[i].to.id);
           filteredResult.push(result[i]);
+          console.log(filteredResult)
         }
       }
 
