@@ -18,17 +18,17 @@
   display: flex;
   justify-content: space-evenly;
   padding-top: 20px;
-  overflow:scroll;
+  overflow: scroll;
   .stand {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     width: 130px;
-    padding:10px;
+    padding: 10px;
   }
 }
 
-.crops-title{
+.crops-title {
   padding-top: 10px;
   text-align: center;
 }
@@ -37,13 +37,13 @@
   display: flex;
   justify-content: space-evenly;
   padding-top: 20px;
-  overflow:scroll;
+  overflow: scroll;
   .crops {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     width: 130px;
-    padding:10px;
+    padding: 10px;
     .image {
       background-size: 100% 100%;
       height: 100px;
@@ -51,46 +51,61 @@
     }
   }
 }
-
-.crops-container-recent {
-  display: flex;
-  height: 80vh;
-  overflow:scroll;
-  .crops {
-    display: flex;
-    flex-direction: column;
-    width: 130px;
-    padding-top:7vh;
-    padding-left:10px;
-    padding-right:10px;
-    .image {
-      background-size: 100% 100%;
-      height: 100px;
-      width: 100px;
-    }
-  }
-}
-.marketplace-container{
+.marketplace-container {
   height: 83.5vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
-.crops-section, .stands-section{
+.crops-section,
+.stands-section {
   display: flex;
   justify-content: space-evenly;
-  flex-direction:column;
-  padding-bottom:15%;
+  flex-direction: column;
+  padding-bottom: 15%;
 }
 
-.crops-section{
-  padding-bottom:20%;
+.crops-section {
+  padding-bottom: 20%;
 }
 
-.message{
-  position: fixed;
-  bottom:50%;
-  text-align:center;
-  width:100%;
+.message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 10vh;
+  margin-bottom: 20px;
+  .message {
+  }
+}
+
+.main-container-unauth {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: scroll;
+  align-items: center;
+  padding-bottom: 20%;
+  .crops {
+    margin-top: 30px;
+    height: 33vh;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .price {
+      text-align:left;
+      width:100%;
+    }
+    .image {
+      background-size: cover;
+      height: 90%;
+      width: 100%;
+
+    }
+    .description {
+    }
+  }
 }
