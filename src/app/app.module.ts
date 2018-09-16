@@ -22,10 +22,10 @@ import { MessagesComponent } from './Pages/Messages/messages.component';
 import { GardenCropComponent } from './Pages/GardenCrop/gardenCrop.component';
 import { ConversationComponent } from './Pages/Conversation/conversation.component';
 import { SentConversationsComponent } from './Pages/SentConversations/sentConversations.component';
-import { AuthGuard } from './services/guard.service';
 
 //services
 import { BackendService } from './Services/backend.service';
+import { AuthGuard } from './Services/guard.service';
 import { AuthService } from './Services/auth.service';
 import { SessionService } from './Services/session.service';
 
