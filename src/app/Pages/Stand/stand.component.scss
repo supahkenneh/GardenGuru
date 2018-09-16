@@ -75,78 +75,80 @@
     }
   }
   //
-  .no-stand-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .create-stand {
-      font-size: 28px;
-    }
-    .message {
+}
+
+.no-stand-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .create-stand {
+    margin-top: 50px;
+    font-size: 28px;
+  }
+  .message {
+    position: fixed;
+    bottom: 500px;
+    left: 37.5%;
+  }
+  .build-container {
+    .build-button {
       position: fixed;
-      bottom: 500px;
-      left: 37.5%;
+      bottom: 400px;
+      left: 40%;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      background: #6ba368;
     }
-    .build-container {
-      .build-button {
-        position: fixed;
-        bottom: 400px;
-        left: 40%;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        background: #6ba368;
-      }
-    }
-    .create-stand-container {
-      margin-top: 15px;
+  }
+  .create-stand-container {
+    margin-top: 15px;
+    width: 100%;
+    form {
+      background: white;
+      padding: 20px;
+      height: 40%;
       width: 100%;
-      form {
-        background: white;
-        padding: 20px;
-        height: 40%;
-        width: 100%;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      label {
+        font-size: 18px;
+      }
+      input {
+        margin: 15px auto;
+        border: 1px solid gray;
         border-radius: 5px;
+        width: 80%;
+        padding: 5px;
+        font-size: 14px;
+      }
+      .button-container {
+        width: 100%;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        label {
-          font-size: 18px;
-        }
-        input {
-          margin: 15px auto;
-          border: 1px solid gray;
-          border-radius: 5px;
-          width: 80%;
-          padding: 5px;
-          font-size: 14px;
-        }
-        .button-container {
-          width: 100%;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .submit-button {
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          padding: 10px;
           display: flex;
-          flex-direction: row;
-          justify-content: space-evenly;
-          .submit-button {
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            background: #6ba368;
-          }
-          .close-button {
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            background: #6ba368;
-          }
+          justify-content: center;
+          background: #6ba368;
+        }
+        .close-button {
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+          background: #6ba368;
         }
       }
     }
@@ -476,6 +478,25 @@
           }
         }
       }
+    }
+  }
+}
+
+.no-container {
+  display: flex;
+  justify-content: center;
+  margin: 50% auto;
+  background: white;
+  border-radius: 5px;
+  height: 120px;
+  width: 90%;
+  padding: 20px;
+  .no-stand-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    div {
+      color: red;
     }
   }
 }

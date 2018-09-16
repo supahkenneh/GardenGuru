@@ -11,17 +11,17 @@ export class StandComponent implements OnInit {
   crops;
   user;
   standOwner: object;
-  noStand: boolean;
+  correctUser: boolean = false;
+  hasStand: boolean = false;
   isEdit: boolean = false;
   buildStand: boolean;
   garden;
   showingGarden: boolean = false;
   cropId: string;
   check: boolean = true;
-  userIsUser: boolean = false;
   openMessage: boolean = false;
   conversationId: boolean = false;
-  messageSentPopUp =''
+  messageSentPopUp = ''
   postingCrop: boolean = false;
 
   //crop photo values
@@ -34,8 +34,8 @@ export class StandComponent implements OnInit {
   standFormdata: {
     stand_name: string;
   } = {
-    stand_name: ''
-  };
+      stand_name: ''
+    };
 
   moveFormData = {
     description: '',
@@ -48,8 +48,8 @@ export class StandComponent implements OnInit {
   message: {
     content: string;
   } = {
-    content: ''
-  };
+      content: ''
+    };
 
   postFormData: {
     plant: number;
@@ -112,38 +112,39 @@ export class StandComponent implements OnInit {
     this.urlId = this.route.snapshot.paramMap.get('id');
     //checks to see if the page belongs to logged in user
     if (parseInt(this.urlId) === this.user.id) {
-      this.userIsUser = true
+      this.correctUser = true
     }
-    //check to see if logged in user has a stand
-    if (this.user.stand_name) {
-      this.backend.getStand(this.urlId)
-        .then(result => {
-          console.log(result)
-          if (result['message']) {
-            this.noStand = true;
-          } else {
-            this.standOwner = result[0].user;
-            this.sortCrops(result);
-            let resultArr = Object.values(result);
-            resultArr.map(crop => {
+    //get the stand
+    return this.backend.getStand(this.urlId)
+      .then(result => {
+        //if the user's stand doesn't exist/no stand
+        if (result['message'] && !this.user) {
+          return this.hasStand = true;
+        } else if (result['message'] && this.correctUser) {
+          return this.hasStand = false;
+        } else {
+          this.hasStand = true;
+          this.standOwner = result[0].user;
+          this.sortCrops(result);
+          let resultArr = Object.values(result);
+          resultArr.map(crop => {
+            if (crop.photo.length > 0) {
+              crop.displayPhoto = crop.photo[0].link;
+            }
+          })
+        }
+      })
+      .then(() => {
+        this.backend.getGarden()
+          .then(result => {
+            this.garden = result;
+            this.garden.map(crop => {
               if (crop.photo.length > 0) {
-                crop.displayPhoto = crop.photo[0].link;
+                crop['mainPhoto'] = crop.photo[0].link
               }
             })
-          }
-        });
-      } else {
-        this.noStand = !this.noStand;
-      }
-    this.backend.getGarden()
-      .then(result => {
-        this.garden = result;
-        this.garden.map(crop => {
-          if (crop.photo.length > 0) {
-            crop['mainPhoto'] = crop.photo[0].link
-          }
-        })
-      });
+          })
+      })
   }
 
   addToStand() {
@@ -215,7 +216,7 @@ export class StandComponent implements OnInit {
   }
 
   sortCrops(result) {
-    this.crops = result.sort(function(a, b) {
+    this.crops = result.sort(function (a, b) {
       var textA = a.description;
       var textB = b.description;
       return textA > textB;
@@ -232,7 +233,7 @@ export class StandComponent implements OnInit {
     this.backend.editUser(this.standFormdata).then(result => {
       this.user.stand_name = result['stand_name'];
       this.session.setSession(this.user);
-      this.noStand = false;
+      this.hasStand = false;
       this.ngOnInit();
     });
   }
