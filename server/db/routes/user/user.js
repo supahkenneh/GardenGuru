@@ -321,7 +321,6 @@ router.put('/addStand', (req, res) => {
 
 // Change password, location, bio, stand name
 router.put('/:id', upload.single('photo'), (req, res) => {
-  console.log(req.body);
   const username = req.user.username;
   const id = req.user.id;
   const { oldPass, newPass, valPass, city, state, bio, stand_name } = req.body;
@@ -383,7 +382,6 @@ router.put('/:id', upload.single('photo'), (req, res) => {
         .where({ username, id })
         .fetchAll()
         .then(user => {
-          console.log(user.models[0].attributes)
           if (!user.models[0].attributes.stand_name) {
             reject(res.json({ sucess: false }))
           } else {
