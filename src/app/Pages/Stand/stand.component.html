@@ -22,8 +22,8 @@
           /></svg>
       </button>
     </div>
-  </div>
 
+  </div>
   <div class="crop-container">
     <div *ngFor="let crop of crops" class="crop">
       <div routerLink="/crops/{{crop.id}}" class="image-container">
@@ -35,43 +35,19 @@
         <div class="price">Price: {{crop.price}}</div>
         <div class="details">Details: {{crop.details}}</div>
       </div>
-      <button class="delete-button" (click)="deleteCrop(crop.id)" *ngIf="userIsUser">
+      <button class="delete-button" (click)="deleteCrop(crop.id)" *ngIf="correctUser">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-close-rectangle">
           <path d='M4 0h12a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4zm7.414 8l2.829 2.828a1 1 0 0 1-1.415 1.415L10 11.414l-2.828 2.829a1 1 0 1 1-1.415-1.415L8.586 10 5.757 7.172a1 1 0 0 1 1.415-1.415L10 8.586l2.828-2.829a1 1 0 0 1 1.415 1.415L11.414 10z'
           /></svg>
       </button>
     </div>
   </div>
-  <!-- if user has no stand
-  <div class="no-stand-container" *ngIf='correctUser && !hasStand'>
-    <div class="create-stand">You don't have a Stand!</div>
-    <div class="build-container" *ngIf="!buildStand">
-      <div class="message">Click to build!</div>
-      <button class="build-button" (click)="buildingStand()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1 24 24"
-          width="50" height="50" preserveAspectRatio="xMinYMin" class="jam jam-tools">
-          <path d='M2 8.654l2.813 2.822 6.332-6.35-2.814-2.823-6.332 6.35zm4.441 8.128l2.11-2.117a.993.993 0 0 1 1.408 0 1 1 0 0 1 0 1.411l-2.11 2.117a1 1 0 0 1 0 1.411L6.44 21.015a.993.993 0 0 1-1.407 0l-1.407-1.41a1 1 0 0 1 0-1.412l1.407-1.411a.993.993 0 0 1 1.407 0zm9.146-6.35l6.331-6.35-1.407-1.412-6.331 6.35c-.777-.78-.912-1.907-.302-2.52L19.406.956c.61-.612 1.735-.477 2.512.303l1.407 1.41c.778.78.913 1.909.302 2.52l-5.528 5.545c-.61.612-1.735.477-2.512-.303zm-.924 3.866L9.738 9.36l-.704.706 4.925 4.939.704-.706zm1.407 1.412l-.704.705 1.759 1.764c.194.195.51.195.703 0a.5.5 0 0 0 0-.705L16.07 15.71zM2.06 5.77a1.5 1.5 0 0 1 .291-1.704l1.407-1.41a1.49 1.49 0 0 1 1.699-.293L6.924.892a1.986 1.986 0 0 1 2.814 0l2.814 2.823a2 2 0 0 1 0 2.822l-1.407 1.411 8.09 8.114a2.5 2.5 0 0 1 0 3.528 2.482 2.482 0 0 1-3.517 0l-8.09-8.114-1.408 1.411c-.777.78-2.037.78-2.814 0L.592 10.065a2 2 0 0 1 0-2.823l1.467-1.47z'
-          /></svg></button>
-    </div>
-    <div class="create-stand-container" *ngIf="buildStand">
-      <form class="edit-form">
-        <label for="stand_name">Stand Name:</label>
-        <input maxlength="25" type="text" name="stand_name" [(ngModel)]="standFormdata.stand_name">
-        <div class="button-container">
-          <button class="submit-button" (click)="editUser()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-check">
-              <path d='M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z'
-              /></svg>
-          </button>
-          <button class="close-button" (click)="buildingStand()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-close">
-              <path d='M7.314 5.9l3.535-3.536A1 1 0 1 0 9.435.95L5.899 4.485 2.364.95A1 1 0 1 0 .95 2.364l3.535 3.535L.95 9.435a1 1 0 1 0 1.414 1.414l3.535-3.535 3.536 3.535a1 1 0 1 0 1.414-1.414L7.314 5.899z'
-              /></svg>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div> -->
+  <button class="post-stand-button" (click)="showPostForm()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-plus">
+      <path d='M8.9 6.9v-5a1 1 0 1 0-2 0v5h-5a1 1 0 1 0 0 2h5v5a1 1 0 1 0 2 0v-5h5a1 1 0 1 0 0-2h-5z' /></svg>
+  </button>
 </div>
+
 <!-- if user has no stand and is not correct user -->
 <div class="no-container" *ngIf="hasStand && !correctUser">
   <div class="no-stand-message">
@@ -160,7 +136,6 @@
 </div>
 
 <!-- Post Modal -->
-
 <div id="add-modal-container" *ngIf="postingCrop">
   <div id="add-modal-content">
     <div class="form-container">
@@ -207,30 +182,30 @@
 </div>
 <!-- if user has no stand -->
 <div class="no-stand-container" *ngIf='correctUser && !hasStand'>
-    <div class="create-stand">You don't have a Stand!</div>
-    <div class="build-container" *ngIf="!buildStand">
-      <div class="message">Click to build!</div>
-      <button class="build-button" (click)="buildingStand()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1 24 24"
-          width="50" height="50" preserveAspectRatio="xMinYMin" class="jam jam-tools">
-          <path d='M2 8.654l2.813 2.822 6.332-6.35-2.814-2.823-6.332 6.35zm4.441 8.128l2.11-2.117a.993.993 0 0 1 1.408 0 1 1 0 0 1 0 1.411l-2.11 2.117a1 1 0 0 1 0 1.411L6.44 21.015a.993.993 0 0 1-1.407 0l-1.407-1.41a1 1 0 0 1 0-1.412l1.407-1.411a.993.993 0 0 1 1.407 0zm9.146-6.35l6.331-6.35-1.407-1.412-6.331 6.35c-.777-.78-.912-1.907-.302-2.52L19.406.956c.61-.612 1.735-.477 2.512.303l1.407 1.41c.778.78.913 1.909.302 2.52l-5.528 5.545c-.61.612-1.735.477-2.512-.303zm-.924 3.866L9.738 9.36l-.704.706 4.925 4.939.704-.706zm1.407 1.412l-.704.705 1.759 1.764c.194.195.51.195.703 0a.5.5 0 0 0 0-.705L16.07 15.71zM2.06 5.77a1.5 1.5 0 0 1 .291-1.704l1.407-1.41a1.49 1.49 0 0 1 1.699-.293L6.924.892a1.986 1.986 0 0 1 2.814 0l2.814 2.823a2 2 0 0 1 0 2.822l-1.407 1.411 8.09 8.114a2.5 2.5 0 0 1 0 3.528 2.482 2.482 0 0 1-3.517 0l-8.09-8.114-1.408 1.411c-.777.78-2.037.78-2.814 0L.592 10.065a2 2 0 0 1 0-2.823l1.467-1.47z'
-          /></svg></button>
-    </div>
-    <div class="create-stand-container" *ngIf="buildStand">
-      <form class="edit-form">
-        <label for="stand_name">Stand Name:</label>
-        <input maxlength="25" type="text" name="stand_name" [(ngModel)]="standFormdata.stand_name">
-        <div class="button-container">
-          <button class="submit-button" (click)="editUser()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-check">
-              <path d='M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z'
-              /></svg>
-          </button>
-          <button class="close-button" (click)="buildingStand()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-close">
-              <path d='M7.314 5.9l3.535-3.536A1 1 0 1 0 9.435.95L5.899 4.485 2.364.95A1 1 0 1 0 .95 2.364l3.535 3.535L.95 9.435a1 1 0 1 0 1.414 1.414l3.535-3.535 3.536 3.535a1 1 0 1 0 1.414-1.414L7.314 5.899z'
-              /></svg>
-          </button>
-        </div>
-      </form>
-    </div>
+  <div class="create-stand">You don't have a Stand!</div>
+  <div class="build-container" *ngIf="!buildStand">
+    <div class="message">Click to build!</div>
+    <button class="build-button" (click)="buildingStand()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -1 24 24" width="50"
+        height="50" preserveAspectRatio="xMinYMin" class="jam jam-tools">
+        <path d='M2 8.654l2.813 2.822 6.332-6.35-2.814-2.823-6.332 6.35zm4.441 8.128l2.11-2.117a.993.993 0 0 1 1.408 0 1 1 0 0 1 0 1.411l-2.11 2.117a1 1 0 0 1 0 1.411L6.44 21.015a.993.993 0 0 1-1.407 0l-1.407-1.41a1 1 0 0 1 0-1.412l1.407-1.411a.993.993 0 0 1 1.407 0zm9.146-6.35l6.331-6.35-1.407-1.412-6.331 6.35c-.777-.78-.912-1.907-.302-2.52L19.406.956c.61-.612 1.735-.477 2.512.303l1.407 1.41c.778.78.913 1.909.302 2.52l-5.528 5.545c-.61.612-1.735.477-2.512-.303zm-.924 3.866L9.738 9.36l-.704.706 4.925 4.939.704-.706zm1.407 1.412l-.704.705 1.759 1.764c.194.195.51.195.703 0a.5.5 0 0 0 0-.705L16.07 15.71zM2.06 5.77a1.5 1.5 0 0 1 .291-1.704l1.407-1.41a1.49 1.49 0 0 1 1.699-.293L6.924.892a1.986 1.986 0 0 1 2.814 0l2.814 2.823a2 2 0 0 1 0 2.822l-1.407 1.411 8.09 8.114a2.5 2.5 0 0 1 0 3.528 2.482 2.482 0 0 1-3.517 0l-8.09-8.114-1.408 1.411c-.777.78-2.037.78-2.814 0L.592 10.065a2 2 0 0 1 0-2.823l1.467-1.47z'
+        /></svg></button>
   </div>
+  <div class="create-stand-container" *ngIf="buildStand">
+    <form class="edit-form">
+      <label for="stand_name">Stand Name:</label>
+      <input maxlength="25" type="text" name="stand_name" [(ngModel)]="standFormdata.stand_name">
+      <div class="button-container">
+        <button class="submit-button" (click)="editUser()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-check">
+            <path d='M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z'
+            /></svg>
+        </button>
+        <button class="close-button" (click)="buildingStand()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-close">
+            <path d='M7.314 5.9l3.535-3.536A1 1 0 1 0 9.435.95L5.899 4.485 2.364.95A1 1 0 1 0 .95 2.364l3.535 3.535L.95 9.435a1 1 0 1 0 1.414 1.414l3.535-3.535 3.536 3.535a1 1 0 1 0 1.414-1.414L7.314 5.899z'
+            /></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

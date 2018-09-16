@@ -38,6 +38,7 @@ export class CropComponent implements OnInit {
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
+    private router: Router,
     private session: SessionService,
     private auth: AuthService
   ) {
@@ -65,7 +66,7 @@ export class CropComponent implements OnInit {
   deleteCrop() {
     this.backend.deleteCrop(this.cropId)
       .then(result => {
-        this.ngOnInit()
+        return this.router.navigate([`/user/${this.crop['owner_id']}/stand`])
       })
   }
 
