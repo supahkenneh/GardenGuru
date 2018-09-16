@@ -13,7 +13,7 @@ export class MessagesComponent implements OnInit {
   hasMessages: boolean = true;
   conversations;
   searchTerm;
-  filtered:any
+  filtered: any;
   deleted: boolean = false;
   constructor(
     private auth: AuthService,
@@ -35,24 +35,24 @@ export class MessagesComponent implements OnInit {
       .getConversations()
       .then(result => {
         this.conversations = result;
-        // console.log('this.convo', this.conversations);
         return this.conversations;
       })
       .then(result => {
         let cache = [];
-        let filteredResult = []
-        for (let i = 0; i < result.length; i++) {
+        let filteredResult = [];
+        let resultsArr = Object.values(result);
+        for (let i = resultsArr.length - 1; i >= 0; i--) {
           if (!cache.includes(result[i].from.id)) {
-            cache.push(result[i].from.id)
-            filteredResult.push(result[i])
+            cache.push(result[i].from.id);
+            filteredResult.push(result[i]);
           }
         }
-        this.filtered = filteredResult
+        this.filtered = filteredResult;
       });
   }
 
-  deleteThread(){
-    this.deleted = true
+  deleteThread() {
+    this.deleted = true;
   }
 
   getMessages() {

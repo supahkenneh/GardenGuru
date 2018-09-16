@@ -15,6 +15,7 @@ export class ConversationComponent implements OnInit {
   conversationId;
   messages;
   user;
+  userIsUser: boolean = false
   deleted:boolean = true;
 
   message:{
@@ -22,8 +23,6 @@ export class ConversationComponent implements OnInit {
   } = {
     content:''
   }
-
-  
 
   constructor(
     private auth: AuthService,
@@ -43,10 +42,12 @@ export class ConversationComponent implements OnInit {
     })
   }
 
-
-
   ngOnInit() {
     this.conversationId = this.route.snapshot.paramMap.get('id');
+    if(this.conversationId === this.user.id){
+      this.userIsUser = true
+    }
+    
     this.backend.getConversation(this.conversationId)
     .then(result=>{
       this.messages = result;

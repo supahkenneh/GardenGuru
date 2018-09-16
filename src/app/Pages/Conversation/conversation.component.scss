@@ -1,21 +1,43 @@
-.conversation-container {
-  display: flex;
-  height: 80vh;
-  .their-messages,
-  .my-messages {
+.conversation-container{
+  width:100%;
+  .message-container{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    width:100%;
     height: 80vh;
-    width: 45%;
-    background-color: rgb(221, 221, 221);
   }
-
-  .my-message-container{
-    display: flex;
-    flex-direction: row-reverse;
+  .messages{
+    width:100%;
   }
 }
 
 .enter-message-container{
   position: fixed;
-  z-index: 1;
+  bottom: 80px;
+  width:100%;
+  display: flex;
+  justify-content: flex-end;
+  form{
+    width:50%;
+  }
+  .send{
+    background-color:lightblue;
+  }
+}
 
+.back{
+  background-color: blue;
+  position: fixed;
+  bottom: 80px;
+}
+.not-my-message{
+  width:100%;
+  padding-top:10px;
+}
+
+.my-message{
+  width:100%;
+  text-align:end;
+  padding-top:10px;
 }

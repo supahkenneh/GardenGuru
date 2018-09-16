@@ -31,7 +31,7 @@ const upload = multer({
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
     },
-    key: function (req, file, cb) {
+    key: function(req, file, cb) {
       cb(
         null,
         `${req.user.username}/${Date.now().toString()}-${file.originalname}`
@@ -55,29 +55,25 @@ router.get('/', (req, res) => {
     });
 });
 
-
 router.get('/conversations', (req, res) => {
-  return Message.query(function (qb) {
-    qb.where('from', '!=', req.user.id).distinct('from');
+  return Message.query(function(qb) {
+    qb.where('from', '!=', req.user.id).distinct('from')
   })
-    .fetchAll(
-      { withRelated: ['from'], columns: ['content'] }
-    )
+    .fetchAll({ withRelated: ['from'], columns: ['content'] })
     .then(result => {
       return res.json(result);
     });
 });
 
-router.get('/sentConversations', (req,res)=>{
-  return Message.query(function(qb){
-    qb.where('from', '=', req.user.id)
+router.get('/sentConversations', (req, res) => {
+  return Message.query(function(qb) {
+    qb.where('from', '=', req.user.id).distinct('to');
   })
-  .fetchAll({withRelated: ['to'], columns: ['content']})
-  .then(result=>{
-    return res.json(result);
-  })
-})
-
+    .fetchAll({ withRelated: ['to'], columns: ['content'] })
+    .then(result => {
+      return res.json(result);
+    });
+});
 
 router.get('/messages', (req, res) => {
   if (!req.user) {
@@ -135,20 +131,19 @@ router.post('/messages/:id', (req, res) => {
     });
 });
 
-
-
-
-
-
 router.get('/conversations/:id', (req, res) => {
   const me = req.user.id;
+  //1
   const they = req.params.id;
+
+  //2
   return Message.query({
     where: { from: they, to: me },
     orWhere: { from: me, to: they }
   })
     .fetchAll({ withRelated: ['to', 'from'] })
     .then(result => {
+      console.log('conversation', result);
       res.json(result);
     });
 });
@@ -159,7 +154,21 @@ router.get('/conversations/:id', (req, res) => {
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   return User.where({ id })
-    .fetch({ columns: ['username', 'email', 'rating', 'city', 'state', 'stand_name', 'avatar_link', 'first_name', 'last_name', 'bio', 'id'] })
+    .fetch({
+      columns: [
+        'username',
+        'email',
+        'rating',
+        'city',
+        'state',
+        'stand_name',
+        'avatar_link',
+        'first_name',
+        'last_name',
+        'bio',
+        'id'
+      ]
+    })
     .then(user => {
       if (!user) {
         return res.json({ message: 'User does not exist' });
@@ -175,22 +184,20 @@ router.get('/:id', (req, res) => {
 // Gets a user's stand
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
-  return Crop
-    .where({ owner_id: id, selling: true })
+  return Crop.where({ owner_id: id, selling: true })
     .fetchAll({ withRelated: ['cropStatus', 'plant', 'photo'] })
     .then(crops => {
       if (crops.length < 1) {
         return res.json({ message: `This user doesn't have a stand` });
       } else {
-        return User
-          .where({ id: crops.models[0].attributes.owner_id })
+        return User.where({ id: crops.models[0].attributes.owner_id })
           .fetch({ columns: ['stand_name', 'id', 'avatar_link'] })
           .then(user => {
             crops.models.map(crop => {
               crop.attributes.user = user;
-            })
+            });
             res.json(crops);
-          })
+          });
       }
     })
     .catch(err => {
@@ -204,7 +211,7 @@ router.put('/addStand', (req, res) => {
   return new User({ id })
     .save({ stand_name }, { patch: true })
     .then(user => {
-      return user.refresh()
+      return user.refresh();
     })
     .then(user => {
       let userProfile = {
@@ -219,7 +226,7 @@ router.put('/addStand', (req, res) => {
         city: user.attributes.city,
         state: user.attributes.state,
         avatar_link: user.attributes.avatar_link
-      }
+      };
       return res.json(userProfile);
     })
     .catch(err => {

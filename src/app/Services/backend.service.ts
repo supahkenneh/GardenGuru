@@ -49,6 +49,11 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
+  getSentConversations(){
+    const getUrl = this.url + `user/sentConversations`;
+    return this.http.get(getUrl).toPromise();
+  }
+
   getConversation(id) {
     const getUrl = this.url + `user/conversations/${id}`;
     return this.http.get(getUrl).toPromise();

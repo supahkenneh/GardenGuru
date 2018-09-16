@@ -4,9 +4,9 @@
 
 <div class="conversations-container">
   <div class="conversation-body" *ngIf="hasMessages">
-    <div class="conversation" *ngFor="let conversation of filtered" routerLink="/conversation/{{conversation.from.id}}">
+    <div class="conversation" *ngFor="let conversation of sentConversations" routerLink="/conversation/{{conversation.to.id}}">
       <div class="username">
-        {{conversation.from.username}}
+        {{conversation.to.username}}
       </div>
       <div class="content">
         {{conversation.content}}
