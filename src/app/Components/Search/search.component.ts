@@ -88,7 +88,7 @@ export class SearchComponent {
       this.searchErrors.push('This field is required!');
       this.searchValid = false;
     } else {
-      console.log(this.cropSearchData.searchInput)
+      // console.log(this.cropSearchData.searchInput)
       this.searchValid = true;
     }
   }
