@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
+import { BackendService } from '../../Services/backend.service';
+import { SessionService } from '../../Services/session.service';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +16,7 @@ export class RegisterComponent {
 
   registerFormData: {
     username: string;
+    password: string;
     city: string;
     state: string;
     email: string;
@@ -22,6 +25,7 @@ export class RegisterComponent {
     photo: File
   } = {
       username: '',
+      password: '',
       city: '',
       state: '',
       email: '',
@@ -29,13 +33,34 @@ export class RegisterComponent {
       last_name: '',
       photo: null
     };
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(
+    private auth: AuthService, 
+    private router: Router,
+    private backend: BackendService,
+    private session: SessionService
+  ) { }
 
   register() {
-    this.auth.register(this.registerFormData)
+    return this.auth.register(this.registerFormData)
+      .then(result => {
+        if (result['success']) {
+          return result;
+        }
+        //error handling here for failed registration
+      })
       .then(() => {
-        this.router.navigate(['/login']);
-      });
+        let login = {
+          username: this.registerFormData.username,
+          password: this.registerFormData.password
+        }
+        return this.backend.login(login)
+      })
+      .then(result => {
+        if(result) {
+          this.session.setSession(result)
+          return this.router.navigate(['/marketplace'])
+        }
+      })
   }
 
   getPhotoFile(event) {

@@ -86,19 +86,21 @@ export class BackendService {
   }
 
   register(data) {
-    console.log(data);
     const form = new FormData();
 
     form.append('username', data.username);
+    form.append('password', data.password);
     form.append('city', data.city);
     form.append('state', data.state);
     form.append('email', data.email);
     form.append('first_name', data.first_name);
     form.append('last_name', data.last_name);
-    form.append('photo', data.photo);
+    if (data.photo) {
+      form.append('photo', data.photo);
+    }
 
     const registerUrl = this.url + 'register';
-    return this.http.post(registerUrl, data).toPromise();
+    return this.http.post(registerUrl, form).toPromise();
   }
 
   logout() {
@@ -203,5 +205,26 @@ export class BackendService {
 
     const postUrl = this.url + 'crops/stand'
     return this.http.post(postUrl, form).toPromise();
+  }
+
+  editUserProfile(data) {
+    const form = new FormData()
+    form.append('id', data.id);
+    //check if data has certain values
+    if (data.oldPass) {
+      form.append('oldPass', data.oldPass);
+      form.append('newPass', data.newPass);
+      form.append('valPass', data.valPass);
+    } else if (data.city) {
+      form.append('city', data.city);
+      form.append('state', data.state);
+      form.append('stand_name', data.stand_name);
+    } else if (data.bio) {
+      form.append('bio', data.bio);
+    } else if (data.photo) {
+      form.append('photo', data.photo);
+    }
+    const editUrl = this.url + `user/${data.id}`
+    return this.http.put(editUrl, form).toPromise();
   }
 }

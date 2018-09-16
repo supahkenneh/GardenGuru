@@ -235,49 +235,116 @@ router.put('/addStand', (req, res) => {
 });
 
 // Change password, location, bio, stand name
-router.put('/settings', (req, res) => {
+router.put('/:id', upload.single('photo'), (req, res) => {
   const username = req.user.username;
   const id = req.user.id;
-  const { oldPass, newPass, city, state, bio, stand_name } = req.body;
-
-  return User.where({ username, id })
-    .fetchAll()
-    .then(user => {
-      bcrypt
-        .compare(oldPass, user.models[0].attributes.password)
-        .then(result => {
-          if (!result) {
-            res.send('Invalid password.');
-          } else {
-            bcrypt.genSalt(saltRounds, (err, salt) => {
-              bcrypt.hash(newPass, salt, (err, hashedPassword) => {
-                if (err) {
-                  return res.status(500);
-                }
-                return User.where({ username, id })
-                  .save(
-                    {
-                      password: hashedPassword,
-                      city,
-                      state,
-                      bio,
-                      stand_name
-                    },
-                    {
-                      patch: true
+  const { oldPass, newPass, valPass, city, state, bio, stand_name } = req.body;
+  let passwordPromise = new Promise((resolve, reject) => {
+    if (newPass && (newPass !== valPass)) {
+      reject(res.json({ success: false }))
+    } else if (newPass) {
+      return User
+        .where({ username, id })
+        .fetchAll()
+        .then(user => {
+          bcrypt.compare(oldPass, user.models[0].attributes.password)
+            .then(result => {
+              if (!result) {
+                reject(res.json({ success: false }))
+              } else {
+                bcrypt.genSalt(saltRounds, (err, salt) => {
+                  bcrypt.hash(newPass, salt, (err, hashedPassword) => {
+                    if (err) {
+                      return res.status(500)
                     }
-                  )
-                  .then(user => {
-                    res.json({ message: 'success' });
-                  });
-              });
-            });
+                    return User.where({ username, id })
+                      .save({ password: hashedPassword }, { patch: true })
+                      .then(result => {
+                        resolve(res.json({ success: true }))
+                      })
+                  })
+                })
+              }
+            })
+        })
+    } else {
+      resolve()
+    }
+  })
+  let locationPromise = new Promise((resolve, reject) => {
+    if (city && state) {
+      return User
+        .where({ username, id })
+        .fetchAll()
+        .then(user => {
+          return User
+            .where({ username, id })
+            .save({ city, state }, { patch: true })
+            .then(result => {
+              resolve(res.json({ success: true }))
+            })
+            .catch(() => {
+              reject(res.json({ success: false }))
+            })
+        })
+    } else {
+      resolve()
+    }
+  })
+  let standPromise = new Promise((resolve, reject) => {
+    if (stand_name) {
+      return User
+        .where({ username, id })
+        .fetchAll()
+        .then(user => {
+          if (!user.models[0].attributes.stand_name) {
+            reject(res.json({ sucess: false }))
+          } else {
+            return User
+              .where({ username, id })
+              .save({ stand_name }, { patch: true })
+              .then(result => {
+                resolve(res.json({ success: true }))
+              })
+              .catch(() => {
+                reject(res.json({ success: false }))
+              })
           }
-        });
+        })
+    } else {
+      resolve()
+    }
+  })
+  let photoPromise = new Promise((resolve, reject) => {
+    if (req.file || bio) {
+      let avatar_link
+      if (req.file) {
+        avatar_link = req.file.location
+      }
+      return User
+        .where({ username, id })
+        .save({ avatar_link: avatar_link, bio }, { patch: true })
+        .then(result => {
+          resolve(res.json({ success: true }))
+        })
+        .catch(() => {
+          reject(res.json({ success: false }))
+        })
+    } else {
+      resolve()
+    }
+  })
+  return passwordPromise
+    .then(() => {
+      return locationPromise
     })
-    .catch(err => {
-      console.log('error :', err);
-    });
+    .then(() => {
+      return standPromise
+    })
+    .then(() => {
+      return photoPromise
+    })
+    .catch(err => console.log(err))
 });
 
 module.exports = router;
