@@ -1,20 +1,22 @@
 <div class="content-container" *ngIf="!loggedIn">
-  <div class="secondary-header">
-    <div>
-      <span routerLink="/register">Sign Up</span>
-      or
-      <span routerLink="/login">Log In</span>
-      to access your Garden
+  <div class="unauth-container">
+    <div class="secondary-header">
+      <div>
+        <span routerLink="/register">Sign Up</span>
+        or
+        <span routerLink="/login">Log In</span>
+        to access your Garden
+      </div>
     </div>
-  </div>
-  <div class="feature-description">
-    <div>With an account, you'll be able to:</div>
-    <ul>
-      <li>Manage the crops in your garden</li>
-      <li>Set reminders for watering schedule</li>
-      <li>Get notified when it is time for a harvest</li>
-      <li>Sell your crops in the Marketplace</li>
-    </ul>
+    <div class="feature-description">
+      <div>With an account, you'll be able to:</div>
+      <ul>
+        <li>Manage the crops in your garden</li>
+        <li>Set reminders for watering schedule</li>
+        <li>Get notified when it is time for a harvest</li>
+        <li>Sell your crops in the Marketplace</li>
+      </ul>
+    </div>
   </div>
 </div>
 <!-- Authenticated view of garden -->
