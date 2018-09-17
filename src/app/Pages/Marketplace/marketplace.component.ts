@@ -12,6 +12,7 @@ export class MarketplaceComponent implements OnInit {
   stands;
   crops;
   recentlyAddedCrops;
+  placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
 
   constructor(
     private backend: BackendService,
@@ -23,22 +24,30 @@ export class MarketplaceComponent implements OnInit {
 
   ngOnInit() {
     if (this.loggedIn) {
-      return this.backend
-        .getMarketplace()
+      return this.backend.getMarketplace()
         .then(result => {
-          this.stands = result;
+          console.log('stands ', result);
+          let resultArr = Object.values(result);
+          resultArr.map(stand => {
+            if (!stand.avatar_link) {
+              stand.avatar_link = this.placeholderImg
+            }
+          })
+          this.stands = resultArr;
         })
         .then(() => {
-          return this.backend.getMarketplaceCrops().then(crops => {
-            this.crops = crops;
-          });
+          return this.backend.getMarketplaceCrops()
+            .then(crops => {
+              console.log('crops ', crops)
+              this.crops = crops;
+            });
         });
-    }else {
+    } else {
       return this.backend.getRecentCrops()
-      .then(result=>{
-        this.recentlyAddedCrops = result
-        console.log(result)
-      })
+        .then(result => {
+          this.recentlyAddedCrops = result
+          console.log(result)
+        })
     }
   }
 }

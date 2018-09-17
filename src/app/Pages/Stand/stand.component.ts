@@ -24,6 +24,7 @@ export class StandComponent implements OnInit {
   messageSentPopUp = ''
   postingCrop: boolean = false;
   isLoggedIn: boolean = false;
+  placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
 
   //crop photo values
   cropPhotos: string[] = [];
@@ -124,6 +125,9 @@ export class StandComponent implements OnInit {
         } else {
           this.hasStand = true;
           this.standOwner = result[0].user;
+          if (!this.standOwner['avatar_link']) {
+            this.standOwner['avatar_link'] = this.placeholderImg
+          }
           this.sortCrops(result);
           let resultArr = Object.values(result);
           resultArr.map(crop => {
