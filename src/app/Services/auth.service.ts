@@ -22,6 +22,16 @@ export class AuthServiceReg{
       });
   }
 
+  oauthLogin(userData){
+    console.log('made it to auth service')
+    return this.backend.oauthLogin()
+    .then(user=>{
+      console.log('sending user to session')
+      console.log(user);
+      return this.session.setSession(user)
+    })
+  }
+
   logout() {
     return this.backend.logout().then(response => {
       return this.session.clearSession();

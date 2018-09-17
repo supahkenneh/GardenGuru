@@ -44,7 +44,7 @@ router.get('/', (req, res) => {
   })
   .fetchAll({withRelated: ['plant', 'photo']})
   .then(result=>{
-    console.log(result)
+    // console.log(result)
     res.json(result)
   })
 });

@@ -40,12 +40,10 @@ export class SentConversationsComponent implements OnInit {
         if (!cache.includes(result[i].to.id)) {
           cache.push(result[i].to.id);
           filteredResult.push(result[i]);
-          console.log(filteredResult)
         }
       }
 
       this.sentConversations = filteredResult;
-      console.log(this.sentConversations)
     })
   }
 }

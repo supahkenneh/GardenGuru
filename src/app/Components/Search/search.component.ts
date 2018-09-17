@@ -68,7 +68,7 @@ export class SearchComponent {
           this.resultErrors.push('Nothing matched the input!');
           this.resultValid = false;
         } else {
-          console.log('searchCrop()', response);
+          // console.log('searchCrop()', response);
           return this.backend.results(response)
         }
       })

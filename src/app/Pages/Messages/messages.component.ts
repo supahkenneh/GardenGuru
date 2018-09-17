@@ -45,7 +45,6 @@ export class MessagesComponent implements OnInit {
           if (!cache.includes(result[i].from.id)) {
             cache.push(result[i].from.id);
             filteredResult.push(result[i]);
-            console.log(filteredResult)
           }
         }
         this.filtered = filteredResult;

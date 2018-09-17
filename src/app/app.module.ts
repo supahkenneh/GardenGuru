@@ -29,7 +29,22 @@ import { BackendService } from './Services/backend.service';
 import { AuthGuard } from './Services/guard.service';
 import { AuthServiceReg } from './Services/auth.service';
 import { SessionService } from './Services/session.service';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  FacebookLoginProvider
+} from 'angular-6-social-login';
 
+export function getAuthServiceConfigs() {
+  console.log(FacebookLoginProvider.PROVIDER_ID)
+  let config = new AuthServiceConfig([
+    {
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider('2262031354029149')
+    }
+  ]);
+  return config;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +70,7 @@ import { SessionService } from './Services/session.service';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    SocialLoginModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
@@ -104,7 +120,16 @@ import { SessionService } from './Services/session.service';
       { path: 'search-results/:term', component: SearchResultsComponent }
     ])
   ],
-  providers: [BackendService, SessionService, AuthServiceReg, AuthGuard],
+  providers: [
+    BackendService,
+    SessionService,
+    AuthServiceReg,
+    AuthGuard,
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthServiceConfigs
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

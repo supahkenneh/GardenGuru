@@ -16,19 +16,38 @@ export class SessionService {
     stand_name: string;
     rating: number;
   } = {
-      id: -1,
-      loggedIn: false,
-      username: '',
-      first_name: '',
-      last_name: '',
-      bio: '',
-      city: '',
-      state: '',
-      stand_name: '',
-      rating: -1
-    };
+    id: -1,
+    loggedIn: false,
+    username: '',
+    first_name: '',
+    last_name: '',
+    bio: '',
+    city: '',
+    state: '',
+    stand_name: '',
+    rating: -1
+  };
+
+  oauthUser = {
+    id: -1,
+    email: '',
+    image: '',
+    name: '',
+    loggedIn: false
+  };
 
   constructor() {
+    let oauthUserString = window.localStorage.getItem('user');
+    try {
+      if (oauthUserString) {
+        console.log('oauthuserstin', oauthUserString)
+        this.oauthUser = JSON.parse(oauthUserString);
+        console.log(this.oauthUser)
+      }
+    } catch (err) {
+      console.log('could not parse user');
+    }
+
     let userString = window.localStorage.getItem('user');
     try {
       if (userString) {
@@ -39,26 +58,42 @@ export class SessionService {
     } catch (err) {
       console.log('could not parse user');
     }
+
+
   }
 
   getSession() {
     return this.user;
   }
 
-  setSession(data) {
-    this.user.id = data.id;
-    this.user.loggedIn = true;
-    this.user.username = data.username;
-    this.user.first_name = data.first_name;
-    this.user.last_name = data.last_name;
-    this.user.rating = data.rating;
-    this.user.bio = data.bio;
-    this.user.city = data.city;
-    this.user.state = data.state;
-    this.user.stand_name = data.stand_name;
+  getOauthSession(){
+    return this.oauthUser
+  }
 
-    let userString = JSON.stringify(this.user);
-    window.localStorage.setItem('user', userString);
+  setSession(data) {
+    console.log('session', data);
+    if (data.provider && data.provider === 'facebook') {
+      this.oauthUser.id = data.id;
+      this.oauthUser.loggedIn = true;
+      this.oauthUser.email = data.email;
+      this.oauthUser.image = data.image;
+      this.oauthUser.name = data.name;
+      let oauthUserString = JSON.stringify(this.oauthUser);
+      window.localStorage.setItem('user', oauthUserString);
+    } else {
+      this.user.id = data.id;
+      this.user.loggedIn = true;
+      this.user.username = data.username;
+      this.user.first_name = data.first_name;
+      this.user.last_name = data.last_name;
+      this.user.rating = data.rating;
+      this.user.bio = data.bio;
+      this.user.city = data.city;
+      this.user.state = data.state;
+      this.user.stand_name = data.stand_name;
+      let userString = JSON.stringify(this.user);
+      window.localStorage.setItem('user', userString);
+    }
   }
 
   clearSession() {
@@ -71,10 +106,19 @@ export class SessionService {
     this.user.city = '';
     this.user.state = '';
     this.user.stand_name = '';
+    this.oauthUser.email = '';
+    this.oauthUser.image = '';
+    this.oauthUser.name = '';
     window.localStorage.removeItem('user');
   }
 
   isLoggedIn() {
-    return this.user.loggedIn;
+    if(this.user.username || this.oauthUser.email){
+      return true
+    }else {
+      return false
+    }
   }
+
+  
 }

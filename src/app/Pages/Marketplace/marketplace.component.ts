@@ -37,7 +37,6 @@ export class MarketplaceComponent implements OnInit {
       return this.backend.getRecentCrops()
       .then(result=>{
         this.recentlyAddedCrops = result
-        console.log(result)
       })
     }
   }

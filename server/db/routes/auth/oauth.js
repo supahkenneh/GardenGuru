@@ -29,13 +29,17 @@ passport.use(
 );
 
 
-router.get('/facebook', passport.authenticate('facebook'));
+router.get(
+  '/facebook',
+  passport.authenticate('facebook', { scope: 'user_location' })
+);
 
 router.get(
   '/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/marketplace');
+    // res.redirect('/marketprlace');
+    console.log('success')
   }
 );
 module.exports = router;

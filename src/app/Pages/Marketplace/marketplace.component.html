@@ -36,7 +36,7 @@
     </div>
     <div class="crops" *ngFor="let crop of recentlyAddedCrops">
         <div class="price">{{crop.price}}</div>
-        <div class="image" [style.backgroundImage]="'url('+ crop.photo[0].link +')'"> </div>
+        <div class="image" *ngIf = "crop.photo[0]"[style.backgroundImage]="'url('+ crop.photo[0].link +')'"> </div>
         <div class="description">{{crop.description}}</div>
     </div>
     

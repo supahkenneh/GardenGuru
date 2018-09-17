@@ -141,7 +141,6 @@ router.get('/conversations/:id', (req, res) => {
   })
     .fetchAll({ withRelated: ['to', 'from'] })
     .then(result => {
-      console.log('conversation', result);
       res.json(result);
     });
 });

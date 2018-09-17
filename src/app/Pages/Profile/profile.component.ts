@@ -67,7 +67,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.isLoggedIn)
     this.urlId = this.route.snapshot.paramMap.get('id');
     //check to see if user owns that profile
     if (this.urlId === `${this.user.id}`) {

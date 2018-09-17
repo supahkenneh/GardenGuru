@@ -91,6 +91,12 @@ export class BackendService {
     return this.http.post(loginUrl, data).toPromise();
   }
 
+  oauthLogin(){
+    console.log('made it to oauth login backend service')
+    const loginUrl = this.url + 'oauth/facebook';
+    console.log(loginUrl)
+    return this.http.get(loginUrl).toPromise()
+  }
   register(data) {
     const form = new FormData();
 
