@@ -17,11 +17,11 @@
   padding: 5px;
 }
 
-.search {
+.magnifier {
   flex: 1;
 }
 
-.search img {
+.magnifier img {
   display: block;
   height: 80%;
   margin-left: auto;
@@ -52,7 +52,7 @@
     margin-top: 5px;
   }
 
-  .overlay, .title, .search {
+  .overlay, .title, .magnifier {
     height: 40px;
   }
 
@@ -68,7 +68,7 @@
     margin-top: 0px;
   }
 
-  .overlay, .title, .search {
+  .overlay, .title, .magnifier {
     height: 70px;
   }
 

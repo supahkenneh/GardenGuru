@@ -133,10 +133,8 @@ router.post('/messages/:id', (req, res) => {
 
 router.get('/conversations/:id', (req, res) => {
   const me = req.user.id;
-  //1
   const they = req.params.id;
 
-  //2
   return Message.query({
     where: { from: they, to: me },
     orWhere: { from: me, to: they }
