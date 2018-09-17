@@ -26,6 +26,7 @@ import { SentConversationsComponent } from './Pages/SentConversations/sentConver
 
 //services
 import { BackendService } from './Services/backend.service';
+import { AuthGuard } from './Services/guard.service';
 import { AuthService } from './Services/auth.service';
 import { SessionService } from './Services/session.service';
 
@@ -57,21 +58,53 @@ import { SessionService } from './Services/session.service';
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
-      { path: 'user/:id/stand', component: StandComponent },
-      { path: 'user/:id', component: ProfileComponent },
+      {
+        path: 'user/:id/stand',
+        component: StandComponent,
+        // canActivate: [AuthGuard]
+      },
+      { path: 'garden', component: GardenComponent, canActivate: [AuthGuard] },
+      {
+        path: 'user/:id',
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
+      },
       { path: 'crops/:id', component: CropComponent },
-      { path: 'garden/addcrop', component: AddCropComponent },
-      { path: 'garden/crops/:id', component: GardenCropComponent },
-      { path: 'search-results/:term', component: SearchResultsComponent },
-      { path: 'messages', component: MessagesComponent },
-      { path: 'sentConversations', component: SentConversationsComponent },
-      { path: 'conversation/:id', component: ConversationComponent },
-      { path: 'sentConversation/:id', component: ConversationComponent },
+      {
+        path: 'garden/addcrop',
+        component: AddCropComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'garden/crops/:id',
+        component: GardenCropComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'messages',
+        component: MessagesComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'sentConversations',
+        component: SentConversationsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'conversation/:id',
+        component: ConversationComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'sentConversation/:id',
+        component: ConversationComponent,
+        canActivate: [AuthGuard]
+      },
+      { path: 'search-results/:term', component: SearchResultsComponent }
     ])
   ],
-  providers: [BackendService, SessionService, AuthService],
+  providers: [BackendService, SessionService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
