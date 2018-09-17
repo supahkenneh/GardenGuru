@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg} from '../../Services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
 import { BackendService } from '../../Services/backend.service';
@@ -16,7 +16,7 @@ export class MessagesComponent implements OnInit {
   filtered: any;
   deleted: boolean = false;
   constructor(
-    private auth: AuthService,
+    private auth: AuthServiceReg,
     private router: Router,
     private session: SessionService,
     private route: ActivatedRoute,

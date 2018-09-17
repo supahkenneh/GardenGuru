@@ -26,7 +26,7 @@ import { SentConversationsComponent } from './Pages/SentConversations/sentConver
 //services
 import { BackendService } from './Services/backend.service';
 import { AuthGuard } from './Services/guard.service';
-import { AuthService } from './Services/auth.service';
+import { AuthServiceReg} from './Services/auth.service';
 import { SessionService } from './Services/session.service';
 
 @NgModule({
@@ -101,7 +101,7 @@ import { SessionService } from './Services/session.service';
       }
     ])
   ],
-  providers: [BackendService, SessionService, AuthService, AuthGuard],
+  providers: [BackendService, SessionService, AuthServiceReg, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

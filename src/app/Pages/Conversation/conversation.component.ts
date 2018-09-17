@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg} from '../../Services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
@@ -25,7 +25,7 @@ export class ConversationComponent implements OnInit {
   }
 
   constructor(
-    private auth: AuthService,
+    private auth: AuthServiceReg,
     private router: Router,
     private backend: BackendService,
     private route: ActivatedRoute,
