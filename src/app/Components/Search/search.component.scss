@@ -1,0 +1,30 @@
+#search-sidebar {
+  position: fixed;
+  width: 50%;
+  height: 83.25vh;
+  background: lightgreen;
+  right: -50%;
+  transition: all 200ms linear;
+  ul {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    li {
+      color: black;
+      list-style-type: none;
+      padding: 15px 10px;
+      width: 100%;
+      padding-right: 15%;
+      border-bottom: 1px solid green;
+      a {
+        width: 100%;
+      }
+    }
+  }
+}
+
+#search-sidebar.active {
+  right: 0px;
+}

@@ -138,70 +138,97 @@ router.post('/stand', upload.array('photo', 6), (req, res) => {
 router.post('/search/:term', (req, res) => {
   const search = req.params.term;
   const category = req.body.category;
-  let city;
   let err;
 
   if (!req.user) {
-    return Crop
-      .query(qb => {
-        if (category === 'Garden') {
-          return err = ('Please log in to search through your garden!');
-        } else if (category === 'Stand') {
-          return err = ('Please log in to search through your stand!');
-        } else if (category === 'Marketplace') {
+    if (category === 'My Garden' || category === 'My Stand') {
+      res.send('You can only search through the marketplace. Please log in to search through your own crops!');
+    } else if (category === 'Marketplace') {
+      return Crop 
+        .query(qb => {
+          qb.innerJoin('users', 'crops.owner_id', 'users.id');
           qb.where('selling', '=', true)
             .andWhere('description', 'ILIKE', `${search}%`);
-        }
-      })
-      .fetchAll()
-      .then(response => {
-        if (err) {
-          return res.send(err);
-        } else {
+        })
+        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name']})
+        .then(response => {
+          if (err) {
+            return res.send(err);
+          } else {
+            if (response.length < 1) {
+              return res.send(
+                'Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.'
+              );
+            } else {
+              return res.json(response);
+            }
+          }
+        })
+        .catch(err => {
+          console.log('Error :', err);
+        });
+    }
+  } else {
+    if (category === 'Marketplace') {
+      return Crop
+        .query(qb => {
+          qb.innerJoin('users', 'crops.owner_id', 'users.id');
+          qb.where('description', 'ILIKE', `${search}%`)
+            .andWhere('selling', '=', true)
+            .andWhere('city', '=', req.user.city)
+            .andWhere('owner_id', '!=', req.user.id);
+        })
+        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name'] })
+        .then(response => {
           if (response.length < 1) {
-            return res.send(
-              'Nobody here but us chickens! Try entering in something else, or logging in for a more focused search around your area.'
-            );
+            return res.send('Nobody here but us chickens!');
           } else {
             return res.json(response);
-          }
-        }
-      })
-      .catch(err => {
-        console.log('Error :', err);
-      });
-  } else {
-    return Crop
-      .query(qb => {
-        if (category === 'Marketplace') {
-          qb.innerJoin('users', 'crops.owner_id', 'users.id')
-          qb.where('selling', '=', true)
-            .andWhere('city', '=', req.user.city)
-            .andWhere('owner_id', '!=', req.user.id)
-            .andWhere('description', 'ILIKE', `${search}%`);
-        } else if (category === 'Stand') {
-          qb.where('selling', '=', true)
+          };
+        })
+        .catch(err => {
+          console.log('Error :', err);
+        });
+    } else if (category === 'My Stand') {
+      return Crop
+        .query(qb => {
+          console.log('qb', qb)
+          qb.where('description', 'ILIKE', `${search}%`)
             .andWhere('owner_id', '=', req.user.id)
-            .andWhere('description', 'ILIKE', `${search}%`);
-        } else if (category === 'Garden') {
-          qb.where('crop_status', '=', 1)
+            .andWhere('selling', '=', true);
+        })
+        .fetchAll()
+        .then(response => {
+          if (response.length < 1) {
+            return res.send('Nobody here but us chickens!');
+          } else {
+            return res.json(response);
+          };
+        })
+        .catch(err => {
+          console.log('Error :', err);
+        });
+    } else if (category === 'My Garden') {
+      return Crop
+        .query(qb => {
+          qb.where('description', 'ILIKE', `${search}%`)
+            .andWhere('crop_status', '=', 1)
             .andWhere('selling', '=', false)
-            .andWhere('owner_id', '=', req.user.id)
-            .andWhere('description', 'ILIKE', `${search}%`);
-        }
-      })
-      .fetchAll()
-      .then(response => {
-        if (response.length < 1) {
-          return res.send('Nobody here but us chickens!');
-        } else {
-          return res.json(response);
-        }
-      })
-      .catch(err => {
-        console.log('Error :', err);
-      });
-  }
+            .andWhere('owner_id', '=', req.user.id);
+        })
+        .fetchAll()
+        .then(response => {
+          if (response.length < 1) {
+            return res.send('Nobody here but us chickens!');
+          } else {
+            return res.json(response);
+          };
+        })
+        .catch(err => {
+          console.log('Error :', err);
+        });
+    };
+  };
 });
 
 router.get('/:id', (req, res) => {

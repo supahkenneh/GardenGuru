@@ -15,7 +15,7 @@ export class HeaderComponent {
     document.getElementById('sidebar').classList.toggle('active');
   }
 
-  // toggleSearchSideBar() { // to be used later
-  //   document.getElementById('searchSidebar').classList.toggle('active');
-  // }
+  toggleSearchSideBar() { // to be used later
+    document.getElementById('search-sidebar').classList.toggle('active');
+  }
 }
