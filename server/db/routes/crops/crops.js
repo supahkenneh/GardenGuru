@@ -39,7 +39,14 @@ const upload = multer({
 });
 
 router.get('/', (req, res) => {
-  res.json('crops');
+  return Crop.query(function (qb) {
+    qb.orderBy('created_at', 'DESC')
+  })
+  .fetchAll({withRelated: ['plant', 'photo']})
+  .then(result=>{
+    console.log(result)
+    res.json(result)
+  })
 });
 
 router.post('/', upload.array('photo', 6), (req, res) => {

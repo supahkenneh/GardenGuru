@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg} from '../../Services/auth.service';
 @Component({
   templateUrl: './crop.component.html',
   styleUrls: ['./crop.component.scss']
@@ -40,7 +40,7 @@ export class CropComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private session: SessionService,
-    private auth: AuthService
+    private auth: AuthServiceReg
   ) {
     this.user = session.getSession();
     this.loggedIn = this.session.isLoggedIn();

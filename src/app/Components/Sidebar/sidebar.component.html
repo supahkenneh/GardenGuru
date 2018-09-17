@@ -13,11 +13,11 @@
       <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
         <button class="logout-button" routerLink="/marketplace" (click)="logout()">Logout</button>
       </li>
-      <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="messages">
-        <a>Your Inquiries</a>
-      </li>
       <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="sentConversations">
         <a>Inquiries Sent</a>
+      </li>
+      <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="messages">
+        <a>Incoming Inquiries</a>
       </li>
     </ul>
   </div>

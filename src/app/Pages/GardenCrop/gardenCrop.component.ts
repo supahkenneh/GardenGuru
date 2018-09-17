@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg} from '../../Services/auth.service';
 @Component({
   templateUrl: './gardenCrop.component.html',
   styleUrls: ['./gardenCrop.component.scss']
@@ -76,7 +76,7 @@ export class GardenCropComponent implements OnInit {
     private backend: BackendService,
     private route: ActivatedRoute,
     private session: SessionService,
-    private auth: AuthService,
+    private auth: AuthServiceReg,
     private router: Router
   ) {
     this.user = this.session.getSession();

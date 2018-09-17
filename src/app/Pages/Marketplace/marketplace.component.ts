@@ -9,8 +9,9 @@ import { SessionService } from '../../Services/session.service';
 export class MarketplaceComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
-  stands
-  crops
+  stands;
+  crops;
+  recentlyAddedCrops;
 
   constructor(
     private backend: BackendService,
@@ -21,15 +22,23 @@ export class MarketplaceComponent implements OnInit {
   }
 
   ngOnInit() {
-    return this.backend.getMarketplace()
-      .then(result => {
-        this.stands = result
-      })
-      .then(()=>{
-        return this.backend.getMarketplaceCrops()
-        .then(crops=>{
-          this.crops = crops
+    if (this.loggedIn) {
+      return this.backend
+        .getMarketplace()
+        .then(result => {
+          this.stands = result;
         })
+        .then(() => {
+          return this.backend.getMarketplaceCrops().then(crops => {
+            this.crops = crops;
+          });
+        });
+    }else {
+      return this.backend.getRecentCrops()
+      .then(result=>{
+        this.recentlyAddedCrops = result
+        console.log(result)
       })
+    }
   }
 }
