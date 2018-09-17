@@ -21,6 +21,8 @@ import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
 import { MessagesComponent } from './Pages/Messages/messages.component';
 import { GardenCropComponent } from './Pages/GardenCrop/gardenCrop.component';
 import { SearchResultsComponent } from './Pages/SearchResults/searchResults.component';
+import { ConversationComponent } from './Pages/Conversation/conversation.component';
+import { SentConversationsComponent } from './Pages/SentConversations/sentConversations.component';
 
 //services
 import { BackendService } from './Services/backend.service';
@@ -44,7 +46,9 @@ import { SessionService } from './Services/session.service';
     CropComponent,
     AddCropComponent,
     MessagesComponent,
-    GardenCropComponent
+    GardenCropComponent,
+    ConversationComponent,
+    SentConversationsComponent
   ],
   imports: [
     BrowserModule,
@@ -56,15 +60,18 @@ import { SessionService } from './Services/session.service';
       { path: 'garden', component: GardenComponent },
       { path: 'marketplace', component: MarketplaceComponent },
       { path: 'user/:id/stand', component: StandComponent },
-      { path: 'profile', component: ProfileComponent },
+      { path: 'user/:id', component: ProfileComponent },
       { path: 'crops/:id', component: CropComponent },
       { path: 'garden/addcrop', component: AddCropComponent },
-      { path: 'messages', component: MessagesComponent },
       { path: 'garden/crops/:id', component: GardenCropComponent },
-      { path: 'search-results/:term', component: SearchResultsComponent }
+      { path: 'search-results/:term', component: SearchResultsComponent },
+      { path: 'messages', component: MessagesComponent },
+      { path: 'sentConversations', component: SentConversationsComponent },
+      { path: 'conversation/:id', component: ConversationComponent },
+      { path: 'sentConversation/:id', component: ConversationComponent },
     ])
   ],
   providers: [BackendService, SessionService, AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

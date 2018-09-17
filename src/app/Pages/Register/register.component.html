@@ -1,5 +1,5 @@
 <div class="content-container">
-  <form>
+  <form enctype="multipart/form-data">
     <div class="secondary-header">
       <div>Register</div>
     </div>
@@ -24,6 +24,10 @@
         <option value="">Select State</option>
         <option *ngFor="let state of states" value="{{state}}">{{state}}</option>
       </select>
+    </div>
+    <div class="avatar-upload">
+      <label for="photo">Upload A Profile Pic</label>
+      <input type="file" name="photo" accept=".jpg, .jpeg, .png" (change)="getPhotoFile($event)">
     </div>
     <button class="register-button" (click)="register()">Register</button>
   </form>
