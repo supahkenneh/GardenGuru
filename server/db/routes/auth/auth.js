@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const FacebookStrategy = require('passport-facebook').Strategy;
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const app = express();
@@ -15,6 +16,7 @@ const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
 
 const User = require('../../models/User');
 const saltRounds = 12;
+const configAuth = require('../../../../config/auth');
 
 const s3 = new aws.S3({
   accessKeyId: IAM_USER_KEY,
@@ -29,11 +31,13 @@ const upload = multer({
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
     },
-    key: function (req, file, cb) {
+    key: function(req, file, cb) {
       console.log(file);
       cb(
         null,
-        `${req.body.username}/avatar/${Date.now().toString()}-${file.originalname}`
+        `${req.body.username}/avatar/${Date.now().toString()}-${
+          file.originalname
+        }`
       );
     }
   })
@@ -47,7 +51,7 @@ app.use(passport.session());
 passport.serializeUser((user, done) => {
   return done(null, {
     id: user.id,
-    username: user.username.toLowerCase(),
+    username: user.username
   });
 });
 
@@ -58,7 +62,7 @@ passport.deserializeUser((user, done) => {
       user = user.toJSON();
       return done(null, {
         id: user.id,
-        username: user.username.toLowerCase(),
+        username: user.username,
         city: user.city,
         state: user.state
       });
@@ -98,6 +102,29 @@ passport.use(
   })
 );
 
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: process.env.FACEBOOK_CALLBACK_URL
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      console.log('profile', profile);
+      return cb(null, profile);
+    }
+  )
+);
+
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/marketplace');
+  }
+);
 // ===== REGISTRATION ===== //
 router.post('/register', upload.single('photo'), (req, res) => {
   let { username, email, first_name, last_name, city, state } = req.body;
@@ -110,10 +137,10 @@ router.post('/register', upload.single('photo'), (req, res) => {
         return res.status(500);
       }
       let avatar_link;
-      if (req.file) {        
-        avatar_link = req.file.location
+      if (req.file) {
+        avatar_link = req.file.location;
       } else {
-        avatar_link = null
+        avatar_link = null;
       }
       return new User({
         username: username.toLowerCase(),
@@ -123,7 +150,7 @@ router.post('/register', upload.single('photo'), (req, res) => {
         last_name,
         city,
         state,
-        avatar_link,
+        avatar_link
       })
         .save()
         .then(result => {
