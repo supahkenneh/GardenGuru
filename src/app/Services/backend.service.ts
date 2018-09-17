@@ -6,8 +6,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class BackendService {
   url: string = '/api/';
+  searchResults: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -49,7 +50,7 @@ export class BackendService {
     return this.http.get(getUrl).toPromise();
   }
 
-  getSentConversations(){
+  getSentConversations() {
     const getUrl = this.url + `user/sentConversations`;
     return this.http.get(getUrl).toPromise();
   }
@@ -172,6 +173,21 @@ export class BackendService {
     }
     const editUrl = this.url + `garden/crop/${data.id}`;
     return this.http.put(editUrl, form).toPromise();
+  }
+
+  search(data) {
+    const searchUrl = `${this.url}crops/search/${data.searchInput}`
+    return this.http.post(searchUrl, data).toPromise();
+  }
+
+  results(data) {
+    // console.log('search results service', data);
+    // this.searchResults.push(data);
+    this.searchResults = data;
+  }
+
+  transferResults() {
+    return this.searchResults;
   }
 
   editStandCrop(data) {

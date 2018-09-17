@@ -74,7 +74,18 @@
       }
     }
   }
-  //
+  .post-stand-button {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    background: #6ba368;
+  }
 }
 
 .no-stand-container {
@@ -497,6 +508,14 @@
     justify-content: center;
     div {
       color: red;
+    }
+  }
+}
+
+#message-modal-container {
+  #message-modal-content {
+    .enter-message-container {
+      
     }
   }
 }

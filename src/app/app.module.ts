@@ -20,13 +20,14 @@ import { CropComponent } from './Pages/Crop/crop.component';
 import { AddCropComponent } from './Pages/AddCrop/addcrop.component';
 import { MessagesComponent } from './Pages/Messages/messages.component';
 import { GardenCropComponent } from './Pages/GardenCrop/gardenCrop.component';
+import { SearchResultsComponent } from './Pages/SearchResults/searchResults.component';
 import { ConversationComponent } from './Pages/Conversation/conversation.component';
 import { SentConversationsComponent } from './Pages/SentConversations/sentConversations.component';
 
 //services
 import { BackendService } from './Services/backend.service';
 import { AuthGuard } from './Services/guard.service';
-import { AuthServiceReg} from './Services/auth.service';
+import { AuthServiceReg } from './Services/auth.service';
 import { SessionService } from './Services/session.service';
 
 @NgModule({
@@ -42,6 +43,7 @@ import { SessionService } from './Services/session.service';
     ProfileComponent,
     LoginComponent,
     RegisterComponent,
+    SearchResultsComponent,
     CropComponent,
     AddCropComponent,
     MessagesComponent,
@@ -98,7 +100,8 @@ import { SessionService } from './Services/session.service';
         path: 'sentConversation/:id',
         component: ConversationComponent,
         canActivate: [AuthGuard]
-      }
+      },
+      { path: 'search-results/:term', component: SearchResultsComponent }
     ])
   ],
   providers: [BackendService, SessionService, AuthServiceReg, AuthGuard],
