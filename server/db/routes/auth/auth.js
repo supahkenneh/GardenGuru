@@ -44,30 +44,30 @@ const upload = multer({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => {
-  return done(null, {
-    id: user.id,
-    username: user.username.toLowerCase(),
-  });
-});
+// passport.serializeUser((user, done) => {
+//   return done(null, {
+//     id: user.id,
+//     username: user.username.toLowerCase(),
+//   });
+// });
 
-passport.deserializeUser((user, done) => {
-  new User({ id: user.id })
-    .fetch()
-    .then(user => {
-      user = user.toJSON();
-      return done(null, {
-        id: user.id,
-        username: user.username.toLowerCase(),
-        city: user.city,
-        state: user.state
-      });
-    })
-    .catch(err => {
-      console.log('error : ', err);
-      return done(err);
-    });
-});
+// passport.deserializeUser((user, done) => {
+//   new User({ id: user.id })
+//     .fetch()
+//     .then(user => {
+//       user = user.toJSON();
+//       return done(null, {
+//         id: user.id,
+//         username: user.username.toLowerCase(),
+//         city: user.city,
+//         state: user.state
+//       });
+//     })
+//     .catch(err => {
+//       console.log('error : ', err);
+//       return done(err);
+//     });
+// });
 
 passport.use(
   new LocalStrategy((username, password, done) => {

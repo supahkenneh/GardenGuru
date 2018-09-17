@@ -1,6 +1,6 @@
-<div class="marketplace-container">
+<div class="marketplace-container" *ngIf="loggedIn">
 
-    <div class="stands-section">
+    <div class="stands-section" >
         <div class="marketplace-header">
             <div class="marketplace-title">Stands in {{user.city}}</div>
         </div>
@@ -12,7 +12,7 @@
             </div>
         </div>
     </div>
-    <div class="crops-section">
+    <div class="crops-section" >
         <div class="crops-title">Recently added items in {{user.city}}</div>
         <div class="crops-container">
             <div class="crops" *ngFor="let crop of crops">
@@ -21,6 +21,23 @@
                 <div class="description">{{crop.description}}</div>
             </div>
         </div>
+    </div>
+
+</div>
+
+<div class="main-container-unauth" *ngIf="!loggedIn">
+    <div class="message-container">
+        <div class="message">
+            These Are Recently Added Crops To GrowBro...
+        </div>
+        <div class="message">
+            To View Stands and Crops In Your City, Login!
+        </div>
+    </div>
+    <div class="crops" *ngFor="let crop of recentlyAddedCrops">
+        <div class="price">{{crop.price}}</div>
+        <div class="image" [style.backgroundImage]="'url('+ crop.photo[0].link +')'"> </div>
+        <div class="description">{{crop.description}}</div>
     </div>
     
 </div>

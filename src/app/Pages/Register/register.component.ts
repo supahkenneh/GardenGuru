@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg} from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
@@ -34,7 +34,7 @@ export class RegisterComponent {
       photo: null
     };
   constructor(
-    private auth: AuthService, 
+    private auth: AuthServiceReg, 
     private router: Router,
     private backend: BackendService,
     private session: SessionService

@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { SessionService } from '../../Services/session.service';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 import { BackendService } from '../../Services/backend.service';
 import { Router } from '@angular/router';
 
@@ -44,7 +44,7 @@ export class SearchComponent {
 
   constructor(
     private session: SessionService,
-    private auth: AuthService,
+    private auth: AuthServiceReg,
     private backend: BackendService,
     private router: Router
   ) {

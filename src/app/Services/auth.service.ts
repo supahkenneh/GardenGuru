@@ -5,7 +5,7 @@ import { SessionService } from './session.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthServiceReg{
   constructor(
     private backend: BackendService,
     private session: SessionService

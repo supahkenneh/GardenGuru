@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   changingLocation: boolean = false;
   changingStandName: boolean = false;
   changingProfilePic: boolean = false;
-
+  isLoggedIn: boolean = false;
   cities: string[] = ['Aiea', 'Ewa Beach', 'Haleiwa', 'Hawaii Kai', 'Honolulu', 'Kaneohe', 'Kahala', 'Kailua', 'Kapolei', 'Manoa', 'Mililani', 'Nanakuli', 'Pearl City', 'Wahiawa', 'Waialua', 'Waimanalo', 'Waipahu']
   states: string[] = ['HI']
 
@@ -63,9 +63,11 @@ export class ProfileComponent implements OnInit {
     this.user = this.session.getSession();
     this.locationFormData = this.user;
     this.standFormData = this.user;
+    this.isLoggedIn = this.session.isLoggedIn()
   }
 
   ngOnInit() {
+    console.log(this.isLoggedIn)
     this.urlId = this.route.snapshot.paramMap.get('id');
     //check to see if user owns that profile
     if (this.urlId === `${this.user.id}`) {

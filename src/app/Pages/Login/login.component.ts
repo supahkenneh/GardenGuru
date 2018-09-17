@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg} from '../../Services/auth.service';
 import { Router } from '@angular/router';
 @Component({
   templateUrl: './login.component.html',
@@ -13,7 +13,7 @@ export class LoginComponent {
       username: '',
       password: ''
     };
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthServiceReg, private router: Router) { }
 
   login() {
     return this.auth

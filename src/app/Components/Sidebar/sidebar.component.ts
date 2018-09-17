@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { SessionService } from '../../Services/session.service';
-import { AuthService } from '../../Services/auth.service';
+import { AuthServiceReg} from '../../Services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,7 +21,7 @@ export class SidebarComponent {
     }
   }
 
-  constructor(private session: SessionService, private auth: AuthService) {
+  constructor(private session: SessionService, private auth: AuthServiceReg) {
     this.user = session.getSession();
   }
 
