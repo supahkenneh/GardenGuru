@@ -23,6 +23,7 @@ export class StandComponent implements OnInit {
   conversationId: boolean = false;
   messageSentPopUp = ''
   postingCrop: boolean = false;
+  isLoggedIn: boolean = false;
 
   //crop photo values
   cropPhotos: string[] = [];
@@ -74,9 +75,7 @@ export class StandComponent implements OnInit {
     if (event.target === document.getElementById('modal-container')) {
       this.showingGarden = !this.showingGarden;
     }
-
     if (event.target === document.getElementById('message-modal-container')) {
-      console.log('clicked')
       this.openMessage = !this.openMessage;
     }
     if (event.target === document.getElementById('add-modal-container')) {
@@ -95,7 +94,8 @@ export class StandComponent implements OnInit {
     router.events.subscribe(val => {
       this.ngOnInit();
     });
-    this.user = session.getSession();
+    this.user = this.session.getSession();
+    this.isLoggedIn = this.session.isLoggedIn();
   }
 
   sendMessage() {
@@ -103,7 +103,6 @@ export class StandComponent implements OnInit {
       this.openMessage = false;
       this.message.content = '';
       this.messageSentPopUp = 'Message Sent!';
-      console.log(this.messageSentPopUp);
     });
   }
 
@@ -177,10 +176,6 @@ export class StandComponent implements OnInit {
       .catch(err => console.log(err.message));
   }
 
-  isLoggedIn() {
-    return this.session.isLoggedIn;
-  }
-
   turnEditToFalse() {
     this.isEdit = false;
   }
@@ -250,9 +245,7 @@ export class StandComponent implements OnInit {
   }
 
   startConversation() {
-    console.log('openMessage')
     this.openMessage = !this.openMessage;
-    console.log(this.openMessage)
   }
 
   //photo functions
