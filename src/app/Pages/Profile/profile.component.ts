@@ -130,10 +130,23 @@ export class ProfileComponent implements OnInit {
   }
 
   showSettings() {
-    if (this.showingSettings) {
-      return this.showingSettings = false
+    if (this.showingSettings && this.changingLocation) {
+      return this.changingLocation = false;
+    } else if (this.showingSettings && this.changingPass) {
+      return this.changingPass = false;
+    } else if (this.showingSettings && this.changingProfilePic) {
+      return this.changingProfilePic = false;
+    } else if (this.showingSettings && this.changingStandName) {
+      return this.changingStandName = false;
+    } else if (this.showingSettings && (
+      !this.changingPass &&
+      !this.changingLocation &&
+      !this.changingProfilePic &&
+      !this.changingStandName
+    )) {
+      return this.showingSettings = false;
     } else {
-      this.showingSettings = true
+      return this.showingSettings = true
     }
   }
 

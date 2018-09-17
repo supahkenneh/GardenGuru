@@ -244,7 +244,6 @@ export class StandComponent implements OnInit {
     }
     this.backend.getPlants()
       .then(result => {
-        console.log(result);
         this.plants = result;
         return this.postingCrop = true;
       })
