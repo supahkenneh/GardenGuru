@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 @Component({
   templateUrl: './gardenCrop.component.html',
   styleUrls: ['./gardenCrop.component.scss']
@@ -139,11 +139,11 @@ export class GardenCropComponent implements OnInit {
   }
 
   editGardenCrop() {
+    //need to reset photosToDelete to prevent bug from unwanted photo removals
+    this.photosToDelete.length = 0;
     this.gardenEditing = true;
     this.gardenEditFormData.watering_interval = this.crop['watering_interval'];
-    this.gardenEditFormData.garden_description = this.crop[
-      'garden_description'
-    ];
+    this.gardenEditFormData.garden_description = this.crop['garden_description'];
   }
 
   submitGardenEdit() {
