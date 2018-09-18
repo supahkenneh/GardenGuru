@@ -52,8 +52,6 @@ export class CropComponent implements OnInit {
     return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
-        console.log(this.user);
-        console.log(this.crop['owner_id'])
         if (this.crop['owner_id'] === this.user.id) {
           this.correctUser = true;
         }

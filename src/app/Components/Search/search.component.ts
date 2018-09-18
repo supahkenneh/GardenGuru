@@ -33,12 +33,22 @@ export class SearchComponent {
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
+    let searchSidebar = document.getElementById('search-sidebar');
+    let searchIcon = document.getElementById('search-icon');
+    let searchImage = document.getElementById('search');
+    let searchForm = document.getElementById('search-form');
+    let formChildren = searchForm.childNodes;
+    let formChildrenList = Object.values(formChildren);
+
     if (
-      event.target !== document.getElementById('search-sidebar-container') &&
-      event.target.id !== 'search-sidebar' &&
-      document.getElementById('search-sidebar-container').className === 'active'
+      event.target !== searchIcon &&
+      searchSidebar.className === 'active' &&
+      event.target !== searchSidebar &&
+      event.target !== searchImage &&
+      event.target !== searchForm &&
+      !formChildrenList.includes(event.target)
     ) {
-      document.getElementById('search-sidebar').classList.toggle('active');
+      searchSidebar.classList.toggle('active');
     }
   }
 
@@ -61,7 +71,6 @@ export class SearchComponent {
 
   // Search methods goes below here
   searchCrop() {
-    console.log(this.cropSearchData);
     this.resultErrors.length = 0;
     return this.backend.search(this.cropSearchData)
       .then(response => {
@@ -69,7 +78,6 @@ export class SearchComponent {
           this.resultErrors.push('Nothing matched the input!');
           this.resultValid = false;
         } else {
-          console.log('searchCrop()', response);
           return this.backend.results(response)
         }
       })
@@ -89,7 +97,6 @@ export class SearchComponent {
       this.searchErrors.push('This field is required!');
       this.searchValid = false;
     } else {
-      // console.log(this.cropSearchData.searchInput)
       this.searchValid = true;
     }
   }

@@ -40,13 +40,13 @@ const upload = multer({
 
 router.get('/', (req, res) => {
   return Crop.query(function (qb) {
-    qb.orderBy('created_at', 'DESC')
+    qb.where('selling', '=', true);
+    qb.orderBy('created_at', 'DESC');
   })
-  .fetchAll({withRelated: ['plant', 'photo']})
-  .then(result=>{
-    console.log(result)
-    res.json(result)
-  })
+    .fetchAll({ withRelated: ['plant', 'photo'] })
+    .then(result => {
+      res.json(result)
+    })
 });
 
 router.post('/', upload.array('photo', 6), (req, res) => {
@@ -151,13 +151,13 @@ router.post('/search/:term', (req, res) => {
     if (category === 'My Garden' || category === 'My Stand') {
       res.send('You can only search through the marketplace. Please log in to search through your own crops!');
     } else if (category === 'Marketplace') {
-      return Crop 
+      return Crop
         .query(qb => {
           qb.innerJoin('users', 'crops.owner_id', 'users.id');
           qb.where('selling', '=', true)
             .andWhere('description', 'ILIKE', `${search}%`);
         })
-        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name']})
+        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name'] })
         .then(response => {
           if (err) {
             return res.send(err);

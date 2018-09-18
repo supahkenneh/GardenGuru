@@ -30,7 +30,6 @@ const upload = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-      console.log(file);
       cb(
         null,
         `${req.body.username}/avatar/${Date.now().toString()}-${file.originalname}`
@@ -127,7 +126,6 @@ router.post('/register', upload.single('photo'), (req, res) => {
       })
         .save()
         .then(result => {
-          console.log(result);
           res.json({ success: true });
         })
         .catch(err => {

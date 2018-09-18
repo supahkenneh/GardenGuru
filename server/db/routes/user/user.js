@@ -153,7 +153,6 @@ router.get('/conversations/:id', (req, res) => {
   })
     .fetchAll({ withRelated: ['to', 'from'] })
     .then(result => {
-      console.log('conversation', result);
       res.json(result);
     });
 });
@@ -194,21 +193,33 @@ router.get('/:id', (req, res) => {
 // Gets a user's stand
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
-  return Crop.where({ owner_id: id, selling: true })
-    .fetchAll({ withRelated: ['cropStatus', 'plant', 'photo'] })
-    .then(crops => {
-      if (crops.length < 1) {
-        return res.json({ message: `This user doesn't have a stand` });
-      } else {
-        return User.where({ id: crops.models[0].attributes.owner_id })
-          .fetch({ columns: ['stand_name', 'id', 'avatar_link'] })
-          .then(user => {
-            crops.models.map(crop => {
-              crop.attributes.user = user;
-            });
-            res.json(crops);
-          });
+  //first check if User has a stand
+  return User
+    .where({ id })
+    .fetch()
+    .then(user => {
+      if (!user.attributes.stand_name) {
+        return res.json({ message: `This user doesn't have a stand` })
       }
+    })
+    .then(response => {
+      return Crop
+        .where({ owner_id: id, selling: true })
+        .fetchAll({ withRelated: ['cropStatus', 'plant', 'photo'] })
+        .then(crops => {
+          if (crops.length < 1) {
+            return res.json({ message: `No items` });
+          } else {
+            return User.where({ id: crops.models[0].attributes.owner_id })
+              .fetch({ columns: ['stand_name', 'id', 'avatar_link'] })
+              .then(user => {
+                crops.models.map(crop => {
+                  crop.attributes.user = user;
+                });
+                return res.json(crops);
+              });
+          }
+        })
     })
     .catch(err => {
       console.log('error :', err);

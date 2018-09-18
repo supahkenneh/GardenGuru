@@ -26,6 +26,10 @@ export class StandComponent implements OnInit {
   isLoggedIn: boolean = false;
   placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
 
+  // delete confirmation
+  confirmDelete: boolean = false;
+  itemToDelete: string;
+
   //crop photo values
   cropPhotos: string[] = [];
   //holds photos to upload
@@ -84,8 +88,6 @@ export class StandComponent implements OnInit {
     }
   }
 
-
-
   constructor(
     private backend: BackendService,
     private router: Router,
@@ -109,6 +111,7 @@ export class StandComponent implements OnInit {
 
   ngOnInit() {
     this.messageSentPopUp = '';
+    this.itemToDelete = '';
     this.urlId = this.route.snapshot.paramMap.get('id');
     //checks to see if the page belongs to logged in user
     if (parseInt(this.urlId) === this.user.id) {
@@ -118,10 +121,12 @@ export class StandComponent implements OnInit {
     return this.backend.getStand(this.urlId)
       .then(result => {
         //if the user's stand doesn't exist/no stand
-        if (result['message'] && !this.user) {
+        if (result['message'] === `This user doesn't have a stand` && !this.user) {
           return this.hasStand = true;
-        } else if (result['message'] && this.correctUser) {
+        } else if (result['message'] === `This user doesn't have a stand` && this.correctUser) {
           return this.hasStand = false;
+        } else if (result['message'] === `No items`) {
+          return this.hasStand = true;
         } else {
           this.hasStand = true;
           this.standOwner = result[0].user;
@@ -222,10 +227,22 @@ export class StandComponent implements OnInit {
     });
   }
 
-  deleteCrop(id) {
-    this.backend.deleteCrop(id).then(result => {
-      this.ngOnInit();
-    });
+  deleteCrop() {
+    this.backend.deleteCrop(this.itemToDelete)
+      .then(result => {
+        this.ngOnInit();
+        this.confirmDelete = false;
+      });
+  }
+
+  toggleDeleteConfirmation(id) {
+    if (this.confirmDelete) {
+      this.itemToDelete = '';
+      return this.confirmDelete = false;
+    } else {
+      this.itemToDelete = id
+      return this.confirmDelete = true;
+    }
   }
 
   editUser() {

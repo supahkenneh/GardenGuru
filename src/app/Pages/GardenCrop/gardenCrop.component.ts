@@ -45,6 +45,8 @@ export class GardenCropComponent implements OnInit {
   photosToStand: File[] = [];
   selectedForStand: string[] = [];
 
+  // delete confirmation
+  confirmDelete: boolean = false;
 
   //form data
   gardenEditFormData: {
@@ -120,6 +122,14 @@ export class GardenCropComponent implements OnInit {
       this.editId = crop.id;
     }
     this.movingToStand = !this.movingToStand;
+  }
+
+  toggleDeleteConfirmation() {
+    if (this.confirmDelete) {
+      return this.confirmDelete = false;
+    } else {
+      return this.confirmDelete = true;
+    }
   }
 
   deleteCrop() {

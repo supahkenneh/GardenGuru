@@ -37,7 +37,7 @@ export class SidebarComponent {
     return this.auth
       .logout()
       .then(() => {
-        console.log('user logged out');
+        console.log('User successfully logged out');
       })
       .catch(err => {
         console.log(err.message);

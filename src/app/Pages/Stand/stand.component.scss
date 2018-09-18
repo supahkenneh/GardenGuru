@@ -72,6 +72,43 @@
         padding: 0;
         margin: 0;
       }
+      #delete-modal {
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        position: fixed;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding: 50px;
+        #delete-modal-content {
+          background: white;
+          margin: 50% auto;
+          border-radius: 5px;
+          padding: 15px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          div {
+            font-size: 22px;
+          }
+          .button-container {
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            margin: 15px auto;
+            button {
+              border: 1px solid #6BA368;
+              background: transparent;
+              padding: 10px;
+              border-radius: 5px;
+              font-size: 14px;
+              color: black;
+            }
+          }
+        }
+      }
     }
   }
   .post-stand-button {
@@ -285,6 +322,13 @@
           width: 100%;
           background: black;
           margin: 5px auto;
+        }
+        .secondary-header {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          font-size: 24px;
+          height: 40px;
         }
         .crop-container {
           background: whitesmoke;

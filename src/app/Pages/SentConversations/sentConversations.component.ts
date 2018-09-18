@@ -31,7 +31,6 @@ export class SentConversationsComponent implements OnInit {
   getSentConversations() {
     return this.backend.getSentConversations()
       .then(result => {
-        console.log(result);
         let resultsArr = Object.values(result);
         let cache = [];
         let filteredResult = [];
