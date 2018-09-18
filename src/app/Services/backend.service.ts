@@ -87,6 +87,7 @@ export class BackendService {
   }
 
   login(data) {
+    console.log('login backend', data)
     const loginUrl = this.url + 'login';
     return this.http.post(loginUrl, data).toPromise();
   }
