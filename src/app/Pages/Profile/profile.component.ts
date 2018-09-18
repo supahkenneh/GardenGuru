@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   isLoggedIn: boolean = false;
   cities: string[] = ['Aiea', 'Ewa Beach', 'Haleiwa', 'Hawaii Kai', 'Honolulu', 'Kaneohe', 'Kahala', 'Kailua', 'Kapolei', 'Manoa', 'Mililani', 'Nanakuli', 'Pearl City', 'Wahiawa', 'Waialua', 'Waimanalo', 'Waipahu']
   states: string[] = ['HI']
-
+  placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
 
   passwordFormData: {
     oldPass: string,
@@ -74,6 +74,9 @@ export class ProfileComponent implements OnInit {
     }
     return this.backend.getUserProfile(this.urlId)
       .then(user => {
+        if (!user['avatar_link']) {
+          user['avatar_link'] = this.placeholderImg
+        }
         this.profile = user;
       })
   }

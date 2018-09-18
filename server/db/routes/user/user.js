@@ -31,7 +31,7 @@ const upload = multer({
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
     },
-    key: function(req, file, cb) {
+    key: function (req, file, cb) {
       cb(
         null,
         `${req.user.username}/${Date.now().toString()}-${file.originalname}`
@@ -56,20 +56,32 @@ router.get('/', (req, res) => {
 });
 
 router.get('/conversations', (req, res) => {
-  return Message.query(function(qb) {
+  return Message.query(function (qb) {
     qb.where('from', '!=', req.user.id).distinct('from')
   })
-    .fetchAll({ withRelated: ['from'], columns: ['content'] })
+    .fetchAll({
+      withRelated: [{
+        'from': qb => {
+          qb.select('id', 'username')
+        }
+      }], columns: ['content']
+    })
     .then(result => {
       return res.json(result);
     });
 });
 
 router.get('/sentConversations', (req, res) => {
-  return Message.query(function(qb) {
+  return Message.query(function (qb) {
     qb.where('from', '=', req.user.id).distinct('to');
   })
-    .fetchAll({ withRelated: ['to'], columns: ['content'] })
+    .fetchAll({
+      withRelated: [{
+        'to': qb => {
+          qb.select('id', 'username')
+        }
+      }], columns: ['content']
+    })
     .then(result => {
       return res.json(result);
     });

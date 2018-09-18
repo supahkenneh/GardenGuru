@@ -19,8 +19,10 @@
       justify-content: center;
       select {
         width: 40%;
-        height: 20px;
+        // height: 20px;
         background: whitesmoke;
+        padding: 5px;
+        font-size: 14px;
       }
     }
     label {
@@ -40,8 +42,9 @@
       justify-content: center;
       select {
         width: 40%;
-        height: 20px;
         background: whitesmoke;
+        padding: 5px;
+        font-size: 14px;
       }
     }
     .date-container {
@@ -49,8 +52,10 @@
       width: 100%;
       justify-content: space-evenly;
       select {
-        width: 30%;
-        height: 20px;
+        width: 33%;
+        // height: 20px;
+        padding: 5px;
+        font-size: 12px;
         background: whitesmoke;
       }
     }

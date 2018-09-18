@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
 import { BackendService } from '../../Services/backend.service';
@@ -24,28 +24,24 @@ export class SentConversationsComponent implements OnInit {
     this.user = session.getSession();
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.getSentConversations()
   }
 
-  getSentConversations(){
-    return this.backend
-    .getSentConversations()
-    .then(result=>{
-      
-      let resultsArr = Object.values(result);
-      let cache = [];
-      let filteredResult = [];
-      for (let i =0; i < resultsArr.length; i++) {
-        if (!cache.includes(result[i].to.id)) {
-          cache.push(result[i].to.id);
-          filteredResult.push(result[i]);
-          console.log(filteredResult)
+  getSentConversations() {
+    return this.backend.getSentConversations()
+      .then(result => {
+        console.log(result);
+        let resultsArr = Object.values(result);
+        let cache = [];
+        let filteredResult = [];
+        for (let i = 0; i < resultsArr.length; i++) {
+          if (!cache.includes(result[i].to.id)) {
+            cache.push(result[i].to.id);
+            filteredResult.push(result[i]);
+          }
         }
-      }
-
-      this.sentConversations = filteredResult;
-      console.log(this.sentConversations)
-    })
+        this.sentConversations = filteredResult;
+      })
   }
 }
