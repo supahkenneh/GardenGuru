@@ -16,6 +16,7 @@ export class GardenCropComponent implements OnInit {
   movingToStand: boolean = false;
   editId;
   check: boolean = true;
+  correctUser: boolean = false;
 
   //view switchers
   gardenEditing: boolean = false;
@@ -89,6 +90,9 @@ export class GardenCropComponent implements OnInit {
     return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
+        if (this.crop['owner_id'] === this.user['id']) {
+          this.correctUser = true;
+        }
         //gets photo links to be displayed on page
         if (this.crop['photo'].length > 0) {
           this.crop['photo'].map(photo => {

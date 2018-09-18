@@ -26,7 +26,6 @@ export class MarketplaceComponent implements OnInit {
     if (this.loggedIn) {
       return this.backend.getMarketplace()
         .then(result => {
-          console.log('stands ', result);
           let resultArr = Object.values(result);
           resultArr.map(stand => {
             if (!stand.avatar_link) {
@@ -38,15 +37,19 @@ export class MarketplaceComponent implements OnInit {
         .then(() => {
           return this.backend.getMarketplaceCrops()
             .then(crops => {
-              console.log('crops ', crops)
               this.crops = crops;
             });
         });
     } else {
       return this.backend.getRecentCrops()
         .then(result => {
+          let resultArr = Object.values(result);
+          resultArr.map(crop => {
+            if (crop.photo.length > 0) {
+              crop.displayPic = crop.photo[0].link;
+            }
+          })
           this.recentlyAddedCrops = result
-          console.log(result)
         })
     }
   }

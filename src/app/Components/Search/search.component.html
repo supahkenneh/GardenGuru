@@ -5,7 +5,6 @@
       <select name="search-category" [(ngModel)]="cropSearchData.category">
         <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
       </select>
-
       <span>{{ getSearchErrors() }}</span>
       <div class="search-input">
         <input type="text" name="description" [(ngModel)]="cropSearchData.searchInput" (keyup)="validateSearch()">

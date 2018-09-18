@@ -19,7 +19,6 @@ router.get('/crops', (req, res) => {
   return Crop
     .query(qb => {
       qb.innerJoin('users', 'crops.owner_id', 'users.id');
-      // qb.innerJoin('photos', 'crops.id', 'photos.crop_id');
       qb.where('users.city', '=', req.user.city)
         .andWhere('crops.selling', '=', true)
     })

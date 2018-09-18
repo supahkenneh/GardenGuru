@@ -29,16 +29,19 @@
 
 <div class="main-container-unauth" *ngIf="!loggedIn">
     <div class="message-container">
+        <div class="message">Recently Added Crops</div>
         <div class="message">
-            These Are Recently Added Crops To GrowBro...
-        </div>
-        <div class="message">
-            To View Stands and Crops In Your City, Login!
+            Login to view stands/crops locally
         </div>
     </div>
     <div class="crops" *ngFor="let crop of recentlyAddedCrops">
-        <div class="price">{{crop.price}}</div>
-        <div class="image" [style.backgroundImage]="'url('+ crop.photo[0].link +')'"> </div>
         <div class="description">{{crop.description}}</div>
+        <div class="image-container">
+            <img src="{{crop.displayPic}}">
+        </div>
+        <div class="content-container">
+            <div class="price">Price: {{crop.price}}</div>
+            <div class="details">{{crop.details}}</div>
+        </div>
     </div>
 </div>
