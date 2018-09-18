@@ -3,8 +3,11 @@
   <div id="message-modal-content">
     <div class="enter-message-container">
       <form enctype="application/x-www-form-urlencoded">
-        <input type="" name="content" [(ngModel)]="message.content">
-        <button (click)="sendMessage()">send</button>
+        <div class="secondary-header">
+          <div>Message this Stand</div>
+        </div>
+        <textarea name="content" [(ngModel)]="message.content"></textarea>
+        <button (click)="sendMessage()">Send</button>
       </form>
     </div>
   </div>

@@ -388,24 +388,56 @@
   top: 0;
   height: 120%;
   width: 100%;
-  padding: 5px;
+  padding: 15px;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
   #message-modal-content {
-    margin: 10% auto;
+    margin: 60% auto;
     width: 100%;
-    background: white;
+    height: 250px;
+    background: whitesmoke;
     border-radius: 5px;
-    .form-container {
+    .enter-message-container {
       padding: 10px;
-      background: whitesmoke;
+      height: 100%;
       form {
         background: white;
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 100%;
+        height: 100%;
         padding: 15px;
         border-radius: 5px;
+        .secondary-header {
+          width: 100%;
+          text-align: center;
+          margin: 5px auto;
+          div {
+            font-size: 20px;
+          }
+        }
+        textarea {
+          height: 100%;
+          width: 100%;
+          border: 1px solid black;
+          border-radius: 5px;
+          padding: 5px;
+          font-size: 14px;
+          resize: none;
+          overflow: scroll;
+        }
+        button {
+          border: 1px solid black;
+          border-radius: 5px;
+          padding: 10px;
+          width: 100px;
+          height: 50px;
+          margin: 10px auto;
+          font-size: 16px;
+          background: transparent;
+          color: #6BA368;
+        }
       }
     }
   }
