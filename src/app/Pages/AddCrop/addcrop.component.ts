@@ -86,13 +86,13 @@ export class AddCropComponent implements OnInit {
       this.cropFormData.year = this.year;
     }
 
-    if (this.cropFormData.plant == '0') {
+    if (this.cropFormData.plant == 0) {
       this.plantError = true;
     }
     if (!this.cropFormData.garden_description) {
       this.gardenDescriptionError = true;
     }
-    if (this.cropFormData.watering == '0') {
+    if (this.cropFormData.watering == 0) {
       return this.wateringError = true;
     }
 

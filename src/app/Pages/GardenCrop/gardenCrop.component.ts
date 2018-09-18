@@ -17,6 +17,12 @@ export class GardenCropComponent implements OnInit {
   editId;
   check: boolean = true;
 
+  //error checkers
+  editGardenDescriptionError: boolean = false;
+  moveDescriptionError: boolean = false;
+  moveDetailsError: boolean = false;
+  moveInventoryError: boolean = false;
+
   //view switchers
   gardenEditing: boolean = false;
 
@@ -85,7 +91,6 @@ export class GardenCropComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('test', this.photosToDelete);
     this.cropId = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.cropId)
       .then(result => {
@@ -128,6 +133,20 @@ export class GardenCropComponent implements OnInit {
   }
 
   moveToStand() {
+    this.moveDescriptionError = false;
+    this.moveDetailsError = false;
+    this.moveInventoryError = false;
+
+    if (this.moveFormData.description.length < 1) {
+      this.moveDescriptionError = true;
+    }
+    if (this.moveFormData.details.length < 1) {
+      this.moveDetailsError = true;
+    }
+    if (this.moveFormData.inventory.length < 1) {
+      return this.moveInventoryError = true;
+    }
+
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend.moveToStand(this.cropId, this.moveFormData)
@@ -140,6 +159,7 @@ export class GardenCropComponent implements OnInit {
   }
 
   editGardenCrop() {
+    this.photosToDelete.length = 0;
     this.gardenEditing = true;
     this.gardenEditFormData.watering_interval = this.crop['watering_interval'];
     this.gardenEditFormData.garden_description = this.crop[
@@ -148,6 +168,11 @@ export class GardenCropComponent implements OnInit {
   }
 
   submitGardenEdit() {
+    this.editGardenDescriptionError = false;
+
+    if (this.gardenEditFormData.garden_description.length < 1) {
+      return this.editGardenDescriptionError = true;
+    }
     //if watering interval was changed, then update new watering date
     if (this.newWaterDate) {
       this.gardenEditFormData['newWaterDate'] = this.newWaterDate;
