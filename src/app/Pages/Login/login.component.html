@@ -5,13 +5,11 @@
     </div>
     <label for="username">Username</label>
     <input type="text" name="username" placeholder="Username" [(ngModel)]="loginFormData.username">
-    <span class="focus-input100" id="username-span" data-placeholder="Username" *ngIf="!loginFormData.username"></span>
 
     <label for="password">Password</label>
     <input type="password" name="password" placeholder="Password" [(ngModel)]="loginFormData.password">
 
-    <span *ngIf="loginError" style="color:red" class="focus-input100-errorMessage">The username / password combination
-      you entered was incorrect.</span>
+    <span *ngIf="loginError" style="color:red">The username / password combination you entered was incorrect.</span>
 
     <button class="btn" (click)="login()">Login</button>
     <a href="/api/oauth/facebook">Log In with Facebook</a>

@@ -6,14 +6,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  usernameFilled: boolean = false;
-  passwordFilled: boolean = false;
-
-  usernameValid: boolean = false;
-  passwordValid: boolean = false;
-
-  usernameError: string;
-  passwordError: string;
   loginError: boolean = false;
 
   loginFormData: {

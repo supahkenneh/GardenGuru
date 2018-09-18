@@ -85,6 +85,7 @@ export class GardenCropComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('test', this.photosToDelete);
     this.cropId = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.cropId)
       .then(result => {

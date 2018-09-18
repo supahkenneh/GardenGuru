@@ -79,7 +79,7 @@ passport.use(
             message: 'Invalid Username and/or Password'
           });
         } else {
-          user = user.json();
+          user = user.toJSON();
           bcrypt.compare(password, user.password).then(samePassword => {
             if (samePassword) {
               return done(null, user);
