@@ -142,6 +142,15 @@ export class GardenCropComponent implements OnInit {
     this.moveGeneralError = false;
     this.moveFormData.inventory = Number(this.moveFormData.inventory);
 
+    // Replaces bad data
+    if (!this.moveFormData.inventory) {
+      this.moveFormData.inventory = 0;
+    }
+    if (this.moveFormData.price === '') {
+      this.moveFormData.price = 'Message me for more details!'
+    }
+
+    // Barrier check for separate errors
     if (this.moveFormData.details.length < 1) {
       this.moveDetailsError = true;
     }
@@ -152,6 +161,7 @@ export class GardenCropComponent implements OnInit {
       this.moveDescriptionError = true;
     }
 
+    // Barrier check against all errors
     if (this.moveDetailsError || this.moveInventoryError || this.moveDescriptionError) {
       return this.moveGeneralError = true;
     }
@@ -163,7 +173,7 @@ export class GardenCropComponent implements OnInit {
         this.router.navigate([`/user/${this.user['id']}/stand`])
       })
       .catch(err => {
-        console.log(err.message);
+        console.log('Error :', err.message);
       });
   }
 

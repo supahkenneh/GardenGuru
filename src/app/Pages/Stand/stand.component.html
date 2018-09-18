@@ -77,7 +77,7 @@
             <div class="choice-title">Keep plant in garden?</div>
             <div class="check-true" *ngIf="check" (click)="toggleCheck()">Yes</div>
             <div class="check-false" *ngIf="!check" (click)="toggleCheck()">No</div>
-            <label for="stand_name">Description</label>
+            <label for="stand_name">Descriptionx</label>
             <input maxlength="25" type="text" name="description" [(ngModel)]="moveFormData.description">
             <label for="price">Price</label>
             <input maxlength="25" type="text" name="price" [(ngModel)]="moveFormData.price">
@@ -149,14 +149,18 @@
             <option *ngFor="let plant of plants" value="{{plant.id}}">{{plant.name}}</option>
           </select>
         </div>
+        <span class="add-to-stand-error" *ngIf="plantError" style="color:red">Please select a plant category.</span>
         <label for="description">Description</label>
         <input type="text" name="description" [(ngModel)]="postFormData.description">
+        <span class="add-to-stand-error" *ngIf="descriptionError" style="color:red">This field is required.</span>
         <label for="price">Price</label>
         <input type="text" name="price" [(ngModel)]="postFormData.price">
         <label for="inventory">Inventory</label>
         <input type="number" name="inventory" [(ngModel)]="postFormData.inventory">
+        <span class="add-to-stand-error" *ngIf="inventoryError" style="color:red">This field only allows numbers that are higher than zero.</span>
         <label for="details">Details</label>
         <textarea name="details" [(ngModel)]="postFormData.details"></textarea>
+        <span class="add-to-stand-error" *ngIf="detailsError" style="color:red">This field is required.</span>
         <div class="image-upload">
           <label for="photos">Upload Photos</label>
           <input type="file" name="photo" accept=".jpg, .jpeg, .png" (change)="updatePhotoList($event)">

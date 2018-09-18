@@ -24,6 +24,13 @@ export class StandComponent implements OnInit {
   messageSentPopUp = ''
   postingCrop: boolean = false;
 
+  // error checks
+  postCropError: boolean = false;
+  plantError: boolean = false;
+  descriptionError: boolean = false;
+  inventoryError: boolean = false;
+  detailsError: boolean = false;
+
   //crop photo values
   cropPhotos: string[] = [];
   //holds photos to upload
@@ -62,7 +69,7 @@ export class StandComponent implements OnInit {
       plant: 0,
       description: '',
       price: '',
-      inventory: null,
+      inventory: 0,
       details: '',
       photos: []
     }
@@ -146,6 +153,39 @@ export class StandComponent implements OnInit {
   }
 
   addToStand() {
+    this.plantError = false;
+    this.descriptionError = false;
+    this.inventoryError = false;
+    this.detailsError = false;
+    this.postCropError = false;
+
+    // Replaces bad data
+    if (!this.postFormData.inventory || typeof this.postFormData.inventory !== 'number') {
+      this.postFormData.inventory = 0;
+    }
+    if (!this.postFormData.price) {
+      this.postFormData.price = 'Message me for more details!';
+    }
+
+    // Barrier check for separate errors
+    if (this.postFormData.plant == 0) {
+      this.plantError = true;
+    }
+    if (!this.postFormData.description) {
+      this.descriptionError = true;
+    }
+    if (!this.postFormData.inventory) {
+      this.inventoryError = true;
+    }
+    if (!this.postFormData.details) {
+      this.detailsError = true;
+    }
+
+    // Barrier check against all errors
+    if (this.plantError || this.descriptionError || this.inventoryError || this.detailsError) {
+      return this.postCropError = true;
+    }
+
     return this.backend.postDirectlyToStand(this.postFormData)
       .then(result => {
         this.showPostForm();
