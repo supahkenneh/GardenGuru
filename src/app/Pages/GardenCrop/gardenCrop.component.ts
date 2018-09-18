@@ -66,7 +66,7 @@ export class GardenCropComponent implements OnInit {
     description: '',
     details: '',
     price: '',
-    inventory: '',
+    inventory: 0,
     check: this.check
   };
 
@@ -140,21 +140,19 @@ export class GardenCropComponent implements OnInit {
     this.moveInventoryError = false;
     this.moveInventoryDataError = false;
     this.moveGeneralError = false;
+    this.moveFormData.inventory = Number(this.moveFormData.inventory);
 
     if (this.moveFormData.details.length < 1) {
       this.moveDetailsError = true;
     }
-    if (this.moveFormData.inventory.length < 1) {
+    if (this.moveFormData.inventory < 1) {
       this.moveInventoryError = true;
     }
     if (this.moveFormData.description.length < 1) {
       this.moveDescriptionError = true;
     }
-    if (this.moveFormData.inventory < 1 || typeof this.moveFormData.inventory !== 'number') {
-      this.moveInventoryDataError = true;
-    }
 
-    if (this.moveDetailsError || this.moveInventoryError || this.moveInventoryDataError || this.moveDescriptionError) {
+    if (this.moveDetailsError || this.moveInventoryError || this.moveDescriptionError) {
       return this.moveGeneralError = true;
     }
     

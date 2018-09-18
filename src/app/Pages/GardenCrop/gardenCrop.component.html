@@ -69,8 +69,7 @@
       <span class="garden-crop-error" *ngIf="moveDetailsError" style="color:red">This field is required.</span>
       <label for="inventory">Inventory</label>
       <input maxlength="25" type="text" name="inventory" [(ngModel)]="moveFormData.inventory">
-      <span class="garden-crop-error" *ngIf="moveInventoryError" style="color:red">This field is required.</span>
-      <span class="garden-crop-error" *ngIf="moveInventoryDataError" style="color:red">This field only takes numbers larger then zero.</span>
+      <span class="garden-crop-error" *ngIf="moveInventoryError" style="color:red">This field only takes numbers larger then zero.</span>
       <div class="img-selection">
         <div>Select Photos from Garden</div>
         <div class="garden-photos">
