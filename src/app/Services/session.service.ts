@@ -42,7 +42,7 @@ export class SessionService {
       if (oauthUserString) {
         console.log('oauthuserstin', oauthUserString)
         this.oauthUser = JSON.parse(oauthUserString);
-        console.log(this.oauthUser)
+        console.log('this.oauth',this.oauthUser)
       }
     } catch (err) {
       console.log('could not parse user');
@@ -72,7 +72,7 @@ export class SessionService {
 
   setSession(data) {
     console.log('session', data);
-    if (data.provider && data.provider === 'facebook') {
+    if (data.id > 10000000) {
       this.oauthUser.id = data.id;
       this.oauthUser.loggedIn = true;
       this.oauthUser.email = data.email;

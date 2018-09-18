@@ -31,14 +31,14 @@ passport.use(
 
 router.get(
   '/facebook',
-  passport.authenticate('facebook', { scope: 'user_location' })
+  passport.authenticate('facebook')
 );
 
 router.get(
   '/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
-    // res.redirect('/marketprlace');
+    res.redirect('/marketplace');
     console.log('success')
   }
 );

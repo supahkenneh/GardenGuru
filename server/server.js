@@ -7,11 +7,12 @@ const passport = require('passport');
 const PORT = process.env.PORT || 8008;
 const server = express();
 const routes = require('./db/routes');
-
+const cors = require('cors')
 // server.use(express.static('public/'))
 
 server.use(bodyparser.json());
 server.use(bodyparser.urlencoded({ extended: true }));
+server.use(cors())
 server.use((req, res, next) => {
   next()
 });
