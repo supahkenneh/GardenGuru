@@ -22,6 +22,8 @@ export class GardenCropComponent implements OnInit {
   moveDescriptionError: boolean = false;
   moveDetailsError: boolean = false;
   moveInventoryError: boolean = false;
+  moveInventoryDataError: boolean = false;
+  moveGeneralError: boolean = false;
 
   //view switchers
   gardenEditing: boolean = false;
@@ -136,17 +138,26 @@ export class GardenCropComponent implements OnInit {
     this.moveDescriptionError = false;
     this.moveDetailsError = false;
     this.moveInventoryError = false;
+    this.moveInventoryDataError = false;
+    this.moveGeneralError = false;
 
-    if (this.moveFormData.description.length < 1) {
-      this.moveDescriptionError = true;
-    }
     if (this.moveFormData.details.length < 1) {
       this.moveDetailsError = true;
     }
     if (this.moveFormData.inventory.length < 1) {
-      return this.moveInventoryError = true;
+      this.moveInventoryError = true;
+    }
+    if (this.moveFormData.description.length < 1) {
+      this.moveDescriptionError = true;
+    }
+    if (this.moveFormData.inventory < 1 || typeof this.moveFormData.inventory !== 'number') {
+      this.moveInventoryDataError = true;
     }
 
+    if (this.moveDetailsError || this.moveInventoryError || this.moveInventoryDataError || this.moveDescriptionError) {
+      return this.moveGeneralError = true;
+    }
+    
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend.moveToStand(this.cropId, this.moveFormData)

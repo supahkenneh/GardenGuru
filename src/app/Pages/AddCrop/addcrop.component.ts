@@ -11,6 +11,7 @@ export class AddCropComponent implements OnInit {
   plantError: boolean = false;
   wateringError: boolean = false;
   gardenDescriptionError: boolean = false;
+  generalError: boolean = false;
 
   user: object;
   loggedIn: boolean = false;
@@ -75,6 +76,7 @@ export class AddCropComponent implements OnInit {
     this.plantError = false;
     this.gardenDescriptionError = false;
     this.wateringError = false;
+    this.generalError = false;
 
     if (!this.cropFormData.month) {
       this.cropFormData.month = this.months[Number(this.month) - 1];
@@ -93,7 +95,11 @@ export class AddCropComponent implements OnInit {
       this.gardenDescriptionError = true;
     }
     if (this.cropFormData.watering == 0) {
-      return this.wateringError = true;
+      this.wateringError = true;
+    }
+
+    if (this.plantError || this.gardenDescriptionError || this.wateringError) {
+      return this.generalError = false;
     }
 
     return this.backend.addCrop(this.cropFormData)
