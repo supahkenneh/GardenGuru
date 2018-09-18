@@ -33,7 +33,7 @@
         <path d='M12.238 5.472L3.2 14.51l-.591 2.016 1.975-.571 9.068-9.068-1.414-1.415zM13.78 3.93l1.414 1.414 1.318-1.318a.5.5 0 0 0 0-.707l-.708-.707a.5.5 0 0 0-.707 0L13.781 3.93zm3.439-2.732l.707.707a2.5 2.5 0 0 1 0 3.535L5.634 17.733l-4.22 1.22a1 1 0 0 1-1.237-1.241l1.248-4.255 12.26-12.26a2.5 2.5 0 0 1 3.535 0z'
         /></svg>
     </button>
-    <button class="delete-button" (click)="deleteCrop()" *ngIf="correctUser">
+    <button class="delete-button" (click)="toggleDeleteConfirmation()" *ngIf="correctUser">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-close">
         <path d='M7.314 5.9l3.535-3.536A1 1 0 1 0 9.435.95L5.899 4.485 2.364.95A1 1 0 1 0 .95 2.364l3.535 3.535L.95 9.435a1 1 0 1 0 1.414 1.414l3.535-3.535 3.536 3.535a1 1 0 1 0 1.414-1.414L7.314 5.899z'
         /></svg>
@@ -98,3 +98,13 @@
     </div>
   </form>
 </div>
+
+<div id="delete-modal" *ngIf="confirmDelete">
+    <div id="delete-modal-content">
+      <div>Confirm Delete</div>
+      <div class="button-container">
+        <button (click)="deleteCrop()">Delete</button>
+        <button (click)="toggleDeleteConfirmation()">Cancel</button>
+      </div>
+    </div>
+  </div>

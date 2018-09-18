@@ -36,6 +36,9 @@ export class CropComponent implements OnInit {
       details: ''
     }
 
+  //delete stuff
+  confirmDelete: boolean = false;
+
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -72,6 +75,14 @@ export class CropComponent implements OnInit {
       .then(result => {
         return this.router.navigate([`/user/${this.crop['owner_id']}/stand`])
       })
+  }
+
+  toggleDeleteConfirmation(id) {
+    if (this.confirmDelete) {
+      return this.confirmDelete = false;
+    } else {
+      return this.confirmDelete = true;
+    }
   }
 
   editCrop() {
