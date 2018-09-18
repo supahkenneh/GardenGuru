@@ -61,6 +61,7 @@ export class SearchComponent {
 
   // Search methods goes below here
   searchCrop() {
+    console.log(this.cropSearchData);
     this.resultErrors.length = 0;
     return this.backend.search(this.cropSearchData)
       .then(response => {

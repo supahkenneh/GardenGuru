@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   height: 8vh;
   align-items: center;
-  box-shadow: 1px 1px 5px gray;
+  box-shadow: 0 3px 5px -5px gray;
 }
 
 .title {
@@ -20,6 +20,12 @@
 
 .magnifier {
   flex: 1;
+}
+
+#search {
+  height: 28px;
+  width: 28px;
+  margin-right: 15px;
 }
 
 .magnifier img {

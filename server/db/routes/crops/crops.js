@@ -187,6 +187,7 @@ router.post('/search/:term', (req, res) => {
         })
         .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name'] })
         .then(response => {
+          console.log(response);
           if (response.length < 1) {
             return res.send('Nobody here but us chickens!');
           } else {
@@ -218,7 +219,7 @@ router.post('/search/:term', (req, res) => {
     } else if (category === 'My Garden') {
       return Crop
         .query(qb => {
-          qb.where('description', 'ILIKE', `${search}%`)
+          qb.where('garden_description', 'ILIKE', `${search}%`)
             .andWhere('crop_status', '=', 1)
             .andWhere('selling', '=', false)
             .andWhere('owner_id', '=', req.user.id);
