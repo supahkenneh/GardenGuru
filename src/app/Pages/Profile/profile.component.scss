@@ -128,17 +128,16 @@
       justify-content: space-around;
       position: fixed;
       bottom: 80px;
-      .submit-button, .cancel-button {
+      padding: auto 30px;
+      .submit-button, .cancel-button{
         border-radius: 50%;
         width: 50px;
         height: 50px;
         padding: 10px;
-        display: flex;
-        justify-content: center;
         background: #6BA368;
-      }
+      } 
     }
-    .cancel-button {
+    .hide-settings-button {
       position: fixed;
       bottom: 80px;
       right: 160px;
