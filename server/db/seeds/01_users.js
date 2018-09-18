@@ -28,7 +28,8 @@ exports.seed = function(knex, Promise) {
           bio: `Helping my parents sell their veggies.`,
           city: 'Honolulu',
           state: 'HI',
-          stand_name: "Joseph's Stand"
+          stand_name: "Joseph's Stand",
+          avatar_link: 'https://s3-eu-west-1.amazonaws.com/video.gallereplay.com/production/user_49/picture_2702201752636.jpg'
         },
         {
           username: 'alex12',
@@ -56,7 +57,7 @@ exports.seed = function(knex, Promise) {
           city: 'Honolulu',
           state: 'HI',
           stand_name: `Harry's Herbs`,
-          avatar_link: ''
+          avatar_link: 'https://pbs.twimg.com/profile_images/687720377032806400/77rcqBG7_400x400.jpg'
         },
         {
           username: 'mint',
@@ -69,7 +70,8 @@ exports.seed = function(knex, Promise) {
           bio: 'My plants are mint condition!',
           city: 'Aiea',
           state: 'HI',
-          stand_name: 'Mint to be'
+          stand_name: 'Mint to be',
+          avatar_link: 'https://media.istockphoto.com/photos/pretty-asian-woman-standing-outdoors-picture-id489776304?k=6&m=489776304&s=612x612&w=0&h=GSJaepoaEoZUpeqCufkUY83bRwm_r3RPq7x8qWOGs_I='
         },
         {
           username: 'aiea1',
@@ -82,7 +84,8 @@ exports.seed = function(knex, Promise) {
           bio: `Hi! I love gardening!`,
           city: 'Aiea',
           state: 'HI',
-          stand_name: `Mandy's Market`
+          stand_name: `Mandy's Market`,
+          avatar_link: 'https://pbs.twimg.com/profile_images/780905013283479552/ldu_bznx_400x400.jpg'
         }
       ]);
     });
