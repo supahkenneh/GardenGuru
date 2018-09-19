@@ -61,12 +61,15 @@
       </div>
       <label for="description">Description</label>
       <input maxlength="25" type="text" name="description" [(ngModel)]="moveFormData.description">
+      <span class="garden-crop-error" *ngIf="moveDescriptionError" style="color:red">This field is required.</span>
       <label for="price">Price</label>
       <input maxlength="25" type="text" name="price" [(ngModel)]="moveFormData.price">
       <label for="details">Details</label>
       <textarea name="details" [(ngModel)]="moveFormData.details"></textarea>
+      <span class="garden-crop-error" *ngIf="moveDetailsError" style="color:red">This field is required.</span>
       <label for="inventory">Inventory</label>
       <input maxlength="25" type="text" name="inventory" [(ngModel)]="moveFormData.inventory">
+      <span class="garden-crop-error" *ngIf="moveInventoryError" style="color:red">This field only takes numbers larger then zero.</span>
       <div class="img-selection">
         <div>Select Photos from Garden</div>
         <div class="garden-photos">
@@ -124,6 +127,9 @@
     <div class="editing-body">
       <label for="garden_description">Change Description</label>
       <input type="text" name="garden_description" [(ngModel)]="gardenEditFormData.garden_description">
+
+      <span class="garden-crop-error" *ngIf="editGardenDescriptionError" style="color:red">This field is required.</span>
+
       <label for="watering_interval">Change Watering Interval</label>
       <select name="watering_interval" [(ngModel)]="gardenEditFormData.watering_interval" (change)="recalculateDate(date, gardenEditFormData.watering_interval)">
         <option value="0">Select Interval</option>

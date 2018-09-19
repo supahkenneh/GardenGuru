@@ -8,6 +8,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./addcrop.component.scss']
 })
 export class AddCropComponent implements OnInit {
+  plantError: boolean = false;
+  wateringError: boolean = false;
+  gardenDescriptionError: boolean = false;
+  generalError: boolean = false;
+
   user: object;
   loggedIn: boolean = false;
   year: any;
@@ -77,26 +82,51 @@ export class AddCropComponent implements OnInit {
   }
 
   addCrop() {
+    this.plantError = false;
+    this.gardenDescriptionError = false;
+    this.wateringError = false;
+    this.generalError = false;
+
+    if (!this.cropFormData.month) {
+      this.cropFormData.month = this.months[Number(this.month) - 1];
+    }
+    if (!this.cropFormData.day) {
+      this.cropFormData.day = this.day;
+    }
+    if (!this.cropFormData.year) {
+      this.cropFormData.year = this.year;
+    }
+
+    if (this.cropFormData.plant == 0) {
+      this.plantError = true;
+    }
+    if (!this.cropFormData.garden_description) {
+      this.gardenDescriptionError = true;
+    }
+    if (this.cropFormData.watering == 0) {
+      this.wateringError = true;
+    }
+
+    if (this.plantError || this.gardenDescriptionError || this.wateringError) {
+      return this.generalError = true;
+    }
+
     let plantArr = Object.values(this.plants);
     plantArr.map(plant => {
       if (plant['name'] === this.cropFormData.plant) {
         this.cropFormData.plant = plant['id']
       }
     })
-    console.log(this.cropFormData);
     return this.backend.addCrop(this.cropFormData)
       .then(result => {
         return this.router.navigate(['/garden'])
       })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   showPlantInfo() {
-    // let id = this.cropFormData.plant
-    // this.plants.map(plant => {
-    //   if (Number(id) === plant.id) {
-    //     return this.plantDescription = plant.description;
-    //   }
-    // })
     let plantArr = Object.values(this.plants);
     plantArr.map(plant => {
       if (plant['name'] === this.cropFormData.plant) {

@@ -69,16 +69,40 @@ export class SearchComponent {
     document.getElementById('search-sidebar').classList.toggle('active');
   }
 
-  // Search methods goes below here
   searchCrop() {
     this.resultErrors.length = 0;
     return this.backend.search(this.cropSearchData)
       .then(response => {
-        if (!response) {
-          this.resultErrors.push('Nothing matched the input!');
-          this.resultValid = false;
+        if (!this.session.getSession().loggedIn) {
+          if (!response) {
+            if (this.cropSearchData.category === 'Marketplace') {
+              this.resultErrors.push('No crops matching the description were found!');
+              this.resultValid = false;
+            } else if (this.cropSearchData.category === 'My Stand' || this.cropSearchData.category === 'My Garden') {
+              this.resultErrors.push('Please log in to properly search through your own crops!');
+              this.resultValid = false;
+            } else {
+              this.resultErrors.push('There was an error processing your request.');
+              this.resultValid = false;
+            }
+          } else {
+            return this.backend.results(response);
+          }
         } else {
-          return this.backend.results(response)
+          if (!response) { //x
+            if (this.cropSearchData.category === 'Marketplace') {
+              this.resultErrors.push('No crops matching the description were found in your area!');
+              this.resultValid = false;
+            } else if (this.cropSearchData.category === 'My Stand') {
+              this.resultErrors.push('No crops matching the description were found in your stand!');
+              this.resultValid = false;
+            } else if (this.cropSearchData.category === 'My Garden') {
+              this.resultErrors.push('No crops matching the description were found in your garden!');
+              this.resultValid = false;
+            }
+          } else {
+            return this.backend.results(response);
+          }
         }
       })
       .then(response => {

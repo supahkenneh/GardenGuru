@@ -4,16 +4,21 @@
       <div>Register</div>
     </div>
     <label for="username">Username</label>
-    <input type="text" name="username" [(ngModel)]="registerFormData.username">
+    <input placeholder="5 to 16 character limit" maxlength="16" type="text" name="username" [(ngModel)]="registerFormData.username">
+    <span class="addCrop-error" *ngIf="error" style="color:red">Username already exists.</span>
+    <!-- <span class="addCrop-error" *ngIf="usernameError" style="color:red">Username must be at least five characters long.</span> -->
     <label for="password">Password</label>
-    <input type="password" name="password" [(ngModel)]="registerFormData.password">
+    <input placeholder="5 to 16 character limit" maxlength="16" type="password" name="password" [(ngModel)]="registerFormData.password">
+    <!-- <span class="addCrop-error" *ngIf="passwordError" style="color:red">Password must be at least five characters long.</span> -->
     <label for="name">Name</label>
     <div class="name-container">
       <input type="first_name" name="first_name" placeholder="First" [(ngModel)]="registerFormData.first_name">
       <input type="last_name" name="last_name" placeholder="Last" [(ngModel)]="registerFormData.last_name">
+      <!-- <span class="addCrop-error" *ngIf="realNameError" style="color:red">Both fields are required.</span> -->
     </div>
     <label for="email">Email</label>
     <input type="text" name="email" [(ngModel)]="registerFormData.email">
+    <!-- <span class="addCrop-error" *ngIf="emailError" style="color:red">This field is required.</span> -->
     <label for="location">Location</label>
     <div class="location-container">
       <select name="city" [(ngModel)]="registerFormData.city">
@@ -26,6 +31,7 @@
       </select>
     </div>
     <div class="avatar-upload">
+      <span class="addCrop-error" *ngIf="generalRegisterError" style="color:red">Please fill in all the above fields.</span>
       <label for="photo">Upload A Profile Pic</label>
       <input type="file" name="photo" accept=".jpg, .jpeg, .png" (change)="getPhotoFile($event)">
     </div>

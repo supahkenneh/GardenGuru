@@ -50,6 +50,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', upload.array('photo', 6), (req, res) => {
+  let error;
   let id = req.user.id;
   let { plant, watering, month, day, year, garden_description } = req.body;
   //YYYY-MM-DD
@@ -63,42 +64,53 @@ router.post('/', upload.array('photo', 6), (req, res) => {
     .local()
     .format('YYYY-MM-DD HH:mm:ss');
   //getting harvest date to be saved in the crop
-  return Plant
-    .where({ id: plant })
-    .fetchAll()
-    .then(plant => {
-      let harvestDays = plant.models[0].attributes.days_to_harvest;
-      let harvest_date = moment(date).add(harvestDays, 'd');
-      return harvest_date;
-    })
-    .then(harvest_date => {
-      return new Crop({
-        plant_id: plant,
-        watering_interval: watering,
-        watering_date: convertedWateringDate,
-        planted_on: date,
-        garden_description,
-        description: '',
-        crop_status: 1,
-        owner_id: id,
-        garden_description,
-        harvest_date
+  if (
+    !req.body.plant ||
+    !req.body.watering ||
+    !req.body.month ||
+    !req.body.day ||
+    !req.body.year ||
+    !req.body.garden_description
+  ) {
+    return res.send('An error occurred while trying to post a new crop.');
+  } else {
+    return Plant
+      .where({ id: plant })
+      .fetchAll()
+      .then(plant => {
+        let harvestDays = plant.models[0].attributes.days_to_harvest;
+        let harvest_date = moment(date).add(harvestDays, 'd');
+        return harvest_date;
       })
-        .save()
-        .then(newCrop => {
-          if (req.files.length === 0) {
-            return res.json(newCrop);
-          }
-          let promises = req.files.map(file => {
-            return new Photo({
-              crop_id: newCrop.id,
-              link: file.location
-            }).save();
+      .then(harvest_date => {
+        return new Crop({
+          plant_id: plant,
+          watering_interval: watering,
+          watering_date: convertedWateringDate,
+          planted_on: date,
+          garden_description,
+          description: '',
+          crop_status: 1,
+          owner_id: id,
+          garden_description,
+          harvest_date
+        })
+          .save()
+          .then(newCrop => {
+            if (req.files.length === 0) {
+              return res.json(newCrop);
+            }
+            let promises = req.files.map(file => {
+              return new Photo({
+                crop_id: newCrop.id,
+                link: file.location
+              }).save();
+            });
+            Promise.all(promises).then(() => res.json(newCrop));
           });
-          Promise.all(promises).then(() => res.json(newCrop));
-        });
-    })
-    .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
+  }
 });
 
 router.post('/stand', upload.array('photo', 6), (req, res) => {

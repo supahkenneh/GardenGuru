@@ -91,6 +91,11 @@ export class BackendService {
     return this.http.post(loginUrl, data).toPromise();
   }
 
+  checkValidRegistration(data) {
+    const validateRegistrationUrl = this.url + 'validate';
+    return this.http.post(validateRegistrationUrl, data).toPromise();
+  }
+
   register(data) {
     const form = new FormData();
 

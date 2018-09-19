@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
@@ -10,6 +10,16 @@ import { SessionService } from '../../Services/session.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  // error catchers
+  generalRegisterError: boolean = false;
+  usernameError: boolean = false;
+  takenUsername: boolean = false;
+  passwordError: boolean = false;
+  realNameError: boolean = false;
+  emailError: boolean = false;
+  takenEmail: boolean = false;
+  locationError: boolean = false;
+  error: boolean = false;
 
   cities: string[] = ['Aiea', 'Ewa Beach', 'Haleiwa', 'Hawaii Kai', 'Honolulu', 'Kaneohe', 'Kahala', 'Kailua', 'Kapolei', 'Manoa', 'Mililani', 'Nanakuli', 'Pearl City', 'Wahiawa', 'Waialua', 'Waimanalo', 'Waipahu']
   states: string[] = ['HI']
@@ -34,19 +44,53 @@ export class RegisterComponent {
       photo: null
     };
   constructor(
-    private auth: AuthServiceReg, 
+    private auth: AuthServiceReg,
     private router: Router,
     private backend: BackendService,
     private session: SessionService
   ) { }
 
   register() {
+    this.generalRegisterError = false;
+    this.usernameError = false;
+    this.passwordError = false;
+    this.realNameError = false;
+    this.emailError = false;
+    this.locationError = false;
+    this.error = false;
+
+    if (this.registerFormData.username.length < 5) {
+      this.usernameError = true;
+    }
+    if (this.registerFormData.password.length < 5) {
+      this.passwordError = true;
+    }
+    if (this.registerFormData.first_name.length < 2 || this.registerFormData.last_name.length < 2) {
+      this.realNameError = true;
+    }
+    if (!this.registerFormData.email) {
+      this.emailError = true;
+    }
+    if (!this.registerFormData.city || !this.registerFormData.state) {
+      this.locationError = true;
+    }
+
+    if (
+      this.usernameError ||
+      this.passwordError ||
+      this.realNameError ||
+      this.emailError ||
+      this.locationError
+    ) {
+      return this.generalRegisterError = true;
+    }
+
     return this.auth.register(this.registerFormData)
       .then(result => {
         if (result['success']) {
-          return result;
+          return result
+          //error handling here for failed registration
         }
-        //error handling here for failed registration
       })
       .then(() => {
         let login = {
@@ -56,10 +100,14 @@ export class RegisterComponent {
         return this.backend.login(login)
       })
       .then(result => {
-        if(result) {
+        if (result) {
           this.session.setSession(result)
           return this.router.navigate(['/marketplace'])
         }
+      })
+      .catch(err => {
+        console.log(err)
+        return this.error = true;
       })
   }
 

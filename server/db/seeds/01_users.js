@@ -22,8 +22,8 @@ exports.seed = function(knex, Promise) {
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'grobroadmin@gmail.com',
-          first_name: 'Joseph',
-          last_name: 'Evans',
+          first_name: 'Jotaro',
+          last_name: 'Kujo',
           rating: 0,
           bio: `Helping my parents sell their veggies.`,
           city: 'Honolulu',

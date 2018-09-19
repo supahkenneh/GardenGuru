@@ -18,6 +18,14 @@ export class GardenCropComponent implements OnInit {
   check: boolean = true;
   correctUser: boolean = false;
 
+  //error checkers
+  editGardenDescriptionError: boolean = false;
+  moveDescriptionError: boolean = false;
+  moveDetailsError: boolean = false;
+  moveInventoryError: boolean = false;
+  moveInventoryDataError: boolean = false;
+  moveGeneralError: boolean = false;
+
   //view switchers
   gardenEditing: boolean = false;
 
@@ -61,7 +69,7 @@ export class GardenCropComponent implements OnInit {
     description: '',
     details: '',
     price: '',
-    inventory: '',
+    inventory: 0,
     check: this.check
   };
 
@@ -141,6 +149,37 @@ export class GardenCropComponent implements OnInit {
   }
 
   moveToStand() {
+    this.moveDescriptionError = false;
+    this.moveDetailsError = false;
+    this.moveInventoryError = false;
+    this.moveInventoryDataError = false;
+    this.moveGeneralError = false;
+    this.moveFormData.inventory = Number(this.moveFormData.inventory);
+
+    // Replaces bad data
+    if (!this.moveFormData.inventory) {
+      this.moveFormData.inventory = 0;
+    }
+    if (this.moveFormData.price === '') {
+      this.moveFormData.price = 'Message me for more details!'
+    }
+
+    // Barrier check for separate errors
+    if (this.moveFormData.details.length < 1) {
+      this.moveDetailsError = true;
+    }
+    if (this.moveFormData.inventory < 1) {
+      this.moveInventoryError = true;
+    }
+    if (this.moveFormData.description.length < 1) {
+      this.moveDescriptionError = true;
+    }
+
+    // Barrier check against all errors
+    if (this.moveDetailsError || this.moveInventoryError || this.moveDescriptionError) {
+      return this.moveGeneralError = true;
+    }
+    
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend.moveToStand(this.cropId, this.moveFormData)
@@ -148,7 +187,7 @@ export class GardenCropComponent implements OnInit {
         this.router.navigate([`/user/${this.user['id']}/stand`])
       })
       .catch(err => {
-        console.log(err.message);
+        console.log('Error :', err.message);
       });
   }
 
@@ -161,6 +200,11 @@ export class GardenCropComponent implements OnInit {
   }
 
   submitGardenEdit() {
+    this.editGardenDescriptionError = false;
+
+    if (this.gardenEditFormData.garden_description.length < 1) {
+      return this.editGardenDescriptionError = true;
+    }
     //if watering interval was changed, then update new watering date
     if (this.newWaterDate) {
       this.gardenEditFormData['newWaterDate'] = this.newWaterDate;
