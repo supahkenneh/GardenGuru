@@ -72,7 +72,7 @@ export class SearchComponent {
               this.resultErrors.push('Please log in to properly search through your own crops!');
               this.resultValid = false;
             } else {
-              this.resultErrors.push('There was an error processin your request.');
+              this.resultErrors.push('There was an error processing your request.');
               this.resultValid = false;
             }
           } else {
