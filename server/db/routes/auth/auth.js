@@ -110,7 +110,7 @@ router.post('/register', upload.single('photo'), (req, res) => {
         return res.status(500);
       }
       let avatar_link;
-      if (req.file) {        
+      if (req.file) {
         avatar_link = req.file.location
       } else {
         avatar_link = null
@@ -173,5 +173,22 @@ router.get('/logout', (req, res) => {
   req.logout();
   res.json({ success: true });
 });
+
+// ===== VALIDATE USERNAME ===== //
+
+router.post('/validate', (req, res) => {
+  return User
+    .where({ username: req.body.username })
+    .fetchAll()
+    .then(result => {
+      console.log(result)
+      if (result.models.length > 0) {
+        return res.json({ success: false })
+      } else {
+        return res.json({ success: true })
+      }
+    })
+    .catch(err => {console.log(err);})
+})
 
 module.exports = router;
