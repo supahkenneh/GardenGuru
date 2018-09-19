@@ -21,6 +21,7 @@
       display: flex;
       justify-content: center;
       background: #6BA368;
+      box-shadow: 1px 1px 15px gray;
       img {
         border: 3px solid #6BA368;
         max-width: 100%;
@@ -37,6 +38,7 @@
         display: flex;
         justify-content: center;
         background: #6ba368;
+        box-shadow: 1px 1px 15px gray;
       }
     }
   }
@@ -105,6 +107,7 @@
               border-radius: 5px;
               font-size: 14px;
               color: black;
+              box-shadow: 1px 1px 15px gray;
             }
           }
         }
@@ -122,6 +125,7 @@
     display: flex;
     justify-content: center;
     background: #6ba368;
+    box-shadow: 1px 1px 15px gray;
   }
 }
 
@@ -150,6 +154,7 @@
       display: flex;
       justify-content: center;
       background: #6ba368;
+      box-shadow: 1px 1px 15px gray;
     }
   }
   .create-stand-container {
@@ -188,6 +193,7 @@
           display: flex;
           justify-content: center;
           background: #6ba368;
+          box-shadow: 1px 1px 15px gray;
         }
         .close-button {
           border-radius: 50%;
@@ -197,6 +203,7 @@
           display: flex;
           justify-content: center;
           background: #6ba368;
+          box-shadow: 1px 1px 15px gray;
         }
       }
     }
@@ -215,6 +222,7 @@
     display: flex;
     justify-content: center;
     background: #6ba368;
+    box-shadow: 1px 1px 15px gray;
   }
   .post-stand-button {
     position: fixed;
@@ -227,6 +235,7 @@
     display: flex;
     justify-content: center;
     background: #6ba368;
+    box-shadow: 1px 1px 15px gray;
   }
 }
 
@@ -376,6 +385,7 @@
         display: flex;
         justify-content: center;
         background: #6ba368;
+        box-shadow: 1px 1px 15px gray;
       }
     }
   }

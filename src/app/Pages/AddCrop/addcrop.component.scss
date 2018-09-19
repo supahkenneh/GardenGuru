@@ -9,6 +9,7 @@
     padding: 15px;
     display: flex;
     flex-direction: column;
+    box-shadow: 1px 1px 5px gray;
     .secondary-header {
       text-align: center;
       font-size: 28px;
@@ -53,7 +54,6 @@
       justify-content: space-evenly;
       select {
         width: 33%;
-        // height: 20px;
         padding: 5px;
         font-size: 12px;
         background: whitesmoke;
@@ -68,6 +68,7 @@
       font-size: 12px;
       font-weight: 100;
       margin-bottom: 15px;
+      box-shadow: 1px 1px 5px gray;
     }
     .add-button {
       font-size: 14px;
@@ -78,8 +79,9 @@
       border-radius: 5px;
       width: 40%;
       align-self: center;
-      background: #7BC677;
+      background: #6BA368;
       color: white;
+      box-shadow: 1px 1px 5px gray;
     }
     .plant-description {
       margin-top: 20px;

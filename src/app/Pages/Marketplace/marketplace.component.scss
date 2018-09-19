@@ -27,7 +27,7 @@
         margin: 5px;
         padding: 5px;
         background: white;
-        box-shadow: 0.5px 0.5px 0.5px 0.5px gray;
+        box-shadow: 1px 1px 15px gray;
         border-radius: 5px;
         height: 150px;
         width: 140px;
@@ -46,6 +46,7 @@
           display: flex;
           justify-content: center;
           padding: 5px;
+          box-shadow: 1px 1px 15px gray;
           img {
             border: 3px solid #6BA368;
             max-height: 100%;
@@ -84,7 +85,7 @@
         width: 140px;
         margin: 5px;
         padding: 5px;
-        box-shadow: 0.5px 0.5px 0.5px 0.5px gray;
+        box-shadow: 1px 1px 15px gray;
         display: flex;
         flex-direction: column;
         align-items: center;

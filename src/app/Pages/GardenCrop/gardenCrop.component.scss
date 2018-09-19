@@ -55,6 +55,7 @@
     display: flex;
     justify-content: center;
     background: #6BA368;
+    box-shadow: 1px 1px 15px gray;
   }
   .stand-button {
     position: fixed;
@@ -67,6 +68,7 @@
     display: flex;
     justify-content: center;
     background: #6BA368;
+    box-shadow: 1px 1px 15px gray;
   }
   .delete-button {
     position: fixed;
@@ -79,6 +81,7 @@
     display: flex;
     justify-content: center;
     background: #6BA368;
+    box-shadow: 1px 1px 15px gray;
   }
 // EDIT GARDEN CROP STYLING
 .editing-body {
@@ -123,6 +126,7 @@
   display: flex;
   justify-content: center;
   background: #6BA368;
+  box-shadow: 1px 1px 15px gray;
 }
 .cancel-button {
   position: fixed;
@@ -135,6 +139,7 @@
   display: flex;
   justify-content: center;
   background: #6BA368;
+  box-shadow: 1px 1px 15px gray;
 }
 .remove-container {
   display: flex;
@@ -249,6 +254,7 @@
         display: flex;
         justify-content: center;
         background: #6BA368;
+        box-shadow: 1px 1px 15px gray;
       }
       .cancel-button {
         border-radius: 50%;
@@ -258,6 +264,7 @@
         display: flex;
         justify-content: center;
         background: #6BA368;
+        box-shadow: 1px 1px 15px gray;
       }
     }
   }
@@ -303,6 +310,7 @@
         border-radius: 5px;
         font-size: 14px;
         color: black;
+        box-shadow: 1px 1px 15px gray;
       }
     }
   }
