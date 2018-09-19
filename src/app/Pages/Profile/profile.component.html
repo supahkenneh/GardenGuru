@@ -31,20 +31,27 @@
         <div>User Settings</div>
         <div class="options" (click)="handleSettings($event)">Change Password</div>
         <div class="options" (click)="handleSettings($event)">Change Location</div>
-        <div class="options" (click)="handleSettings($event)">Change Stand Name</div>
+        <div *ngIf="!userStandError" class="options" (click)="handleSettings($event)">Change Stand Name</div>
         <div class="options" (click)="handleSettings($event)">Change Profile Picture</div>
       </div>
+
       <form enctype="multipart/form-data" *ngIf="changingPass">
         <div class="secondary-header">
           <div>Change Your Password</div>
         </div>
         <label for="oldPass">Old Password</label>
-        <input type="text" name="oldPass" [(ngModel)]="passwordFormData.oldPass">
+        <input class="change-password-input" type="password" name="oldPass" [(ngModel)]="passwordFormData.oldPass">
+        <span class="profile-error" *ngIf="oldPasswordError" style="color:red">This field must be at least five characters long.</span>
         <label for="newPass">New Password</label>
-        <input type="text" name="newPass" [(ngModel)]="passwordFormData.newPass">
+        <input class="change-password-input" type="password" name="newPass" [(ngModel)]="passwordFormData.newPass">
+        <span class="profile-error" *ngIf="newPasswordError" style="color:red">This field must be at least five characters long.</span>
         <label for="valPass">Confirm New Password</label>
-        <input type="text" name="valPass" [(ngModel)]="passwordFormData.valPass">
+        <input class="change-password-input" type="password" name="valPass" [(ngModel)]="passwordFormData.valPass">
+        <span class="profile-error" *ngIf="confirmNewPasswordError" style="color:red">This field must be at least five characters long.</span>
+        <span class="profile-error" *ngIf="matchingPasswordError" style="color:red">Please ensure that the password in both fields are the same.</span>
+        <span class="profile-error" *ngIf="sameOldNewPasswordError" style="color:red">Your old and new password are the same. Please change your new password.</span>
       </form>
+
       <form enctype="multipart/form-data" *ngIf="changingLocation">
         <div class="secondary-header">
           <div>Change Your Location</div>
@@ -58,15 +65,19 @@
             <option value="">Select State</option>
             <option *ngFor="let state of states" value="{{state}}">{{state}}</option>
           </select>
+          <span class="profile-error" *ngIf="locationError" style="color:red">You must select both a city and a state.</span>
         </div>
       </form>
+      
       <form enctype="multipart/form-data" *ngIf="changingStandName">
         <div class="secondary-header">
           <div>Change Your Stand Name</div>
         </div>
         <label for="stand_name">Stand Name</label>
         <input type="text" name="stand_name" [(ngModel)]="standFormData.stand_name">
+        <span class="profile-error" *ngIf="standError" style="color:red">This field must be at least five characters long.</span>
       </form>
+
       <form enctype="multipart/form-data" *ngIf="changingProfilePic">
         <div class="secondary-header">
           <div>Change Profile Picture</div>
@@ -76,23 +87,24 @@
         <label for="bio">Change Bio</label>
         <input type="text" name="bio" [(ngModel)]="profileFormData.bio">
       </form>
+
       <div class="button-container" *ngIf="changingLocation || changingPass || changingProfilePic || changingStandName">
         <button class="submit-button" (click)="submitChanges()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" height="24" preserveAspectRatio="xMinYMin"
             class="jam jam-check">
             <path d='M5.486 9.73a.997.997 0 0 1-.707-.292L.537 5.195A1 1 0 1 1 1.95 3.78l3.535 3.535L11.85.952a1 1 0 0 1 1.415 1.414L6.193 9.438a.997.997 0 0 1-.707.292z' /></svg>
         </button>
-        <button class="cancel-button" (click)="cancel()">
+        <button class="cancel-button" (click)="showSettings()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" preserveAspectRatio="xMinYMin"
             class="jam jam-close">
             <path d='M7.314 5.9l3.535-3.536A1 1 0 1 0 9.435.95L5.899 4.485 2.364.95A1 1 0 1 0 .95 2.364l3.535 3.535L.95 9.435a1 1 0 1 0 1.414 1.414l3.535-3.535 3.536 3.535a1 1 0 1 0 1.414-1.414L7.314 5.899z' /></svg>
         </button>
-      </div>
-      <button class="cancel-button" (click)="showSettings()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" preserveAspectRatio="xMinYMin"
+        <button class="cancel-button" *ngIf="!changingLocation || !changingPass || !changingProfilePic || !changingStandName" (click)="cancel()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 24 24" width="24" height="24" preserveAspectRatio="xMinYMin"
           class="jam jam-close">
           <path d='M7.314 5.9l3.535-3.536A1 1 0 1 0 9.435.95L5.899 4.485 2.364.95A1 1 0 1 0 .95 2.364l3.535 3.535L.95 9.435a1 1 0 1 0 1.414 1.414l3.535-3.535 3.536 3.535a1 1 0 1 0 1.414-1.414L7.314 5.899z' /></svg>
-      </button>
+        </button>
+      </div>
     </div>
   </div>
 </div>

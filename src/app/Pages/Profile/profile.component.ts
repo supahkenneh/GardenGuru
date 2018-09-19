@@ -22,6 +22,20 @@ export class ProfileComponent implements OnInit {
   cities: string[] = ['Aiea', 'Ewa Beach', 'Haleiwa', 'Hawaii Kai', 'Honolulu', 'Kaneohe', 'Kahala', 'Kailua', 'Kapolei', 'Manoa', 'Mililani', 'Nanakuli', 'Pearl City', 'Wahiawa', 'Waialua', 'Waimanalo', 'Waipahu']
   states: string[] = ['HI']
 
+  //errors
+  userStandError: boolean = false;
+
+  generalSettingsError: boolean = false;
+
+  oldPasswordError: boolean = false;
+  newPasswordError: boolean = false;
+  confirmNewPasswordError: boolean = false;
+  matchingPasswordError: boolean = false;
+  sameOldNewPasswordError: boolean = false;
+
+  locationError: boolean = false;
+  standError: boolean = false;
+  profileError: boolean = false;
 
   passwordFormData: {
     oldPass: string,
@@ -67,11 +81,32 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.isLoggedIn)
+    // resets errors and forms
+    this.generalSettingsError = false;
+    this.oldPasswordError = false;
+    this.newPasswordError = false;
+    this.confirmNewPasswordError = false;
+    this.matchingPasswordError = false;
+    this.sameOldNewPasswordError = false;
+    this.locationError = false;
+    this.standError = false;
+    this.profileError = false;
+    this.userStandError = false;
+    this.passwordFormData.oldPass = '';
+    this.passwordFormData.newPass = '';
+    this.passwordFormData.valPass = '';
+    this.locationFormData.city = `${this.user.city}`;
+    this.locationFormData.state = `${this.user.state}`;
+    this.standFormData.stand_name = `${this.user.stand_name}`
+
+
     this.urlId = this.route.snapshot.paramMap.get('id');
     //check to see if user owns that profile
     if (this.urlId === `${this.user.id}`) {
       this.correctUser = true;
+    }
+    if (!this.user.stand_name) {
+      this.userStandError = true;
     }
     return this.backend.getUserProfile(this.urlId)
       .then(user => {
@@ -80,19 +115,66 @@ export class ProfileComponent implements OnInit {
   }
 
   submitChanges() {
+    // console.log('test', this.showingSettings)
+    // console.log('test', this.changingPass)
+    // console.log('test', this.changingLocation)
+    // console.log('test', this.changingStandName)
+    // console.log('test', this.changingProfilePic)
+    console.log(this.user);
+
+    // Edit Password
     if (this.changingPass) {
-      this.passwordFormData['id'] = this.user.id
+      this.oldPasswordError = false;
+      this.newPasswordError = false;
+      this.confirmNewPasswordError = false;
+      this.matchingPasswordError = false;
+      this.sameOldNewPasswordError = false;
+      this.generalSettingsError = false;
+
+      if (this.passwordFormData.oldPass.length < 5) {
+        this.oldPasswordError = true;
+      }
+      if (this.passwordFormData.newPass.length < 5) {
+        this.newPasswordError = true;
+      }
+      if (this.passwordFormData.valPass.length < 5) {
+        this.confirmNewPasswordError = true;
+      }
+      if (this.passwordFormData.newPass !== this.passwordFormData.valPass) {
+        this.matchingPasswordError = true;
+      }
+      if (this.passwordFormData.oldPass === this.passwordFormData.newPass && this.passwordFormData.oldPass === this.passwordFormData.valPass) {
+        this.sameOldNewPasswordError = true;
+      }
+
+      if (this.oldPasswordError || this.newPasswordError || this.confirmNewPasswordError || this.matchingPasswordError || this.sameOldNewPasswordError) {
+        return this.generalSettingsError = true;
+      }
+      this.passwordFormData['id'] = this.user.id;
       return this.backend.editUserProfile(this.passwordFormData)
         .then(result => {
           if (result['success'] = false) {
-            this.changingPass = false;
+            this.oldPasswordError = false;
+            this.newPasswordError = false;
+            this.confirmNewPasswordError = false;
+            this.matchingPasswordError = false;
+            this.sameOldNewPasswordError = false;
+            this.generalSettingsError = false;
+            return this.changingPass = true;
           } else {
             this.ngOnInit()
             this.changingPass = false;
             this.showingSettings = false;
           }
         })
+      // Edit Location
     } else if (this.changingLocation) {
+      this.locationError = false;
+
+      if (!this.locationFormData.city || !this.locationFormData.state) {
+        return this.locationError = true;
+      }
+
       this.locationFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.locationFormData)
         .then(result => {
@@ -104,7 +186,16 @@ export class ProfileComponent implements OnInit {
             this.showingSettings = false;
           }
         })
+      // Edit Stand Name
     } else if (this.changingStandName) {
+      this.standError = false;
+      if (!this.standFormData.stand_name) {
+        this.standFormData.stand_name = `${this.user.first_name}'s Stand`
+      }
+      if (this.standFormData.stand_name.length < 5 && this.standFormData.stand_name) {
+        return this.standError = true;
+      }
+
       this.standFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.standFormData)
         .then(result => {
@@ -116,6 +207,7 @@ export class ProfileComponent implements OnInit {
             this.showingSettings = false;
           }
         })
+      //Edit Profile Picture
     } else if (this.changingProfilePic) {
       this.profileFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.profileFormData)
@@ -176,6 +268,7 @@ export class ProfileComponent implements OnInit {
   }
 
   cancel() {
+    this.showingSettings = false;
     this.changingLocation = false;
     this.changingPass = false;
     this.changingProfilePic = false;
