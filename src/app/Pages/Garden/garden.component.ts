@@ -10,6 +10,7 @@ export class GardenComponent implements OnInit {
   user: object;
   loggedIn: boolean = false;
   date: string;
+  week: string;
   //for parsing date objects and dates in data
   index: number = 10;
 
@@ -30,10 +31,18 @@ export class GardenComponent implements OnInit {
   ) {
     this.user = this.session.getSession();
     this.loggedIn = this.session.isLoggedIn();
+    //for this.date
     let year = new Date().getFullYear();
     let month = ('0' + (new Date().getMonth() + 1)).slice(-2);
     let day = ('0' + (new Date().getDate())).slice(-2);
     this.date = `${year}-${month}-${day}`
+    //for this.week
+    let currentDate = new Date();
+    let weekDate = new Date(currentDate.setTime(currentDate.getTime() + 7 * 86400000));
+    let weekYear = weekDate.getFullYear();
+    let weekMonth = ('0' + (weekDate.getMonth() + 1)).slice(-2);
+    let weekDay = ('0' + (weekDate.getDate())).slice(-2);
+    this.week = `${weekYear}-${weekMonth}-${weekDay}`;
   }
 
   ngOnInit() {
@@ -75,8 +84,23 @@ export class GardenComponent implements OnInit {
           let gardenArr = Object.values(this.garden);
           gardenArr.map(crop => {
             let subHarvestDate = crop['harvest_date'].substring(0, this.index);
-            if (subHarvestDate === this.date) {
+            if (subHarvestDate >= this.date && subHarvestDate <= this.week) {
               this.plantsToHarvest.push(crop);
+            }
+          })
+        })
+        .then(() => {
+          this.plantsToHarvest.map(crop => {
+            switch (crop['plant']['type_id']) {
+              case 1:
+                crop['displayPhoto'] = this.veggiePic;
+                break;
+              case 2:
+                crop['displayPhoto'] = this.fruitPic;
+                break;
+              case 3:
+                crop['displayPhoto'] = this.herbPic;
+                break;
             }
           })
         })

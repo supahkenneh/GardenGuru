@@ -135,6 +135,12 @@ exports.seed = function (knex, Promise) {
           days_to_harvest: 10,
           type_id: 3
         },
+        {
+          name: 'Dill',
+          description: 'Successful cultivation requires warm to hot summers with high sunshine levels; even partial shade will reduce the yield substantially. It also prefers rich, well drained soil. The seeds are viable for three to ten years. The plants are somewhat monocarpic and quickly die after "bolting" (producing seeds). Hot temperatures can quicken bolting.',
+          days_to_harvest: 0,
+          type_id: 3
+        },
       ]);
     });
 };

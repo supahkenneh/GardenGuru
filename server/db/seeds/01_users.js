@@ -15,7 +15,7 @@ exports.seed = function(knex, Promise) {
           city: 'Honolulu',
           state: 'HI',
           stand_name: 'Mango Madness',
-          avatar_link: 'https://asphaltgold.de/media/catalog/product/cache/1/image/930x669/0f396e8a55728e79b48334e699243c07/s/t/st_ssy_stock_cap_black_1.jpg'
+          avatar_link: 'http://extension.msstate.edu/sites/default/files/styles/flexslider_full/public/slideshow/master-gardener-history/20160520_saladtables_1.jpg?itok=3jP8Pghk'
         },
         {
           username: 'jojoestar',
@@ -43,7 +43,7 @@ exports.seed = function(knex, Promise) {
           city: 'Honolulu',
           state: 'HI',
           stand_name: "Alex's Organic Veggies",
-          avatar_link: 'https://files.slack.com/files-pri/T0253FV7X-FCVFB5SV6/20180918_111114.jpg'
+          avatar_link: 'https://pbs.twimg.com/profile_images/780905013283479552/ldu_bznx_400x400.jpg'
         },
         {
           username: 'thelegend27',
@@ -85,7 +85,7 @@ exports.seed = function(knex, Promise) {
           city: 'Aiea',
           state: 'HI',
           stand_name: `Mandy's Market`,
-          avatar_link: 'https://pbs.twimg.com/profile_images/780905013283479552/ldu_bznx_400x400.jpg'
+          avatar_link: 'https://ak1.picdn.net/shutterstock/videos/17173771/thumb/1.jpg'
         }
       ]);
     });

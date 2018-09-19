@@ -13,6 +13,7 @@ export class MarketplaceComponent implements OnInit {
   crops;
   recentlyAddedCrops;
   placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
+  placeholderItemImg: string = 'https://www.ewm.com/addons/themes/ewm_arillo/img/no-photo.png'
 
   constructor(
     private backend: BackendService,
@@ -37,6 +38,14 @@ export class MarketplaceComponent implements OnInit {
         .then(() => {
           return this.backend.getMarketplaceCrops()
             .then(crops => {
+              let cropsArr = Object.values(crops);
+              cropsArr.map(crop => {
+                if (crop.photo[0]) {
+                  crop['displayPhoto'] = crop.photo[0].link;
+                } else {
+                  crop['displayPhoto'] = this.placeholderItemImg;
+                }
+              })
               this.crops = crops;
             });
         });

@@ -92,7 +92,7 @@ export class GardenCropComponent implements OnInit {
     return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
-        if (this.crop['owner_id'] === this.user['id']) {
+        if (this.crop['owner_id'] === Number(this.user['id'])) {
           this.correctUser = true;
         }
         //gets photo links to be displayed on page

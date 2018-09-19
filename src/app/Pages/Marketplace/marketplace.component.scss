@@ -40,13 +40,12 @@
           margin-bottom: 3px;
         }
         .avatar {
-          height: 120px;
-          width: 120px;
+          height: 100px;
+          width: 100px;
           border-radius: 50%;
           display: flex;
-          flex-direction: column;
-          align-items: center;
           justify-content: center;
+          padding: 5px;
           img {
             border: 3px solid #6BA368;
             max-height: 100%;
