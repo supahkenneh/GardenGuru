@@ -82,6 +82,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     // resets errors and forms
+    console.log('xmy bio', this.user.bio)
+    console.log('xform bio', this.profileFormData.bio)
+    this.userStandError = false;
     this.generalSettingsError = false;
     this.oldPasswordError = false;
     this.newPasswordError = false;
@@ -91,14 +94,16 @@ export class ProfileComponent implements OnInit {
     this.locationError = false;
     this.standError = false;
     this.profileError = false;
-    this.userStandError = false;
     this.passwordFormData.oldPass = '';
     this.passwordFormData.newPass = '';
     this.passwordFormData.valPass = '';
-    this.locationFormData.city = `${this.user.city}`;
-    this.locationFormData.state = `${this.user.state}`;
-    this.standFormData.stand_name = `${this.user.stand_name}`
-
+    this.locationFormData.city = this.user.city;
+    this.locationFormData.state = this.user.state;
+    this.standFormData.stand_name = this.user.stand_name;
+    this.profileFormData.bio = this.user.bio;
+    this.profileFormData.photo = null;
+    console.log('my bio', this.user.bio)
+    console.log('form bio', this.profileFormData.bio)
 
     this.urlId = this.route.snapshot.paramMap.get('id');
     //check to see if user owns that profile
@@ -115,11 +120,6 @@ export class ProfileComponent implements OnInit {
   }
 
   submitChanges() {
-    // console.log('test', this.showingSettings)
-    // console.log('test', this.changingPass)
-    // console.log('test', this.changingLocation)
-    // console.log('test', this.changingStandName)
-    // console.log('test', this.changingProfilePic)
     console.log(this.user);
 
     // Edit Password
@@ -209,6 +209,12 @@ export class ProfileComponent implements OnInit {
         })
       //Edit Profile Picture
     } else if (this.changingProfilePic) {
+      this.profileError = false;
+
+      if (!this.profileFormData.bio) {
+        this.profileFormData.bio = this.user.bio;
+      }
+
       this.profileFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.profileFormData)
         .then(result => {
@@ -224,6 +230,7 @@ export class ProfileComponent implements OnInit {
   }
 
   showSettings() {
+    this.ngOnInit();
     if (this.showingSettings && this.changingLocation) {
       return this.changingLocation = false;
     } else if (this.showingSettings && this.changingPass) {
