@@ -79,12 +79,15 @@
             <div class="check-false" *ngIf="!check" (click)="toggleCheck()">No</div>
             <label for="stand_name">Descriptionx</label>
             <input maxlength="25" type="text" name="description" [(ngModel)]="moveFormData.description">
+            <span class="stand-error" *ngIf="firstCropDescription" style="color:red">This field is required.</span>
             <label for="price">Price</label>
             <input maxlength="25" type="text" name="price" [(ngModel)]="moveFormData.price">
             <label for="details">Details</label>
             <textarea name="details" [(ngModel)]="moveFormData.details"></textarea>
+            <span class="stand-error" *ngIf="firstCropDetails" style="color:red">This field is required.</span>
             <label for="inventory">Inventory</label>
             <input type="number" name="inventory" [(ngModel)]="moveFormData.inventory">
+            <span class="stand-error" *ngIf="firstCropInventory" style="color:red">This field is required.</span>
             <div class="img-selection">
               <div>Select Photos from Garden</div>
               <div class="garden-photos">
@@ -198,7 +201,7 @@
     <form class="edit-form">
       <label for="stand_name">Stand Name:</label>
       <input maxlength="25" type="text" name="stand_name" [(ngModel)]="standFormdata.stand_name">
-      <span class="build-stand-error" *ngIf="badStandName" style="color:red">Must be three characters minimum.</span>
+      <span class="stand-error" *ngIf="badStandName" style="color:red">Must be three characters minimum.</span>
       <div class="button-container">
         <button class="submit-button" (click)="editUser()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -7 24 24" width="24" height="24" preserveAspectRatio="xMinYMin" class="jam jam-check">

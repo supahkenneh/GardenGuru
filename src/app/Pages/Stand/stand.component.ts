@@ -33,6 +33,11 @@ export class StandComponent implements OnInit {
   inventoryError: boolean = false;
   detailsError: boolean = false;
 
+  firstCropDescription: boolean = false;
+  firstCropDetails: boolean = false;
+  firstCropInventory: boolean = false;
+  firstCropError: boolean = false;
+
   //crop photo values
   cropPhotos: string[] = [];
   //holds photos to upload
@@ -50,7 +55,7 @@ export class StandComponent implements OnInit {
     description: '',
     details: '',
     price: '',
-    inventory: '',
+    inventory: 0,
     check: this.check
   };
 
@@ -209,6 +214,34 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
+    //   firstCropDescription: boolean = false;
+    // firstCropDetails: boolean = false;
+    // firstCropInventory: boolean = false;
+    this.firstCropDescription = false;
+    this.firstCropDetails = false;
+    this.firstCropInventory = false;;
+
+    if (!this.moveFormData.inventory || typeof this.moveFormData.inventory !== 'number') {
+      this.moveFormData.inventory = 0;
+    }
+    if (!this.moveFormData.price) {
+      this.moveFormData.price = 'Message me for more details!';
+    }
+
+    if (!this.moveFormData.description) {
+      this.firstCropDescription = true;
+    }
+    if (!this.moveFormData.inventory) {
+      this.firstCropInventory = true;
+    }
+    if (!this.moveFormData.details) {
+      this.firstCropDetails = true;
+    }
+
+    if (this.firstCropDescription || this.firstCropDetails || this.firstCropInventory) {
+      return this.firstCropError = true;
+    }
+
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend
