@@ -82,8 +82,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     // resets errors and forms
-    console.log('xmy bio', this.user.bio)
-    console.log('xform bio', this.profileFormData.bio)
     this.userStandError = false;
     this.generalSettingsError = false;
     this.oldPasswordError = false;
@@ -102,8 +100,6 @@ export class ProfileComponent implements OnInit {
     this.standFormData.stand_name = this.user.stand_name;
     this.profileFormData.bio = this.user.bio;
     this.profileFormData.photo = null;
-    console.log('my bio', this.user.bio)
-    console.log('form bio', this.profileFormData.bio)
 
     this.urlId = this.route.snapshot.paramMap.get('id');
     //check to see if user owns that profile
@@ -120,8 +116,6 @@ export class ProfileComponent implements OnInit {
   }
 
   submitChanges() {
-    console.log(this.user);
-
     // Edit Password
     if (this.changingPass) {
       this.oldPasswordError = false;
