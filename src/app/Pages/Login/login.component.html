@@ -8,6 +8,6 @@
     <label for="password">Password</label>
     <input type="text" name="password" placeholder="Password" [(ngModel)]="loginFormData.password">
     <button class="btn" (click)="login()">Login</button>
-    <button (click)="socialSignIn('facebook')">Login With Facebook</button>
+    <button type="button" class="btn" (click)="submitLogin()">Login with facebook</button>
   </form>
 </div>

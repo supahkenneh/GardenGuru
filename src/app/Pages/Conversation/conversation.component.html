@@ -1,11 +1,11 @@
-<div class="conversation-container">
-  <div class="message-container">
+
+  <div class="message-container" id = "message-container">
     <div class="messages" *ngFor="let message of messages">
       <div class="not-my-message" *ngIf="user.id != message.from.id">{{message.content}}</div>
       <div class="my-message" *ngIf="user.id == message.from.id">{{message.content}}</div>
     </div>
   </div>
-</div>
+
 
 <button routerLink="/messages" class="back" *ngIf=userIsUser>back</button>
 <button routerLink="/sentConversations" class="back" *ngIf=!userIsUser>back</button>

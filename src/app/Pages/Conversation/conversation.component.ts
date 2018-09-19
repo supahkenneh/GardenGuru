@@ -35,14 +35,25 @@ export class ConversationComponent implements OnInit {
   }
 
   sendMessage(){
+    if(this.message.content){
     this.backend.sendMessage(this.message, this.conversationId )
     .then(result=>{
       this.messages.push(result)
       this.ngOnInit()
+      this.message.content = '';
+      
     })
+  }else {
+    console.log('no input given')
+  }
+  }
+  scrollToBottom() {
+    const elmnt = document.getElementById('message-container')
+    elmnt.scrollIntoView(false); // Bottom
   }
 
   ngOnInit() {
+    this.scrollToBottom()
     this.conversationId = this.route.snapshot.paramMap.get('id');
     if(this.conversationId === this.user.id){
       this.userIsUser = true

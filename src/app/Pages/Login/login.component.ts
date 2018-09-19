@@ -10,7 +10,7 @@ import {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginFormData: {
     username: string;
     password: string;
@@ -23,25 +23,11 @@ export class LoginComponent {
     private router: Router,
     private socialAuthService: AuthService
   ) {}
-  public socialSignIn(socialPlatform: string) {
-    let socialPlatformProvider;
-    if (socialPlatform == "facebook") {
-      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-    }
 
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-      (userData) => {
-        console.log(socialPlatform + " sign in data : ", userData);
-        return this.auth.oauthLogin(userData)
-        
-        // this.router.navigate(['/marketplace']);
-        // .then(()=>{
-        //   console.log('hi')
-        // })
-      }
-    );
+  ngOnInit() {
+    
   }
-
+  
   login() {
     return this.auth
       .login(this.loginFormData)
