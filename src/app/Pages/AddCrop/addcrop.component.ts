@@ -99,7 +99,7 @@ export class AddCropComponent implements OnInit {
     }
 
     if (this.plantError || this.gardenDescriptionError || this.wateringError) {
-      return this.generalError = false;
+      return this.generalError = true;
     }
 
     return this.backend.addCrop(this.cropFormData)
