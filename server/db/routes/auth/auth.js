@@ -174,21 +174,4 @@ router.get('/logout', (req, res) => {
   res.json({ success: true });
 });
 
-// ===== VALIDATE USERNAME ===== //
-
-router.post('/validate', (req, res) => {
-  return User
-    .where({ username: req.body.username })
-    .fetchAll()
-    .then(result => {
-      console.log(result)
-      if (result.models.length > 0) {
-        return res.json({ success: false })
-      } else {
-        return res.json({ success: true })
-      }
-    })
-    .catch(err => {console.log(err);})
-})
-
 module.exports = router;
