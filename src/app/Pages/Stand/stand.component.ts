@@ -13,6 +13,8 @@ export class StandComponent implements OnInit {
   standOwner: object;
   correctUser: boolean = false;
   hasStand: boolean = false;
+  emptyStand: boolean = false;
+  badStandName: boolean = false;
   isEdit: boolean = false;
   buildStand: boolean;
   garden;
@@ -113,6 +115,7 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log(this.user);
     this.messageSentPopUp = '';
     this.urlId = this.route.snapshot.paramMap.get('id');
     //checks to see if the page belongs to logged in user
@@ -125,8 +128,15 @@ export class StandComponent implements OnInit {
         //if the user's stand doesn't exist/no stand
         if (result['message'] && !this.user) {
           return this.hasStand = true;
-        } else if (result['message'] && this.correctUser) {
+        } else if (result['message'] && this.correctUser && !this.user.stand_name) {
+          // console.log('empty stand, has stand', this.emptyStand, this.hasStand);
+          this.emptyStand = false;
           return this.hasStand = false;
+        } else if (result['message'] && this.correctUser && this.user.stand_name) {
+          // console.log('empty stand, has stand???', this.emptyStand, this.hasStand);
+          this.emptyStand = true;
+          this.hasStand = true;
+          // console.log('uhhh?', this.emptyStand, this.hasStand);
         } else {
           this.hasStand = true;
           this.standOwner = result[0].user;
@@ -268,6 +278,11 @@ export class StandComponent implements OnInit {
   }
 
   editUser() {
+    this.badStandName = false;
+    if (this.standFormdata.stand_name.length < 3) {
+      return this.badStandName = true;
+    }
+
     this.backend.editUser(this.standFormdata).then(result => {
       this.user.stand_name = result['stand_name'];
       this.session.setSession(this.user);
