@@ -138,8 +138,8 @@
         background: #6BA368;
       }
     }
-    .cancel-button {
-      position: fixed;
+    .submit-button, .cancel-button {
+      // position: fixed;
       bottom: 80px;
       right: 160px;
       border-radius: 50%;

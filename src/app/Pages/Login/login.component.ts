@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  loginError: boolean = false;
+
   loginFormData: {
     username: string,
     password: string
@@ -13,16 +15,18 @@ export class LoginComponent {
       username: '',
       password: ''
     };
+
   constructor(private auth: AuthServiceReg, private router: Router) { }
 
   login() {
     return this.auth
       .login(this.loginFormData)
-      .then(() => {
+      .then(response => {
         return this.router.navigate(['/garden']);
       })
       .catch(err => {
-        console.log(err.message);
+        this.loginError = true;
+        console.log(err);
       });
   }
 }

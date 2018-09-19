@@ -24,21 +24,21 @@ exports.seed = function(knex, Promise) {
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'grobroadmin@gmail.com',
-          first_name: 'Joseph',
-          last_name: 'Evans',
+          first_name: 'Jotaro',
+          last_name: 'Kujo',
           rating: 0,
           bio: '',
           city: 'Dallas',
           state: 'Texas',
-          stand_name: "Joseph's Stand"
+          stand_name: "Star Platinum"
         },
         {
           username: 'alexander12',
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'alexanderthegreat21@gmail.com',
-          first_name: '',
-          last_name: '',
+          first_name: 'Alexander',
+          last_name: 'Z\'grate',
           rating: 0,
           bio: '',
           city: 'Honolulu',
@@ -51,8 +51,8 @@ exports.seed = function(knex, Promise) {
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'froppy@gmail.com',
-          first_name: '',
-          last_name: '',
+          first_name: 'Viceroy',
+          last_name: 'Yotsuyu',
           rating: 0,
           bio: '',
           city: 'Honolulu',
@@ -65,8 +65,8 @@ exports.seed = function(knex, Promise) {
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'muibirb@gmail.com',
-          first_name: '',
-          last_name: '',
+          first_name: 'Kamui',
+          last_name: 'Isola',
           rating: 0,
           bio: '',
           city: 'Miami',
@@ -78,8 +78,8 @@ exports.seed = function(knex, Promise) {
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'merurun16@gmail.com',
-          first_name: '',
-          last_name: '',
+          first_name: 'Meru',
+          last_name: 'Isola',
           rating: 0,
           bio: '',
           city: 'Miami',

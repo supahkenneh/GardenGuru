@@ -18,7 +18,9 @@ export class AuthServiceReg{
   login(data) {
     return this.backend.login(data)
       .then(user => {
-        return this.session.setSession(user);
+        if (user) {
+          return this.session.setSession(user);
+        }
       });
   }
 

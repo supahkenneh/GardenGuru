@@ -1,6 +1,7 @@
 <div class="content-container">
   <form enctype="multipart/form-data">
     <div class="secondary-header">Add A Crop</div>
+
     <label for="plant">Select Plant</label>
     <div class="plant-container">
       <select name="plants" (change)="showPlantInfo()" [(ngModel)]="cropFormData.plant">
@@ -8,8 +9,12 @@
         <option *ngFor="let plant of plants" value="{{plant.id}}">{{plant.name}}</option>
       </select>
     </div>
+    <span class="addCrop-error" *ngIf="plantError" style="color:red">Please select a plant category.</span>
+
     <label for="garden_description">Description</label>
     <input type="text" name="garden_description" [(ngModel)]="cropFormData.garden_description">
+    <span class="addCrop-error" *ngIf="gardenDescriptionError" style="color:red">This field is required.</span>
+
     <label for="watering">Watering Interval</label>
     <div class="water-container">
       <select name="watering-days" [(ngModel)]="cropFormData.watering">
@@ -21,22 +26,28 @@
         <option value="14">Every Two Weeks</option>
       </select>
     </div>
+    <span class="addCrop-error" *ngIf="wateringError" style="color:red">Please select a watering interval.</span>
+
     <label for="date">Planting Date</label>
+
     <button (click)="selectToday()" class="today-button">Today's Date</button>
     <div class="date-container">
       <select name="plant-date" [(ngModel)]="cropFormData.month">
         <option value="">Select Month</option>
         <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
       </select>
+
       <select name="plant-day" [(ngModel)]="cropFormData.day">
         <option value="">Select Day</option>
         <option *ngFor="let day of days" value="{{day}}">{{day}}</option>
       </select>
+
       <select name="plant-year" [(ngModel)]="cropFormData.year">
         <option value="">Select Year</option>
         <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
       </select>
     </div>
+
     <div class="photo-error">{{getPhotoErrors()}}</div>
     <div class="image-upload">
       <label for="photos">Upload Photos</label>
@@ -45,6 +56,7 @@
     <div class="photo-list" *ngFor="let photo of cropFormData.photo">
       <div class="photo-name">{{photo.name}}</div>
     </div>
+    
     <button (click)="addCrop()" class="add-button">Add To Garden</button>
     <div class="plant-description">{{getPlantDescription()}}</div>
   </form>

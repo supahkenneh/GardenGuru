@@ -13,6 +13,8 @@ export class StandComponent implements OnInit {
   standOwner: object;
   correctUser: boolean = false;
   hasStand: boolean = false;
+  emptyStand: boolean = false;
+  badStandName: boolean = false;
   isEdit: boolean = false;
   buildStand: boolean;
   garden;
@@ -23,6 +25,18 @@ export class StandComponent implements OnInit {
   conversationId: boolean = false;
   messageSentPopUp = ''
   postingCrop: boolean = false;
+
+  // error checks
+  postCropError: boolean = false;
+  plantError: boolean = false;
+  descriptionError: boolean = false;
+  inventoryError: boolean = false;
+  detailsError: boolean = false;
+
+  firstCropDescription: boolean = false;
+  firstCropDetails: boolean = false;
+  firstCropInventory: boolean = false;
+  firstCropError: boolean = false;
 
   //crop photo values
   cropPhotos: string[] = [];
@@ -41,7 +55,7 @@ export class StandComponent implements OnInit {
     description: '',
     details: '',
     price: '',
-    inventory: '',
+    inventory: 0,
     check: this.check
   };
 
@@ -62,7 +76,7 @@ export class StandComponent implements OnInit {
       plant: 0,
       description: '',
       price: '',
-      inventory: null,
+      inventory: 0,
       details: '',
       photos: []
     }
@@ -106,6 +120,7 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log(this.user);
     this.messageSentPopUp = '';
     this.urlId = this.route.snapshot.paramMap.get('id');
     //checks to see if the page belongs to logged in user
@@ -118,8 +133,15 @@ export class StandComponent implements OnInit {
         //if the user's stand doesn't exist/no stand
         if (result['message'] && !this.user) {
           return this.hasStand = true;
-        } else if (result['message'] && this.correctUser) {
+        } else if (result['message'] && this.correctUser && !this.user.stand_name) {
+          // console.log('empty stand, has stand', this.emptyStand, this.hasStand);
+          this.emptyStand = false;
           return this.hasStand = false;
+        } else if (result['message'] && this.correctUser && this.user.stand_name) {
+          // console.log('empty stand, has stand???', this.emptyStand, this.hasStand);
+          this.emptyStand = true;
+          this.hasStand = true;
+          // console.log('uhhh?', this.emptyStand, this.hasStand);
         } else {
           this.hasStand = true;
           this.standOwner = result[0].user;
@@ -146,6 +168,39 @@ export class StandComponent implements OnInit {
   }
 
   addToStand() {
+    this.plantError = false;
+    this.descriptionError = false;
+    this.inventoryError = false;
+    this.detailsError = false;
+    this.postCropError = false;
+
+    // Replaces bad data
+    if (!this.postFormData.inventory || typeof this.postFormData.inventory !== 'number') {
+      this.postFormData.inventory = 0;
+    }
+    if (!this.postFormData.price) {
+      this.postFormData.price = 'Message me for more details!';
+    }
+
+    // Barrier check for separate errors
+    if (this.postFormData.plant == 0) {
+      this.plantError = true;
+    }
+    if (!this.postFormData.description) {
+      this.descriptionError = true;
+    }
+    if (!this.postFormData.inventory) {
+      this.inventoryError = true;
+    }
+    if (!this.postFormData.details) {
+      this.detailsError = true;
+    }
+
+    // Barrier check against all errors
+    if (this.plantError || this.descriptionError || this.inventoryError || this.detailsError) {
+      return this.postCropError = true;
+    }
+
     return this.backend.postDirectlyToStand(this.postFormData)
       .then(result => {
         this.showPostForm();
@@ -159,6 +214,34 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
+    //   firstCropDescription: boolean = false;
+    // firstCropDetails: boolean = false;
+    // firstCropInventory: boolean = false;
+    this.firstCropDescription = false;
+    this.firstCropDetails = false;
+    this.firstCropInventory = false;;
+
+    if (!this.moveFormData.inventory || typeof this.moveFormData.inventory !== 'number') {
+      this.moveFormData.inventory = 0;
+    }
+    if (!this.moveFormData.price) {
+      this.moveFormData.price = 'Message me for more details!';
+    }
+
+    if (!this.moveFormData.description) {
+      this.firstCropDescription = true;
+    }
+    if (!this.moveFormData.inventory) {
+      this.firstCropInventory = true;
+    }
+    if (!this.moveFormData.details) {
+      this.firstCropDetails = true;
+    }
+
+    if (this.firstCropDescription || this.firstCropDetails || this.firstCropInventory) {
+      return this.firstCropError = true;
+    }
+
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend
@@ -228,6 +311,11 @@ export class StandComponent implements OnInit {
   }
 
   editUser() {
+    this.badStandName = false;
+    if (this.standFormdata.stand_name.length < 3) {
+      return this.badStandName = true;
+    }
+
     this.backend.editUser(this.standFormdata).then(result => {
       this.user.stand_name = result['stand_name'];
       this.session.setSession(this.user);

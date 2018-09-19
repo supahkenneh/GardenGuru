@@ -44,42 +44,42 @@ const upload = multer({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport.serializeUser((user, done) => {
-//   return done(null, {
-//     id: user.id,
-//     username: user.username.toLowerCase(),
-//   });
-// });
+passport.serializeUser((user, done) => {
+  return done(null, {
+    id: user.id,
+    username: user.username.toLowerCase(),
+  });
+});
 
-// passport.deserializeUser((user, done) => {
-//   new User({ id: user.id })
-//     .fetch()
-//     .then(user => {
-//       user = user.toJSON();
-//       return done(null, {
-//         id: user.id,
-//         username: user.username.toLowerCase(),
-//         city: user.city,
-//         state: user.state
-//       });
-//     })
-//     .catch(err => {
-//       console.log('error : ', err);
-//       return done(err);
-//     });
-// });
+passport.deserializeUser((user, done) => {
+  new User({ id: user.id })
+    .fetch()
+    .then(user => {
+      user = user.toJSON();
+      return done(null, {
+        id: user.id,
+        username: user.username.toLowerCase(),
+        city: user.city,
+        state: user.state
+      });
+    })
+    .catch(err => {
+      console.log('error : ', err);
+      return done(err);
+    });
+});
 
 passport.use(
   new LocalStrategy((username, password, done) => {
     return new User({ username: username })
       .fetch()
       .then(user => {
-        user = user.toJSON();
         if (user === null) {
           return done(null, false, {
             message: 'Invalid Username and/or Password'
           });
         } else {
+          user = user.toJSON();
           bcrypt.compare(password, user.password).then(samePassword => {
             if (samePassword) {
               return done(null, user);
@@ -110,7 +110,7 @@ router.post('/register', upload.single('photo'), (req, res) => {
         return res.status(500);
       }
       let avatar_link;
-      if (req.file) {        
+      if (req.file) {
         avatar_link = req.file.location
       } else {
         avatar_link = null
