@@ -124,12 +124,11 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.user);
     this.messageSentPopUp = '';
     this.itemToDelete = '';
     this.urlId = this.route.snapshot.paramMap.get('id');
     //checks to see if the page belongs to logged in user
-    if (parseInt(this.urlId) === this.user.id) {
+    if (this.urlId === this.user.id) {
       this.correctUser = true
     }
     //get the stand

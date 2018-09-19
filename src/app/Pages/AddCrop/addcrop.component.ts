@@ -29,7 +29,7 @@ export class AddCropComponent implements OnInit {
 
   //value of watering is number of days
   cropFormData: {
-    plant: string;
+    plant: any;
     watering: number;
     month: string;
     day: string;
