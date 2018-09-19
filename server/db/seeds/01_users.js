@@ -1,23 +1,21 @@
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
   return knex('users')
     .del()
     .then(function() {
-      // Inserts seed entries
       return knex('users').insert([
         {
-          username: 'testuser',
+          username: 'johngardener',
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'grobrotest@gmail.com',
           first_name: 'John',
           last_name: 'Doe',
           rating: 0,
-          bio: 'Gardening is my hobby.',
+          bio: 'Gardening is my hobby. I grow mostly mangoes and avocados. DM me for batches',
           city: 'Honolulu',
-          state: 'Hawaii',
-          stand_name: 'Crops by John',
-          avatar_link: 'https://myspace.com/common/images/user.png'
+          state: 'HI',
+          stand_name: 'Mango Madness',
+          avatar_link: 'http://extension.msstate.edu/sites/default/files/styles/flexslider_full/public/slideshow/master-gardener-history/20160520_saladtables_1.jpg?itok=3jP8Pghk'
         },
         {
           username: 'jojoestar',
@@ -27,64 +25,67 @@ exports.seed = function(knex, Promise) {
           first_name: 'Jotaro',
           last_name: 'Kujo',
           rating: 0,
-          bio: '',
-          city: 'Dallas',
-          state: 'Texas',
-          stand_name: "Star Platinum"
+          bio: `Helping my parents sell their veggies.`,
+          city: 'Honolulu',
+          state: 'HI',
+          stand_name: "Joseph's Stand",
+          avatar_link: 'https://s3-eu-west-1.amazonaws.com/video.gallereplay.com/production/user_49/picture_2702201752636.jpg'
         },
         {
-          username: 'alexander12',
+          username: 'alex12',
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'alexanderthegreat21@gmail.com',
-          first_name: 'Alexander',
-          last_name: 'Z\'grate',
+          first_name: 'Alexis',
+          last_name: 'Snow',
           rating: 0,
-          bio: '',
+          bio: `It ain't over lentil it's over!`,
           city: 'Honolulu',
-          state: 'Hawaii',
-          stand_name: "Iskandar's Organic Veggies",
-          avatar_link: 'https://pbs.twimg.com/media/BLw0bLHCcAAuks-.png'
+          state: 'HI',
+          stand_name: "Alex's Organic Veggies",
+          avatar_link: 'https://pbs.twimg.com/profile_images/780905013283479552/ldu_bznx_400x400.jpg'
         },
         {
-          username: 'tsuyun',
+          username: 'thelegend27',
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'froppy@gmail.com',
-          first_name: 'Viceroy',
-          last_name: 'Yotsuyu',
+          first_name: 'Harry',
+          last_name: 'Potter',
           rating: 0,
-          bio: '',
+          bio: 'Herb your enthusiasm',
           city: 'Honolulu',
-          state: 'Hawaii',
-          stand_name: 'Fresh Fruits of Froppy',
-          avatar_link: ''
+          state: 'HI',
+          stand_name: `Harry's Herbs`,
+          avatar_link: 'https://pbs.twimg.com/profile_images/687720377032806400/77rcqBG7_400x400.jpg'
         },
         {
-          username: 'muibirb',
+          username: 'mint',
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'muibirb@gmail.com',
-          first_name: 'Kamui',
-          last_name: 'Isola',
+          first_name: 'Jessica',
+          last_name: 'Soo',
           rating: 0,
-          bio: '',
-          city: 'Miami',
-          state: 'Florida',
-          stand_name: ''
+          bio: 'My plants are mint condition!',
+          city: 'Aiea',
+          state: 'HI',
+          stand_name: 'Mint to be',
+          avatar_link: 'https://media.istockphoto.com/photos/pretty-asian-woman-standing-outdoors-picture-id489776304?k=6&m=489776304&s=612x612&w=0&h=GSJaepoaEoZUpeqCufkUY83bRwm_r3RPq7x8qWOGs_I='
         },
         {
-          username: 'merurun16',
+          username: 'aiea1',
           password:
             '$2b$12$HueRLBiASdSjLQA.EC9P6O3NeA0OTAGCl/22O.t2axPDe.oZPOJTO',
           email: 'merurun16@gmail.com',
-          first_name: 'Meru',
-          last_name: 'Isola',
+          first_name: 'Mandy',
+          last_name: 'Simons',
           rating: 0,
-          bio: '',
-          city: 'Miami',
-          state: 'Florida',
-          stand_name: ''
+          bio: `Hi! I love gardening!`,
+          city: 'Aiea',
+          state: 'HI',
+          stand_name: `Mandy's Market`,
+          avatar_link: 'https://ak1.picdn.net/shutterstock/videos/17173771/thumb/1.jpg'
         }
       ]);
     });

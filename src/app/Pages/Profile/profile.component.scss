@@ -12,6 +12,8 @@
       height: 200px;
       width: 200px;
       border-radius: 50%;
+      display: flex;
+      justify-content: center;
       border: 6px solid #7BC677;
       img {
         max-height: 100%;
@@ -128,18 +130,17 @@
       justify-content: space-around;
       position: fixed;
       bottom: 80px;
-      .submit-button, .cancel-button {
+      padding: auto 30px;
+      .submit-button, .cancel-button{
         border-radius: 50%;
         width: 50px;
         height: 50px;
         padding: 10px;
-        display: flex;
-        justify-content: center;
         background: #6BA368;
-      }
+      } 
     }
-    .submit-button, .cancel-button {
-      // position: fixed;
+    .hide-settings-button {
+      position: fixed;
       bottom: 80px;
       right: 160px;
       border-radius: 50%;
@@ -149,6 +150,46 @@
       display: flex;
       justify-content: center;
       background: #6BA368;
+    }
+  }
+}
+
+.not-logged-in {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  .unauth-container {
+    background: white;
+    height: 80%;
+    width: 100%;
+    border-radius: 5px;
+    padding: 15px;
+    .secondary-header {
+      font-size: 28px;
+      text-align: center;
+      margin-top: 15px;
+      div {
+        span {
+          text-decoration: underline;
+        }
+      }
+    }
+    .feature-description {
+      margin-top: 15px;
+      text-align: center;
+      div {
+        font-size: 18px;
+        margin-top: 100px;
+      }
+      ul {
+        width: 100%;
+        padding: 0;
+        li {
+          list-style-type: none;
+          padding: 5px;
+          font-size: 16px;
+        }
+      }
     }
   }
 }

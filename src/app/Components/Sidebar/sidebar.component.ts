@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { SessionService } from '../../Services/session.service';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,7 +22,12 @@ export class SidebarComponent {
     }
   }
 
-  constructor(private session: SessionService, private auth: AuthServiceReg) {
+  constructor(
+    private session: SessionService,
+    private auth: AuthServiceReg,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.user = session.getSession();
   }
 
@@ -37,7 +43,10 @@ export class SidebarComponent {
     return this.auth
       .logout()
       .then(() => {
-        console.log('user logged out');
+        console.log('User successfully logged out');
+        if (this.router.url === '/marketplace') {
+          location.reload();
+        }
       })
       .catch(err => {
         console.log(err.message);

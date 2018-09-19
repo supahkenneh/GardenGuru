@@ -25,6 +25,12 @@ export class StandComponent implements OnInit {
   conversationId: boolean = false;
   messageSentPopUp = ''
   postingCrop: boolean = false;
+  isLoggedIn: boolean = false;
+  placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
+
+  // delete confirmation
+  confirmDelete: boolean = false;
+  itemToDelete: string;
 
   // error checks
   postCropError: boolean = false;
@@ -88,7 +94,6 @@ export class StandComponent implements OnInit {
     if (event.target === document.getElementById('modal-container')) {
       this.showingGarden = !this.showingGarden;
     }
-
     if (event.target === document.getElementById('message-modal-container')) {
       this.openMessage = !this.openMessage;
     }
@@ -96,8 +101,6 @@ export class StandComponent implements OnInit {
       this.postingCrop = !this.postingCrop
     }
   }
-
-
 
   constructor(
     private backend: BackendService,
@@ -108,7 +111,8 @@ export class StandComponent implements OnInit {
     router.events.subscribe(val => {
       this.ngOnInit();
     });
-    this.user = session.getSession();
+    this.user = this.session.getSession();
+    this.isLoggedIn = this.session.isLoggedIn();
   }
 
   sendMessage() {
@@ -122,6 +126,7 @@ export class StandComponent implements OnInit {
   ngOnInit() {
     // console.log(this.user);
     this.messageSentPopUp = '';
+    this.itemToDelete = '';
     this.urlId = this.route.snapshot.paramMap.get('id');
     //checks to see if the page belongs to logged in user
     if (parseInt(this.urlId) === this.user.id) {
@@ -131,20 +136,18 @@ export class StandComponent implements OnInit {
     return this.backend.getStand(this.urlId)
       .then(result => {
         //if the user's stand doesn't exist/no stand
-        if (result['message'] && !this.user) {
+        if (result['message'] === `This user doesn't have a stand` && !this.user) {
           return this.hasStand = true;
-        } else if (result['message'] && this.correctUser && !this.user.stand_name) {
-          // console.log('empty stand, has stand', this.emptyStand, this.hasStand);
-          this.emptyStand = false;
+        } else if (result['message'] === `This user doesn't have a stand` && this.correctUser) {
           return this.hasStand = false;
-        } else if (result['message'] && this.correctUser && this.user.stand_name) {
-          // console.log('empty stand, has stand???', this.emptyStand, this.hasStand);
-          this.emptyStand = true;
-          this.hasStand = true;
-          // console.log('uhhh?', this.emptyStand, this.hasStand);
+        } else if (result['message'] === `No items`) {
+          return this.hasStand = true;
         } else {
           this.hasStand = true;
           this.standOwner = result[0].user;
+          if (!this.standOwner['avatar_link']) {
+            this.standOwner['avatar_link'] = this.placeholderImg
+          }
           this.sortCrops(result);
           let resultArr = Object.values(result);
           resultArr.map(crop => {
@@ -258,10 +261,6 @@ export class StandComponent implements OnInit {
       .catch(err => console.log(err.message));
   }
 
-  isLoggedIn() {
-    return this.session.isLoggedIn;
-  }
-
   turnEditToFalse() {
     this.isEdit = false;
   }
@@ -304,10 +303,22 @@ export class StandComponent implements OnInit {
     });
   }
 
-  deleteCrop(id) {
-    this.backend.deleteCrop(id).then(result => {
-      this.ngOnInit();
-    });
+  deleteCrop() {
+    this.backend.deleteCrop(this.itemToDelete)
+      .then(result => {
+        this.ngOnInit();
+        this.confirmDelete = false;
+      });
+  }
+
+  toggleDeleteConfirmation(id) {
+    if (this.confirmDelete) {
+      this.itemToDelete = '';
+      return this.confirmDelete = false;
+    } else {
+      this.itemToDelete = id
+      return this.confirmDelete = true;
+    }
   }
 
   editUser() {

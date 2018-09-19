@@ -62,13 +62,11 @@ import { SessionService } from './Services/session.service';
       {
         path: 'user/:id/stand',
         component: StandComponent,
-        canActivate: [AuthGuard]
       },
-      { path: 'garden', component: GardenComponent, canActivate: [AuthGuard] },
+      { path: 'garden', component: GardenComponent },
       {
         path: 'user/:id',
         component: ProfileComponent,
-        canActivate: [AuthGuard]
       },
       { path: 'crops/:id', component: CropComponent },
       {
@@ -107,4 +105,4 @@ import { SessionService } from './Services/session.service';
   providers: [BackendService, SessionService, AuthServiceReg, AuthGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

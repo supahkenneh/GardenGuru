@@ -1,6 +1,15 @@
 <div id="search-results-container">
   <div id="search-results">
-    Search Results
-    <div *ngFor="let searchResult of searchResults">{{searchResult.description}} {{searchResult.price}} {{searchResult.stand_name}}</div>
+    <div class="secondary-header">
+      <div>Your Search Results</div>
+    </div>
+    <div class="items-found" *ngIf="searchResults">{{getResultLength()}}</div>
+    <div class="search-result-container">
+      <div class="result" *ngFor="let searchResult of searchResults">
+        <div>{{searchResult.description}}</div>
+        <div>{{searchResult.price}}</div>
+        <div>{{searchResult.stand_name}}</div>
+      </div>
+    </div>
   </div>
 </div>

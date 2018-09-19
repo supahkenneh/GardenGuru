@@ -40,13 +40,13 @@ const upload = multer({
 
 router.get('/', (req, res) => {
   return Crop.query(function (qb) {
-    qb.orderBy('created_at', 'DESC')
+    qb.where('selling', '=', true);
+    qb.orderBy('created_at', 'DESC');
   })
-  .fetchAll({withRelated: ['plant', 'photo']})
-  .then(result=>{
-    console.log(result)
-    res.json(result)
-  })
+    .fetchAll({ withRelated: ['plant', 'photo'] })
+    .then(result => {
+      res.json(result)
+    })
 });
 
 router.post('/', upload.array('photo', 6), (req, res) => {
@@ -163,13 +163,13 @@ router.post('/search/:term', (req, res) => {
     if (category === 'My Garden' || category === 'My Stand') {
       res.send('You can only search through the marketplace. Please log in to search through your own crops!');
     } else if (category === 'Marketplace') {
-      return Crop 
+      return Crop
         .query(qb => {
           qb.innerJoin('users', 'crops.owner_id', 'users.id');
           qb.where('selling', '=', true)
             .andWhere('description', 'ILIKE', `${search}%`);
         })
-        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name']})
+        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name'] })
         .then(response => {
           if (err) {
             return res.send(err);
@@ -199,6 +199,7 @@ router.post('/search/:term', (req, res) => {
         })
         .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name'] })
         .then(response => {
+          console.log(response);
           if (response.length < 1) {
             return res.send('Nobody here but us chickens!');
           } else {
@@ -230,7 +231,7 @@ router.post('/search/:term', (req, res) => {
     } else if (category === 'My Garden') {
       return Crop
         .query(qb => {
-          qb.where('description', 'ILIKE', `${search}%`)
+          qb.where('garden_description', 'ILIKE', `${search}%`)
             .andWhere('crop_status', '=', 1)
             .andWhere('selling', '=', false)
             .andWhere('owner_id', '=', req.user.id);

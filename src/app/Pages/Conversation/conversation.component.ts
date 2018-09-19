@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
@@ -16,13 +16,14 @@ export class ConversationComponent implements OnInit {
   messages;
   user;
   userIsUser: boolean = false
-  deleted:boolean = true;
+  deleted: boolean = true;
+  convoPartner: string;
 
-  message:{
+  message: {
     content: string
   } = {
-    content:''
-  }
+      content: ''
+    }
 
   constructor(
     private auth: AuthServiceReg,
@@ -34,23 +35,29 @@ export class ConversationComponent implements OnInit {
     this.user = this.session.getSession()
   }
 
-  sendMessage(){
-    this.backend.sendMessage(this.message, this.conversationId )
-    .then(result=>{
-      this.messages.push(result)
-      this.ngOnInit()
-    })
+  sendMessage() {
+    this.backend.sendMessage(this.message, this.conversationId)
+      .then(result => {
+        this.messages.push(result)
+        this.message.content = '';
+        this.ngOnInit()
+      })
   }
 
   ngOnInit() {
     this.conversationId = this.route.snapshot.paramMap.get('id');
-    if(this.conversationId === this.user.id){
+    if (this.conversationId === this.user.id) {
       this.userIsUser = true
     }
-    
     this.backend.getConversation(this.conversationId)
-    .then(result=>{
-      this.messages = result;
-    })
+      .then(result => {
+        let resultArr = Object.values(result);
+        resultArr.map(msg => {
+          if (msg.from.username !== this.user.username) {
+            this.convoPartner = msg.from;
+          }
+        })
+        this.messages = result;
+      })
   }
 }

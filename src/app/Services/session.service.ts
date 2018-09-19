@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class SessionService {
     stand_name: string;
     rating: number;
   } = {
-      id: -1,
+      id: 0,
       loggedIn: false,
       username: '',
       first_name: '',
@@ -34,10 +35,10 @@ export class SessionService {
       if (userString) {
         this.user = JSON.parse(userString);
       } else {
-        console.log('user was not found');
+        console.log('');
       }
     } catch (err) {
-      console.log('could not parse user');
+      console.log('Could not parse user');
     }
   }
 

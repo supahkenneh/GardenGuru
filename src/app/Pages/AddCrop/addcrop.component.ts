@@ -21,6 +21,7 @@ export class AddCropComponent implements OnInit {
 
   plants: any;
   plantDescription: string = '';
+  plantNames: string[] = [];
 
   months: string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   years: number[] = [2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
@@ -28,7 +29,7 @@ export class AddCropComponent implements OnInit {
 
   //value of watering is number of days
   cropFormData: {
-    plant: number;
+    plant: string;
     watering: number;
     month: string;
     day: string;
@@ -36,7 +37,7 @@ export class AddCropComponent implements OnInit {
     garden_description: string;
     photo: File[];
   } = {
-      plant: 0,
+      plant: '',
       watering: 0,
       month: '',
       day: '',
@@ -68,8 +69,16 @@ export class AddCropComponent implements OnInit {
   ngOnInit() {
     return this.backend.getPlants()
       .then(plants => {
+        let plantsArr = Object.values(plants);
+        plantsArr.map(plant => {
+          this.plantNames.push(plant.name);
+        })
+        this.plantNames = this.plantNames.sort();
         this.plants = plants;
       })
+  }
+
+  getPlantInfo() {
   }
 
   addCrop() {
@@ -102,6 +111,12 @@ export class AddCropComponent implements OnInit {
       return this.generalError = true;
     }
 
+    let plantArr = Object.values(this.plants);
+    plantArr.map(plant => {
+      if (plant['name'] === this.cropFormData.plant) {
+        this.cropFormData.plant = plant['id']
+      }
+    })
     return this.backend.addCrop(this.cropFormData)
       .then(result => {
         return this.router.navigate(['/garden'])
@@ -112,10 +127,10 @@ export class AddCropComponent implements OnInit {
   }
 
   showPlantInfo() {
-    let id = this.cropFormData.plant
-    this.plants.map(plant => {
-      if (Number(id) === plant.id) {
-        return this.plantDescription = plant.description;
+    let plantArr = Object.values(this.plants);
+    plantArr.map(plant => {
+      if (plant['name'] === this.cropFormData.plant) {
+        return this.plantDescription = plant['description'];
       }
     })
   }

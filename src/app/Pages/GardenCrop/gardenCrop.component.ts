@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 @Component({
   templateUrl: './gardenCrop.component.html',
   styleUrls: ['./gardenCrop.component.scss']
@@ -16,6 +16,7 @@ export class GardenCropComponent implements OnInit {
   movingToStand: boolean = false;
   editId;
   check: boolean = true;
+  correctUser: boolean = false;
 
   //error checkers
   editGardenDescriptionError: boolean = false;
@@ -52,6 +53,8 @@ export class GardenCropComponent implements OnInit {
   photosToStand: File[] = [];
   selectedForStand: string[] = [];
 
+  // delete confirmation
+  confirmDelete: boolean = false;
 
   //form data
   gardenEditFormData: {
@@ -97,6 +100,9 @@ export class GardenCropComponent implements OnInit {
     return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
+        if (this.crop['owner_id'] === Number(this.user['id'])) {
+          this.correctUser = true;
+        }
         //gets photo links to be displayed on page
         if (this.crop['photo'].length > 0) {
           this.crop['photo'].map(photo => {
@@ -124,6 +130,14 @@ export class GardenCropComponent implements OnInit {
       this.editId = crop.id;
     }
     this.movingToStand = !this.movingToStand;
+  }
+
+  toggleDeleteConfirmation() {
+    if (this.confirmDelete) {
+      return this.confirmDelete = false;
+    } else {
+      return this.confirmDelete = true;
+    }
   }
 
   deleteCrop() {
@@ -178,12 +192,11 @@ export class GardenCropComponent implements OnInit {
   }
 
   editGardenCrop() {
+    //need to reset photosToDelete to prevent bug from unwanted photo removals
     this.photosToDelete.length = 0;
     this.gardenEditing = true;
     this.gardenEditFormData.watering_interval = this.crop['watering_interval'];
-    this.gardenEditFormData.garden_description = this.crop[
-      'garden_description'
-    ];
+    this.gardenEditFormData.garden_description = this.crop['garden_description'];
   }
 
   submitGardenEdit() {

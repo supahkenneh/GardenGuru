@@ -36,6 +36,8 @@ export class ProfileComponent implements OnInit {
   locationError: boolean = false;
   standError: boolean = false;
   profileError: boolean = false;
+  
+  placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
 
   passwordFormData: {
     oldPass: string,
@@ -111,6 +113,9 @@ export class ProfileComponent implements OnInit {
     }
     return this.backend.getUserProfile(this.urlId)
       .then(user => {
+        if (!user['avatar_link']) {
+          user['avatar_link'] = this.placeholderImg
+        }
         this.profile = user;
       })
   }

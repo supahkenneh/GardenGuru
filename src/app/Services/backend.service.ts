@@ -186,9 +186,7 @@ export class BackendService {
   }
 
   results(data) {
-    // console.log('search results service', data);
-    // this.searchResults.push(data);
-    this.searchResults = data;
+    return this.searchResults = data;
   }
 
   transferResults() {

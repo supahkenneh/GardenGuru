@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 @Component({
   templateUrl: './crop.component.html',
   styleUrls: ['./crop.component.scss']
@@ -13,6 +13,7 @@ export class CropComponent implements OnInit {
   loggedIn: boolean = false;
   crop: object;
   user
+  correctUser: boolean = false;
 
   standEditing: boolean = false;
 
@@ -35,6 +36,9 @@ export class CropComponent implements OnInit {
       details: ''
     }
 
+  //delete stuff
+  confirmDelete: boolean = false;
+
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -51,6 +55,9 @@ export class CropComponent implements OnInit {
     return this.backend.getCrop(this.cropId)
       .then(result => {
         this.crop = result;
+        if (this.crop['owner_id'] === Number(this.user.id)) {
+          this.correctUser = true;
+        }
         if (this.crop['photo'].length > 0) {
           this.crop['photo'].map(photo => {
             this.photos.push(photo.link);
@@ -68,6 +75,14 @@ export class CropComponent implements OnInit {
       .then(result => {
         return this.router.navigate([`/user/${this.crop['owner_id']}/stand`])
       })
+  }
+
+  toggleDeleteConfirmation(id) {
+    if (this.confirmDelete) {
+      return this.confirmDelete = false;
+    } else {
+      return this.confirmDelete = true;
+    }
   }
 
   editCrop() {

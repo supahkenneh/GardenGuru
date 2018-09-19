@@ -1,43 +1,47 @@
 <div class="marketplace-container" *ngIf="loggedIn">
-
-    <div class="stands-section" >
+    <div class="stands-section">
         <div class="marketplace-header">
             <div class="marketplace-title">Stands in {{user.city}}</div>
         </div>
         <div class="stands-container">
-            <div class="stand" *ngFor="let stand of stands">
+            <div class="stand" *ngFor="let stand of stands" routerLink="/user/{{stand.id}}/stand">
                 <div class="stand-name"> {{stand.stand_name}}</div>
-                <div class="avatar" *ngIf="stand.avatar_link" [style.backgroundImage]="'url('+ stand.avatar_link +')'"></div>
+                <div class="avatar" *ngIf="stand.avatar_link">
+                    <img src="{{stand.avatar_link}}">
+                </div>
                 <div class="no-avatar" *ngIf="!stand.avatar_link"></div>
             </div>
         </div>
     </div>
-    <div class="crops-section" >
+    <div class="crops-section">
         <div class="crops-title">Recently added items in {{user.city}}</div>
         <div class="crops-container">
-            <div class="crops" *ngFor="let crop of crops">
-                <div class="price">{{crop.price}}</div>
-                <div class="image" [style.backgroundImage]="'url('+ crop.photo[0].link +')'"> </div>
+            <div class="crops" *ngFor="let crop of crops" routerLink="/crops/{{crop.id}}">
                 <div class="description">{{crop.description}}</div>
+                <div class="image">
+                    <img src="{{crop.displayPhoto}}" Í>
+                </div>
+                <div class="price">{{crop.price}}</div>
             </div>
         </div>
     </div>
-
 </div>
 
 <div class="main-container-unauth" *ngIf="!loggedIn">
     <div class="message-container">
+        <div class="message">Recently Added Crops</div>
         <div class="message">
-            These Are Recently Added Crops To GrowBro...
-        </div>
-        <div class="message">
-            To View Stands and Crops In Your City, Login!
+            Login to view stands/crops locally
         </div>
     </div>
     <div class="crops" *ngFor="let crop of recentlyAddedCrops">
-        <div class="price">{{crop.price}}</div>
-        <div class="image" [style.backgroundImage]="'url('+ crop.photo[0].link +')'"> </div>
         <div class="description">{{crop.description}}</div>
+        <div class="image-container">
+            <img src="{{crop.displayPic}}">
+        </div>
+        <div class="content-container">
+            <div class="price">Price: {{crop.price}}</div>
+            <div class="details">{{crop.details}}</div>
+        </div>
     </div>
-    
 </div>
