@@ -2,6 +2,7 @@
 
 .content-container {
   padding: 20px;
+  width: 100%;
   height: 110%;
   .crop-container {
     background: white;
@@ -11,6 +12,7 @@
     flex-direction: column;
     align-items: center;
     height: 100%;
+    width: 100%;
     .secondary-header {
       margin-bottom: 20px;
       div {
@@ -46,44 +48,42 @@
     font-size: 18px;
     margin: 10px;
   }
-  .edit-button {
+  .auth-buttons {
+    display: flex;
     position: fixed;
     bottom: $circleButtonBot;
-    left: 30px;
-    border-radius: $circle;
-    width: $circleButton;
-    height: $circleButton;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    background: $brightGreen;
-    box-shadow: 1px 1px 15px gray;
-  }
-  .stand-button {
-    position: fixed;
-    bottom: $circleButtonBot;
-    right: 30px;
-    border-radius: $circle;
-    width: $circleButton;
-    height: $circleButton;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    background: $brightGreen;
-    box-shadow: 1px 1px 15px gray;
-  }
-  .delete-button {
-    position: fixed;
-    bottom: $circleButtonBot;
-    left: 160px;
-    border-radius: $circle;
-    width: $circleButton;
-    height: $circleButton;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    background: $alertRed;
-    box-shadow: 1px 1px 15px gray;
+    width: 100%;
+    justify-content: space-around;
+    .edit-button {
+      border-radius: $circle;
+      width: $circleButton;
+      height: $circleButton;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      background: $brightGreen;
+      box-shadow: $circularShadow;
+    }
+    .stand-button {
+      border-radius: $circle;
+      width: $circleButton;
+      height: $circleButton;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      background: $brightGreen;
+      box-shadow: $circularShadow;
+    }
+    .delete-button {
+      border-radius: $circle;
+      width: $circleButton;
+      height: $circleButton;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      background: $alertRed;
+      box-shadow: $circularShadow;
+    }
   }
 // EDIT GARDEN CROP STYLING
 .editing-body {
@@ -128,7 +128,7 @@
   display: flex;
   justify-content: center;
   background: $brightGreen;
-  box-shadow: 1px 1px 15px gray;
+  box-shadow: $circularShadow;
 }
 .cancel-button {
   position: fixed;
@@ -141,7 +141,7 @@
   display: flex;
   justify-content: center;
   background: $alertRed;
-  box-shadow: 1px 1px 15px gray;
+  box-shadow: $circularShadow;
 }
 .remove-container {
   display: flex;
@@ -257,7 +257,7 @@
         display: flex;
         justify-content: center;
         background: $brightGreen;
-        box-shadow: 1px 1px 15px gray;
+        box-shadow: $circularShadow;
       }
       .cancel-button {
         border-radius: $circle;
@@ -267,7 +267,7 @@
         display: flex;
         justify-content: center;
         background: $alertRed;
-        box-shadow: 1px 1px 15px gray;
+        box-shadow: $circularShadow;
       }
     }
   }
