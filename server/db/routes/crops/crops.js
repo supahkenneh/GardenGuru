@@ -367,6 +367,7 @@ router.put('/:id', upload.array('photo', 6), (req, res) => {
 router.put('/:id/move', upload.array('photo', 6), (req, res) => {
   const id = req.params.id;
   const { description, details, price, inventory, check } = req.body;
+  console.log(check, 'in backedn')
   const selling = true;
   let savingPhotosPromise = new Promise((resolve, reject) => {
     if (req.body.links) {
@@ -413,7 +414,7 @@ router.put('/:id/move', upload.array('photo', 6), (req, res) => {
       savePhotoLocationPromise
     })
     .then(() => {
-      if (check) {
+      if (check === true) {
         return new Crop({ id })
           .save(
             {
