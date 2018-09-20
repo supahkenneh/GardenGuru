@@ -1,5 +1,5 @@
-$mainFont: 'Lato', sans-serif;
-$subFont: 'Catamaran', sans-serif;
+@import "_variables";
+// $mainFont: 'PT Sans', sans-serif;
 
 html {
   box-sizing: border-box;
@@ -22,7 +22,6 @@ html, body{
   padding:15px;
   font-size:16px;
   border-radius:10px;
-
   &.blue{
     background-color:blue;
   }

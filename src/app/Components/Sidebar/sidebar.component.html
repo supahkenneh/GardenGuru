@@ -7,9 +7,6 @@
       <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()" routerLink="register">
         <a>Register</a>
       </li>
-      <li (click)="toggleSideBar()" routerLink="about">
-        <a>About</a>
-      </li>
       <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
         <button class="logout-button" routerLink="/marketplace" (click)="logout()">Logout</button>
       </li>

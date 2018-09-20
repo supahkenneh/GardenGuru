@@ -1,8 +1,10 @@
+@import '../../../_variables';
+
 .footer-container {
   width: 100%;
   position: fixed;
   bottom: 0;
-  background: #6BA368;
+  background: $darkestGreen;
   height: 8%;
   display: flex;
   align-items:center;
