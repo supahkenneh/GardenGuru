@@ -10,7 +10,7 @@
     </div>
     <div class="convo-partner" routerLink="/user/{{convoPartner.id}}/stand">{{convoPartner.username}}</div>
   </div>
-  <div class="message-container">
+  <div class="message-container" id = "message-container" style="overflow: scroll; height: xyz;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
     <div class="messages" *ngFor="let message of messages">
       <div class="not-my-message" *ngIf="user.id != message.from.id">
         <div class="message-content">{{message.content}}</div>

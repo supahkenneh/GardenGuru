@@ -59,5 +59,7 @@ export class ConversationComponent implements OnInit {
         })
         this.messages = result;
       })
+    let body = document.documentElement;
+    body.scrollTop +=10000000;
   }
 }
