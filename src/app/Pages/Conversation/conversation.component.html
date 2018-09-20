@@ -1,4 +1,4 @@
-<div class="conversation-container" *ngIf="convoPartner">
+<div class="conversation-container" id = "conversation-container" *ngIf="convoPartner">
   <div class="message-header">
     <div class="back-buttons">
       <button routerLink="/messages" class="back" *ngIf="userIsUser">
@@ -10,7 +10,7 @@
     </div>
     <div class="convo-partner" routerLink="/user/{{convoPartner.id}}/stand">{{convoPartner.username}}</div>
   </div>
-  <div class="message-container">
+  <div class="message-container" id ="m">
     <div class="messages" *ngFor="let message of messages">
       <div class="not-my-message" *ngIf="user.id != message.from.id">
         <div class="message-content">{{message.content}}</div>
