@@ -99,8 +99,6 @@ export class ProfileComponent implements OnInit {
     this.passwordFormData.valPass = '';
     this.locationFormData.city = this.user.city;
     this.locationFormData.state = this.user.state;
-    this.standFormData.stand_name = this.user.stand_name;
-    // this.profileFormData.bio = '';
     this.profileFormData.photo = null;
     this.urlId = this.route.snapshot.paramMap.get('id');
     //check to see if user owns that profile
@@ -111,12 +109,13 @@ export class ProfileComponent implements OnInit {
       this.userStandError = true;
     }
     return this.backend.getUserProfile(this.urlId)
-      .then(user => {
-        if (!user['avatar_link']) {
-          user['avatar_link'] = this.placeholderImg
-        }
-        this.profile = user;
-        this.profileFormData.bio = this.profile.bio;
+    .then(user => {
+      if (!user['avatar_link']) {
+        user['avatar_link'] = this.placeholderImg
+      }
+      this.profile = user;
+      this.profileFormData.bio = this.profile.bio;
+      this.standFormData.stand_name = this.profile.stand_name;
       })
   }
 
