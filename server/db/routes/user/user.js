@@ -138,8 +138,7 @@ router.post('/messages/:id', (req, res) => {
       
                 const data = {
                   from: `GroBro <${botEmail}>`,
-                  to: 'gardenguru@mailinator.com',
-                  // to: `${toEmail}`,
+                  to: `${toEmail}`,
                   subject: `${req.user.username} is trying to reach you!`,
                   text: `${messageBody}`
                 };
