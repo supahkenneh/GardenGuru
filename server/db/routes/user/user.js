@@ -115,32 +115,60 @@ router.post('/messages/:id', (req, res) => {
   const messageBody = req.body.content;
   let err;
 
-  return new Message({
-    from: initiatorId,
-    to: to,
-    content: messageBody
-  })
-    .save()
-    .then(message => {
-      return User.where({ id: to })
-        .fetch()
-        .then(user => {
-          const toEmail = user.attributes.email;
-
-          const data = {
-            from: `GroBro <${botEmail}>`,
-            to: `${toEmail}`,
-            subject: `${req.user.username} is trying to reach you!`,
-            text: `${messageBody}`
-          };
-          mailgun.messages().send(data, (error, body) => {
-            if (error) {
-              console.log(error);
-            }
+  return Message 
+    .query(qb => {
+      qb.where({ from: initiatorId, to: to})
+    })
+    .fetch()
+    .then(check => {
+      if (!check) {
+        // If no message of ONLY "user to receiver,"
+        // email is sent
+        return new Message({
+          from: initiatorId,
+          to: to,
+          content: messageBody
+        })
+          .save()
+          .then(message => {
+            return User.where({ id: to })
+              .fetch()
+              .then(user => {
+                const toEmail = user.attributes.email;
+      
+                const data = {
+                  from: `GroBro <${botEmail}>`,
+                  to: 'gardenguru@mailinator.com',
+                  // to: `${toEmail}`,
+                  subject: `${req.user.username} is trying to reach you!`,
+                  text: `${messageBody}`
+                };
+                mailgun.messages().send(data, (error, body) => {
+                  if (error) {
+                    console.log(error);
+                  }
+                });
+                res.json(message);
+              });
           });
-          res.json(message);
-        });
-    });
+      } else {
+        // If message of ONLY "user to receiver"
+        // exists, no email is sent
+        return new Message({
+          from: initiatorId,
+          to: to,
+          content: messageBody
+        })
+          .save()
+          .then(message => {
+            return User.where({ id: to })
+              .fetch()
+              .then(user => {              
+                res.json(message);
+              });
+          });
+      }
+    })
 });
 
 router.get('/conversations/:id', (req, res) => {
