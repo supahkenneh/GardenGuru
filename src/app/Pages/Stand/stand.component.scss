@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: $subFont;
   .secondary-header {
     width: 100%;
     height: 80px;
@@ -13,11 +14,14 @@
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    font-size: 28px;
-    margin: 15px auto;
-    margin-bottom: 20px;
+    margin: 10px auto;
+    margin-bottom: 5px;
+    .stand-title {
+      width: 50%;
+      font-size: 24px;
+    }
     .avatar {
-      border-radius: 50%;
+      border-radius: $circle;
       width: 60px;
       height: 60px;
       display: flex;
@@ -27,19 +31,19 @@
         border: 3px solid $greenYellow;
         max-width: 100%;
         max-height: 100%;
-        border-radius: 50%;
+        border-radius: $circle;
       }
     }
     .message-stand {
       .message-button {
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        border-radius: $circle;
+        width: $circleButton;
+        height: $circleButton;
         padding: 10px;
         display: flex;
         justify-content: center;
         background: $brightGreen;
-        box-shadow: 1px 1px 15px gray;
+        box-shadow: $circularShadow;
       }
     }
   }
@@ -47,9 +51,10 @@
     margin-bottom: 100px;
     .crop {
       margin: 15px auto;
-      padding: 10px;
+      padding: 15px;
       background: white;
       border-radius: 5px;
+      box-shadow: $circularShadow;
       .image-container {
         height: 250px;
         width: 300px;
@@ -135,7 +140,7 @@
       position: fixed;
       bottom: 400px;
       left: 40%;
-      border-radius: 50%;
+      border-radius: $circle;
       width: 80px;
       height: 80px;
       padding: 10px;
@@ -246,10 +251,10 @@
               font-size: 18px;
             }
             .check-true {
-              color: green;
+              color: $darkestGreen;
             }
             .check-false {
-              color: red;
+              color: $alertRed;
             }
             label {
               font-size: 18px;
@@ -384,6 +389,7 @@
     height: 250px;
     background: whitesmoke;
     border-radius: 5px;
+    box-shadow: $circularShadow;
     .enter-message-container {
       padding: 10px;
       height: 100%;
@@ -414,16 +420,20 @@
           resize: none;
           overflow: scroll;
         }
-        button {
-          border: 1px solid black;
-          border-radius: 5px;
-          padding: 10px;
-          width: 100px;
-          height: 50px;
-          margin: 10px auto;
-          font-size: 16px;
-          background: transparent;
-          color: $brightGreen;
+        .msg-button-options {
+          button {
+            border-radius: 5px;
+            padding: 10px;
+            width: 70px;
+            margin: 10px;
+            font-size: 14px;
+            background: $brightGreen;
+            color: white;
+            box-shadow: $circularShadow;
+          }
+          button:nth-child(2) {
+            background: $alertRed;
+          }
         }
       }
     }
@@ -547,14 +557,6 @@
     justify-content: center;
     div {
       color: red;
-    }
-  }
-}
-
-#message-modal-container {
-  #message-modal-content {
-    .enter-message-container {
-      
     }
   }
 }

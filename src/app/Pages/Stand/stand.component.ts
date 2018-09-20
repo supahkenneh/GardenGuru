@@ -116,11 +116,13 @@ export class StandComponent implements OnInit {
   }
 
   sendMessage() {
-    this.backend.sendMessage(this.message, this.urlId).then(result => {
-      this.openMessage = false;
-      this.message.content = '';
-      this.messageSentPopUp = 'Message Sent!';
-    });
+    if (this.message.content.length > 0) {
+      this.backend.sendMessage(this.message, this.urlId).then(result => {
+        this.openMessage = false;
+        this.message.content = '';
+        this.messageSentPopUp = 'Message Sent!';
+      });
+    }
   }
 
   ngOnInit() {
@@ -218,9 +220,6 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
-    //   firstCropDescription: boolean = false;
-    // firstCropDetails: boolean = false;
-    // firstCropInventory: boolean = false;
     this.firstCropDescription = false;
     this.firstCropDetails = false;
     this.firstCropInventory = false;;
@@ -348,7 +347,11 @@ export class StandComponent implements OnInit {
   }
 
   startConversation() {
-    this.openMessage = !this.openMessage;
+    if (this.openMessage) {
+      return this.openMessage = false;
+    } else {
+      this.openMessage = true;
+    }
   }
 
   //photo functions

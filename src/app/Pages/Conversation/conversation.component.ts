@@ -36,12 +36,14 @@ export class ConversationComponent implements OnInit {
   }
 
   sendMessage() {
-    this.backend.sendMessage(this.message, this.conversationId)
-      .then(result => {
-        this.messages.push(result)
-        this.message.content = '';
-        this.ngOnInit()
-      })
+    if (this.message.content.length > 0) {
+      this.backend.sendMessage(this.message, this.conversationId)
+        .then(result => {
+          this.messages.push(result)
+          this.message.content = '';
+          this.ngOnInit()
+        })
+    }
   }
 
   ngOnInit() {

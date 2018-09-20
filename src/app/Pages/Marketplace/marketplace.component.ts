@@ -27,7 +27,6 @@ export class MarketplaceComponent implements OnInit {
     if (this.loggedIn) {
       return this.backend.getMarketplace()
         .then(result => {
-          console.log(result);
           let resultArr = Object.values(result);
           resultArr.map(stand => {
             if (!stand.avatar_link) {
