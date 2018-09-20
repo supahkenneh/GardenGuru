@@ -149,6 +149,8 @@ export class GardenCropComponent implements OnInit {
   }
 
   moveToStand() {
+    const checked = this.moveFormData.check
+    console.log(checked)
     this.moveDescriptionError = false;
     this.moveDetailsError = false;
     this.moveInventoryError = false;
@@ -182,7 +184,7 @@ export class GardenCropComponent implements OnInit {
     
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
-    this.backend.moveToStand(this.cropId, this.moveFormData)
+    this.backend.moveToStand(this.cropId, this.moveFormData, checked)
       .then(response => {
         this.router.navigate([`/user/${this.user['id']}/stand`])
       })
