@@ -1,6 +1,7 @@
 .conversation-container{
   width:100%;
   .message-header {
+    padding-top:10%;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -9,6 +10,7 @@
     padding-bottom: 10px;
     background: #49A078;
     color: white;
+    position: fixed;
     .back-buttons {
       display: flex;
       justify-self: flex-start;
@@ -20,12 +22,15 @@
     }
   }
   .message-container{
-    display:flex;
-    flex-direction: column;
     width:100%;
     padding-bottom: 30%;
+    top:16%;
+    bottom:0;
+    position:fixed;
+    overflow-y:scroll;
   }
   .messages{
+    
     width:100%;
     margin: 5px auto;
     display: flex;

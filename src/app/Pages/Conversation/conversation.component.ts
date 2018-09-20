@@ -42,9 +42,9 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(){
-    let messageContainer = document.getElementById('m')
+    const messageContainer = document.getElementById('m')
     if(messageContainer){
-    window.scrollTo(0, messageContainer.scrollHeight);
+      messageContainer.scrollTo(0, 9999999)
     }
 
   }

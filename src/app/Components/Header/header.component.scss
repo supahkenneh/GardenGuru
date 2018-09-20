@@ -6,6 +6,9 @@
   height: 10%;
   background: $darkestGreen;
   align-items: center;
+  z-index: 1;
+  position: fixed;
+  width:100%;
 }
 
 .title {
