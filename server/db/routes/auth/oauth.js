@@ -38,4 +38,5 @@ router.get(
     res.redirect('/marketplace');
   }
 );
+
 module.exports = router;
