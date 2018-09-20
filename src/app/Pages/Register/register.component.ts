@@ -88,11 +88,11 @@ export class RegisterComponent {
 
     if (
       this.usernameError ||
-      // this.invalidUsername ||
+      this.invalidUsername ||
       this.passwordError ||
       this.realNameError ||
       this.emailError ||
-      // this.invalidEmail ||
+      this.invalidEmail ||
       this.locationError
     ) {
       return this.generalRegisterError = true;

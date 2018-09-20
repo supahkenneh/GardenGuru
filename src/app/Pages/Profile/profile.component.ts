@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
   locationError: boolean = false;
   standError: boolean = false;
   profileError: boolean = false;
-  
+
   placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
 
   passwordFormData: {
@@ -100,9 +100,8 @@ export class ProfileComponent implements OnInit {
     this.locationFormData.city = this.user.city;
     this.locationFormData.state = this.user.state;
     this.standFormData.stand_name = this.user.stand_name;
-    this.profileFormData.bio = this.user.bio;
+    // this.profileFormData.bio = '';
     this.profileFormData.photo = null;
-
     this.urlId = this.route.snapshot.paramMap.get('id');
     //check to see if user owns that profile
     if (this.urlId === `${this.user.id}`) {
@@ -117,6 +116,7 @@ export class ProfileComponent implements OnInit {
           user['avatar_link'] = this.placeholderImg
         }
         this.profile = user;
+        this.profileFormData.bio = this.profile.bio;
       })
   }
 
@@ -213,7 +213,6 @@ export class ProfileComponent implements OnInit {
       if (!this.profileFormData.bio) {
         this.profileFormData.bio = this.user.bio;
       }
-
       this.profileFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.profileFormData)
         .then(result => {
