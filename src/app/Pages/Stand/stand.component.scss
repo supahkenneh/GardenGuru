@@ -211,6 +211,21 @@
 }
 
 .empty-stand-container {
+  padding: 15px;
+  .secondary-header {
+    width: 100%;
+    margin: 30% auto;
+    background: white;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    div {
+      font-size: 20px;
+    }
+  }
   .garden-button {
     position: fixed;
     bottom: 80px;

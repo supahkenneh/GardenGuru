@@ -14,10 +14,10 @@
         <button class="logout-button" routerLink="/marketplace" (click)="logout()">Logout</button>
       </li>
       <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="sentConversations">
-        <a>Inquiries Sent</a>
+        <a>Sent</a>
       </li>
       <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="messages">
-        <a>Incoming Inquiries</a>
+        <a>Received</a>
       </li>
     </ul>
   </div>
