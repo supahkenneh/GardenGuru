@@ -30,6 +30,10 @@ import { AuthGuard } from './Services/guard.service';
 import { AuthServiceReg } from './Services/auth.service';
 import { SessionService } from './Services/session.service';
 
+//material
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,7 +104,10 @@ import { SessionService } from './Services/session.service';
         canActivate: [AuthGuard]
       },
       { path: 'search-results/:term', component: SearchResultsComponent }
-    ])
+    ]),
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
   providers: [BackendService, SessionService, AuthServiceReg, AuthGuard],
   bootstrap: [AppComponent]

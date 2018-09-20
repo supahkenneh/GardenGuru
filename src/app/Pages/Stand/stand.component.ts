@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
+import { MatSnackBar } from '@angular/material';
+
 @Component({
   templateUrl: './stand.component.html',
   styleUrls: ['./stand.component.scss']
@@ -106,7 +108,8 @@ export class StandComponent implements OnInit {
     private backend: BackendService,
     private router: Router,
     private route: ActivatedRoute,
-    private session: SessionService
+    private session: SessionService,
+    public popUp: MatSnackBar
   ) {
     router.events.subscribe(val => {
       this.ngOnInit();
@@ -117,11 +120,12 @@ export class StandComponent implements OnInit {
 
   sendMessage() {
     if (this.message.content.length > 0) {
-      this.backend.sendMessage(this.message, this.urlId).then(result => {
-        this.openMessage = false;
-        this.message.content = '';
-        this.messageSentPopUp = 'Message Sent!';
-      });
+      this.backend.sendMessage(this.message, this.urlId)
+        .then(result => {
+          this.openMessage = false;
+          this.popUp.open('Message Sent!', 'Dismiss', { duration: 2000 });
+          this.message.content = '';
+        });
     }
   }
 
