@@ -57,6 +57,7 @@ import { SessionService } from './Services/session.service';
     HttpClientModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
+      { path: '', component: MarketplaceComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'marketplace', component: MarketplaceComponent },
       {
