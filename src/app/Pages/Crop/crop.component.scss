@@ -11,15 +11,16 @@
     flex-direction: column;
     align-items: center;
     height: 100%;
+    box-shadow: $circularShadow;
     .secondary-header {
       margin-bottom: 20px;
       div {
-        font-size: 20px;
+        font-size: 28px;
       }
     }
     .img-container {
-      height: 200px;
-      width: 200px;
+      height: 250px;
+      width: 300px;
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -49,12 +50,12 @@
       display: flex;
       justify-content: center;
       position: absolute;
-      top: 130px;
-      right: 65px;
+      top: 150px;
+      right: 30px;
       svg {
         height: 40px;
         width: 40px;
-        fill: red;
+        fill: tomato;
       }
     }
     .editing-body {
@@ -101,54 +102,58 @@
         position: fixed;
         bottom: 80px;
         left: 60px;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        border-radius: $circle;
+        width: $circleButton;
+        height: $circleButton;
         padding: 10px;
         display: flex;
         justify-content: center;
-        background: #6BA368;
+        background: $brightGreen;
+        box-shadow: $circularShadow;
       }
       .cancel-button {
         position: fixed;
         bottom: 80px;
         right: 60px;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        border-radius: $circle;
+        width: $circleButton;
+        height: $circleButton;
         padding: 10px;
         display: flex;
         justify-content: center;
-        background: #6BA368;
+        background: $alertRed;
+        box-shadow: $circularShadow;
       }
     }
   }
   .auth-actions {
     position: fixed;
-    bottom: 80px;
+    bottom: $circleButtonBot;
     .edit-button {
       position: fixed;
-      bottom: 80px;
-      left: 30px;
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
+      bottom: $circleButtonBot;
+      left: 40px;
+      border-radius: $circle;
+      width: $circleButton;
+      height: $circleButton;
       padding: 10px;
       display: flex;
       justify-content: center;
-      background: #6BA368;
+      background: $brightGreen;
+      box-shadow: $circularShadow;
     }
     .delete-button {
       position: fixed;
-      bottom: 80px;
-      right: 30px;
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
+      bottom: $circleButtonBot;
+      right: 40px;
+      border-radius: $circle;
+      width: $circleButton;
+      height: $circleButton;
       padding: 10px;
       display: flex;
       justify-content: center;
-      background: #6BA368;
+      background: $alertRed;
+      box-shadow: $circularShadow;
     }
   }
 }
@@ -174,18 +179,27 @@
     div {
       font-size: 22px;
     }
+    .note {
+      font-size: 12px;
+      text-align: center;
+      color: red;
+    }
     .button-container {
       display: flex;
       width: 100%;
       justify-content: space-around;
       margin: 15px auto;
       button {
-        border: 1px solid #6BA368;
-        background: transparent;
+        background: $brightGreen;
         padding: 10px;
         border-radius: 5px;
         font-size: 14px;
-        color: black;
+        color: white;
+        width: 70px;
+        box-shadow: $circularShadow;
+      }
+      button:nth-child(2) {
+        background: $alertRed;
       }
     }
   }

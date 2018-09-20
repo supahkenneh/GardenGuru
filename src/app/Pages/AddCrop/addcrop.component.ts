@@ -78,9 +78,6 @@ export class AddCropComponent implements OnInit {
       })
   }
 
-  getPlantInfo() {
-  }
-
   addCrop() {
     this.plantError = false;
     this.gardenDescriptionError = false;

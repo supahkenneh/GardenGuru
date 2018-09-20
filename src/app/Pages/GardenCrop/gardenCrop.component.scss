@@ -49,7 +49,7 @@
   .edit-button {
     position: fixed;
     bottom: $circleButtonBot;
-    right: 160px;
+    left: 30px;
     border-radius: $circle;
     width: $circleButton;
     height: $circleButton;
@@ -75,14 +75,14 @@
   .delete-button {
     position: fixed;
     bottom: $circleButtonBot;
-    left: 30px;
+    left: 160px;
     border-radius: $circle;
     width: $circleButton;
     height: $circleButton;
     padding: 10px;
     display: flex;
     justify-content: center;
-    background: $brightGreen;
+    background: $alertRed;
     box-shadow: 1px 1px 15px gray;
   }
 // EDIT GARDEN CROP STYLING
