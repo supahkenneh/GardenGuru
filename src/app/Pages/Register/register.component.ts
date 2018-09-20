@@ -14,9 +14,11 @@ export class RegisterComponent {
   generalRegisterError: boolean = false;
   usernameError: boolean = false;
   takenUsername: boolean = false;
+  invalidUsername: boolean = false;
   passwordError: boolean = false;
   realNameError: boolean = false;
   emailError: boolean = false;
+  invalidEmail: boolean = false;
   takenEmail: boolean = false;
   locationError: boolean = false;
   error: boolean = false;
@@ -53,14 +55,20 @@ export class RegisterComponent {
   register() {
     this.generalRegisterError = false;
     this.usernameError = false;
+    this.invalidUsername = false;
     this.passwordError = false;
     this.realNameError = false;
     this.emailError = false;
+    this.invalidEmail = false;
+  
     this.locationError = false;
     this.error = false;
 
     if (this.registerFormData.username.length < 5) {
       this.usernameError = true;
+    }
+    if (this.registerFormData.username.match(/[^a-z0-9.@]+/gi)){
+      this.invalidUsername = true;
     }
     if (this.registerFormData.password.length < 5) {
       this.passwordError = true;
@@ -71,19 +79,27 @@ export class RegisterComponent {
     if (!this.registerFormData.email) {
       this.emailError = true;
     }
+    if (!this.registerFormData.email.match(/[a-z0-9]+@[a-z0-9]+\.[a-z0-9]+/gi)) {
+      this.invalidEmail = true;
+    }
     if (!this.registerFormData.city || !this.registerFormData.state) {
       this.locationError = true;
     }
 
     if (
       this.usernameError ||
+      // this.invalidUsername ||
       this.passwordError ||
       this.realNameError ||
       this.emailError ||
+      // this.invalidEmail ||
       this.locationError
     ) {
       return this.generalRegisterError = true;
     }
+
+    this.registerFormData.username = this.registerFormData.username.toLowerCase();
+    this.registerFormData.password = this.registerFormData.password.toLowerCase();
 
     return this.auth.register(this.registerFormData)
       .then(result => {
