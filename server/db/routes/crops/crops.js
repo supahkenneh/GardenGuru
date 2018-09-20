@@ -415,7 +415,6 @@ router.put('/:id/move', upload.array('photo', 6), (req, res) => {
     })
     .then(() => {
       if (check == 'true') {
-        console.log('typeof check', typeof check);
         return new Crop({ id })
           .save(
             {
