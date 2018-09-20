@@ -6,7 +6,6 @@
     <div class="plant-container">
       <select name="plants" (change)="showPlantInfo()" [(ngModel)]="cropFormData.plant">
         <option value="">Select Plant</option>
-        <!-- <option *ngFor="let plant of plants" value="{{plant.id}}">{{plant.name}}</option> -->
         <option value="{{name}}" *ngFor="let name of plantNames">{{name}}</option>
       </select>
     </div>
@@ -57,8 +56,9 @@
     <div class="photo-list" *ngFor="let photo of cropFormData.photo">
       <div class="photo-name">{{photo.name}}</div>
     </div>
-    
+
     <button (click)="addCrop()" class="add-button">Add To Garden</button>
+    <button routerLink="/garden" class="cancel-button">Cancel</button>
     <div class="plant-description">{{getPlantDescription()}}</div>
   </form>
 </div>

@@ -6,19 +6,19 @@
   height: 10%;
   background: $darkestGreen;
   align-items: center;
-  box-shadow: 0 3px 5px -5px gray;
 }
 
 .title {
   flex: 10;
-  font-family: "Helvetica Neue", sans-serif;
-  font-weight: 600;
+  // font-family: "Helvetica Neue", sans-serif;
+  font-weight: 700;
   text-align: center;
-  letter-spacing: -3px;
-  background: -webkit-linear-gradient(skyblue, lightgreen);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  padding: 5px;
+  color: white;
+  // letter-spacing: -3px;
+  // background: -webkit-linear-gradient(skyblue, lightgreen);
+  // -webkit-background-clip: text;
+  // -webkit-text-fill-color: transparent;
+  // padding: 5px;
 }
 
 .magnifier {
@@ -28,7 +28,7 @@
 #search {
   height: 28px;
   width: 28px;
-  margin-right: 15px;
+  margin-right: 20px;
 }
 
 .magnifier img {
