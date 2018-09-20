@@ -221,6 +221,7 @@ export class StandComponent implements OnInit {
     //   firstCropDescription: boolean = false;
     // firstCropDetails: boolean = false;
     // firstCropInventory: boolean = false;
+    let checked = this.moveFormData.check
     this.firstCropDescription = false;
     this.firstCropDetails = false;
     this.firstCropInventory = false;;
@@ -249,7 +250,7 @@ export class StandComponent implements OnInit {
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend
-      .moveToStand(this.cropId, this.moveFormData)
+      .moveToStand(this.cropId, this.moveFormData, checked)
       .then(response => {
         this.backend
           .getGarden()

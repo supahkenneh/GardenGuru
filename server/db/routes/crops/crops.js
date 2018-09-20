@@ -414,7 +414,8 @@ router.put('/:id/move', upload.array('photo', 6), (req, res) => {
       savePhotoLocationPromise
     })
     .then(() => {
-      if (check === true) {
+      if (check == 'true') {
+        console.log('typeof check', typeof check);
         return new Crop({ id })
           .save(
             {
@@ -432,7 +433,7 @@ router.put('/:id/move', upload.array('photo', 6), (req, res) => {
           .catch(err => {
             console.log('err.message', err.message);
           });
-      } else {
+      } else if (check == 'false') {
         return new Crop({ id })
           .save(
             { description, details, price, inventory, selling, crop_status: 2 },
