@@ -3,16 +3,20 @@ const Crop = require('../../models/Crop');
 const User = require('../../models/User');
 
 router.get('/', (req, res) => {
-  return User
-    .where({ city: req.user.city })
-    .orderBy('updated_at', 'DESC')
-    .fetchAll({ columns: ['stand_name', 'username', 'avatar_link', 'id'] })
-    .then(user => {
-      return res.json(user);
-    })
-    .catch(err => {
-      console.log('error :', err);
-    });
+  if (req.user) {
+    return User
+      .where({ city: req.user.city })
+      .orderBy('updated_at', 'DESC')
+      .fetchAll({ columns: ['stand_name', 'username', 'avatar_link', 'id'] })
+      .then(user => {
+        return res.json(user);
+      })
+      .catch(err => {
+        console.log('error :', err);
+      });
+  } else {
+    console.log('no user logged in');
+  }
 });
 
 router.get('/crops', (req, res) => {

@@ -50,17 +50,21 @@
       font-size: 16px;
     }
   }
-  .settings-button {
+  .user-options {
     position: fixed;
-    bottom: 80px;
-    right: 160px;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    padding: 10px;
+    bottom: 120px;
     display: flex;
+    width: 100%;
     justify-content: center;
-    background: #6BA368;
+    .settings-button {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      background: #6BA368;
+    }
   }
 }
 .content-container {
@@ -139,17 +143,21 @@
         background: #6BA368;
       } 
     }
-    .hide-settings-button {
+    .settings-button-container {
       position: fixed;
-      bottom: 80px;
-      right: 160px;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      padding: 10px;
+      bottom: 120px;
       display: flex;
+      width: 85%;
       justify-content: center;
-      background: #6BA368;
+      .hide-settings-button {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        background: #6BA368;
+      }
     }
   }
 }

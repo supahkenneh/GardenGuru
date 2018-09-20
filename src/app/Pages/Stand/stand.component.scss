@@ -114,19 +114,19 @@
       }
     }
   }
-  .post-stand-button {
-    position: fixed;
-    bottom: 80px;
-    right: 30px;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    background: #6ba368;
-    box-shadow: 1px 1px 15px gray;
-  }
+  // .post-stand-button {
+  //   position: fixed;
+  //   bottom: 80px;
+  //   right: 30px;
+  //   border-radius: 50%;
+  //   width: 60px;
+  //   height: 60px;
+  //   padding: 10px;
+  //   display: flex;
+  //   justify-content: center;
+  //   background: #6ba368;
+  //   box-shadow: 1px 1px 15px gray;
+  // }
 }
 
 .no-stand-container {
@@ -211,13 +211,28 @@
 }
 
 .empty-stand-container {
+  padding: 15px;
+  .secondary-header {
+    width: 100%;
+    margin: 30% auto;
+    background: white;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    div {
+      font-size: 20px;
+    }
+  }
   .garden-button {
     position: fixed;
     bottom: 80px;
     left: 30px;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     padding: 10px;
     display: flex;
     justify-content: center;
@@ -229,8 +244,8 @@
     bottom: 80px;
     right: 30px;
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     padding: 10px;
     display: flex;
     justify-content: center;

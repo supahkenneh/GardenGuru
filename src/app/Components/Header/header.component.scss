@@ -1,7 +1,10 @@
+@import '../../../_variables';
+
 .header {
   display: flex;
   flex-wrap: wrap;
-  height: 8vh;
+  height: 10%;
+  background: $darkestGreen;
   align-items: center;
   box-shadow: 0 3px 5px -5px gray;
 }
