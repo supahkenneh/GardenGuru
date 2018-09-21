@@ -233,7 +233,6 @@ router.post('/search/:term', (req, res) => {
         .query(qb => {
           qb.where('garden_description', 'ILIKE', `${search}%`)
             .andWhere('crop_status', '=', 1)
-            .andWhere('selling', '=', false)
             .andWhere('owner_id', '=', req.user.id);
         })
         .fetchAll()
