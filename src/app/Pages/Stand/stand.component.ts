@@ -132,7 +132,6 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.showLoading = true;
     this.messageSentPopUp = '';
     this.itemToDelete = '';
     this.emptyStand = false;
@@ -140,6 +139,9 @@ export class StandComponent implements OnInit {
     //checks to see if the page belongs to logged in user
     if (this.urlId === this.user.id) {
       this.correctUser = true
+    }
+    if (this.isLoggedIn) {
+      this.showLoading = true;
     }
     //get the stand
     return this.backend.getStand(this.urlId)
