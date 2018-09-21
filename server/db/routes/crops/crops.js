@@ -154,6 +154,7 @@ router.post('/stand', upload.array('photo', 6), (req, res) => {
 })
 
 router.post('/search/:term', (req, res) => {
+  console.log('got')
   const search = req.params.term;
   const category = req.body.category;
   let err;
@@ -165,7 +166,7 @@ router.post('/search/:term', (req, res) => {
       return Crop
         .query(qb => {
           qb.where('selling', '=', true)
-            .andWhere('description', 'ILIKE', `${search}%`);
+            .andWhere('description', 'ILIKE', `%${search}%`);
         })
         .fetchAll({
           withRelated: [{
@@ -192,6 +193,7 @@ router.post('/search/:term', (req, res) => {
         });
     }
   } else {
+    console.log('category', category);
     if (category === 'Marketplace') {
       return Crop
         .query(qb => {
@@ -237,7 +239,7 @@ router.post('/search/:term', (req, res) => {
     } else if (category === 'My Garden') {
       return Crop
         .query(qb => {
-          qb.where('garden_description', 'ILIKE', `${search}%`)
+          qb.where('garden_description', 'ILIKE', `%${search}%`)
             .andWhere('crop_status', '=', 1)
             .andWhere('owner_id', '=', req.user.id);
         })
