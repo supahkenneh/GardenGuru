@@ -157,7 +157,6 @@ export class BackendService {
         form.append('photo', photo);
       })
     }
-    console.log(data);
     const moveUrl = this.url + `crops/${id}/move`;
     return this.http.put(moveUrl, form).toPromise();
   }
