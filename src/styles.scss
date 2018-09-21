@@ -1,6 +1,5 @@
 @import '~@angular/material/prebuilt-themes/purple-green.css';
 @import "_variables";
-// $mainFont: 'PT Sans', sans-serif;
 
 html {
   box-sizing: border-box;
@@ -16,18 +15,4 @@ html, body{
   height: 100%;
   width:100%;
   font-family: $mainFont;
-}
-
-.btn{
-  border:0;
-  padding:15px;
-  font-size:16px;
-  border-radius:10px;
-  &.blue{
-    background-color:blue;
-  }
-  &:hover{
-    background-color: lighten(blue, 10%);
-    cursor:pointer;
-  }
 }

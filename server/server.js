@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8008;
 const server = express();
 const routes = require('./db/routes');
 
-// server.use(express.static('public/'))
+// server.use(express.static(path.join(__dirname, '/../public')));
 
 server.use(bodyparser.json());
 server.use(bodyparser.urlencoded({ extended: true }));
@@ -32,7 +32,7 @@ server.use(passport.session());
 server.use('/api', routes);
 
 // server.get('*', (req, res) => {
-//   res.sendFile('index.html');
+//   res.sendFile(path.join(__dirname, '/../public/index.html'));
 // });
 
 server.listen(PORT, () => {

@@ -122,7 +122,6 @@ router.post('/stand', upload.array('photo', 6), (req, res) => {
     price,
     plant
   } = req.body;
-  console.log(req.body);
   let date = new Date();
   return new Crop({
     plant_id: plant,
@@ -165,11 +164,16 @@ router.post('/search/:term', (req, res) => {
     } else if (category === 'Marketplace') {
       return Crop
         .query(qb => {
-          qb.innerJoin('users', 'crops.owner_id', 'users.id');
           qb.where('selling', '=', true)
             .andWhere('description', 'ILIKE', `${search}%`);
         })
-        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name'] })
+        .fetchAll({
+          withRelated: [{
+            'owner': qb => {
+              qb.column('id', 'stand_name');
+            }
+          }, 'photo'],
+        })
         .then(response => {
           if (err) {
             return res.send(err);
@@ -191,15 +195,18 @@ router.post('/search/:term', (req, res) => {
     if (category === 'Marketplace') {
       return Crop
         .query(qb => {
-          qb.innerJoin('users', 'crops.owner_id', 'users.id');
           qb.where('description', 'ILIKE', `${search}%`)
             .andWhere('selling', '=', true)
-            .andWhere('city', '=', req.user.city)
             .andWhere('owner_id', '!=', req.user.id);
         })
-        .fetchAll({ columns: ['crops.description', 'crops.price', 'users.stand_name'] })
+        .fetchAll({
+          withRelated: [{
+            'owner': qb => {
+              qb.column('id', 'stand_name');
+            }
+          }, 'photo'],
+        })
         .then(response => {
-          console.log(response);
           if (response.length < 1) {
             return res.send('Nobody here but us chickens!');
           } else {
@@ -212,12 +219,11 @@ router.post('/search/:term', (req, res) => {
     } else if (category === 'My Stand') {
       return Crop
         .query(qb => {
-          console.log('qb', qb)
           qb.where('description', 'ILIKE', `${search}%`)
             .andWhere('owner_id', '=', req.user.id)
             .andWhere('selling', '=', true);
         })
-        .fetchAll()
+        .fetchAll({ withRelated: ['photo'] })
         .then(response => {
           if (response.length < 1) {
             return res.send('Nobody here but us chickens!');
@@ -235,7 +241,7 @@ router.post('/search/:term', (req, res) => {
             .andWhere('crop_status', '=', 1)
             .andWhere('owner_id', '=', req.user.id);
         })
-        .fetchAll()
+        .fetchAll({ withRelated: ['photo'] })
         .then(response => {
           if (response.length < 1) {
             return res.send('Nobody here but us chickens!');
@@ -366,7 +372,6 @@ router.put('/:id', upload.array('photo', 6), (req, res) => {
 router.put('/:id/move', upload.array('photo', 6), (req, res) => {
   const id = req.params.id;
   const { description, details, price, inventory, check } = req.body;
-  console.log(check, 'in backedn')
   const selling = true;
   let savingPhotosPromise = new Promise((resolve, reject) => {
     if (req.body.links) {
