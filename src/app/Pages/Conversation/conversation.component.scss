@@ -11,7 +11,6 @@
     font-size: 18px;
     padding-top: 10px;
     padding-bottom: 10px;
-    // background: #49A078;
     background: $darkestGreen;
     color: white;
     position: fixed;
@@ -27,7 +26,6 @@
   }
   .message-container{
     width:100%;
-
     top:17%;
     padding-top:10px;
     position:fixed;
@@ -35,7 +33,6 @@
     overflow-y:scroll;
   }
   .messages{
-    
     width:100%;
     margin: 5px auto;
     display: flex;
@@ -47,15 +44,13 @@
       padding-right: 30%;
       padding-left:13px;
       .message-content {
-        // background: #49A078;
-        max-width: 45%;
         background: $darkestGreen;
         color: white;
         border-radius: 20px 20px 20px 0px;
         padding: 10px;
         box-shadow: $circularShadow;
-        overflow: break-word;
         max-width: 60%;
+        overflow-wrap: break-word;
       }
     }
     .my-message {
@@ -70,8 +65,8 @@
         border-radius: 20px 20px 0px 20px;
         padding: 10px;
         box-shadow: $circularShadow;
-        overflow: break-word;
         max-width: 60%;
+        overflow-wrap: break-word;
       }
     }
   }
