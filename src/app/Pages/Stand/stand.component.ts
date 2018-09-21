@@ -273,7 +273,10 @@ export class StandComponent implements OnInit {
             this.showGarden();
           });
       })
-      .catch(err => console.log(err.message));
+      .catch(err => {
+        this.showLoading = false;
+        console.log(err.message)
+      });
   }
 
   turnEditToFalse() {
