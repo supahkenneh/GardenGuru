@@ -89,21 +89,21 @@ import { MatProgressSpinnerModule } from '@angular/material';
         component: MessagesComponent,
         canActivate: [AuthGuard]
       },
-      {
-        path: 'sentConversations',
-        component: SentConversationsComponent,
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'sentConversations',
+      //   component: SentConversationsComponent,
+      //   canActivate: [AuthGuard]
+      // },
       {
         path: 'conversation/:id',
         component: ConversationComponent,
         canActivate: [AuthGuard]
       },
-      {
-        path: 'sentConversation/:id',
-        component: ConversationComponent,
-        canActivate: [AuthGuard]
-      },
+      // {
+      //   path: 'sentConversation/:id',
+      //   component: ConversationComponent,
+      //   canActivate: [AuthGuard]
+      // },
       { path: 'search-results/:term', component: SearchResultsComponent }
     ]),
     BrowserAnimationsModule,
