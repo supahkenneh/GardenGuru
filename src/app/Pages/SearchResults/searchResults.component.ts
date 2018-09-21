@@ -14,6 +14,7 @@ export class SearchResultsComponent implements OnInit {
   searchResults: any;
 
   categories: string[] = ['Marketplace', 'My Stand', 'My Garden'];
+  placeholderItemImg: string = 'https://www.ewm.com/addons/themes/ewm_arillo/img/no-photo.png'
 
   searchData: {
     category: string;
@@ -97,13 +98,22 @@ export class SearchResultsComponent implements OnInit {
                 break;
               case 'Marketplace':
                 this.marketSearch = true;
+                break;
               default:
                 this.gardenSearch = false;
                 this.standSearch = false;
                 this.marketSearch = false;
                 break;
             }
-            this.searchResults = response;
+            let resultArr = Object.values(response);
+            resultArr.map(result => {
+              if(result.photo[0]) {
+                result['displayPhoto'] = result.photo[0].link;
+              } else {
+                result['displayPhoto'] = this.placeholderItemImg;
+              }
+            })
+            this.searchResults = resultArr;
           }
         } else {
           if (!response) {
@@ -134,11 +144,20 @@ export class SearchResultsComponent implements OnInit {
                 this.marketSearch = false;
                 break;
             }
-            this.searchResults = response;
+            let resultArr = Object.values(response);
+            resultArr.map(result => {
+              if (result.photo[0]) {
+                result['displayPhoto'] = result.photo[0].link;
+              } else {
+                result['displayPhoto'] = this.placeholderItemImg;
+              }
+            })
+            this.searchResults = resultArr;
           }
         }
       })
       .catch(err => {
+        this.searchResults = [];
         this.resultErrors.push('Nothing matched the input!');
         this.resultValid = false;
         console.log('Error :', err);
