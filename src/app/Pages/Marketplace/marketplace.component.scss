@@ -1,3 +1,5 @@
+@import '../../../variables';
+
 .marketplace-container {
   padding: 15px;
   height: 43%;
@@ -10,8 +12,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: $circularShadow;
     .marketplace-header {
-      font-size: 24px;
+      font-size: 22px;
+      font-family: $subFont;
     }
     .stands-container {
       height: 100%;
@@ -27,7 +31,7 @@
         margin: 5px;
         padding: 5px;
         background: white;
-        box-shadow: 1px 1px 15px gray;
+        box-shadow: $circularShadow;
         border-radius: 5px;
         height: 150px;
         width: 140px;
@@ -42,16 +46,16 @@
         .avatar {
           height: 100px;
           width: 100px;
-          border-radius: 50%;
+          border-radius: $circle;
           display: flex;
           justify-content: center;
           padding: 5px;
-          box-shadow: 1px 1px 15px gray;
+          box-shadow: $circularShadow;
           img {
-            border: 3px solid #6BA368;
+            border: 3px solid $greenYellow;
             max-height: 100%;
             max-width: 100%;
-            border-radius: 50%;
+            border-radius: $circle;
           }
         }
       }
@@ -67,8 +71,10 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    box-shadow: $circularShadow;
     .crops-title {
-      font-size: 24px;
+      font-size: 22px;
+      font-family: $subFont;
     }
     .crops-container {
       height: 100%;
@@ -85,7 +91,7 @@
         width: 140px;
         margin: 5px;
         padding: 5px;
-        box-shadow: 1px 1px 15px gray;
+        box-shadow: $circularShadow;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -159,6 +165,36 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+    }
+  }
+}
+.loading-modal {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.4);
+  padding: 50px;
+  .loading-spinner {
+    height: 150px;
+    width: 200px;
+    background: white;
+    box-shadow: $circularShadow;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .message {
+      font-size: 16px;
+      margin-bottom: 10px;
     }
   }
 }

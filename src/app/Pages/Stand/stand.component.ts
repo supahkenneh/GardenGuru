@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from '../../Services/session.service';
+import { MatSnackBar } from '@angular/material';
+
 @Component({
   templateUrl: './stand.component.html',
   styleUrls: ['./stand.component.scss']
@@ -89,6 +91,8 @@ export class StandComponent implements OnInit {
 
   plants: any;
 
+  showLoading: boolean = false;
+
   @HostListener('click', ['$event'])
   clickout(event) {
     if (event.target === document.getElementById('modal-container')) {
@@ -106,7 +110,8 @@ export class StandComponent implements OnInit {
     private backend: BackendService,
     private router: Router,
     private route: ActivatedRoute,
-    private session: SessionService
+    private session: SessionService,
+    public popUp: MatSnackBar
   ) {
     router.events.subscribe(val => {
       this.ngOnInit();
@@ -116,14 +121,18 @@ export class StandComponent implements OnInit {
   }
 
   sendMessage() {
-    this.backend.sendMessage(this.message, this.urlId).then(result => {
-      this.openMessage = false;
-      this.message.content = '';
-      this.messageSentPopUp = 'Message Sent!';
-    });
+    if (this.message.content.length > 0) {
+      this.backend.sendMessage(this.message, this.urlId)
+        .then(result => {
+          this.openMessage = false;
+          this.popUp.open('Message Sent!', 'Dismiss', { duration: 2000 });
+          this.message.content = '';
+        });
+    }
   }
 
   ngOnInit() {
+    this.showLoading = true;
     this.messageSentPopUp = '';
     this.itemToDelete = '';
     this.emptyStand = false;
@@ -137,10 +146,13 @@ export class StandComponent implements OnInit {
       .then(result => {
         //if the user's stand doesn't exist/no stand
         if (result['message'] === `This user doesn't have a stand` && !this.user) {
+          this.showLoading = false;
           return this.hasStand = true;
         } else if (result['message'] === `This user doesn't have a stand` && this.correctUser) {
+          this.showLoading = false;
           return this.hasStand = false;
         } else if (result['message'] === `No items`) {
+          this.showLoading = false;
           this.emptyStand = true;
           return this.hasStand = true;
         } else {
@@ -167,6 +179,7 @@ export class StandComponent implements OnInit {
                 crop['mainPhoto'] = crop.photo[0].link
               }
             })
+            this.showLoading = false;
           })
       })
   }
@@ -204,9 +217,10 @@ export class StandComponent implements OnInit {
     if (this.plantError || this.descriptionError || this.inventoryError || this.detailsError) {
       return this.postCropError = true;
     }
-
+    this.showLoading = true;
     return this.backend.postDirectlyToStand(this.postFormData)
       .then(result => {
+        this.showLoading = false;
         this.showPostForm();
         this.ngOnInit()
       })
@@ -218,9 +232,6 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
-    //   firstCropDescription: boolean = false;
-    // firstCropDetails: boolean = false;
-    // firstCropInventory: boolean = false;
     let checked = this.moveFormData.check
     this.firstCropDescription = false;
     this.firstCropDetails = false;
@@ -249,13 +260,13 @@ export class StandComponent implements OnInit {
 
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
-    this.backend
-      .moveToStand(this.cropId, this.moveFormData, checked)
+    this.showLoading = true;
+    this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
-        this.backend
-          .getGarden()
+        this.backend.getGarden()
           .then(result => (this.garden = result))
           .then(() => {
+            this.showLoading = false;
             this.ngOnInit();
             this.showGarden();
           });
@@ -349,7 +360,11 @@ export class StandComponent implements OnInit {
   }
 
   startConversation() {
-    this.openMessage = !this.openMessage;
+    if (this.openMessage) {
+      return this.openMessage = false;
+    } else {
+      this.openMessage = true;
+    }
   }
 
   //photo functions

@@ -1,3 +1,5 @@
+@import '../../../variables';
+
 .conversation-container{
   width:100%;
   .message-header {
@@ -8,7 +10,8 @@
     font-size: 18px;
     padding-top: 10px;
     padding-bottom: 10px;
-    background: #49A078;
+    // background: #49A078;
+    background: $darkestGreen;
     color: white;
     position: fixed;
     .back-buttons {
@@ -18,7 +21,7 @@
     }
     .convo-partner {
       width: 90%;
-      padding-left: 30%;
+      padding-left: 35%;
     }
   }
   .message-container{
@@ -42,11 +45,12 @@
       justify-content: flex-start;
       padding-right: 30%;
       .message-content {
-        background: #49A078;
+        // background: #49A078;
+        background: $darkestGreen;
         color: white;
         border-radius: 20px 20px 20px 0px;
         padding: 10px;
-        // width: 60%;
+        box-shadow: $circularShadow;
       }
     }
     .my-message {
@@ -55,10 +59,11 @@
       justify-content: flex-end;
       padding-left: 30%;
       .message-content {
-        background: #216869;
+        background: $sentMessageColor;
         color: white;
         border-radius: 20px 20px 0px 20px;
         padding: 10px;
+        box-shadow: $circularShadow;
       }
     }
   }
@@ -80,7 +85,7 @@
     .send-button{
       height: 100%;
       max-height: 100%;
-      fill: #216869;
+      fill: $sentMessageColor;
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../Services/backend.service';
 import { SessionService } from '../../Services/session.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   templateUrl: './garden.component.html',
@@ -28,6 +29,7 @@ export class GardenComponent implements OnInit {
   constructor(
     private backend: BackendService,
     private session: SessionService,
+    public popUp: MatSnackBar
   ) {
     this.user = this.session.getSession();
     this.loggedIn = this.session.isLoggedIn();
@@ -131,6 +133,7 @@ export class GardenComponent implements OnInit {
       .then(result => {
         this.wateredPlants.length = 0;
         if (result['success']) {
+          this.popUp.open('Plant(s) watered!', 'Dismiss', { duration: 2000 });
           this.plantsToWater.length = 0;
           this.showWaterButton = false;
         }
