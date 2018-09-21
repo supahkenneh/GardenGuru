@@ -243,11 +243,11 @@ export class BackendService {
       form.append('city', data.city);
       form.append('state', data.state);
       form.append('stand_name', data.stand_name);
-    } else if (data.bio) {
+    } else if (data.bio || data.photo) {
       form.append('bio', data.bio);
-    } else if (data.photo) {
       form.append('photo', data.photo);
     }
+        // } else if (data.photo) {
     const editUrl = this.url + `user/${data.id}`
     return this.http.put(editUrl, form).toPromise();
   }
