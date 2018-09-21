@@ -34,6 +34,10 @@ export class SearchResultsComponent implements OnInit {
   resultErrors: string[] = [];
   resultValid: boolean = false;
 
+  placeholderItemImg: string = 'https://www.ewm.com/addons/themes/ewm_arillo/img/no-photo.png'
+
+  showLoading: boolean = false;
+
   constructor(
     private backend: BackendService,
     private session: SessionService,
@@ -46,6 +50,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoading = true;
     let result = this.backend.transferResults()
     this.searchedCategory = result['category'];
     switch (this.searchedCategory) {
@@ -64,7 +69,18 @@ export class SearchResultsComponent implements OnInit {
         this.marketSearch = false;
         break;
     }
-    this.searchResults = result['searchResults'];
+    this.showLoading = false;
+    if (result['searchResults']) {
+      let resultArr = Object.values(result['searchResults'])
+      resultArr.map(result => {
+        if (result['photo'][0]) {
+          result['displayPhoto'] = result['photo'][0].link;
+        } else {
+          result['displayPhoto'] = this.placeholderItemImg;
+        }
+      })
+      this.searchResults = result['searchResults'];
+    }
   }
 
   searchCrop() {
@@ -72,10 +88,12 @@ export class SearchResultsComponent implements OnInit {
     this.standSearch = false;
     this.marketSearch = false;
     this.resultErrors.length = 0;
+    this.showLoading = true;
     return this.backend.search(this.searchData)
       .then(response => {
         this.searchedCategory = this.searchData.category;
         if (!this.session.getSession().loggedIn) {
+          this.showLoading = false;
           if (!response) {
             if (this.searchData.category === 'Marketplace') {
               this.resultErrors.push('No crops matching the description were found!');
@@ -97,16 +115,27 @@ export class SearchResultsComponent implements OnInit {
                 break;
               case 'Marketplace':
                 this.marketSearch = true;
+                break;
               default:
                 this.gardenSearch = false;
                 this.standSearch = false;
                 this.marketSearch = false;
                 break;
             }
-            this.searchResults = response;
+            let resultArr = Object.values(response);
+            resultArr.map(result => {
+              if (result.photo[0]) {
+                result['displayPhoto'] = result.photo[0].link;
+              } else {
+                result['displayPhoto'] = this.placeholderItemImg;
+              }
+            })
+            this.showLoading = false;
+            this.searchResults = resultArr;
           }
         } else {
           if (!response) {
+            this.showLoading = false;
             if (this.searchData.category === 'Marketplace') {
               this.resultErrors.push('No crops matching the description were found in your area!');
               this.resultValid = false;
@@ -134,11 +163,22 @@ export class SearchResultsComponent implements OnInit {
                 this.marketSearch = false;
                 break;
             }
+            let resultArr = Object.values(response);
+            resultArr.map(result => {
+              if (result.photo[0]) {
+                result['displayPhoto'] = result.photo[0].link;
+              } else {
+                result['displayPhoto'] = this.placeholderItemImg;
+              }
+            })
+            this.showLoading = false;
             this.searchResults = response;
           }
         }
       })
       .catch(err => {
+        this.showLoading = false;
+        this.searchResults = [];
         this.resultErrors.push('Nothing matched the input!');
         this.resultValid = false;
         console.log('Error :', err);

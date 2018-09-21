@@ -175,6 +175,10 @@ export class ProfileComponent implements OnInit {
             this.showingSettings = false;
           }
         })
+        .catch(err => {
+          this.showLoading = false;
+          console.log(err);
+        })
       // Edit Location
     } else if (this.changingLocation) {
       this.locationError = false;
@@ -195,6 +199,10 @@ export class ProfileComponent implements OnInit {
             this.changingLocation = false;
             this.showingSettings = false;
           }
+        })
+        .catch(err => {
+          this.showLoading = false;
+          console.log(err);
         })
       // Edit Stand Name
     } else if (this.changingStandName) {
@@ -218,6 +226,10 @@ export class ProfileComponent implements OnInit {
             this.showingSettings = false;
           }
         })
+        .catch(err => {
+          this.showLoading = false;
+          console.log(err);
+        })
       //Edit Profile Picture
     } else if (this.changingProfilePic) {
       this.profileError = false;
@@ -237,6 +249,10 @@ export class ProfileComponent implements OnInit {
             this.changingProfilePic = false;
             this.showingSettings = false;
           }
+        })
+        .catch(err => {
+          this.showLoading = false;
+          console.log(err);
         })
     }
   }

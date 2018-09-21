@@ -18,13 +18,13 @@
     <div class="search-result-container">
       <div class="result" *ngFor="let result of searchResults">
         <div class="search-img-container" routerLink="/garden/crops/{{result.id}}" *ngIf="gardenSearch">
-          <img src="{{result.photo[0].link}}">
+          <img src="{{result.displayPhoto}}">
         </div>
         <div class="search-img-container" routerLink="/crops/{{result.id}}" *ngIf="standSearch">
-          <img src="{{result.photo[0].link}}">
+          <img src="{{result.displayPhoto}}">
         </div>
         <div class="search-img-container" routerLink="/user/{{result.owner_id}}/stand" *ngIf="marketSearch && result.photo">
-          <img src="{{result.photo[0].link}}">
+          <img src="{{result.displayPhoto}}">
         </div>
         <div class="info-container">
           <div *ngIf="marketSearch || standSearch">{{result.description}}</div>
@@ -36,5 +36,11 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+<div class="loading-modal" *ngIf="showLoading">
+  <div class="loading-spinner">
+    <div class="message">Searching</div>
+    <mat-spinner color="warn" diameter="60"></mat-spinner>
   </div>
 </div>
