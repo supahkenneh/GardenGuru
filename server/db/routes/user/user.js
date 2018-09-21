@@ -115,9 +115,9 @@ router.post('/messages/:id', (req, res) => {
   const messageBody = req.body.content;
   let err;
 
-  return Message 
+  return Message
     .query(qb => {
-      qb.where({ from: initiatorId, to: to})
+      qb.where({ from: initiatorId, to: to })
     })
     .fetch()
     .then(check => {
@@ -135,7 +135,7 @@ router.post('/messages/:id', (req, res) => {
               .fetch()
               .then(user => {
                 const toEmail = user.attributes.email;
-      
+
                 const data = {
                   from: `GroBro <${botEmail}>`,
                   to: `${toEmail}`,
@@ -162,7 +162,7 @@ router.post('/messages/:id', (req, res) => {
           .then(message => {
             return User.where({ id: to })
               .fetch()
-              .then(user => {              
+              .then(user => {
                 res.json(message);
               });
           });
@@ -225,6 +225,9 @@ router.get('/:id/stand', (req, res) => {
     .where({ id })
     .fetch()
     .then(user => {
+      if (!user) {
+        return res.json({ message: `This user doesn't have a stand` });
+      }
       if (!user.attributes.stand_name) {
         return res.json({ message: `This user doesn't have a stand` })
       }
