@@ -81,7 +81,6 @@ export class AddCropComponent implements OnInit {
   }
 
   addCrop() {
-    this.showLoading = true;
     this.plantError = false;
     this.gardenDescriptionError = false;
     this.wateringError = false;
@@ -117,12 +116,14 @@ export class AddCropComponent implements OnInit {
         this.cropFormData.plant = plant['id']
       }
     })
+    this.showLoading = true;
     return this.backend.addCrop(this.cropFormData)
       .then(result => {
         this.showLoading = false;
         return this.router.navigate(['/garden'])
       })
       .catch(err => {
+        this.showLoading = false;
         console.log(err);
       })
   }

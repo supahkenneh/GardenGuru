@@ -22,7 +22,7 @@ export class StandComponent implements OnInit {
   garden;
   showingGarden: boolean = false;
   cropId: string;
-  check: boolean = true;
+  // check: boolean = true;
   openMessage: boolean = false;
   conversationId: boolean = false;
   messageSentPopUp = ''
@@ -59,13 +59,19 @@ export class StandComponent implements OnInit {
       stand_name: ''
     };
 
-  moveFormData = {
-    description: '',
-    details: '',
-    price: '',
-    inventory: 0,
-    check: this.check
-  };
+  check: boolean = true;
+
+  moveFormData: {
+    description: string;
+    details: string;
+    price: string;
+    inventory: number;
+  } = {
+      description: '',
+      details: '',
+      price: '',
+      inventory: 0,
+    }
 
   message: {
     content: string;
@@ -184,6 +190,10 @@ export class StandComponent implements OnInit {
             this.showLoading = false;
           })
       })
+      .catch(err => {
+        this.showLoading = false;
+        console.log(err);
+      })
   }
 
   addToStand() {
@@ -226,15 +236,20 @@ export class StandComponent implements OnInit {
         this.showPostForm();
         this.ngOnInit()
       })
+      .catch(err => {
+        this.showLoading = false;
+        console.log(err);
+      })
   }
 
   toggleCheck() {
-    this.check = !this.check;
-    this.moveFormData.check = !this.moveFormData.check;
+    if (this.check) {
+      return this.check = false;
+    }
+    return this.check = true; 
   }
 
   moveToStand() {
-    let checked = this.moveFormData.check
     this.firstCropDescription = false;
     this.firstCropDetails = false;
     this.firstCropInventory = false;;
@@ -263,7 +278,8 @@ export class StandComponent implements OnInit {
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.showLoading = true;
-    this.backend.moveToStand(this.cropId, this.moveFormData, checked)
+    this.moveFormData['check'] = this.check;
+    this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
         this.backend.getGarden()
           .then(result => (this.garden = result))
@@ -275,7 +291,7 @@ export class StandComponent implements OnInit {
       })
       .catch(err => {
         this.showLoading = false;
-        console.log(err.message)
+        console.log(err)
       });
   }
 

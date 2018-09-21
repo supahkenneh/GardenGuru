@@ -51,7 +51,11 @@ export class MarketplaceComponent implements OnInit {
               })
               this.showLoading = false;
               this.crops = crops;
-            });
+            })
+            .catch(err => {
+              this.showLoading = false;
+              console.log(err);
+            })
         });
     } else {
       return this.backend.getRecentCrops()
@@ -64,6 +68,10 @@ export class MarketplaceComponent implements OnInit {
           })
           this.showLoading = false;
           this.recentlyAddedCrops = result
+        })
+        .catch(err => {
+          this.showLoading = false;
+          console.log(err);
         })
     }
   }
