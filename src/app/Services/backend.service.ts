@@ -140,7 +140,7 @@ export class BackendService {
     return this.http.put(waterUrl, data).toPromise();
   }
 
-  moveToStand(id, data, checked) {
+  moveToStand(id, data) {
     const form = new FormData();
     form.append('check', data.check);
     form.append('description', data.description);
@@ -158,7 +158,7 @@ export class BackendService {
       })
     }
     const moveUrl = this.url + `crops/${id}/move`;
-    return this.http.put(moveUrl, form, checked).toPromise();
+    return this.http.put(moveUrl, form).toPromise();
   }
 
   editGardenCrop(data) {

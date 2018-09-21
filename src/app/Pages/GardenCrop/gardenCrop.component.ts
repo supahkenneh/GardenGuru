@@ -151,7 +151,6 @@ export class GardenCropComponent implements OnInit {
 
   moveToStand() {
     const checked = this.moveFormData.check
-    this.showLoading = true;
     this.moveDescriptionError = false;
     this.moveDetailsError = false;
     this.moveInventoryError = false;
@@ -185,12 +184,14 @@ export class GardenCropComponent implements OnInit {
     
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
-    this.backend.moveToStand(this.cropId, this.moveFormData, checked)
+    this.showLoading = true;
+    this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
         this.showLoading = false;
         this.router.navigate([`/user/${this.user['id']}/stand`])
       })
       .catch(err => {
+        this.showLoading = false;
         console.log('Error :', err.message);
       });
   }
@@ -233,6 +234,10 @@ export class GardenCropComponent implements OnInit {
         this.photosToDelete.length = 0;
         this.ngOnInit();
         this.gardenEditing = false;
+      })
+      .catch(err => {
+        this.showLoading = false;
+        console.log(err);
       })
   }
 

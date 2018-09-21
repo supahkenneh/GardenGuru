@@ -29,7 +29,7 @@
       <div class="card" *ngFor="let crop of garden">
         <div class="img-container"><img routerLink="/garden/crops/{{crop.id}}" src="{{crop.displayPhoto}}"></div>
         <div>{{crop.plant.name}}</div>
-        <div>{{crop.garden_description}}</div>
+        <div class="description">{{crop.garden_description}}</div>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
           height="24" preserveAspectRatio="xMinYMin" class="jam jam-water-drop-f">
           <path d='M7 .565c4.667 6.09 7 10.423 7 13a7 7 0 1 1-14 0c0-2.577 2.333-6.91 7-13z' id="{{plant.id}}" /></svg>
         <div>{{plant.plant.name}}</div>
-        <div>{{plant.garden_description}}</div>
+        <div class="description">{{plant.garden_description}}</div>
       </div>
     </div>
   </div>
@@ -51,7 +51,7 @@
       <div class="card" *ngFor="let plant of plantsToHarvest">
         <div class="img-container"><img routerLink="/garden/crops/{{plant.id}}" src="{{plant.displayPhoto}}"></div>
         <div>{{plant.plant.name}}</div>
-        <div>{{plant.garden_description}}</div>
+        <div class="description">{{plant.garden_description}}</div>
       </div>
     </div>
   </div>

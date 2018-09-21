@@ -123,6 +123,7 @@ export class RegisterComponent {
         }
       })
       .catch(err => {
+        this.showLoading = false;
         console.log(err)
         return this.error = true;
       })

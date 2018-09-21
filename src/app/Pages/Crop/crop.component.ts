@@ -55,12 +55,13 @@ export class CropComponent implements OnInit {
   ngOnInit() {
     this.cropId = this.route.snapshot.paramMap.get('id');
     return this.backend.getCrop(this.cropId)
-      .then(result => {
-        this.crop = result;
+    .then(result => {
+      this.crop = result;
         if (this.crop['owner_id'] === Number(this.user.id)) {
           this.correctUser = true;
         }
         if (this.crop['photo'].length > 0) {
+          this.photos.length = 0;
           this.crop['photo'].map(photo => {
             this.photos.push(photo.link);
           })
@@ -102,7 +103,6 @@ export class CropComponent implements OnInit {
   }
 
   submitStandCropEdit() {
-    this.showLoading = true;
     if (this.photosToDelete) {
       this.standCropFormData['photosToDelete'] = this.photosToDelete;
     }
@@ -110,6 +110,7 @@ export class CropComponent implements OnInit {
       this.standCropFormData['photos'] = this.photosToUpload;
     }
     this.standCropFormData['id'] = this.cropId;
+    this.showLoading = true;
     return this.backend.editStandCrop(this.standCropFormData)
       .then(result => {
         // this.crop = result[0];
@@ -120,6 +121,10 @@ export class CropComponent implements OnInit {
         this.photosToDelete.length = 0;
         this.ngOnInit();
         this.standEditing = false;
+      })
+      .catch(err => {
+        this.showLoading = false;
+        console.log(err);
       })
   }
 

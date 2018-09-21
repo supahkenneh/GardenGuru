@@ -3,7 +3,7 @@
     <form id="search-form" enctype="application/x-www-form-urlencoded">
       <label for="search-category">Looking for something?</label>
       <select name="search-category" [(ngModel)]="cropSearchData.category">
-        <option *ngFor="let category of categories" value="{{category}}"> sdf{{category}}</option>
+        <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
       </select>
       <span>{{ getSearchErrors() }}</span>
       <input placeholder="Search for..." type="text" name="description" [(ngModel)]="cropSearchData.searchInput" (keyup)="validateSearch()">

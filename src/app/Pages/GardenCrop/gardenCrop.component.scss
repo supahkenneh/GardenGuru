@@ -4,7 +4,7 @@
 .content-container {
   padding: 20px;
   width: 100%;
-  height: 110%;
+  height: 120%;
   .crop-container {
     background: white;
     border-radius: 5px;
@@ -14,6 +14,7 @@
     align-items: center;
     height: 100%;
     width: 100%;
+    box-shadow: $circularShadow;
     .secondary-header {
       margin-bottom: 20px;
       div {
@@ -91,6 +92,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 120px;
   label {
     margin: 15px auto;
   }
@@ -103,10 +105,11 @@
     margin: 5px;
   }
   select {
-    width: 70%;
-    height: 20px;
+    width: 90%;
     background: whitesmoke;
     margin-bottom: 10px;
+    padding: 5px;
+    font-size: 14px;
   }
   .image-upload {
     display: flex;
