@@ -36,7 +36,7 @@
     </div>
     <div class="crops" *ngFor="let crop of recentlyAddedCrops">
         <div class="description">{{crop.description}}</div>
-        <div class="image-container">
+        <div class="image-container" routerLink="/crops/{{crop.id}}">
             <img src="{{crop.displayPic}}">
         </div>
         <div class="content-container">
