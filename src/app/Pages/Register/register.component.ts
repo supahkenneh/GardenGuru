@@ -44,6 +44,11 @@ export class RegisterComponent {
       last_name: '',
       photo: null
     };
+
+  //loading stuff
+  showLoading: boolean = false;
+  loggingIn: boolean = false;
+
   constructor(
     private auth: AuthServiceReg,
     private router: Router,
@@ -58,14 +63,14 @@ export class RegisterComponent {
     this.passwordError = false;
     this.realNameError = false;
     this.emailError = false;
-  
+
     this.locationError = false;
     this.error = false;
 
     if (this.registerFormData.username.length < 5) {
       this.usernameError = true;
     }
-    if (this.registerFormData.username.match(/[^a-z0-9]+/gi)){
+    if (this.registerFormData.username.match(/[^a-z0-9]+/gi)) {
       this.invalidUsername = true;
     }
     if (this.registerFormData.password.length < 5) {
@@ -94,7 +99,7 @@ export class RegisterComponent {
 
     this.registerFormData.username = this.registerFormData.username.toLowerCase();
     this.registerFormData.password = this.registerFormData.password.toLowerCase();
-
+    this.showLoading = true;
     return this.auth.register(this.registerFormData)
       .then(result => {
         if (result['success']) {
@@ -103,6 +108,7 @@ export class RegisterComponent {
         }
       })
       .then(() => {
+        this.loggingIn = true;
         let login = {
           username: this.registerFormData.username,
           password: this.registerFormData.password
@@ -110,6 +116,7 @@ export class RegisterComponent {
         return this.backend.login(login)
       })
       .then(result => {
+        this.showLoading = false;
         if (result) {
           this.session.setSession(result)
           return this.router.navigate(['/marketplace'])

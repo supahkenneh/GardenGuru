@@ -1,3 +1,5 @@
+@import '../../../variables';
+
 .conversations-container {
   display: flex;
   flex-direction: column;
@@ -11,7 +13,7 @@
     background: white;
     border-radius: 5px;
     .conversation {
-      background-color: #49A078;
+      background-color: $inboxColor;
       height: 10vh;
       border-radius: 10px;
       padding: 10px;

@@ -15,6 +15,8 @@ export class MarketplaceComponent implements OnInit {
   placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
   placeholderItemImg: string = 'https://www.ewm.com/addons/themes/ewm_arillo/img/no-photo.png'
 
+  showLoading: boolean = false;
+
   constructor(
     private backend: BackendService,
     private session: SessionService
@@ -24,10 +26,10 @@ export class MarketplaceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoading = true;
     if (this.loggedIn) {
       return this.backend.getMarketplace()
         .then(result => {
-          console.log(result);
           let resultArr = Object.values(result);
           resultArr.map(stand => {
             if (!stand.avatar_link) {
@@ -47,6 +49,7 @@ export class MarketplaceComponent implements OnInit {
                   crop['displayPhoto'] = this.placeholderItemImg;
                 }
               })
+              this.showLoading = false;
               this.crops = crops;
             });
         });
@@ -59,6 +62,7 @@ export class MarketplaceComponent implements OnInit {
               crop.displayPic = crop.photo[0].link;
             }
           })
+          this.showLoading = false;
           this.recentlyAddedCrops = result
         })
     }

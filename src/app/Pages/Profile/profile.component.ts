@@ -71,6 +71,8 @@ export class ProfileComponent implements OnInit {
       photo: null
     }
 
+  showLoading: boolean = false;
+
   constructor(
     private backend: BackendService,
     private session: SessionService,
@@ -109,13 +111,13 @@ export class ProfileComponent implements OnInit {
       this.userStandError = true;
     }
     return this.backend.getUserProfile(this.urlId)
-    .then(user => {
-      if (!user['avatar_link']) {
-        user['avatar_link'] = this.placeholderImg
-      }
-      this.profile = user;
-      this.profileFormData.bio = this.profile.bio;
-      this.standFormData.stand_name = this.profile.stand_name;
+      .then(user => {
+        if (!user['avatar_link']) {
+          user['avatar_link'] = this.placeholderImg
+        }
+        this.profile = user;
+        this.profileFormData.bio = this.profile.bio;
+        this.standFormData.stand_name = this.profile.stand_name;
       })
   }
 
@@ -148,9 +150,12 @@ export class ProfileComponent implements OnInit {
       if (this.oldPasswordError || this.newPasswordError || this.confirmNewPasswordError || this.matchingPasswordError || this.sameOldNewPasswordError) {
         return this.generalSettingsError = true;
       }
+
+      this.showLoading = true;
       this.passwordFormData['id'] = this.user.id;
       return this.backend.editUserProfile(this.passwordFormData)
         .then(result => {
+          this.showLoading = false;
           if (result['success'] = false) {
             this.oldPasswordError = false;
             this.newPasswordError = false;
@@ -173,9 +178,11 @@ export class ProfileComponent implements OnInit {
         return this.locationError = true;
       }
 
+      this.showLoading = true;
       this.locationFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.locationFormData)
         .then(result => {
+          this.showLoading = true;
           if (result['success'] = false) {
             this.changingLocation = false;
           } else {
@@ -193,10 +200,11 @@ export class ProfileComponent implements OnInit {
       if (this.standFormData.stand_name.length < 5 && this.standFormData.stand_name) {
         return this.standError = true;
       }
-
+      this.showLoading = true;
       this.standFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.standFormData)
         .then(result => {
+          this.showLoading = false;
           if (result['success'] = false) {
             this.changingStandName = false
           } else {
@@ -212,9 +220,11 @@ export class ProfileComponent implements OnInit {
       if (!this.profileFormData.bio) {
         this.profileFormData.bio = this.user.bio;
       }
+      this.showLoading = true;
       this.profileFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.profileFormData)
         .then(result => {
+          this.showLoading = false;
           if (result['success'] = false) {
             this.changingProfilePic = false;
           } else {

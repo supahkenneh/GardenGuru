@@ -34,7 +34,9 @@
         /></svg>
     </button>
     <button class="delete-button" (click)="toggleDeleteConfirmation()" *ngIf="correctUser">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.5 -2.5 24 24" width="28" height="28" preserveAspectRatio="xMinYMin" class="jam jam-rubber"><path d='M12.728 12.728L8.485 8.485l-5.657 5.657 2.122 2.121a3 3 0 0 0 4.242 0l3.536-3.535zM11.284 17H14a1 1 0 0 1 0 2H3a1 1 0 0 1-.133-1.991l-1.453-1.453a2 2 0 0 1 0-2.828L12.728 1.414a2 2 0 0 1 2.828 0L19.8 5.657a2 2 0 0 1 0 2.828L11.284 17z'/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1.5 -2.5 24 24" width="28" height="28" preserveAspectRatio="xMinYMin" class="jam jam-rubber">
+        <path d='M12.728 12.728L8.485 8.485l-5.657 5.657 2.122 2.121a3 3 0 0 0 4.242 0l3.536-3.535zM11.284 17H14a1 1 0 0 1 0 2H3a1 1 0 0 1-.133-1.991l-1.453-1.453a2 2 0 0 1 0-2.828L12.728 1.414a2 2 0 0 1 2.828 0L19.8 5.657a2 2 0 0 1 0 2.828L11.284 17z'
+        /></svg>
     </button>
   </div>
 </div>
@@ -45,7 +47,7 @@
     <div class="secondary-header">
       <div>{{crop.plant.name}}</div>
     </div>
-    <div class="img-container" *ngIf="hasPhoto">
+    <div class="edit-img-container" *ngIf="hasPhoto">
       <img src="{{currentPhoto}}">
     </div>
     <div class="img-scroller" *ngIf="hasPhoto">
@@ -98,12 +100,18 @@
 </div>
 
 <div id="delete-modal" *ngIf="confirmDelete">
-    <div id="delete-modal-content">
-      <div>Remove From Stand?</div>
-      <div class="note">If your crop is not in the garden, you won't have access to it anymore</div>
-      <div class="button-container">
-        <button (click)="deleteCrop()">Delete</button>
-        <button (click)="toggleDeleteConfirmation()">Cancel</button>
-      </div>
+  <div id="delete-modal-content">
+    <div>Remove From Stand?</div>
+    <div class="note">If your crop is not in the garden, you won't have access to it anymore</div>
+    <div class="button-container">
+      <button (click)="deleteCrop()">Delete</button>
+      <button (click)="toggleDeleteConfirmation()">Cancel</button>
     </div>
   </div>
+</div>
+<div class="loading-modal" *ngIf="showLoading">
+  <div class="loading-spinner">
+    <div class="message">Editing Your Crop</div>
+    <mat-spinner color="warn" diameter="60"></mat-spinner>
+  </div>
+</div>

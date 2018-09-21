@@ -46,6 +46,8 @@ export class AddCropComponent implements OnInit {
       photo: []
     }
 
+  showLoading: boolean = false;
+
   photosToUpload: File[] = [];
   acceptableExtensions: string[] = ['.jpg', '.png', '.jpeg']
   acceptableSize: number = 1000000000;
@@ -79,6 +81,7 @@ export class AddCropComponent implements OnInit {
   }
 
   addCrop() {
+    this.showLoading = true;
     this.plantError = false;
     this.gardenDescriptionError = false;
     this.wateringError = false;
@@ -116,6 +119,7 @@ export class AddCropComponent implements OnInit {
     })
     return this.backend.addCrop(this.cropFormData)
       .then(result => {
+        this.showLoading = false;
         return this.router.navigate(['/garden'])
       })
       .catch(err => {

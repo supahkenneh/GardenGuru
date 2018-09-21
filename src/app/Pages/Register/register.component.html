@@ -5,12 +5,16 @@
     </div>
     <label for="username">Username</label>
     <input placeholder="5 to 16 character limit" maxlength="16" type="text" name="username" [(ngModel)]="registerFormData.username">
-    <span class="addCrop-error" *ngIf="usernameError" style="font-size:12px;color:red">Username must be at least five characters long.</span>
+    <span class="addCrop-error" *ngIf="usernameError" style="font-size:12px;color:red">Username must be at least five characters
+      long.
+    </span>
     <span class="addCrop-error" *ngIf="error" style="font-size:12px;color:red">Username already exists.</span>
     <span class="addCrop-error" *ngIf="invalidUsername" style="font-size:12px;color:red">You cannot use special characters.</span>
     <label for="password">Password</label>
     <input placeholder="5 to 16 character limit" maxlength="16" type="password" name="password" [(ngModel)]="registerFormData.password">
-    <span class="addCrop-error" *ngIf="passwordError" style="font-size:12px;color:red">Password must be at least five characters long.</span>
+    <span class="addCrop-error" *ngIf="passwordError" style="font-size:12px;color:red">Password must be at least five characters
+      long.
+    </span>
     <label for="name">Name</label>
     <div class="name-container">
       <input type="first_name" name="first_name" placeholder="First" [(ngModel)]="registerFormData.first_name">
@@ -33,10 +37,19 @@
       </select>
     </div>
     <div class="avatar-upload">
-      <span class="addCrop-error" *ngIf="generalRegisterError" style="font-size:12px;color:red">Please fill in all the above fields.</span>
+      <span class="addCrop-error" *ngIf="generalRegisterError" style="font-size:12px;color:red">Please fill in all the above
+        fields.
+      </span>
       <label for="photo">Upload A Profile Pic</label>
       <input type="file" name="photo" accept=".jpg, .jpeg, .png" (change)="getPhotoFile($event)">
     </div>
     <button class="register-button" (click)="register()">Register</button>
   </form>
+</div>
+<div class="loading-modal" *ngIf="showLoading">
+  <div class="loading-spinner">
+    <div class="message" *ngIf="!loggingIn">Registering User</div>
+    <div class="message" *ngIf="loggingIn">Logging In</div>
+    <mat-spinner color="warn" diameter="60"></mat-spinner>
+  </div>
 </div>
