@@ -3,6 +3,7 @@
 .conversation-container{
   width:100%;
   .message-header {
+    padding-top:10%;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -12,6 +13,7 @@
     // background: #49A078;
     background: $darkestGreen;
     color: white;
+    position: fixed;
     .back-buttons {
       display: flex;
       justify-self: flex-start;
@@ -23,14 +25,16 @@
     }
   }
   .message-container{
-    display:flex;
-    flex-direction: column;
-    align-items:center;
     width:100%;
-    height: 80vh;
-    padding: 5px;
+
+    top:16%;
+    padding-top:10px;
+    position:fixed;
+    height: 70vh;
+    overflow-y:scroll;
   }
   .messages{
+    
     width:100%;
     margin: 5px auto;
     display: flex;

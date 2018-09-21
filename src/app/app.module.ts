@@ -61,6 +61,7 @@ import { MatProgressSpinnerModule } from '@angular/material';
     HttpClientModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
+      { path: '', component: MarketplaceComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'marketplace', component: MarketplaceComponent },
       {
