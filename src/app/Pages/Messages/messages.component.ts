@@ -37,7 +37,6 @@ export class MessagesComponent implements OnInit {
         return this.conversations;
       })
       .then(result => {
-        console.log(result);
         let cache = [];
         let filteredResult = [];
         let resultsArr = Object.values(result);

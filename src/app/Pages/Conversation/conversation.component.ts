@@ -58,7 +58,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
     }
     this.backend.getConversation(this.conversationId)
       .then(result => {
-        console.log(result);
         let resultArr = Object.values(result);
         resultArr.map(msg => {
           if (msg.from.username !== this.user.username) {
