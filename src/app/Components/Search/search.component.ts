@@ -106,7 +106,12 @@ export class SearchComponent {
         }
       })
       .then(response => {
+        let searchSidebar = document.getElementById('search-sidebar');
+        searchSidebar.classList.toggle('active');
         return this.router.navigate([`search-results/${this.cropSearchData.searchInput}`])
+      })
+      .then(() => {
+        return this.router.navigate(['/search-results/*'])
       })
       .catch(err => {
         this.resultErrors.push('Nothing matched the input!');
