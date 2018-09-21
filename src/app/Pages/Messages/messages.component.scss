@@ -1,5 +1,12 @@
 @import '~@angular/material/prebuilt-themes/purple-green.css';
 
+
+.no-conversations{
+  width:100%;
+  height: 100%;
+  background-color: red;
+}
+
 .conversations-container {
   display: flex;
   flex-direction: column;
