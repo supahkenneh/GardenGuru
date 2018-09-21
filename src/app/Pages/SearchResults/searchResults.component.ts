@@ -35,8 +35,6 @@ export class SearchResultsComponent implements OnInit {
   resultErrors: string[] = [];
   resultValid: boolean = false;
 
-  placeholderItemImg: string = 'https://www.ewm.com/addons/themes/ewm_arillo/img/no-photo.png'
-
   showLoading: boolean = false;
 
   constructor(
