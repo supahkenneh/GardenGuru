@@ -36,7 +36,7 @@ export class MarketplaceComponent implements OnInit {
               stand.avatar_link = this.placeholderImg
             }
           })
-          this.stands = resultArr;
+          this.stands = resultArr.filter(standName => standName.stand_name);
         })
         .then(() => {
           return this.backend.getMarketplaceCrops()

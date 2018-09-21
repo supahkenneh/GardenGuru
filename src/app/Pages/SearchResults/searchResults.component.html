@@ -5,7 +5,7 @@
         <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
       </select>
       <span>{{ getSearchErrors() }}</span>
-      <input type="text" name="searchInput" [(ngModel)]="searchData.searchInput" (keyup)="validateSearch()">
+      <input placeholder="Search for..." type="text" name="searchInput" [(ngModel)]="searchData.searchInput" (keyup)="validateSearch()">
       <span>{{ getResultErrors() }}</span>
       <button type="button" class="search-button" (click)="searchCrop()">Search</button>
     </form>
