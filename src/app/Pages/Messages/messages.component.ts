@@ -27,6 +27,9 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     this.getConversations();
+    if(!this.filtered){
+      this.hasMessages = false
+    }
   }
 
   // get user conversations
