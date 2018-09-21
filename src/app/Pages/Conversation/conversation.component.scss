@@ -44,6 +44,7 @@
       display: flex;
       justify-content: flex-start;
       padding-right: 30%;
+      padding-left:13px;
       .message-content {
         // background: #49A078;
         background: $darkestGreen;
@@ -58,6 +59,7 @@
       display: flex;
       justify-content: flex-end;
       padding-left: 30%;
+      padding-right:13px;
       .message-content {
         background: $sentMessageColor;
         color: white;
@@ -74,6 +76,8 @@
   bottom: 57px;
   width:100%;
   display: flex;
+  padding: 20px;
+  
   form{
     width: 100%;
     display: flex;
@@ -81,6 +85,7 @@
       width: 90%;
       padding: 5px;
       font-size: 12px;
+      border: 1px solid grey;
     }
     .send-button{
       height: 100%;
