@@ -7,18 +7,14 @@
       <li (click)="toggleSideBar()" *ngIf="!isLoggedIn()" routerLink="register">
         <a>Register</a>
       </li>
+      <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="messages">
+        <a>Conversations</a>
+      </li>
       <li (click)="toggleSideBar()" *ngIf="isLoggedIn()">
         <button class="logout-button" routerLink="/marketplace" (click)="logout()">Logout</button>
       </li>
-      <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="sentConversations">
-        <a>Sent</a>
-      </li>
-      <li (click)="toggleSideBar()" *ngIf="isLoggedIn()" routerLink="messages">
-        <a>Received</a>
-      </li>
     </ul>
   </div>
-
   <div class="outside">
 
   </div>

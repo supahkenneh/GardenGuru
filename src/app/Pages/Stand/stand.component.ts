@@ -232,6 +232,7 @@ export class StandComponent implements OnInit {
   }
 
   moveToStand() {
+    let checked = this.moveFormData.check
     this.firstCropDescription = false;
     this.firstCropDetails = false;
     this.firstCropInventory = false;;

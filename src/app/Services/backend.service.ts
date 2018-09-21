@@ -139,7 +139,7 @@ export class BackendService {
     return this.http.put(waterUrl, data).toPromise();
   }
 
-  moveToStand(id, data) {
+  moveToStand(id, data, checked) {
     const form = new FormData();
     form.append('check', data.check);
     form.append('description', data.description);
@@ -157,7 +157,7 @@ export class BackendService {
       })
     }
     const moveUrl = this.url + `crops/${id}/move`;
-    return this.http.put(moveUrl, form).toPromise();
+    return this.http.put(moveUrl, form, checked).toPromise();
   }
 
   editGardenCrop(data) {
@@ -243,11 +243,11 @@ export class BackendService {
       form.append('city', data.city);
       form.append('state', data.state);
       form.append('stand_name', data.stand_name);
-    } else if (data.bio) {
+    } else if (data.bio || data.photo) {
       form.append('bio', data.bio);
-    } else if (data.photo) {
       form.append('photo', data.photo);
     }
+        // } else if (data.photo) {
     const editUrl = this.url + `user/${data.id}`
     return this.http.put(editUrl, form).toPromise();
   }
