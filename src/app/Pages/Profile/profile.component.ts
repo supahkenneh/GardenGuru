@@ -103,6 +103,7 @@ export class ProfileComponent implements OnInit {
     this.locationFormData.state = this.user.state;
     this.profileFormData.photo = null;
     this.urlId = this.route.snapshot.paramMap.get('id');
+
     //check to see if user owns that profile
     if (this.urlId === `${this.user.id}`) {
       this.correctUser = true;
@@ -116,7 +117,11 @@ export class ProfileComponent implements OnInit {
           user['avatar_link'] = this.placeholderImg
         }
         this.profile = user;
-        this.profileFormData.bio = this.profile.bio;
+        if (!this.profile.bio || this.profile.bio === 'null') {
+          this.profile.bio = '';
+        } else {
+          this.profileFormData.bio = this.profile.bio;
+        }
         this.standFormData.stand_name = this.profile.stand_name;
       })
   }
