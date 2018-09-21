@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class BackendService {
   url: string = '/api/';
   searchResults: any;
+  category: string;
 
   constructor(private http: HttpClient) { }
 
@@ -65,7 +66,7 @@ export class BackendService {
     return this.http.post(postUrl, content).toPromise();
   }
 
-  getRecentCrops(){
+  getRecentCrops() {
     const getUrl = this.url + `crops`;
     return this.http.get(getUrl).toPromise();
   }
@@ -181,6 +182,7 @@ export class BackendService {
   }
 
   search(data) {
+    this.category = data.category;
     const searchUrl = `${this.url}crops/search/${data.searchInput}`
     return this.http.post(searchUrl, data).toPromise();
   }
@@ -190,7 +192,10 @@ export class BackendService {
   }
 
   transferResults() {
-    return this.searchResults;
+    let results = {}
+    results['searchResults'] = this.searchResults;
+    results['category'] = this.category;
+    return results;
   }
 
   editStandCrop(data) {
@@ -247,7 +252,7 @@ export class BackendService {
       form.append('bio', data.bio);
       form.append('photo', data.photo);
     }
-        // } else if (data.photo) {
+    // } else if (data.photo) {
     const editUrl = this.url + `user/${data.id}`
     return this.http.put(editUrl, form).toPromise();
   }
