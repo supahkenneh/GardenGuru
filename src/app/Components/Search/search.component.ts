@@ -15,8 +15,6 @@ export class SearchComponent {
   category: any;
   searchInput: string = '';
 
-  categories: string[] = ['Marketplace', 'My Stand', 'My Garden'];
-
   cropSearchData: {
     category: string;
     searchInput: string;
