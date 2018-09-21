@@ -14,6 +14,7 @@ export class SearchResultsComponent implements OnInit {
   searchResults: any;
 
   categories: string[] = ['Marketplace', 'My Stand', 'My Garden'];
+  placeholderItemImg: string = 'https://www.ewm.com/addons/themes/ewm_arillo/img/no-photo.png'
 
   searchData: {
     category: string;
@@ -172,7 +173,7 @@ export class SearchResultsComponent implements OnInit {
               }
             })
             this.showLoading = false;
-            this.searchResults = response;
+            this.searchResults = resultArr;
           }
         }
       })
