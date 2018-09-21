@@ -178,3 +178,10 @@
     </div>
   </div>
 </div>
+<div class="loading-modal" *ngIf="showLoading">
+  <div class="loading-spinner">
+    <div class="message" *ngIf="gardenEditing">Editing Your Crop</div>
+    <div class="message" *ngIf="movingToStand">Moving To Your Stand</div>
+    <mat-spinner color="warn" diameter="60"></mat-spinner>
+  </div>
+</div>

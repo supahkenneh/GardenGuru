@@ -91,6 +91,8 @@ export class StandComponent implements OnInit {
 
   plants: any;
 
+  showLoading: boolean = false;
+
   @HostListener('click', ['$event'])
   clickout(event) {
     if (event.target === document.getElementById('modal-container')) {
@@ -130,6 +132,7 @@ export class StandComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoading = true;
     this.messageSentPopUp = '';
     this.itemToDelete = '';
     this.emptyStand = false;
@@ -143,10 +146,13 @@ export class StandComponent implements OnInit {
       .then(result => {
         //if the user's stand doesn't exist/no stand
         if (result['message'] === `This user doesn't have a stand` && !this.user) {
+          this.showLoading = false;
           return this.hasStand = true;
         } else if (result['message'] === `This user doesn't have a stand` && this.correctUser) {
+          this.showLoading = false;
           return this.hasStand = false;
         } else if (result['message'] === `No items`) {
+          this.showLoading = false;
           this.emptyStand = true;
           return this.hasStand = true;
         } else {
@@ -173,6 +179,7 @@ export class StandComponent implements OnInit {
                 crop['mainPhoto'] = crop.photo[0].link
               }
             })
+            this.showLoading = false;
           })
       })
   }
@@ -210,9 +217,10 @@ export class StandComponent implements OnInit {
     if (this.plantError || this.descriptionError || this.inventoryError || this.detailsError) {
       return this.postCropError = true;
     }
-
+    this.showLoading = true;
     return this.backend.postDirectlyToStand(this.postFormData)
       .then(result => {
+        this.showLoading = false;
         this.showPostForm();
         this.ngOnInit()
       })
@@ -251,13 +259,13 @@ export class StandComponent implements OnInit {
 
     this.moveFormData['selectedForStand'] = this.selectedForStand;
     this.moveFormData['uploadForStand'] = this.photosToStand;
-    this.backend
-      .moveToStand(this.cropId, this.moveFormData)
+    this.showLoading = true;
+    this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
-        this.backend
-          .getGarden()
+        this.backend.getGarden()
           .then(result => (this.garden = result))
           .then(() => {
+            this.showLoading = false;
             this.ngOnInit();
             this.showGarden();
           });

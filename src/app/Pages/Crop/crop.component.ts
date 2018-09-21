@@ -39,6 +39,8 @@ export class CropComponent implements OnInit {
   //delete stuff
   confirmDelete: boolean = false;
 
+  showLoading: boolean = false;
+
   constructor(
     private backend: BackendService,
     private route: ActivatedRoute,
@@ -87,6 +89,9 @@ export class CropComponent implements OnInit {
 
   editCrop() {
     if (this.standEditing) {
+      this.photosToDelete.length = 0;
+      this.photosToUpload.length = 0;
+      this.ngOnInit();
       return this.standEditing = false;
     }
     this.standCropFormData.description = this.crop['description'];
@@ -97,6 +102,7 @@ export class CropComponent implements OnInit {
   }
 
   submitStandCropEdit() {
+    this.showLoading = true;
     if (this.photosToDelete) {
       this.standCropFormData['photosToDelete'] = this.photosToDelete;
     }
@@ -108,6 +114,7 @@ export class CropComponent implements OnInit {
       .then(result => {
         // this.crop = result[0];
         //resetting values
+        this.showLoading = false;
         this.photos.length = 0;
         this.photosToUpload.length = 0;
         this.photosToDelete.length = 0;

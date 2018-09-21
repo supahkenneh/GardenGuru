@@ -95,7 +95,7 @@
             <div class="choice-title">Keep plant in garden?</div>
             <div class="check-true" *ngIf="check" (click)="toggleCheck()">Yes</div>
             <div class="check-false" *ngIf="!check" (click)="toggleCheck()">No</div>
-            <label for="stand_name">Descriptionx</label>
+            <label for="stand_name">Description</label>
             <input maxlength="25" type="text" name="description" [(ngModel)]="moveFormData.description">
             <span class="stand-error" *ngIf="firstCropDescription" style="color:red">This field is required.</span>
             <label for="price">Price</label>
@@ -258,5 +258,13 @@
         <li>Message other users to organize a trade/purchase</li>
       </ul>
     </div>
+  </div>
+</div>
+<div class="loading-modal" *ngIf="showLoading">
+  <div class="loading-spinner">
+    <div class="message" *ngIf="!showingGarden && !postingCrop">Loading Your Stand</div>
+    <div class="message" *ngIf="showingGarden">Adding from Garden</div>
+    <div class="message" *ngIf="postingCrop">Adding To Stand</div>
+    <mat-spinner color="warn" diameter="60"></mat-spinner>
   </div>
 </div>

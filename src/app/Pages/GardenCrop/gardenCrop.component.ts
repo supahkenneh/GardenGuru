@@ -73,6 +73,7 @@ export class GardenCropComponent implements OnInit {
     check: this.check
   };
 
+  showLoading: boolean = false;
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
@@ -149,6 +150,7 @@ export class GardenCropComponent implements OnInit {
   }
 
   moveToStand() {
+    this.showLoading = true;
     this.moveDescriptionError = false;
     this.moveDetailsError = false;
     this.moveInventoryError = false;
@@ -184,6 +186,7 @@ export class GardenCropComponent implements OnInit {
     this.moveFormData['uploadForStand'] = this.photosToStand;
     this.backend.moveToStand(this.cropId, this.moveFormData)
       .then(response => {
+        this.showLoading = false;
         this.router.navigate([`/user/${this.user['id']}/stand`])
       })
       .catch(err => {
@@ -200,6 +203,7 @@ export class GardenCropComponent implements OnInit {
   }
 
   submitGardenEdit() {
+    this.showLoading = true;
     this.editGardenDescriptionError = false;
 
     if (this.gardenEditFormData.garden_description.length < 1) {
@@ -222,6 +226,7 @@ export class GardenCropComponent implements OnInit {
     return this.backend.editGardenCrop(this.gardenEditFormData)
       .then(result => {
         //reset values
+        this.showLoading = false;
         this.photos.length = 0;
         this.photosToUpload.length = 0;
         this.photosToDelete.length = 0;
