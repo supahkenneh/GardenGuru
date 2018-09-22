@@ -56,11 +56,16 @@ router.get('/', (req, res) => {
 });
 
 router.get('/conversations', (req, res) => {
-  return Message.query(function (qb) {
-    qb.where('from', '!=', req.user.id).distinct('from')
-  })
+  return Message
+    .query(function (qb) {
+      qb.where('to', '=', req.user.id).distinct('to', 'from');
+      // qb.where('from', '!=', req.user.id).distinct('from')
+    })
     .fetchAll({
       withRelated: [{
+        'to': qb => {
+          qb.select('id', 'username')
+        },
         'from': qb => {
           qb.select('id', 'username')
         }
@@ -174,10 +179,11 @@ router.get('/conversations/:id', (req, res) => {
   const me = req.user.id;
   const they = req.params.id;
 
-  return Message.query({
-    where: { from: they, to: me },
-    orWhere: { from: me, to: they }
-  })
+  return Message
+    .query({
+      where: { from: they, to: me },
+      orWhere: { from: me, to: they }
+    })
     .fetchAll({ withRelated: ['to', 'from'] })
     .then(result => {
       res.json(result);
