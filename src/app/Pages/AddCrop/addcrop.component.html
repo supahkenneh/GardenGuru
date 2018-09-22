@@ -5,7 +5,7 @@
     <label for="plant">Select Plant</label>
     <div class="plant-container">
       <select name="plants" (change)="showPlantInfo()" [(ngModel)]="cropFormData.plant">
-        <option value="">Select Plant</option>
+        <option value="0">Select Plant</option>
         <option value="{{name}}" *ngFor="let name of plantNames">{{name}}</option>
       </select>
     </div>

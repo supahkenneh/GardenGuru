@@ -173,7 +173,7 @@
         <div class="plant-container">
           <select name="plants" [(ngModel)]="postFormData.plant">
             <option value="0">Select Plant</option>
-            <option *ngFor="let plant of plants" value="{{plant.id}}">{{plant.name}}</option>
+            <option *ngFor="let name of plantNames" value="{{name}}">{{name}}</option>
           </select>
         </div>
         <span class="add-to-stand-error" *ngIf="plantError" style="color:red">Please select a plant category.</span>
