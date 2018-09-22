@@ -99,6 +99,8 @@ export class StandComponent implements OnInit {
 
   showLoading: boolean = false;
 
+  plantNames: string[] = [];
+
   @HostListener('click', ['$event'])
   clickout(event) {
     if (event.target === document.getElementById('modal-container')) {
@@ -229,6 +231,12 @@ export class StandComponent implements OnInit {
     if (this.plantError || this.descriptionError || this.inventoryError || this.detailsError) {
       return this.postCropError = true;
     }
+    let plantArr = Object.values(this.plants);
+    plantArr.map(plant => {
+      if (plant['name'] === this.postFormData.plant) {
+        this.postFormData.plant = plant['id']
+      }
+    })
     this.showLoading = true;
     return this.backend.postDirectlyToStand(this.postFormData)
       .then(result => {
@@ -246,7 +254,7 @@ export class StandComponent implements OnInit {
     if (this.check) {
       return this.check = false;
     }
-    return this.check = true; 
+    return this.check = true;
   }
 
   moveToStand() {
@@ -375,6 +383,11 @@ export class StandComponent implements OnInit {
     }
     this.backend.getPlants()
       .then(result => {
+        let plantsArr = Object.values(result);
+        plantsArr.map(plant => {
+          this.plantNames.push(plant.name);
+        })
+        this.plantNames = this.plantNames.sort();
         this.plants = result;
         return this.postingCrop = true;
       })

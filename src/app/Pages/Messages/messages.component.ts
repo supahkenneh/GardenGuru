@@ -27,15 +27,11 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     this.getConversations();
-    if(!this.filtered){
-      this.hasMessages = false
-    }
   }
 
   // get user conversations
   getConversations() {
-    return this.backend
-      .getConversations()
+    return this.backend.getConversations()
       .then(result => {
         this.conversations = result;
         return this.conversations;
@@ -45,10 +41,15 @@ export class MessagesComponent implements OnInit {
         let filteredResult = [];
         let resultsArr = Object.values(result);
         for (let i = resultsArr.length - 1; i >= 0; i--) {
-          if (!cache.includes(result[i].from.id)) {
-            cache.push(result[i].from.id);
+          if (!cache.includes(result[i].to.id)) {
+            cache.push(result[i].to.id);
             filteredResult.push(result[i]);
           }
+        }
+        if (!filteredResult || !result.length) {
+          this.hasMessages = false
+        } else {
+          this.hasMessages = true;
         }
         this.filtered = filteredResult;
       });

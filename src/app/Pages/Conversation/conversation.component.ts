@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewChecked} from '@angular/core';
+import { Component, OnInit, Inject, AfterViewChecked } from '@angular/core';
 import { AuthServiceReg } from '../../Services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendService } from '../../Services/backend.service';
@@ -20,8 +20,8 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   message: {
     content: string;
   } = {
-    content: ''
-  };
+      content: ''
+    };
 
   constructor(
     private auth: AuthServiceReg,
@@ -44,9 +44,9 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     const messageContainer = document.getElementById('m')
-    if(messageContainer){
+    if (messageContainer) {
       messageContainer.scrollTo(0, 9999999)
     }
   }
@@ -56,14 +56,15 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
     if (this.conversationId === this.user.id) {
       this.userIsUser = true;
     }
-    this.backend.getConversation(this.conversationId).then(result => {
-      let resultArr = Object.values(result);
-      resultArr.map(msg => {
-        if (msg.from.username !== this.user.username) {
-          this.convoPartner = msg.from;
-        }
+    this.backend.getConversation(this.conversationId)
+      .then(result => {
+        let resultArr = Object.values(result);
+        resultArr.map(msg => {
+          if (msg.from.username !== this.user.username) {
+            this.convoPartner = msg.from;
+          }
+        });
+        this.messages = result;
       });
-      this.messages = result;
-    });
   }
 }

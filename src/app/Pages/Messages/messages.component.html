@@ -3,7 +3,7 @@
 </div>
 
 <div class="conversations-container">
-  <div class="conversation-body" *ngIf="hasMesasges">
+  <div class="conversation-body">
     <div class="conversation" *ngFor="let conversation of filtered" routerLink="/conversation/{{conversation.from.id}}">
       <div class="username">
         {{conversation.from.username}}

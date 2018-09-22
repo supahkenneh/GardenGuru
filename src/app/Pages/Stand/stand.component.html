@@ -68,6 +68,9 @@
 </div>
 <!-- if user has stand but no items -->
 <div class="empty-stand-container" *ngIf="hasStand && emptyStand">
+  <div class="stand-name">
+    <div>{{standOwner.stand_name}}</div>
+  </div>
   <div class="secondary-header">
     <div>There are no items in this Stand</div>
   </div>
@@ -170,7 +173,7 @@
         <div class="plant-container">
           <select name="plants" [(ngModel)]="postFormData.plant">
             <option value="0">Select Plant</option>
-            <option *ngFor="let plant of plants" value="{{plant.id}}">{{plant.name}}</option>
+            <option *ngFor="let name of plantNames" value="{{name}}">{{name}}</option>
           </select>
         </div>
         <span class="add-to-stand-error" *ngIf="plantError" style="color:red">Please select a plant category.</span>
@@ -262,7 +265,7 @@
 </div>
 <div class="loading-modal" *ngIf="showLoading">
   <div class="loading-spinner">
-    <div class="message" *ngIf="!showingGarden && !postingCrop">Loading Your Stand</div>
+    <div class="message" *ngIf="!showingGarden && !postingCrop">Loading Stand</div>
     <div class="message" *ngIf="showingGarden">Adding from Garden</div>
     <div class="message" *ngIf="postingCrop">Adding To Stand</div>
     <mat-spinner color="warn" diameter="60"></mat-spinner>
