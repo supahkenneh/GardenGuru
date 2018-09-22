@@ -191,7 +191,7 @@ export class ProfileComponent implements OnInit {
       this.locationFormData['id'] = this.user.id
       return this.backend.editUserProfile(this.locationFormData)
         .then(result => {
-          this.showLoading = true;
+          this.showLoading = false;
           if (result['success'] = false) {
             this.changingLocation = false;
           } else {
