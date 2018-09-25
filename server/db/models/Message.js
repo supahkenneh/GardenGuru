@@ -9,6 +9,8 @@ class Message extends bookshelf.Model {
     return true;
   }
 
+  //relationships
+
   to() {
     return this.belongsTo('User', 'to');
   }

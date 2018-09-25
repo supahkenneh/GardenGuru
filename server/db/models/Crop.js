@@ -4,7 +4,6 @@ require('./CropStatus');
 require('./Plant');
 require('./Photo');
 
-
 class Crop extends bookshelf.Model {
   get tableName() {
     return 'crops';
@@ -13,6 +12,8 @@ class Crop extends bookshelf.Model {
   get hasTimestamps() {
     return true;
   }
+
+  //relationships
 
   owner() {
     return this.belongsTo('User', 'owner_id');

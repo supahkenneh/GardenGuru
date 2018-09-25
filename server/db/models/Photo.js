@@ -8,6 +8,8 @@ class Photo extends bookshelf.Model {
     return true;
   }
 
+  //relationships
+
   crops() {
     return this.belongsTo('Crop', 'crop_id');
   }

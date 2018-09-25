@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-//components
+//components and pages
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/Header/header.component';
 import { SidebarComponent } from './Components/Sidebar/sidebar.component';
@@ -34,6 +34,7 @@ import { SessionService } from './Services/session.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,12 +67,12 @@ import { MatProgressSpinnerModule } from '@angular/material';
       { path: 'marketplace', component: MarketplaceComponent },
       {
         path: 'user/:id/stand',
-        component: StandComponent,
+        component: StandComponent
       },
       { path: 'garden', component: GardenComponent },
       {
         path: 'user/:id',
-        component: ProfileComponent,
+        component: ProfileComponent
       },
       { path: 'crops/:id', component: CropComponent },
       {
@@ -113,4 +114,4 @@ import { MatProgressSpinnerModule } from '@angular/material';
   providers: [BackendService, SessionService, AuthServiceReg, AuthGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

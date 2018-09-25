@@ -19,8 +19,26 @@ export class ProfileComponent implements OnInit {
   changingStandName: boolean = false;
   changingProfilePic: boolean = false;
   isLoggedIn: boolean = false;
-  cities: string[] = ['Aiea', 'Ewa Beach', 'Haleiwa', 'Hawaii Kai', 'Honolulu', 'Kaneohe', 'Kahala', 'Kailua', 'Kapolei', 'Manoa', 'Mililani', 'Nanakuli', 'Pearl City', 'Wahiawa', 'Waialua', 'Waimanalo', 'Waipahu']
-  states: string[] = ['HI']
+  cities: string[] = [
+    'Aiea',
+    'Ewa Beach',
+    'Haleiwa',
+    'Hawaii Kai',
+    'Honolulu',
+    'Kaneohe',
+    'Kahala',
+    'Kailua',
+    'Kapolei',
+    'Manoa',
+    'Mililani',
+    'Nanakuli',
+    'Pearl City',
+    'Wahiawa',
+    'Waialua',
+    'Waimanalo',
+    'Waipahu'
+  ];
+  states: string[] = ['HI'];
 
   //errors
   userStandError: boolean = false;
@@ -37,39 +55,40 @@ export class ProfileComponent implements OnInit {
   standError: boolean = false;
   profileError: boolean = false;
 
-  placeholderImg: string = 'https://www.myfirestorm.com/img/placeholder_user.png'
+  placeholderImg: string =
+    'https://www.myfirestorm.com/img/placeholder_user.png';
 
   passwordFormData: {
-    oldPass: string,
-    newPass: string,
-    valPass: string,
+    oldPass: string;
+    newPass: string;
+    valPass: string;
   } = {
-      oldPass: '',
-      newPass: '',
-      valPass: ''
-    }
+    oldPass: '',
+    newPass: '',
+    valPass: ''
+  };
 
   locationFormData: {
-    city: string,
-    state: string,
+    city: string;
+    state: string;
   } = {
-      city: '',
-      state: '',
-    }
+    city: '',
+    state: ''
+  };
 
   standFormData: {
-    stand_name: string,
+    stand_name: string;
   } = {
-      stand_name: '',
-    }
+    stand_name: ''
+  };
 
   profileFormData: {
-    bio: string,
-    photo: File
+    bio: string;
+    photo: File;
   } = {
-      bio: '',
-      photo: null
-    }
+    bio: '',
+    photo: null
+  };
 
   showLoading: boolean = false;
 
@@ -81,7 +100,7 @@ export class ProfileComponent implements OnInit {
     this.user = this.session.getSession();
     this.locationFormData = this.user;
     this.standFormData = this.user;
-    this.isLoggedIn = this.session.isLoggedIn()
+    this.isLoggedIn = this.session.isLoggedIn();
   }
 
   ngOnInit() {
@@ -111,19 +130,18 @@ export class ProfileComponent implements OnInit {
     if (!this.user.stand_name) {
       this.userStandError = true;
     }
-    return this.backend.getUserProfile(this.urlId)
-      .then(user => {
-        if (!user['avatar_link']) {
-          user['avatar_link'] = this.placeholderImg
-        }
-        this.profile = user;
-        if (!this.profile.bio || this.profile.bio === 'null') {
-          this.profile.bio = '';
-        } else {
-          this.profileFormData.bio = this.profile.bio;
-        }
-        this.standFormData.stand_name = this.profile.stand_name;
-      })
+    return this.backend.getUserProfile(this.urlId).then(user => {
+      if (!user['avatar_link']) {
+        user['avatar_link'] = this.placeholderImg;
+      }
+      this.profile = user;
+      if (!this.profile.bio || this.profile.bio === 'null') {
+        this.profile.bio = '';
+      } else {
+        this.profileFormData.bio = this.profile.bio;
+      }
+      this.standFormData.stand_name = this.profile.stand_name;
+    });
   }
 
   submitChanges() {
@@ -148,29 +166,39 @@ export class ProfileComponent implements OnInit {
       if (this.passwordFormData.newPass !== this.passwordFormData.valPass) {
         this.matchingPasswordError = true;
       }
-      if (this.passwordFormData.oldPass === this.passwordFormData.newPass && this.passwordFormData.oldPass === this.passwordFormData.valPass) {
+      if (
+        this.passwordFormData.oldPass === this.passwordFormData.newPass &&
+        this.passwordFormData.oldPass === this.passwordFormData.valPass
+      ) {
         this.sameOldNewPasswordError = true;
       }
 
-      if (this.oldPasswordError || this.newPasswordError || this.confirmNewPasswordError || this.matchingPasswordError || this.sameOldNewPasswordError) {
-        return this.generalSettingsError = true;
+      if (
+        this.oldPasswordError ||
+        this.newPasswordError ||
+        this.confirmNewPasswordError ||
+        this.matchingPasswordError ||
+        this.sameOldNewPasswordError
+      ) {
+        return (this.generalSettingsError = true);
       }
 
       this.showLoading = true;
       this.passwordFormData['id'] = this.user.id;
-      return this.backend.editUserProfile(this.passwordFormData)
+      return this.backend
+        .editUserProfile(this.passwordFormData)
         .then(result => {
           this.showLoading = false;
-          if (result['success'] = false) {
+          if ((result['success'] = false)) {
             this.oldPasswordError = false;
             this.newPasswordError = false;
             this.confirmNewPasswordError = false;
             this.matchingPasswordError = false;
             this.sameOldNewPasswordError = false;
             this.generalSettingsError = false;
-            return this.changingPass = true;
+            return (this.changingPass = true);
           } else {
-            this.ngOnInit()
+            this.ngOnInit();
             this.changingPass = false;
             this.showingSettings = false;
           }
@@ -178,21 +206,22 @@ export class ProfileComponent implements OnInit {
         .catch(err => {
           this.showLoading = false;
           console.log(err);
-        })
+        });
       // Edit Location
     } else if (this.changingLocation) {
       this.locationError = false;
 
       if (!this.locationFormData.city || !this.locationFormData.state) {
-        return this.locationError = true;
+        return (this.locationError = true);
       }
 
       this.showLoading = true;
-      this.locationFormData['id'] = this.user.id
-      return this.backend.editUserProfile(this.locationFormData)
+      this.locationFormData['id'] = this.user.id;
+      return this.backend
+        .editUserProfile(this.locationFormData)
         .then(result => {
           this.showLoading = false;
-          if (result['success'] = false) {
+          if ((result['success'] = false)) {
             this.changingLocation = false;
           } else {
             this.ngOnInit();
@@ -203,23 +232,27 @@ export class ProfileComponent implements OnInit {
         .catch(err => {
           this.showLoading = false;
           console.log(err);
-        })
+        });
       // Edit Stand Name
     } else if (this.changingStandName) {
       this.standError = false;
       if (!this.standFormData.stand_name) {
-        this.standFormData.stand_name = `${this.user.first_name}'s Stand`
+        this.standFormData.stand_name = `${this.user.first_name}'s Stand`;
       }
-      if (this.standFormData.stand_name.length < 5 && this.standFormData.stand_name) {
-        return this.standError = true;
+      if (
+        this.standFormData.stand_name.length < 5 &&
+        this.standFormData.stand_name
+      ) {
+        return (this.standError = true);
       }
       this.showLoading = true;
-      this.standFormData['id'] = this.user.id
-      return this.backend.editUserProfile(this.standFormData)
+      this.standFormData['id'] = this.user.id;
+      return this.backend
+        .editUserProfile(this.standFormData)
         .then(result => {
           this.showLoading = false;
-          if (result['success'] = false) {
-            this.changingStandName = false
+          if ((result['success'] = false)) {
+            this.changingStandName = false;
           } else {
             this.ngOnInit();
             this.changingStandName = false;
@@ -229,7 +262,7 @@ export class ProfileComponent implements OnInit {
         .catch(err => {
           this.showLoading = false;
           console.log(err);
-        })
+        });
       //Edit Profile Picture
     } else if (this.changingProfilePic) {
       this.profileError = false;
@@ -238,11 +271,12 @@ export class ProfileComponent implements OnInit {
         this.profileFormData.bio = this.user.bio;
       }
       this.showLoading = true;
-      this.profileFormData['id'] = this.user.id
-      return this.backend.editUserProfile(this.profileFormData)
+      this.profileFormData['id'] = this.user.id;
+      return this.backend
+        .editUserProfile(this.profileFormData)
         .then(result => {
           this.showLoading = false;
-          if (result['success'] = false) {
+          if ((result['success'] = false)) {
             this.changingProfilePic = false;
           } else {
             this.ngOnInit();
@@ -253,29 +287,32 @@ export class ProfileComponent implements OnInit {
         .catch(err => {
           this.showLoading = false;
           console.log(err);
-        })
+        });
     }
   }
+
+  //show a users settings
 
   showSettings() {
     this.ngOnInit();
     if (this.showingSettings && this.changingLocation) {
-      return this.changingLocation = false;
+      return (this.changingLocation = false);
     } else if (this.showingSettings && this.changingPass) {
-      return this.changingPass = false;
+      return (this.changingPass = false);
     } else if (this.showingSettings && this.changingProfilePic) {
-      return this.changingProfilePic = false;
+      return (this.changingProfilePic = false);
     } else if (this.showingSettings && this.changingStandName) {
-      return this.changingStandName = false;
-    } else if (this.showingSettings && (
-      !this.changingPass &&
-      !this.changingLocation &&
-      !this.changingProfilePic &&
-      !this.changingStandName
-    )) {
-      return this.showingSettings = false;
+      return (this.changingStandName = false);
+    } else if (
+      this.showingSettings &&
+      (!this.changingPass &&
+        !this.changingLocation &&
+        !this.changingProfilePic &&
+        !this.changingStandName)
+    ) {
+      return (this.showingSettings = false);
     } else {
-      return this.showingSettings = true
+      return (this.showingSettings = true);
     }
   }
 
@@ -301,6 +338,8 @@ export class ProfileComponent implements OnInit {
         break;
     }
   }
+
+  //cancel changes
 
   cancel() {
     this.showingSettings = false;

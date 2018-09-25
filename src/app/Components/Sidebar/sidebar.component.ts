@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { SessionService } from '../../Services/session.service';
 import { AuthServiceReg } from '../../Services/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,6 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class SidebarComponent {
   user: object;
 
+  //modal controls - allows for modal to be closed when click events are fired outside of modal container
   @HostListener('document:click', ['$event'])
   clickout(event) {
     if (
@@ -25,8 +26,7 @@ export class SidebarComponent {
   constructor(
     private session: SessionService,
     private auth: AuthServiceReg,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {
     this.user = session.getSession();
   }

@@ -31,7 +31,8 @@ export class MessagesComponent implements OnInit {
 
   // get user conversations
   getConversations() {
-    return this.backend.getConversations()
+    return this.backend
+      .getConversations()
       .then(result => {
         this.conversations = result;
         return this.conversations;
@@ -47,7 +48,7 @@ export class MessagesComponent implements OnInit {
           }
         }
         if (!filteredResult || !result.length) {
-          this.hasMessages = false
+          this.hasMessages = false;
         } else {
           this.hasMessages = true;
         }
@@ -58,6 +59,8 @@ export class MessagesComponent implements OnInit {
   deleteThread() {
     this.deleted = true;
   }
+
+  //get all users messages
 
   getMessages() {
     this.backend
