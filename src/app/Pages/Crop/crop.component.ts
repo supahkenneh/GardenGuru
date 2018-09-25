@@ -142,6 +142,7 @@ export class CropComponent implements OnInit {
   }
 
   //photo handlers
+  //scroll photos
   previousPhoto() {
     let index = this.photos.indexOf(this.currentPhoto);
     if (index - 1 < 0) {
@@ -150,6 +151,7 @@ export class CropComponent implements OnInit {
     return (this.currentPhoto = this.photos[index - 1]);
   }
 
+  //scroll photos
   nextPhoto() {
     let index = this.photos.indexOf(this.currentPhoto);
     if (index + 1 === this.photos.length) {
@@ -158,11 +160,13 @@ export class CropComponent implements OnInit {
     return (this.currentPhoto = this.photos[index + 1]);
   }
 
+  //display current displayed photo out of total
   imageCounter() {
     let index = this.photos.indexOf(this.currentPhoto);
     return `${index + 1} of ${this.photos.length} images`;
   }
 
+  //displayed number of photos to be deleted
   getPhotosToDelete() {
     if (
       this.photosToDelete.length !== 0 &&
@@ -177,12 +181,14 @@ export class CropComponent implements OnInit {
     }
   }
 
+  //saves selected photos to be deleted
   tagForRemoval() {
     if (this.photosToDelete.length < this.photos.length) {
       return this.photosToDelete.push(this.currentPhoto);
     }
   }
 
+  //if user wants to upload photo, update selected photo
   updatePhotoList(event) {
     let file = event.target.files[0];
     if (!this.photosToUpload.includes(file)) {
