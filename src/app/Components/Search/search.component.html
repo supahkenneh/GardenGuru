@@ -6,7 +6,8 @@
         <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
       </select>
       <span>{{ getSearchErrors() }}</span>
-      <input placeholder="Search for..." type="text" name="description" [(ngModel)]="cropSearchData.searchInput" (keyup)="validateSearch()">
+      <input placeholder="Search for..." type="text" name="description" [(ngModel)]="cropSearchData.searchInput"
+        (keyup)="validateSearch()">
       <button type="button" class="search-button" (click)="searchCrop()">Search</button>
       <span>{{ getResultErrors() }}</span>
     </form>

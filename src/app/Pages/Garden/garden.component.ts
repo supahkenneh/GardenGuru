@@ -19,9 +19,12 @@ export class GardenComponent implements OnInit {
   plantsToWater: object[] = [];
   plantsToHarvest: object[] = [];
 
-  fruitPic: string = 'https://cdn1.iconfinder.com/data/icons/food-vol-1/48/017-512.png'
-  veggiePic: string = 'https://cdn1.iconfinder.com/data/icons/fruit-and-veg-ios/64/veg-brocolli-512.png';
-  herbPic: string = 'https://cdn0.iconfinder.com/data/icons/healthy-and-clean-food-1/64/herb-healthy-leaf-spinach-512.png';
+  fruitPic: string =
+    'https://cdn1.iconfinder.com/data/icons/food-vol-1/48/017-512.png';
+  veggiePic: string =
+    'https://cdn1.iconfinder.com/data/icons/fruit-and-veg-ios/64/veg-brocolli-512.png';
+  herbPic: string =
+    'https://cdn0.iconfinder.com/data/icons/healthy-and-clean-food-1/64/herb-healthy-leaf-spinach-512.png';
 
   wateredPlants: string[] = [];
   showWaterButton: boolean = false;
@@ -36,14 +39,16 @@ export class GardenComponent implements OnInit {
     //for this.date
     let year = new Date().getFullYear();
     let month = ('0' + (new Date().getMonth() + 1)).slice(-2);
-    let day = ('0' + (new Date().getDate())).slice(-2);
-    this.date = `${year}-${month}-${day}`
+    let day = ('0' + new Date().getDate()).slice(-2);
+    this.date = `${year}-${month}-${day}`;
     //for this.week
     let currentDate = new Date();
-    let weekDate = new Date(currentDate.setTime(currentDate.getTime() + 7 * 86400000));
+    let weekDate = new Date(
+      currentDate.setTime(currentDate.getTime() + 7 * 86400000)
+    );
     let weekYear = weekDate.getFullYear();
     let weekMonth = ('0' + (weekDate.getMonth() + 1)).slice(-2);
-    let weekDay = ('0' + (weekDate.getDate())).slice(-2);
+    let weekDay = ('0' + weekDate.getDate()).slice(-2);
     this.week = `${weekYear}-${weekMonth}-${weekDay}`;
   }
 
@@ -51,7 +56,8 @@ export class GardenComponent implements OnInit {
     if (this.loggedIn) {
       //resets garden
       this.garden.length = 0;
-      return this.backend.getGarden()
+      return this.backend
+        .getGarden()
         .then(result => {
           let resultArr = Object.values(result);
           resultArr.map(crop => {
@@ -70,17 +76,17 @@ export class GardenComponent implements OnInit {
               }
               this.garden.push(crop);
             }
-          })
-          return resultArr
+          });
+          return resultArr;
         })
         .then(() => {
-          let gardenArr = Object.values(this.garden)
+          let gardenArr = Object.values(this.garden);
           gardenArr.map(crop => {
             let subWaterDate = crop['watering_date'].substring(0, this.index);
             if (subWaterDate === this.date) {
               this.plantsToWater.push(crop);
             }
-          })
+          });
         })
         .then(() => {
           let gardenArr = Object.values(this.garden);
@@ -89,7 +95,7 @@ export class GardenComponent implements OnInit {
             if (subHarvestDate >= this.date && subHarvestDate <= this.week) {
               this.plantsToHarvest.push(crop);
             }
-          })
+          });
         })
         .then(() => {
           this.plantsToHarvest.map(crop => {
@@ -104,8 +110,8 @@ export class GardenComponent implements OnInit {
                 crop['displayPhoto'] = this.herbPic;
                 break;
             }
-          })
-        })
+          });
+        });
     }
   }
 
@@ -129,14 +135,14 @@ export class GardenComponent implements OnInit {
   }
 
   waterPlants() {
-    this.backend.updateWateringDays(this.wateredPlants)
-      .then(result => {
-        this.wateredPlants.length = 0;
-        if (result['success']) {
-          this.popUp.open('Plant(s) watered!', 'Dismiss', { duration: 2000 });
-          this.plantsToWater.length = 0;
-          this.showWaterButton = false;
-        }
-      })
+    //update watering for a crop
+    this.backend.updateWateringDays(this.wateredPlants).then(result => {
+      this.wateredPlants.length = 0;
+      if (result['success']) {
+        this.popUp.open('Plant(s) watered!', 'Dismiss', { duration: 2000 });
+        this.plantsToWater.length = 0;
+        this.showWaterButton = false;
+      }
+    });
   }
 }

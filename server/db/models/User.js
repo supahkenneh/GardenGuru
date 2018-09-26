@@ -1,5 +1,5 @@
 const bookshelf = require('./bookshelf');
-require('./Photo')
+require('./Photo');
 
 class User extends bookshelf.Model {
   get tableName() {
@@ -9,6 +9,8 @@ class User extends bookshelf.Model {
   get hasTimestamps() {
     return true;
   }
+
+  //relationships
 
   crops() {
     return this.hasMany('Crop', 'crop_id');

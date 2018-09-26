@@ -17,17 +17,17 @@ export class SessionService {
     stand_name: string;
     rating: number;
   } = {
-      id: 0,
-      loggedIn: false,
-      username: '',
-      first_name: '',
-      last_name: '',
-      bio: '',
-      city: '',
-      state: '',
-      stand_name: '',
-      rating: -1
-    };
+    id: 0,
+    loggedIn: false,
+    username: '',
+    first_name: '',
+    last_name: '',
+    bio: '',
+    city: '',
+    state: '',
+    stand_name: '',
+    rating: -1
+  };
 
   constructor() {
     let userString = window.localStorage.getItem('user');
@@ -42,9 +42,13 @@ export class SessionService {
     }
   }
 
+  //get logged in user
+
   getSession() {
     return this.user;
   }
+
+  //set a users session on local storage
 
   setSession(data) {
     this.user.id = data.id;
@@ -62,6 +66,8 @@ export class SessionService {
     window.localStorage.setItem('user', userString);
   }
 
+  //logout clear a users session
+
   clearSession() {
     this.user.loggedIn = false;
     this.user.username = '';
@@ -74,6 +80,8 @@ export class SessionService {
     this.user.stand_name = '';
     window.localStorage.removeItem('user');
   }
+
+  //check if a user is logged in
 
   isLoggedIn() {
     return this.user.loggedIn;

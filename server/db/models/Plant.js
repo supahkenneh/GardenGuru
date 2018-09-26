@@ -9,6 +9,8 @@ class Plant extends bookshelf.Model {
     return true;
   }
 
+  //relationships
+
   crops() {
     return this.hasMany('Crop', 'plant_id');
   }

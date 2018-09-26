@@ -10,6 +10,5 @@ export class FooterComponent {
 
   constructor(private session: SessionService) {
     this.user = session.getSession();
-
   }
 }

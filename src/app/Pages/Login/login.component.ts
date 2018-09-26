@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthServiceReg} from '../../Services/auth.service';
+import { AuthServiceReg } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 @Component({
   templateUrl: './login.component.html',
@@ -9,15 +9,16 @@ export class LoginComponent {
   loginError: boolean = false;
 
   loginFormData: {
-    username: string,
-    password: string
+    username: string;
+    password: string;
   } = {
-      username: '',
-      password: ''
-    };
+    username: '',
+    password: ''
+  };
 
-  constructor(private auth: AuthServiceReg, private router: Router) { }
+  constructor(private auth: AuthServiceReg, private router: Router) {}
 
+  //logs a user in
   login() {
     return this.auth
       .login(this.loginFormData)

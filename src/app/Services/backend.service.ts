@@ -9,7 +9,9 @@ export class BackendService {
   searchResults: any;
   category: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+  //// HTTP BACKEND ROUTES ////
 
   getGarden() {
     const getUrl = this.url + 'garden';
@@ -72,6 +74,7 @@ export class BackendService {
   }
 
   addCrop(data) {
+    //create a form to send to the backend
     const form = new FormData();
     form.append('garden_description', data.garden_description);
     form.append('watering', data.watering);
@@ -98,8 +101,8 @@ export class BackendService {
   }
 
   register(data) {
+    //create a form for backend to handle
     const form = new FormData();
-
     form.append('username', data.username);
     form.append('password', data.password);
     form.append('city', data.city);
@@ -141,6 +144,7 @@ export class BackendService {
   }
 
   moveToStand(id, data) {
+    //create a form for backend to handle registration
     const form = new FormData();
     form.append('check', data.check);
     form.append('description', data.description);
@@ -150,23 +154,26 @@ export class BackendService {
     if (data.selectedForStand) {
       data.selectedForStand.map(photo => {
         form.append('links', photo);
-      })
+      });
     }
     if (data.uploadForStand) {
       data.uploadForStand.map(photo => {
         form.append('photo', photo);
-      })
+      });
     }
     const moveUrl = this.url + `crops/${id}/move`;
     return this.http.put(moveUrl, form).toPromise();
   }
 
   editGardenCrop(data) {
+    // create form to allow backend to make edits
     const form = new FormData();
     form.append('garden_description', data.garden_description);
     form.append('id', data.id);
     form.append('newWaterDate', data.newWaterDate);
     form.append('watering_interval', data.watering_interval);
+
+    //if there are photos, append them to the form
     if (data.photos) {
       data.photos.map(photo => {
         form.append('photo', photo);
@@ -183,28 +190,30 @@ export class BackendService {
 
   search(data) {
     this.category = data.category;
-    const searchUrl = `${this.url}crops/search/${data.searchInput}`
+    const searchUrl = `${this.url}crops/search/${data.searchInput}`;
     return this.http.post(searchUrl, data).toPromise();
   }
 
   results(data) {
-    return this.searchResults = data;
+    return (this.searchResults = data);
   }
 
   transferResults() {
-    let results = {}
+    let results = {};
     results['searchResults'] = this.searchResults;
     results['category'] = this.category;
     return results;
   }
 
   editStandCrop(data) {
+    // create form to allow backend to make edits
     const form = new FormData();
     form.append('description', data.description);
     form.append('id', data.id);
     form.append('details', data.details);
     form.append('inventory', data.inventory);
     form.append('price', data.price);
+    //if there are photos, append them to the form
     if (data.photos) {
       data.photos.map(photo => {
         form.append('photo', photo);
@@ -220,24 +229,26 @@ export class BackendService {
   }
 
   postDirectlyToStand(data) {
+    // create form to allow backend to make edits
     const form = new FormData();
     form.append('description', data.description);
     form.append('details', data.details);
     form.append('inventory', data.inventory);
     form.append('price', data.price);
     form.append('plant', data.plant);
+    //if there are photos, append them to the form
     if (data.photos) {
       data.photos.map(photo => {
         form.append('photo', photo);
-      })
+      });
     }
 
-    const postUrl = this.url + 'crops/stand'
+    const postUrl = this.url + 'crops/stand';
     return this.http.post(postUrl, form).toPromise();
   }
 
   editUserProfile(data) {
-    const form = new FormData()
+    const form = new FormData();
     form.append('id', data.id);
     //check if data has certain values
     if (data.oldPass) {
@@ -253,7 +264,7 @@ export class BackendService {
       form.append('photo', data.photo);
     }
     // } else if (data.photo) {
-    const editUrl = this.url + `user/${data.id}`
+    const editUrl = this.url + `user/${data.id}`;
     return this.http.put(editUrl, form).toPromise();
   }
 }

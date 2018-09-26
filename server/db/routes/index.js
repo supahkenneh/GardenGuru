@@ -5,6 +5,9 @@ const crops = require('./crops/crops');
 const marketplace = require('./marketplace/marketplace');
 const user = require('./user/user');
 const garden = require('./garden/garden');
+
+//endpoints for routes
+
 router.use('/', auth);
 router.use('/user', user);
 router.use('/garden', garden);

@@ -5,17 +5,15 @@ import { Component } from '@angular/core';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-
-
-
 export class HeaderComponent {
-  constructor() { }
+  constructor() {}
 
+  //for modal controls
   toggleSideBar() {
     document.getElementById('sidebar').classList.toggle('active');
   }
 
-  toggleSearchSideBar() { // to be used later
+  toggleSearchSideBar() {
     document.getElementById('search-sidebar').classList.toggle('active');
   }
 }

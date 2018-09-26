@@ -23,6 +23,8 @@ const s3 = new aws.S3({
   secretAccessKey: IAM_USER_SECRET
 });
 
+//photo upload to s3
+
 const upload = multer({
   storage: multerS3({
     s3: s3,
@@ -31,7 +33,7 @@ const upload = multer({
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
     },
-    key: function (req, file, cb) {
+    key: function(req, file, cb) {
       cb(
         null,
         `${req.user.username}/${Date.now().toString()}-${file.originalname}`
@@ -55,42 +57,52 @@ router.get('/', (req, res) => {
     });
 });
 
+//gets a users active conversations
+
 router.get('/conversations', (req, res) => {
-  return Message
-    .query(function (qb) {
-      qb.where('to', '=', req.user.id).distinct('to', 'from');
-      // qb.where('from', '!=', req.user.id).distinct('from')
-    })
+  return Message.query(function(qb) {
+    qb.where('to', '=', req.user.id).distinct('to', 'from');
+  })
     .fetchAll({
-      withRelated: [{
-        'to': qb => {
-          qb.select('id', 'username')
-        },
-        'from': qb => {
-          qb.select('id', 'username')
+      withRelated: [
+        {
+          to: qb => {
+            qb.select('id', 'username');
+          },
+          from: qb => {
+            qb.select('id', 'username');
+          }
         }
-      }], columns: ['content']
+      ],
+      columns: ['content']
     })
     .then(result => {
       return res.json(result);
     });
 });
 
+//gets a users sent conversations
+
 router.get('/sentConversations', (req, res) => {
-  return Message.query(function (qb) {
+  return Message.query(function(qb) {
     qb.where('from', '=', req.user.id).distinct('to');
   })
     .fetchAll({
-      withRelated: [{
-        'to': qb => {
-          qb.select('id', 'username')
+      withRelated: [
+        {
+          to: qb => {
+            qb.select('id', 'username');
+          }
         }
-      }], columns: ['content']
+      ],
+      columns: ['content']
     })
     .then(result => {
       return res.json(result);
     });
 });
+
+//gets a users messages
 
 router.get('/messages', (req, res) => {
   if (!req.user) {
@@ -114,16 +126,17 @@ router.get('/messages', (req, res) => {
   }
 });
 
+//gets a conversation
+
 router.post('/messages/:id', (req, res) => {
   const initiatorId = req.user.id;
   const to = Number(req.params.id); // for proper comparison
   const messageBody = req.body.content;
   let err;
 
-  return Message
-    .query(qb => {
-      qb.where({ from: initiatorId, to: to })
-    })
+  return Message.query(qb => {
+    qb.where({ from: initiatorId, to: to });
+  })
     .fetch()
     .then(check => {
       if (!check) {
@@ -172,18 +185,19 @@ router.post('/messages/:id', (req, res) => {
               });
           });
       }
-    })
+    });
 });
+
+//gets a conversation
 
 router.get('/conversations/:id', (req, res) => {
   const me = req.user.id;
   const they = req.params.id;
 
-  return Message
-    .query({
-      where: { from: they, to: me },
-      orWhere: { from: me, to: they }
-    })
+  return Message.query({
+    where: { from: they, to: me },
+    orWhere: { from: me, to: they }
+  })
     .fetchAll({ withRelated: ['to', 'from'] })
     .then(result => {
       res.json(result);
@@ -227,20 +241,18 @@ router.get('/:id', (req, res) => {
 router.get('/:id/stand', (req, res) => {
   const id = req.params.id;
   //first check if User has a stand
-  return User
-    .where({ id })
+  return User.where({ id })
     .fetch()
     .then(user => {
       if (!user) {
         return res.json({ message: `This user doesn't have a stand` });
       }
       if (!user.attributes.stand_name) {
-        return res.json({ message: `This user doesn't have a stand` })
+        return res.json({ message: `This user doesn't have a stand` });
       }
     })
     .then(response => {
-      return Crop
-        .where({ owner_id: id, selling: true })
+      return Crop.where({ owner_id: id, selling: true })
         .fetchAll({ withRelated: ['cropStatus', 'plant', 'photo'] })
         .then(crops => {
           if (crops.length < 1) {
@@ -255,12 +267,14 @@ router.get('/:id/stand', (req, res) => {
                 return res.json(crops);
               });
           }
-        })
+        });
     })
     .catch(err => {
       console.log('error :', err);
     });
 });
+
+// allows the user to create a stand by editing their stand name from null to their desired stand name
 
 router.put('/addStand', (req, res) => {
   const { stand_name } = req.body;
@@ -297,111 +311,106 @@ router.put('/:id', upload.single('photo'), (req, res) => {
   const id = req.user.id;
   const { oldPass, newPass, valPass, city, state, bio, stand_name } = req.body;
   let passwordPromise = new Promise((resolve, reject) => {
-    if (newPass && (newPass !== valPass)) {
-      reject(res.json({ success: false }))
+    if (newPass && newPass !== valPass) {
+      reject(res.json({ success: false }));
     } else if (newPass) {
-      return User
-        .where({ username, id })
+      return User.where({ username, id })
         .fetchAll()
         .then(user => {
-          bcrypt.compare(oldPass, user.models[0].attributes.password)
+          bcrypt
+            .compare(oldPass, user.models[0].attributes.password)
             .then(result => {
               if (!result) {
-                reject(res.json({ success: false }))
+                reject(res.json({ success: false }));
               } else {
                 bcrypt.genSalt(saltRounds, (err, salt) => {
                   bcrypt.hash(newPass, salt, (err, hashedPassword) => {
                     if (err) {
-                      return res.status(500)
+                      return res.status(500);
                     }
                     return User.where({ username, id })
                       .save({ password: hashedPassword }, { patch: true })
                       .then(result => {
-                        resolve(res.json({ success: true }))
-                      })
-                  })
-                })
+                        resolve(res.json({ success: true }));
+                      });
+                  });
+                });
               }
-            })
-        })
+            });
+        });
     } else {
-      resolve()
+      resolve();
     }
-  })
+  });
   let locationPromise = new Promise((resolve, reject) => {
     if (city && state) {
-      return User
-        .where({ username, id })
+      return User.where({ username, id })
         .fetchAll()
         .then(user => {
-          return User
-            .where({ username, id })
+          return User.where({ username, id })
             .save({ city, state }, { patch: true })
             .then(result => {
-              resolve(res.json({ success: true }))
+              resolve(res.json({ success: true }));
             })
             .catch(() => {
-              reject(res.json({ success: false }))
-            })
-        })
+              reject(res.json({ success: false }));
+            });
+        });
     } else {
-      resolve()
+      resolve();
     }
-  })
+  });
   let standPromise = new Promise((resolve, reject) => {
     if (stand_name) {
-      return User
-        .where({ username, id })
+      return User.where({ username, id })
         .fetchAll()
         .then(user => {
           if (!user.models[0].attributes.stand_name) {
-            reject(res.json({ sucess: false }))
+            reject(res.json({ sucess: false }));
           } else {
-            return User
-              .where({ username, id })
+            return User.where({ username, id })
               .save({ stand_name }, { patch: true })
               .then(result => {
-                resolve(res.json({ success: true }))
+                resolve(res.json({ success: true }));
               })
               .catch(() => {
-                reject(res.json({ success: false }))
-              })
+                reject(res.json({ success: false }));
+              });
           }
-        })
+        });
     } else {
-      resolve()
+      resolve();
     }
-  })
+  });
   let photoPromise = new Promise((resolve, reject) => {
     if (req.file || bio) {
-      let avatar_link
+      let avatar_link;
       if (req.file) {
-        avatar_link = req.file.location
+        avatar_link = req.file.location;
       }
-      return User
-        .where({ username, id })
+      return User.where({ username, id })
         .save({ avatar_link: avatar_link, bio }, { patch: true })
         .then(result => {
-          resolve(res.json({ success: true }))
+          resolve(res.json({ success: true }));
         })
         .catch(() => {
-          reject(res.json({ success: false }))
-        })
+          reject(res.json({ success: false }));
+        });
     } else {
-      resolve()
+      resolve();
     }
-  })
+  });
   return passwordPromise
     .then(() => {
-      return locationPromise
+      return locationPromise;
     })
     .then(() => {
-      return standPromise
+      return standPromise;
     })
     .then(() => {
-      return photoPromise
+      return photoPromise;
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;

@@ -9,6 +9,8 @@ import { SessionService } from './session.service';
 export class AuthGuard implements CanActivate {
   constructor(private session: SessionService, private router: Router) {}
 
+  //guard routes if a user is not logged in
+
   canActivate() {
     if (this.session.user.loggedIn) {
       return true;
